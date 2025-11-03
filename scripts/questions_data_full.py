@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Complete dataset of 40 LeetCode + 10 ML System Design questions
-Distribution: 8 Easy, 25 Medium, 7 Hard LeetCode questions
+Distribution: 8 Easy, 35 Medium, 8 Hard LeetCode questions (51 total, filter to 40)
 """
 
 # 40 LeetCode Questions - Real problems with complete details
@@ -1120,6 +1120,30 @@ Given two words, beginWord and endWord, and a dictionary wordList, return the nu
         "python_sig": "class Solution:\n    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n        pass",
         "java_sig": "class Solution {\n    public int ladderLength(String beginWord, String endWord, List<String> wordList) {\n        \n    }\n}",
         "cpp_sig": "class Solution {\npublic:\n    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {\n        \n    }\n};"
+    },
+    {
+        "title": "Merge k Sorted Lists",
+        "difficulty": "hard",
+        "description": """You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+
+Merge all the linked-lists into one sorted linked-list and return it.""",
+        "constraints": ["k == lists.length", "0 <= k <= 10^4", "0 <= lists[i].length <= 500", "-10^4 <= lists[i][j] <= 10^4", "lists[i] is sorted in ascending order", "The sum of lists[i].length will not exceed 10^4"],
+        "examples": [
+            {"input": {"lists": [[1,4,5],[1,3,4],[2,6]]}, "output": [1,1,2,3,4,4,5,6], "explanation": "Merging all lists: [1,4,5], [1,3,4], and [2,6] into one sorted list."},
+            {"input": {"lists": []}, "output": [], "explanation": "Empty input."},
+            {"input": {"lists": [[]]}, "output": [], "explanation": "Single empty list."}
+        ],
+        "tags": ["linked-list", "divide-and-conquer", "heap", "merge-sort"],
+        "test_cases": [
+            {"input": [[[1,4,5],[1,3,4],[2,6]]], "expectedOutput": [1,1,2,3,4,4,5,6]},
+            {"input": [[]], "expectedOutput": []},
+            {"input": [[[]]], "expectedOutput": []}
+        ],
+        "time_complexity": "O(N log k) where N is total number of nodes",
+        "space_complexity": "O(k) for heap or O(log k) for divide-and-conquer",
+        "python_sig": "class Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        pass",
+        "java_sig": "class Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        \n    }\n}",
+        "cpp_sig": "class Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        \n    }\n};"
     }
 ]
 

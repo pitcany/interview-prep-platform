@@ -20,13 +20,10 @@ sqlite3 ~/.config/interview-prep-platform/interview-prep.db "SELECT COUNT(*) FRO
 - **27 Medium** - Core interview focus (67.5%)
 - **8 Hard** - Senior-level challenges
 
-**Meta-Specific Additions:**
-- Dot Product of Sparse Vectors
-- K Closest Points to Origin
-- Buildings With Ocean View
-- Minimum Remove to Make Valid Parentheses
-- Valid Parenthesis String
-- Expression Add Operators
+**Meta-Frequently Asked:**
+- Merge k Sorted Lists (Hard) - Classic Meta problem
+- Trapping Rain Water (Hard)
+- Arrays & strings focus matching Meta's 38% interview emphasis
 
 ### ML System Design (10)
 - **Content Moderation** (Meta-specific)
