@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppStore } from '../store';
 import { api } from '../services/api';
@@ -172,7 +172,11 @@ export default function Practice() {
       });
 
       showToast('Design submitted successfully! Check the Progress page for feedback.', 'success');
-      navigate('/progress');
+      
+      // Delay navigation to allow toast to be visible
+      setTimeout(() => {
+        navigate('/progress');
+      }, 1500);
     } catch (error: any) {
       console.error('Failed to submit design:', error);
       showToast('Failed to submit design: ' + error.message, 'error');
