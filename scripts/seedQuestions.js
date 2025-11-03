@@ -30,16 +30,27 @@ async function seedDatabase() {
     }
 
     const db = new Database(dbPath);
+    db.pragma('foreign_keys = ON');
 
-    // Read and execute seed data
-    const seedPath = path.join(__dirname, '../database/seed_sample.sql');
+    const seedPath = path.join(__dirname, '../database/seed_complete.sql');
     const seed = fs.readFileSync(seedPath, 'utf-8');
-    
+
+    const clearSql = `
+      DELETE FROM leetcode_questions WHERE question_id IN (
+        SELECT id FROM questions WHERE category_id IN (1, 2)
+      );
+      DELETE FROM ml_design_questions WHERE question_id IN (
+        SELECT id FROM questions WHERE category_id IN (1, 2)
+      );
+      DELETE FROM questions WHERE category_id IN (1, 2);
+    `;
+
+    db.exec(clearSql);
     db.exec(seed);
     
     console.log('✓ Database seeded successfully');
-    console.log('  - 3 LeetCode questions added');
-    console.log('  - 3 ML System Design questions added');
+    console.log('  - 40 LeetCode questions loaded');
+    console.log('  - 10 ML System Design questions loaded');
     
     db.close();
   } catch (error) {
