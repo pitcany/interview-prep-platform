@@ -20,6 +20,7 @@ export class DatabaseService {
     // Open database
     this.db = new Database(this.dbPath);
     this.db.pragma('journal_mode = WAL');
+    this.db.pragma('foreign_keys = ON');
 
     // Read and execute schema
     const schemaPath = path.join(__dirname, '../../database/schema.sql');
