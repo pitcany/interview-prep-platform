@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Complete dataset of 40 LeetCode + 10 ML System Design questions
-Distribution: 8 Easy, 25 Medium, 7 Hard LeetCode questions
+Distribution: 8 Easy, 35 Medium, 8 Hard LeetCode questions (51 total, filter to 40)
 """
 
 # 40 LeetCode Questions - Real problems with complete details
