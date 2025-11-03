@@ -13,11 +13,12 @@ Clean, DRY structure with zero redundancies.
 - `seed_complete.sql` - 49 interview questions ready to import (1511 lines, auto-generated)
 - `README.md` - Database usage guide
 
-### Scripts (4 files)
-- `questions_data_full.py` - Source of truth: 50 base questions
+### Scripts (5 files)
+- `questions_data_full.py` - Source of truth: 51 base questions with LeetCode URLs
 - `questions_data.py` - Smart filter: Selects 40 for Meta/Atlassian
 - `generate_seed_sql.py` - Converts Python → SQL
 - `add_all_questions.py` - Alternative Python-based import
+- `add_leetcode_urls.py` - Helper: Generates LeetCode URLs from titles
 
 ## Data Flow
 
