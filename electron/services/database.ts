@@ -144,9 +144,10 @@ export class DatabaseService {
     if (!result) return null;
 
     // Include all fields including solutions
+    // Note: test_cases is kept as string because frontend expects to parse it
     return {
       ...result,
-      test_cases: result.test_cases ? JSON.parse(result.test_cases) : [],
+      test_cases: result.test_cases || '[]',
       // Solution fields are now included
       solution_python: result.solution_python || '',
       solution_java: result.solution_java || '',

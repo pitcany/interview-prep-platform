@@ -7,12 +7,14 @@ import { CodeExecutorService } from './services/codeExecutor';
 import { ClaudeAPIService } from './services/claudeAPI';
 
 // Load environment variables from .env file
-// Use path relative to app root (parent of electron directory)
-const envPath = path.join(__dirname, '..', '.env');
+// When compiled, __dirname is dist/electron, so we need to go up two levels to reach project root
+const envPath = path.join(__dirname, '..', '..', '.env');
 config({ path: envPath });
 console.log('Environment loaded from:', envPath);
 console.log('SANDBOX_MODE:', process.env.SANDBOX_MODE);
-console.log('CLAUDE_API_KEY:', process.env.CLAUDE_API_KEY ? 'Set' : 'Not set');
+console.log('LLM_BASE_URL:', process.env.LLM_BASE_URL ? 'Set' : 'Not set');
+console.log('LLM_MODEL:', process.env.LLM_MODEL || 'Not set');
+console.log('CLAUDE_API_KEY:', process.env.CLAUDE_API_KEY ? 'Set' : 'Not set (deprecated, use LLM_BASE_URL)');
 
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
