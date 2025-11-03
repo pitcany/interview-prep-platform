@@ -9,6 +9,7 @@ LEETCODE_QUESTIONS = [
     # ============ EASY (8 questions) ============
     {
         "title": "Two Sum",
+        "leetcode_url": "https://leetcode.com/problems/two-sum/",
         "difficulty": "easy",
         "description": """Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 
@@ -34,6 +35,7 @@ You can return the answer in any order.""",
     },
     {
         "title": "Valid Parentheses",
+        "leetcode_url": "https://leetcode.com/problems/valid-parentheses/",
         "difficulty": "easy",
         "description": """Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
@@ -62,6 +64,7 @@ An input string is valid if:
     },
     {
         "title": "Merge Two Sorted Lists",
+        "leetcode_url": "https://leetcode.com/problems/merge-two-sorted-lists/",
         "difficulty": "easy",
         "description": """You are given the heads of two sorted linked lists list1 and list2.
 
@@ -87,6 +90,7 @@ Return the head of the merged linked list.""",
     },
     {
         "title": "Best Time to Buy and Sell Stock",
+        "leetcode_url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
         "difficulty": "easy",
         "description": """You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
@@ -111,6 +115,7 @@ Return the maximum profit you can achieve from this transaction. If you cannot a
     },
     {
         "title": "Valid Palindrome",
+        "leetcode_url": "https://leetcode.com/problems/valid-palindrome/",
         "difficulty": "easy",
         "description": """A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 
@@ -134,6 +139,7 @@ Given a string s, return true if it is a palindrome, or false otherwise.""",
     },
     {
         "title": "Climbing Stairs",
+        "leetcode_url": "https://leetcode.com/problems/climbing-stairs/",
         "difficulty": "easy",
         "description": """You are climbing a staircase. It takes n steps to reach the top.
 
@@ -157,6 +163,7 @@ Each time you can either climb 1 or 2 steps. In how many distinct ways can you c
     },
     {
         "title": "Binary Tree Inorder Traversal",
+        "leetcode_url": "https://leetcode.com/problems/binary-tree-inorder-traversal/",
         "difficulty": "easy",
         "description": """Given the root of a binary tree, return the inorder traversal of its nodes' values.
 
@@ -180,6 +187,7 @@ Inorder traversal: Left -> Root -> Right""",
     },
     {
         "title": "Linked List Cycle",
+        "leetcode_url": "https://leetcode.com/problems/linked-list-cycle/",
         "difficulty": "easy",
         "description": """Given head, the head of a linked list, determine if the linked list has a cycle in it.
 
@@ -205,6 +213,7 @@ There is a cycle in a linked list if there is some node in the list that can be 
     # ============ MEDIUM (25 questions) ============
     {
         "title": "Longest Substring Without Repeating Characters",
+        "leetcode_url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
         "difficulty": "medium",
         "description": """Given a string s, find the length of the longest substring without repeating characters.""",
         "constraints": ["0 <= s.length <= 5 * 10^4", "s consists of English letters, digits, symbols and spaces"],
@@ -226,6 +235,7 @@ There is a cycle in a linked list if there is some node in the list that can be 
     },
     {
         "title": "Add Two Numbers",
+        "leetcode_url": "https://leetcode.com/problems/add-two-numbers/",
         "difficulty": "medium",
         "description": """You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
 
@@ -249,6 +259,7 @@ You may assume the two numbers do not contain any leading zero, except the numbe
     },
     {
         "title": "Container With Most Water",
+        "leetcode_url": "https://leetcode.com/problems/container-with-most-water/",
         "difficulty": "medium",
         "description": """You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
 
@@ -273,6 +284,7 @@ Return the maximum amount of water a container can store.""",
     },
     {
         "title": "3Sum",
+        "leetcode_url": "https://leetcode.com/problems/3sum/",
         "difficulty": "medium",
         "description": """Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
@@ -296,6 +308,7 @@ Notice that the solution set must not contain duplicate triplets.""",
     },
     {
         "title": "Group Anagrams",
+        "leetcode_url": "https://leetcode.com/problems/group-anagrams/",
         "difficulty": "medium",
         "description": """Given an array of strings strs, group the anagrams together. You can return the answer in any order.
 
@@ -318,6 +331,7 @@ An Anagram is a word or phrase formed by rearranging the letters of a different 
     },
     {
         "title": "Longest Palindromic Substring",
+        "leetcode_url": "https://leetcode.com/problems/longest-palindromic-substring/",
         "difficulty": "medium",
         "description": """Given a string s, return the longest palindromic substring in s.""",
         "constraints": ["1 <= s.length <= 1000", "s consist of only digits and English letters"],
@@ -339,6 +353,7 @@ An Anagram is a word or phrase formed by rearranging the letters of a different 
     },
     {
         "title": "Product of Array Except Self",
+        "leetcode_url": "https://leetcode.com/problems/product-of-array-except-self/",
         "difficulty": "medium",
         "description": """Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
 
@@ -360,6 +375,7 @@ You must write an algorithm that runs in O(n) time and without using the divisio
     },
     {
         "title": "Spiral Matrix",
+        "leetcode_url": "https://leetcode.com/problems/spiral-matrix/",
         "difficulty": "medium",
         "description": """Given an m x n matrix, return all elements of the matrix in spiral order.""",
         "constraints": ["m == matrix.length", "n == matrix[i].length", "1 <= m, n <= 10", "-100 <= matrix[i][j] <= 100"],
@@ -379,6 +395,7 @@ You must write an algorithm that runs in O(n) time and without using the divisio
     },
     {
         "title": "Rotate Image",
+        "leetcode_url": "https://leetcode.com/problems/rotate-image/",
         "difficulty": "medium",
         "description": """You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
 
@@ -400,6 +417,7 @@ You have to rotate the image in-place, which means you have to modify the input 
     },
     {
         "title": "Set Matrix Zeroes",
+        "leetcode_url": "https://leetcode.com/problems/set-matrix-zeroes/",
         "difficulty": "medium",
         "description": """Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
 
@@ -421,6 +439,7 @@ You must do it in place.""",
     },
     {
         "title": "Subarray Sum Equals K",
+        "leetcode_url": "https://leetcode.com/problems/subarray-sum-equals-k/",
         "difficulty": "medium",
         "description": """Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
 
@@ -443,6 +462,7 @@ A subarray is a contiguous non-empty sequence of elements within an array.""",
     },
     {
         "title": "Maximum Subarray",
+        "leetcode_url": "https://leetcode.com/problems/maximum-subarray/",
         "difficulty": "medium",
         "description": """Given an integer array nums, find the subarray with the largest sum, and return its sum.""",
         "constraints": ["1 <= nums.length <= 10^5", "-10^4 <= nums[i] <= 10^4"],
@@ -464,6 +484,7 @@ A subarray is a contiguous non-empty sequence of elements within an array.""",
     },
     {
         "title": "Remove Nth Node From End of List",
+        "leetcode_url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
         "difficulty": "medium",
         "description": """Given the head of a linked list, remove the nth node from the end of the list and return its head.""",
         "constraints": ["The number of nodes in the list is sz", "1 <= sz <= 30", "0 <= Node.val <= 100", "1 <= n <= sz"],
@@ -484,6 +505,7 @@ A subarray is a contiguous non-empty sequence of elements within an array.""",
     },
     {
         "title": "Reverse Linked List II",
+        "leetcode_url": "https://leetcode.com/problems/reverse-linked-list-ii/",
         "difficulty": "medium",
         "description": """Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.""",
         "constraints": ["The number of nodes in the list is n", "1 <= n <= 500", "-500 <= Node.val <= 500", "1 <= left <= right <= n"],
@@ -503,6 +525,7 @@ A subarray is a contiguous non-empty sequence of elements within an array.""",
     },
     {
         "title": "Swap Nodes in Pairs",
+        "leetcode_url": "https://leetcode.com/problems/swap-nodes-in-pairs/",
         "difficulty": "medium",
         "description": """Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes.""",
         "constraints": ["The number of nodes in the list is in the range [0, 100]", "0 <= Node.val <= 100"],
@@ -523,6 +546,7 @@ A subarray is a contiguous non-empty sequence of elements within an array.""",
     },
     {
         "title": "Binary Tree Level Order Traversal",
+        "leetcode_url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
         "difficulty": "medium",
         "description": """Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).""",
         "constraints": ["The number of nodes in the tree is in the range [0, 2000]", "-1000 <= Node.val <= 1000"],
@@ -543,6 +567,7 @@ A subarray is a contiguous non-empty sequence of elements within an array.""",
     },
     {
         "title": "Validate Binary Search Tree",
+        "leetcode_url": "https://leetcode.com/problems/validate-binary-search-tree/",
         "difficulty": "medium",
         "description": """Given the root of a binary tree, determine if it is a valid binary search tree (BST).
 
@@ -568,6 +593,7 @@ A valid BST is defined as follows:
     },
     {
         "title": "Kth Smallest Element in a BST",
+        "leetcode_url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
         "difficulty": "medium",
         "description": """Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.""",
         "constraints": ["The number of nodes in the tree is n", "1 <= k <= n <= 10^4", "0 <= Node.val <= 10^4"],
@@ -588,6 +614,7 @@ A valid BST is defined as follows:
     },
     {
         "title": "Binary Tree Right Side View",
+        "leetcode_url": "https://leetcode.com/problems/binary-tree-right-side-view/",
         "difficulty": "medium",
         "description": """Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.""",
         "constraints": ["The number of nodes in the tree is in the range [0, 100]", "-100 <= Node.val <= 100"],
@@ -608,6 +635,7 @@ A valid BST is defined as follows:
     },
     {
         "title": "Path Sum II",
+        "leetcode_url": "https://leetcode.com/problems/path-sum-ii/",
         "difficulty": "medium",
         "description": """Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
 
@@ -630,6 +658,7 @@ A root-to-leaf path is a path starting from the root and ending at any leaf node
     },
     {
         "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+        "leetcode_url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/",
         "difficulty": "medium",
         "description": """Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.""",
         "constraints": ["1 <= preorder.length <= 3000", "inorder.length == preorder.length", "-3000 <= preorder[i], inorder[i] <= 3000", "preorder and inorder consist of unique values"],
@@ -649,6 +678,7 @@ A root-to-leaf path is a path starting from the root and ending at any leaf node
     },
     {
         "title": "Lowest Common Ancestor of a Binary Tree",
+        "leetcode_url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/",
         "difficulty": "medium",
         "description": """Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
 
@@ -670,6 +700,7 @@ The lowest common ancestor is defined as the lowest node in the tree that has bo
     },
     {
         "title": "Number of Islands",
+        "leetcode_url": "https://leetcode.com/problems/number-of-islands/",
         "difficulty": "medium",
         "description": """Given an m x n 2D binary grid which represents a map of '1's (land) and '0's (water), return the number of islands.
 
@@ -691,6 +722,7 @@ An island is surrounded by water and is formed by connecting adjacent lands hori
     },
     {
         "title": "Course Schedule",
+        "leetcode_url": "https://leetcode.com/problems/course-schedule/",
         "difficulty": "medium",
         "description": """There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
@@ -713,6 +745,7 @@ Return true if you can finish all courses. Otherwise, return false.""",
     },
     {
         "title": "Clone Graph",
+        "leetcode_url": "https://leetcode.com/problems/clone-graph/",
         "difficulty": "medium",
         "description": """Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph.
 
@@ -735,6 +768,7 @@ Each node in the graph contains a value (int) and a list (List[Node]) of its nei
     },
     {
         "title": "Word Search",
+        "leetcode_url": "https://leetcode.com/problems/word-search/",
         "difficulty": "medium",
         "description": """Given an m x n grid of characters board and a string word, return true if word exists in the grid.
 
@@ -757,6 +791,7 @@ The word can be constructed from letters of sequentially adjacent cells, where a
     },
     {
         "title": "Coin Change",
+        "leetcode_url": "https://leetcode.com/problems/coin-change/",
         "difficulty": "medium",
         "description": """You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
 
@@ -780,6 +815,7 @@ Return the fewest number of coins that you need to make up that amount. If that 
     },
     {
         "title": "Longest Increasing Subsequence",
+        "leetcode_url": "https://leetcode.com/problems/longest-increasing-subsequence/",
         "difficulty": "medium",
         "description": """Given an integer array nums, return the length of the longest strictly increasing subsequence.""",
         "constraints": ["1 <= nums.length <= 2500", "-10^4 <= nums[i] <= 10^4"],
@@ -801,6 +837,7 @@ Return the fewest number of coins that you need to make up that amount. If that 
     },
     {
         "title": "Unique Paths",
+        "leetcode_url": "https://leetcode.com/problems/unique-paths/",
         "difficulty": "medium",
         "description": """There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.
 
@@ -823,6 +860,7 @@ Given the two integers m and n, return the number of possible unique paths that 
     },
     {
         "title": "Word Break",
+        "leetcode_url": "https://leetcode.com/problems/word-break/",
         "difficulty": "medium",
         "description": """Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
 
@@ -846,6 +884,7 @@ Note that the same word in the dictionary may be reused multiple times in the se
     },
     {
         "title": "House Robber II",
+        "leetcode_url": "https://leetcode.com/problems/house-robber-ii/",
         "difficulty": "medium",
         "description": """You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have a security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
 
@@ -869,6 +908,7 @@ Given an integer array nums representing the amount of money of each house, retu
     },
     {
         "title": "Decode Ways",
+        "leetcode_url": "https://leetcode.com/problems/decode-ways/",
         "difficulty": "medium",
         "description": """A message containing letters from A-Z can be encoded into numbers using the following mapping:
 'A' -> "1", 'B' -> "2", ..., 'Z' -> "26"
@@ -893,6 +933,7 @@ To decode an encoded message, all the digits must be grouped then mapped back in
     },
     {
         "title": "Letter Combinations of a Phone Number",
+        "leetcode_url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
         "difficulty": "medium",
         "description": """Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
 
@@ -918,6 +959,7 @@ A mapping of digits to letters (just like on the telephone buttons) is given bel
     },
     {
         "title": "Generate Parentheses",
+        "leetcode_url": "https://leetcode.com/problems/generate-parentheses/",
         "difficulty": "medium",
         "description": """Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.""",
         "constraints": ["1 <= n <= 8"],
@@ -938,6 +980,7 @@ A mapping of digits to letters (just like on the telephone buttons) is given bel
     },
     {
         "title": "Permutations",
+        "leetcode_url": "https://leetcode.com/problems/permutations/",
         "difficulty": "medium",
         "description": """Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.""",
         "constraints": ["1 <= nums.length <= 6", "-10 <= nums[i] <= 10", "All the integers of nums are unique"],
@@ -961,6 +1004,7 @@ A mapping of digits to letters (just like on the telephone buttons) is given bel
     # ============ HARD (7 questions) ============
     {
         "title": "Trapping Rain Water",
+        "leetcode_url": "https://leetcode.com/problems/trapping-rain-water/",
         "difficulty": "hard",
         "description": """Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.""",
         "constraints": ["n == height.length", "1 <= n <= 2 * 10^4", "0 <= height[i] <= 10^5"],
@@ -980,6 +1024,7 @@ A mapping of digits to letters (just like on the telephone buttons) is given bel
     },
     {
         "title": "Median of Two Sorted Arrays",
+        "leetcode_url": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
         "difficulty": "hard",
         "description": """Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
 
@@ -1002,6 +1047,7 @@ The overall run time complexity should be O(log (m+n)).""",
     },
     {
         "title": "Binary Tree Maximum Path Sum",
+        "leetcode_url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
         "difficulty": "hard",
         "description": """A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.
 
@@ -1026,6 +1072,7 @@ Given the root of a binary tree, return the maximum path sum of any non-empty pa
     },
     {
         "title": "Serialize and Deserialize Binary Tree",
+        "leetcode_url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
         "difficulty": "hard",
         "description": """Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
 
@@ -1047,6 +1094,7 @@ Design an algorithm to serialize and deserialize a binary tree. There is no rest
     },
     {
         "title": "Regular Expression Matching",
+        "leetcode_url": "https://leetcode.com/problems/regular-expression-matching/",
         "difficulty": "hard",
         "description": """Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
 
@@ -1073,6 +1121,7 @@ The matching should cover the entire input string (not partial).""",
     },
     {
         "title": "Edit Distance",
+        "leetcode_url": "https://leetcode.com/problems/edit-distance/",
         "difficulty": "hard",
         "description": """Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
 
@@ -1098,6 +1147,7 @@ You have the following three operations permitted on a word:
     },
     {
         "title": "Word Ladder",
+        "leetcode_url": "https://leetcode.com/problems/word-ladder/",
         "difficulty": "hard",
         "description": """A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
 - Every adjacent pair of words differs by a single letter.
@@ -1123,6 +1173,7 @@ Given two words, beginWord and endWord, and a dictionary wordList, return the nu
     },
     {
         "title": "Merge k Sorted Lists",
+        "leetcode_url": "https://leetcode.com/problems/merge-k-sorted-lists/",
         "difficulty": "hard",
         "description": """You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
 
