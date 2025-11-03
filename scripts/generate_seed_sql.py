@@ -31,14 +31,21 @@ def generate_leetcode_insert(q, question_id):
     """Generate SQL INSERT statements for a LeetCode question"""
     sql = []
     
+    # Add LeetCode URL to hints if it exists
+    hints = []
+    if 'leetcode_url' in q:
+        hints.append(f"LeetCode URL: {q['leetcode_url']}")
+    hints_json = json.dumps(hints) if hints else 'null'
+    
     # Insert main question
     sql.append(f"""-- {q['title']} ({q['difficulty'].upper()})
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 ({question_id}, 1, '{escape_sql_string(q['title'])}', '{q['difficulty']}',
 '{escape_sql_string(q['description'])}',
 '{escape_sql_string(json.dumps(q['constraints']))}',
 '{escape_sql_string(json.dumps(q['examples']))}',
-'{escape_sql_string(json.dumps(q['tags']))}');
+'{escape_sql_string(json.dumps(q['tags']))}',
+'{escape_sql_string(hints_json)}');
 """)
     
     # Insert LeetCode-specific data
