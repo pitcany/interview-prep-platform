@@ -17,7 +17,7 @@ from pathlib import Path
 
 # Import from single source of truth
 sys.path.insert(0, str(Path(__file__).parent))
-from questions_data import LEETCODE_QUESTIONS, ML_QUESTIONS
+from questions_data_full import LEETCODE_QUESTIONS, ML_QUESTIONS
 
 
 def escape_sql_string(s):
@@ -49,14 +49,18 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 """)
     
     # Insert LeetCode-specific data
-    sql.append(f"""INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
+    sql.append(f"""INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 ({question_id},
 '{escape_sql_string(q['python_sig'])}',
 '{escape_sql_string(q['java_sig'])}',
 '{escape_sql_string(q['cpp_sig'])}',
 '{escape_sql_string(json.dumps(q['test_cases']))}',
 '{escape_sql_string(q['time_complexity'])}',
-'{escape_sql_string(q['space_complexity'])}');
+'{escape_sql_string(q['space_complexity'])}',
+'{escape_sql_string(q.get('solution_python', ''))}',
+'{escape_sql_string(q.get('solution_java', ''))}',
+'{escape_sql_string(q.get('solution_cpp', ''))}',
+'{escape_sql_string(q.get('solution_explanation', ''))}');
 """)
     
     return "\n".join(sql)
@@ -75,12 +79,13 @@ INSERT INTO questions (id, category_id, title, difficulty, description, tags) VA
 """)
     
     # Insert ML-specific data
-    sql.append(f"""INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation_criteria, key_components) VALUES
+    sql.append(f"""INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation_criteria, key_components, sample_solution) VALUES
 ({question_id},
 '{escape_sql_string(q['scenario'])}',
 '{escape_sql_string(json.dumps(q['requirements']))}',
 '{escape_sql_string(json.dumps(q['evaluation_criteria']))}',
-'{escape_sql_string(json.dumps(q['key_components']))}');
+'{escape_sql_string(json.dumps(q['key_components']))}',
+'{escape_sql_string(q.get('sample_solution', ''))}');
 """)
     
     return "\n".join(sql)

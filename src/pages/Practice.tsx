@@ -6,6 +6,7 @@ import QuestionList from '../components/QuestionList';
 import CodeEditor from '../components/CodeEditor';
 import TestRunner from '../components/TestRunner';
 import DiagramEditor from '../components/DiagramEditor';
+import SolutionViewer from '../components/SolutionViewer';
 import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
 import { Play, Send, Sparkles, Loader2, ChevronLeft, FileText } from 'lucide-react';
@@ -411,6 +412,15 @@ export default function Practice() {
                       onRemoveTestCase={handleRemoveTestCase}
                     />
                   </div>
+
+                  {/* Solution Viewer for LeetCode */}
+                  <SolutionViewer
+                    category="leetcode"
+                    solutionPython={questionDetails?.solution_python}
+                    solutionJava={questionDetails?.solution_java}
+                    solutionCpp={questionDetails?.solution_cpp}
+                    solutionExplanation={questionDetails?.solution_explanation}
+                  />
                 </>
               ) : (
                 <>
@@ -438,6 +448,12 @@ export default function Practice() {
                       className="flex-1 bg-gray-900 text-gray-300 px-4 py-3 resize-none focus:outline-none font-mono text-sm"
                     />
                   </div>
+
+                  {/* Solution Viewer for ML Design */}
+                  <SolutionViewer
+                    category="ml_system_design"
+                    sampleSolution={mlDesignDetails?.sample_solution}
+                  />
                 </>
               )}
             </div>

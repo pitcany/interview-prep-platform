@@ -138,8 +138,21 @@ export class DatabaseService {
   }
 
   getLeetCodeQuestionDetails(questionId: number) {
-    return this.db.prepare('SELECT * FROM leetcode_questions WHERE question_id = ?')
+    const result: any = this.db.prepare('SELECT * FROM leetcode_questions WHERE question_id = ?')
       .get(questionId);
+
+    if (!result) return null;
+
+    // Include all fields including solutions
+    return {
+      ...result,
+      test_cases: result.test_cases ? JSON.parse(result.test_cases) : [],
+      // Solution fields are now included
+      solution_python: result.solution_python || '',
+      solution_java: result.solution_java || '',
+      solution_cpp: result.solution_cpp || '',
+      solution_explanation: result.solution_explanation || ''
+    };
   }
 
   getMLDesignQuestionDetails(questionId: number) {
@@ -162,6 +175,8 @@ export class DatabaseService {
       requirements: result.requirements ? JSON.parse(result.requirements) : [],
       evaluation_criteria: result.evaluation_criteria ? JSON.parse(result.evaluation_criteria) : {},
       key_components: result.key_components ? JSON.parse(result.key_components) : [],
+      // Include sample solution
+      sample_solution: result.sample_solution || ''
     };
   }
 

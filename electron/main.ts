@@ -7,12 +7,17 @@ import { CodeExecutorService } from './services/codeExecutor';
 import { ClaudeAPIService } from './services/claudeAPI';
 
 // Load environment variables from .env file
-config();
+// Use path relative to app root (parent of electron directory)
+const envPath = path.join(__dirname, '..', '.env');
+config({ path: envPath });
+console.log('Environment loaded from:', envPath);
+console.log('SANDBOX_MODE:', process.env.SANDBOX_MODE);
+console.log('CLAUDE_API_KEY:', process.env.CLAUDE_API_KEY ? 'Set' : 'Not set');
 
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
 let codeExecutor: CodeExecutorService;
-let llmService: LocalLLMService;
+let claudeService: ClaudeAPIService;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -62,10 +67,12 @@ async function initializeServices() {
     codeExecutor = new CodeExecutorService();
     await codeExecutor.initialize();
 
-    llmService = new LocalLLMService(
-      process.env.LLM_BASE_URL || 'http://localhost:8000',
-      process.env.LLM_MODEL || 'gpt-oss-20b'
-    );
+    // Initialize Claude API service
+    const apiKey = process.env.CLAUDE_API_KEY;
+    if (!apiKey) {
+      console.warn('CLAUDE_API_KEY not found in environment variables. Feedback generation will not work.');
+    }
+    claudeService = new ClaudeAPIService(apiKey || '');
 
     console.log('All services initialized successfully');
   } catch (error) {
@@ -216,8 +223,8 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
     question = await dbService.getMLDesignQuestionDetails(submission.questionId);
   }
 
-  // Generate feedback using Local LLM
-  const feedback = await llmService.generateFeedback(submission, question, submissionType);
+  // Generate feedback using Claude API
+  const feedback = await claudeService.generateFeedback(submission, question, submissionType);
 
   // Save feedback
   const savedFeedback = await dbService.createFeedback({
