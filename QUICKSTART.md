@@ -44,6 +44,7 @@ npm start
 - Multi-language support (Python, Java, C++)
 - AI-powered feedback
 - Progress analytics
+- **LeetCode solution links** - Access official solutions for each question
 
 ## Customization
 
