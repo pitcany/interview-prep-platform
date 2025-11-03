@@ -32,12 +32,17 @@ export class CodeExecutorService {
   private maxMemory: number = 512; // 512 MB
   private usePythonService: boolean = false;
 
-  constructor() {
-    this.tempDir = path.join(os.tmpdir(), 'interview-prep-exec');
+  constructor(userDataPath?: string) {
+    // Use userDataPath/code-exec instead of /tmp to avoid Docker mount issues
+    const baseDir = userDataPath || os.tmpdir();
+    this.tempDir = path.join(baseDir, 'code-exec');
     this.pythonServicePath = path.join(__dirname, '../../python-service');
 
     // Use Python service if SANDBOX_MODE is 'local', otherwise use Docker
     this.usePythonService = process.env.SANDBOX_MODE === 'local';
+
+    console.log('CodeExecutor mode:', this.usePythonService ? 'Local Python' : 'Docker');
+    console.log('CodeExecutor temp dir:', this.tempDir);
   }
 
   async initialize() {
@@ -317,6 +322,9 @@ int main() {
       const volumeMount = `${path.dirname(filePath)}:/code`;
       const fileName = path.basename(filePath);
 
+      // Get execution command and split into shell args
+      const execCmd = this.getExecutionCommand(language, fileName);
+
       const dockerArgs = [
         'run',
         '--rm',
@@ -325,7 +333,7 @@ int main() {
         '--cpus', '1',
         '--network', 'none',
         containerName,
-        this.getExecutionCommand(language, fileName)
+        'sh', '-c', execCmd  // Use shell to execute complex commands with pipes
       ];
 
       const docker = spawn('docker', dockerArgs);
@@ -387,7 +395,7 @@ int main() {
   private getExecutionCommand(language: string, fileName: string): string {
     switch (language) {
       case 'python':
-        return `python /code/${fileName}`;
+        return `python3 /code/${fileName}`;
       case 'java':
         return `javac /code/${fileName} && java -cp /code Main`;
       case 'cpp':

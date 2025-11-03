@@ -60,11 +60,13 @@ function createWindow() {
 // Initialize services
 async function initializeServices() {
   try {
-    const dbPath = path.join(app.getPath('userData'), 'interview-prep.db');
+    const userDataPath = app.getPath('userData');
+    const dbPath = path.join(userDataPath, 'interview-prep.db');
     dbService = new DatabaseService(dbPath);
     await dbService.initialize();
 
-    codeExecutor = new CodeExecutorService();
+    // Pass userDataPath to avoid Docker /tmp mount issues
+    codeExecutor = new CodeExecutorService(userDataPath);
     await codeExecutor.initialize();
 
     // Initialize Claude API service
