@@ -1,197 +1,131 @@
-# Interview Prep Platform - Question Database
+# Interview Questions Database
 
-This directory contains SQL seed files to populate your interview preparation platform with LeetCode and ML System Design questions.
+**50 Questions Optimized for Meta & Atlassian Senior ML Engineer Interviews**
 
-## 📊 Question Distribution
-
-### Complete Dataset (`seed_complete.sql`)
-- **40 LeetCode Questions**
-  - 8 Easy (20%)
-  - 25 Medium (62.5%)
-  - 7 Hard (17.5%)
-- **10 ML System Design Questions**
-  - Covering: Recommendations, Search, Computer Vision, NLP, Fraud Detection
-
-**Total: 50 Questions**
-
-## 🗂️ Files
-
-### 1. `schema.sql`
-Database schema definition with tables for:
-- Questions (LeetCode & ML Design)
-- User submissions and progress
-- Mock interviews
-- AI feedback
-
-### 2. `seed_complete.sql`
-**Complete question dataset** (40 LeetCode + 10 ML Design)
-- Real LeetCode-style problems with full details
-- Comprehensive ML system design questions
-- Ready to import into your database
-
-### 3. `seed_sample.sql`
-Small sample dataset for testing (3 questions)
-
-### 4. Other seed files
-Legacy seed files from previous iterations
-
-## 🚀 How to Import Questions
-
-### Method 1: Using SQLite CLI
+## Quick Start
 
 ```bash
-# Find your database location
-# Linux: ~/.config/interview-prep-platform/interview-prep.db
-# macOS: ~/Library/Application Support/interview-prep-platform/interview-prep.db
-# Windows: %APPDATA%/interview-prep-platform/interview-prep.db
-
-# Import complete dataset
+# Import all questions into your database
 sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+
+# Verify
+sqlite3 ~/.config/interview-prep-platform/interview-prep.db "SELECT COUNT(*) FROM questions;"
+# Expected: 50
 ```
 
-### Method 2: Using Python Script
+## Contents
 
+### LeetCode Questions (40)
+- **5 Easy** - Foundation problems
+- **27 Medium** - Core interview focus (67.5%)
+- **8 Hard** - Senior-level challenges
+
+**Meta-Specific Additions:**
+- Dot Product of Sparse Vectors
+- K Closest Points to Origin
+- Buildings With Ocean View
+- Minimum Remove to Make Valid Parentheses
+- Valid Parenthesis String
+- Expression Add Operators
+
+### ML System Design (10)
+- **Content Moderation** (Meta-specific)
+- **News Feed Ranking** (Meta/Facebook)
+- **Atlassian Search System** (Jira/Confluence)
+- **Recommendation Systems** (Netflix, YouTube, E-commerce)
+- **Search & Ranking** (Google Search)
+- **Computer Vision** (Face Recognition, Autonomous Vehicles)
+- **NLP** (Machine Translation)
+- **Fraud Detection** (Credit Card Fraud)
+
+## Files
+
+### Database
+- `schema.sql` - Database schema definition
+- `seed_complete.sql` - All 50 questions ready to import
+- `README.md` - This file
+
+### Scripts
+- `questions_data.py` - **Source of truth** for all questions
+- `generate_seed_sql.py` - Generates seed_complete.sql from questions_data.py
+- `add_all_questions.py` - Python script to import questions directly
+
+## Import Methods
+
+### Method 1: SQL Import (Recommended)
 ```bash
-# From the app root directory
+sqlite3 /path/to/interview-prep.db < database/seed_complete.sql
+```
+
+### Method 2: Python Script
+```bash
 python3 scripts/add_all_questions.py
 ```
 
-This script will:
-- Automatically find your database
-- Add all 40 LeetCode + 10 ML questions
-- Show progress and confirmation
-
-### Method 3: Using Node.js
-
-```bash
-npm run db:seed
+### Method 3: Custom Import
+```python
+from scripts.questions_data import LEETCODE_QUESTIONS, ML_QUESTIONS
+# Use questions in your own code
 ```
 
-## 📝 Question Details
+## Database Locations
 
-### LeetCode Questions Include:
-- Problem title and description
-- Difficulty level
-- Constraints and examples
-- Test cases (3-5 per question)
+- **Linux**: `~/.config/interview-prep-platform/interview-prep.db`
+- **macOS**: `~/Library/Application Support/interview-prep-platform/interview-prep.db`
+- **Windows**: `%APPDATA%\interview-prep-platform\interview-prep.db`
+
+## Question Details
+
+Each LeetCode question includes:
+- Complete problem description
+- Constraints and edge cases
+- Examples with explanations
+- 3-5 test cases
 - Function signatures (Python, Java, C++)
-- Expected time/space complexity
-- Tags for categorization
+- Time/space complexity
+- Topic tags
 
-### ML System Design Questions Include:
-- Problem scenario
+Each ML question includes:
+- Detailed scenario
 - System requirements
 - Evaluation criteria
 - Key components to design
-- Sample solutions and approaches
+- Success metrics
 
-## 🎯 LeetCode Topics Covered
+## Customization
 
-**Arrays & Strings** (12 questions)
-- Sliding window, two pointers, hash tables
-- Matrix operations, subarray problems
+To modify questions:
 
-**Linked Lists** (4 questions)
-- Traversal, reversal, cycle detection
+1. Edit `scripts/questions_data.py`
+2. Regenerate: `python3 scripts/generate_seed_sql.py`
+3. Import updated SQL file
 
-**Trees** (8 questions)
-- BST, traversals, LCA, construction
+## Why These Questions?
 
-**Graphs** (4 questions)
-- DFS, BFS, topological sort
+**Meta Focus:**
+- 38% arrays/strings (matches Meta interview data)
+- Sparse operations (frequently asked)
+- Practical array/string problems
+- Content moderation & news feed systems
 
-**Dynamic Programming** (7 questions)
-- Optimization problems, subsequences
+**Atlassian Focus:**
+- Reduced easy questions (senior level)
+- Product-specific ML systems (Jira/Confluence)
+- Emphasis on deployment & monitoring
 
-**Backtracking** (3 questions)
-- Combinations, permutations, constraints
+**Senior Level:**
+- Only 5 easy questions (vs typical 8)
+- 27 medium questions (core focus)
+- 8 hard questions for depth
 
-**Other** (2 questions)
-- Stack operations, greedy algorithms
+## Support
 
-## 🤖 ML System Design Topics Covered
-
-1. **Recommendation Systems** (3)
-   - Netflix, YouTube, E-commerce
-
-2. **Search & Ranking** (3)
-   - Google Search, E-commerce Search, News Feed
-
-3. **Computer Vision** (2)
-   - Face Recognition, Autonomous Vehicles
-
-4. **NLP** (1)
-   - Machine Translation
-
-5. **Fraud Detection** (1)
-   - Credit Card Fraud
-
-## 🔍 Verify Import
-
-```bash
-# Check question count
-sqlite3 ~/.config/interview-prep-platform/interview-prep.db \
-  "SELECT category_id, COUNT(*) FROM questions GROUP BY category_id;"
-
-# Expected output:
-# 1|40    (LeetCode)
-# 2|10    (ML Design)
-```
-
-## 📚 Question Quality
-
-All questions are:
-- ✅ Real LeetCode-style problems with proper difficulty
-- ✅ Complete with examples, constraints, test cases
-- ✅ Include function signatures for Python, Java, C++
-- ✅ Tagged for easy filtering
-- ✅ Production-ready for interview preparation
-
-## 🛠️ Generating Custom Seed Files
-
-To regenerate or customize the seed SQL:
-
-```bash
-# Edit questions in: scripts/complete_questions_data.py
-# Then regenerate:
-python3 scripts/generate_seed_sql.py
-```
-
-## 📖 Database Schema
-
-### Core Tables
-- `questions` - Main question data
-- `leetcode_questions` - Coding problem specifics
-- `ml_design_questions` - Design problem specifics
-- `code_submissions` - User code submissions
-- `design_submissions` - User design submissions
-- `user_progress` - Tracking solved questions
-- `mock_interviews` - Interview sessions
-- `feedback` - AI-generated feedback
-
-## 🎓 Usage Tips
-
-1. **Start with Easy**: Filter by `difficulty = 'easy'` to build confidence
-2. **Focus on Topics**: Use `tags` to practice specific areas
-3. **Mock Interviews**: Select random questions for timed practice
-4. **Track Progress**: The `user_progress` table tracks your journey
-5. **Review Solutions**: Use test cases to validate your approach
-
-## 📞 Support
-
-If you encounter issues:
-1. Verify database path is correct
-2. Check schema is initialized (`schema.sql`)
-3. Ensure no duplicate question IDs
+For issues:
+1. Check database path is correct
+2. Verify schema exists: `sqlite3 db.db < database/schema.sql`
+3. Review import logs for errors
 4. Check file permissions
-
-## 🔄 Updates
-
-To add more questions:
-1. Edit `scripts/complete_questions_data.py`
-2. Run `python3 scripts/generate_seed_sql.py`
-3. Import the updated `seed_complete.sql`
 
 ---
 
-**Ready to start your interview preparation journey! 🚀**
+**Ready to ace your Meta & Atlassian interviews!** 🚀

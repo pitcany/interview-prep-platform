@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-Add all 40 LeetCode and 10 ML System Design questions to the database.
-Run this script to populate your interview prep platform with questions.
+Import questions directly into SQLite database
+
+Alternative to SQL import - adds questions programmatically.
+Automatically finds your interview-prep database and imports all questions.
 
 Usage:
-    python scripts/add_all_questions.py
+    python3 scripts/add_all_questions.py
 """
 
 import sqlite3
@@ -13,15 +15,9 @@ import json
 import sys
 from pathlib import Path
 
-# Add scripts directory to path to import question data
+# Import from single source of truth
 sys.path.insert(0, str(Path(__file__).parent))
-
-try:
-    from complete_questions_data import LEETCODE_QUESTIONS, ML_QUESTIONS
-except ImportError:
-    print("❌ Error: Could not import complete_questions_data.py")
-    print("   Make sure complete_questions_data.py exists in the scripts/ directory")
-    sys.exit(1)
+from questions_data import LEETCODE_QUESTIONS, ML_QUESTIONS
 
 # Find database path
 def get_db_path():
