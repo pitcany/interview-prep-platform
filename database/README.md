@@ -26,14 +26,16 @@ sqlite3 ~/.config/interview-prep-platform/interview-prep.db "SELECT COUNT(*) FRO
 - Arrays & strings focus matching Meta's 38% interview emphasis
 
 ### ML System Design (10)
-- **Content Moderation** (Meta-specific)
-- **News Feed Ranking** (Meta/Facebook)
-- **Atlassian Search System** (Jira/Confluence)
-- **Recommendation Systems** (Netflix, YouTube, E-commerce)
-- **Search & Ranking** (Google Search)
-- **Computer Vision** (Face Recognition, Autonomous Vehicles)
-- **NLP** (Machine Translation)
-- **Fraud Detection** (Credit Card Fraud)
+- **Facebook News Feed Ranking** (Hard) - Core Meta product, 3B+ users
+- **Instagram Reels Recommendations** (Hard) - Multi-modal video ML
+- **Real-time Ad Targeting & Ranking** (Hard) - Meta's revenue engine
+- **AI Content Moderation** (Hard) - Platform safety at scale
+- **Spam Detection for Messaging** (Medium) - Privacy-preserving ML
+- **A/B Testing Platform** (Medium) - ML infrastructure
+- **Atlassian Search Ranking** (Medium) - Enterprise search for Jira/Confluence
+- **Real-time Fraud Detection** (Hard) - Payment systems
+- **Video Understanding System** (Hard) - Multi-modal ML for billions of videos
+- **Real-time Personalization** (Medium) - User modeling at scale
 
 ## Files
 
