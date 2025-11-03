@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
 """
-Generate comprehensive seed SQL file for 40 LeetCode + 10 ML System Design questions
-Optimized for Meta & Atlassian Senior ML Engineer Interviews
-Output: /app/database/seed_complete.sql
+Generate SQL seed file from questions_data.py
+
+Single-purpose script: Converts Python question data to SQL INSERT statements.
+
+Usage:
+    python3 scripts/generate_seed_sql.py
+
+Output:
+    database/seed_complete.sql (ready to import)
 """
 
 import json
 import sys
 from pathlib import Path
 
-# Add scripts directory to path
+# Import from single source of truth
 sys.path.insert(0, str(Path(__file__).parent))
-
-# Use optimized questions for Meta/Atlassian
-from meta_atlassian_questions import LEETCODE_QUESTIONS, ML_QUESTIONS
+from questions_data import LEETCODE_QUESTIONS, ML_QUESTIONS
 
 
 def escape_sql_string(s):
