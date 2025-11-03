@@ -10,7 +10,7 @@ Clean, DRY structure with zero redundancies.
 
 ### Database (3 files)
 - `schema.sql` - Database table definitions (174 lines)
-- `seed_complete.sql` - 49 interview questions ready to import (1511 lines, auto-generated)
+- `seed_complete.sql` - 50 interview questions ready to import (auto-generated)
 - `README.md` - Database usage guide
 
 ### Scripts (4 files)

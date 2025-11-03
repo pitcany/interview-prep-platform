@@ -1,8 +1,8 @@
 # Meta & Atlassian Interview Prep – Canonical Seed
 
-The repository now follows the DRY principle: every interview question lives in a **single canonical seed** – `database/seed_meta_atlassian.sql`. The file contains:
+All questions now live in a single generated seed file: `database/seed_complete.sql` (created from the Python sources in `scripts/questions_data*.py`). The seed contains:
 
-- **40 LeetCode questions** focused on Meta/Atlassian-style interviews (5 easy, 32 medium, 3 hard)
+- **40 LeetCode questions** tailored to Meta/Atlassian interviews (5 easy, 27 medium, 8 hard)
 - **10 ML system design scenarios** covering ranking, content integrity, experimentation, personalization, and fraud detection
 
 For a topic-by-topic breakdown (data structures, ML domains, company focus) read `database/QUESTION_SUMMARY.md`.
@@ -12,19 +12,19 @@ For a topic-by-topic breakdown (data structures, ML domains, company focus) read
 ### Option 1 – Run the SQL directly
 ```bash
 cd interview-prep-platform
-sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_meta_atlassian.sql
+sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
 ```
 
 ### Option 2 – Use the Python helper
 ```bash
 cd interview-prep-platform
-python3 scripts/add_all_questions.py --force
+python3 scripts/add_all_questions.py
 ```
 
 ### Option 3 – From the SQLite prompt
 ```bash
 sqlite3 ~/.config/interview-prep-platform/interview-prep.db
-sqlite> .read database/seed_meta_atlassian.sql
+sqlite> .read database/seed_complete.sql
 sqlite> .quit
 ```
 
@@ -40,7 +40,7 @@ sqlite3 ~/.config/interview-prep-platform/interview-prep.db \
   "SELECT difficulty, COUNT(*) FROM questions WHERE category_id = 1 GROUP BY difficulty;"
 ```
 
-Expected results: 40 LeetCode (5/32/3) and 10 ML system design.
+Expected results: 40 LeetCode (5/27/8) and 10 ML system design.
 
 ## What’s Inside the Seed
 

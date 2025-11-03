@@ -109,6 +109,7 @@ def main():
     print(f"📊 Adding questions to database: {db_path}")
     
     conn = sqlite3.connect(db_path)
+    conn.execute("PRAGMA foreign_keys = ON")
     cursor = conn.cursor()
     
     try:
@@ -122,6 +123,21 @@ def main():
         print(f"\n📈 Current state:")
         print(f"   LeetCode questions: {existing_leetcode}")
         print(f"   ML Design questions: {existing_ml}")
+        
+        if existing_leetcode or existing_ml:
+            print("\n🧹 Clearing existing interview questions (categories 1 & 2)...")
+            clear_sql = """
+                DELETE FROM leetcode_questions WHERE question_id IN (
+                    SELECT id FROM questions WHERE category_id IN (1, 2)
+                );
+                DELETE FROM ml_design_questions WHERE question_id IN (
+                    SELECT id FROM questions WHERE category_id IN (1, 2)
+                );
+                DELETE FROM questions WHERE category_id IN (1, 2);
+            """
+            cursor.executescript(clear_sql)
+            conn.commit()
+            print("   ✔️ Existing entries removed. Seeding fresh data...")
         
         # Add LeetCode questions
         print(f"\n➕ Adding {len(LEETCODE_QUESTIONS)} LeetCode questions...")
