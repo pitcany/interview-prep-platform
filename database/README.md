@@ -81,6 +81,7 @@ Each LeetCode question includes:
 - Function signatures (Python, Java, C++)
 - Time/space complexity
 - Topic tags
+- **LeetCode URL** - Direct link to official solutions and discussions
 
 Each ML question includes:
 - Detailed scenario
