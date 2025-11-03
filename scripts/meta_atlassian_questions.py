@@ -190,14 +190,21 @@ QUESTIONS_TO_REMOVE = [
 
 # Filter and rebuild LeetCode questions
 def get_optimized_leetcode_questions():
-    """Get optimized question set for Meta/Atlassian"""
+    """Get optimized question set for Meta/Atlassian - exactly 40 questions"""
     # Remove specified easy questions
     filtered = [q for q in ORIGINAL_LC if q['title'] not in QUESTIONS_TO_REMOVE]
     
     # Add Meta/Atlassian specific questions
     filtered.extend(META_ATLASSIAN_ADDITIONS)
     
-    return filtered
+    # Now we have 47 questions (50 - 3 + 6)
+    # We need exactly 40: 5 Easy, 27 Medium, 8 Hard
+    
+    easy_qs = [q for q in filtered if q['difficulty'] == 'easy']  # Should be 5
+    medium_qs = [q for q in filtered if q['difficulty'] == 'medium'][:27]  # Take first 27
+    hard_qs = [q for q in filtered if q['difficulty'] == 'hard']  # Should be 8
+    
+    return easy_qs + medium_qs + hard_qs
 
 # Optimized ML questions for Meta/Atlassian
 OPTIMIZED_ML_QUESTIONS = [
