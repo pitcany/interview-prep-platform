@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Add all 50 LeetCode and 15 ML System Design questions to the database.
+Add all 40 LeetCode and 10 ML System Design questions to the database.
 Run this script to populate your interview prep platform with questions.
 
 Usage:
@@ -10,7 +10,18 @@ Usage:
 import sqlite3
 import os
 import json
+import sys
 from pathlib import Path
+
+# Add scripts directory to path to import question data
+sys.path.insert(0, str(Path(__file__).parent))
+
+try:
+    from complete_questions_data import LEETCODE_QUESTIONS, ML_QUESTIONS
+except ImportError:
+    print("❌ Error: Could not import complete_questions_data.py")
+    print("   Make sure complete_questions_data.py exists in the scripts/ directory")
+    sys.exit(1)
 
 # Find database path
 def get_db_path():
@@ -23,66 +34,6 @@ def get_db_path():
         db_path = home / '.config' / 'interview-prep-platform' / 'interview-prep.db'
     
     return str(db_path)
-
-# LeetCode Questions Data Structure
-LEETCODE_QUESTIONS = [
-    # EASY (8)
-    {
-        "title": "Two Sum",
-        "difficulty": "easy",
-        "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.",
-        "constraints": ["2 <= nums.length <= 10^4", "-10^9 <= nums[i] <= 10^9", "-10^9 <= target <= 10^9"],
-        "examples": [{"input": {"nums": [2,7,11,15], "target": 9}, "output": [0,1], "explanation": "nums[0] + nums[1] == 9"}],
-        "tags": ["array", "hash-table"],
-        "test_cases": [
-            {"input": [[2,7,11,15], 9], "expectedOutput": [0,1]},
-            {"input": [[3,2,4], 6], "expectedOutput": [1,2]},
-            {"input": [[3,3], 6], "expectedOutput": [0,1]}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        pass",
-        "java_sig": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};"
-    },
-    # Add more questions here...
-]
-
-ML_QUESTIONS = [
-    {
-        "title": "Design Netflix Recommendation System",
-        "difficulty": "medium",
-        "description": "Design a personalized movie/TV show recommendation system for Netflix with 200M+ subscribers.",
-        "scenario": "Netflix wants to improve user engagement by recommending personalized content. The system must handle real-time recommendations, cold start problems, and diverse content catalogs.",
-        "requirements": [
-            "Handle 200M+ active users",
-            "Real-time personalized recommendations",
-            "Handle cold start for new users",
-            "Support multiple recommendation strategies",
-            "A/B testing capability",
-            "Explainability for recommendations"
-        ],
-        "evaluation_criteria": {
-            "problem_understanding": "Clarified requirements and success metrics",
-            "data_pipeline": "Comprehensive feature engineering approach",
-            "model_design": "Appropriate model architecture for recommendations",
-            "scalability": "System handles scale efficiently",
-            "evaluation": "Clear offline and online metrics",
-            "cold_start": "Strategy for new users/items"
-        },
-        "key_components": [
-            "Data Collection & Features",
-            "Candidate Generation", 
-            "Ranking Model",
-            "Serving Infrastructure",
-            "Evaluation Metrics",
-            "A/B Testing",
-            "Cold Start Strategy"
-        ],
-        "tags": ["recommendation", "ranking", "distributed-systems", "collaborative-filtering"]
-    },
-    # Add more ML questions...
-]
 
 def add_leetcode_question(cursor, q, category_id=1):
     """Add a LeetCode question to the database"""
