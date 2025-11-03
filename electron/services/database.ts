@@ -57,8 +57,27 @@ export class DatabaseService {
   }
 
   deleteUser(userId: number) {
-    const stmt = this.db.prepare('DELETE FROM users WHERE id = ?');
-    const result = stmt.run(userId);
+    // Use transaction to ensure atomicity
+    const deleteTransaction = this.db.transaction((userId: number) => {
+      // The schema has ON DELETE CASCADE for most foreign keys, 
+      // but we'll explicitly delete from tables that reference users
+      // to ensure clean deletion
+      
+      // Delete from tables with foreign keys to users
+      this.db.prepare('DELETE FROM code_submissions WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM design_submissions WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM feedback WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM user_progress WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM user_preferences WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM mock_interviews WHERE user_id = ?').run(userId);
+      
+      // Finally delete the user
+      const stmt = this.db.prepare('DELETE FROM users WHERE id = ?');
+      const result = stmt.run(userId);
+      return result;
+    });
+    
+    const result = deleteTransaction(userId);
     return { success: result.changes > 0, deletedId: userId };
   }
 

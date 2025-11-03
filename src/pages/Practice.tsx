@@ -6,6 +6,8 @@ import QuestionList from '../components/QuestionList';
 import CodeEditor from '../components/CodeEditor';
 import TestRunner from '../components/TestRunner';
 import DiagramEditor from '../components/DiagramEditor';
+import { Toast } from '../components/Toast';
+import { useToast } from '../hooks/useToast';
 import { Play, Send, Sparkles, Loader2, ChevronLeft, FileText } from 'lucide-react';
 import type { Question, LeetCodeQuestion, MLDesignQuestion, TestCase, ExecutionResult, DiagramData } from '../types';
 
@@ -13,6 +15,7 @@ export default function Practice() {
   const { category = 'leetcode' } = useParams<{ category?: 'leetcode' | 'ml_system_design' }>();
   const navigate = useNavigate();
   const currentUser = useAppStore((state) => state.currentUser);
+  const { toasts, showToast, hideToast } = useToast();
   
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
 
@@ -141,12 +144,12 @@ export default function Practice() {
     if (!currentUser || !selectedQuestion || !mlDesignDetails) return;
 
     if (diagramData.nodes.length === 0) {
-      alert('Please create a system design diagram before submitting.');
+      showToast('Please create a system design diagram before submitting.', 'warning');
       return;
     }
 
     if (!explanation.trim()) {
-      alert('Please provide a written explanation of your design.');
+      showToast('Please provide a written explanation of your design.', 'warning');
       return;
     }
 
@@ -168,11 +171,11 @@ export default function Practice() {
         submissionType: 'design',
       });
 
-      alert('Design submitted successfully! Check the Progress page for feedback.');
+      showToast('Design submitted successfully! Check the Progress page for feedback.', 'success');
       navigate('/progress');
     } catch (error: any) {
       console.error('Failed to submit design:', error);
-      alert('Failed to submit design: ' + error.message);
+      showToast('Failed to submit design: ' + error.message, 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -224,17 +227,18 @@ export default function Practice() {
   }
 
   return (
-    <div className="h-screen flex overflow-hidden">
-      {/* Left sidebar - Question list */}
-      <div className="w-80 border-r border-gray-700 flex-shrink-0">
-        <QuestionList
-          category={category}
-          onSelectQuestion={setSelectedQuestion}
-          selectedQuestionId={selectedQuestion?.id}
-          userId={currentUser.id}
-          onCategoryChange={handleCategoryChange}
-        />
-      </div>
+    <>
+      <div className="h-screen flex overflow-hidden">
+        {/* Left sidebar - Question list */}
+        <div className="w-80 border-r border-gray-700 flex-shrink-0">
+          <QuestionList
+            category={category}
+            onSelectQuestion={setSelectedQuestion}
+            selectedQuestionId={selectedQuestion?.id}
+            userId={currentUser.id}
+            onCategoryChange={handleCategoryChange}
+          />
+        </div>
 
       {/* Main content */}
       {selectedQuestion ? (
@@ -538,6 +542,17 @@ export default function Practice() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+
+      {/* Toast notifications */}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          onClose={() => hideToast(toast.id)}
+        />
+      ))}
+    </>
   );
 }
