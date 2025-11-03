@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   createUser: (userData: any) => ipcRenderer.invoke('user:create', userData),
   loginUser: (username: string) => ipcRenderer.invoke('user:login', username),
   getAllUsers: () => ipcRenderer.invoke('user:getAll'),
+  deleteUser: (userId: number) => ipcRenderer.invoke('user:delete', userId),
   updateUserPreferences: (userId: number, preferences: any) =>
     ipcRenderer.invoke('user:updatePreferences', userId, preferences),
 
@@ -79,6 +80,7 @@ export interface ElectronAPI {
   createUser: (userData: any) => Promise<any>;
   loginUser: (username: string) => Promise<any>;
   getAllUsers: () => Promise<any[]>;
+  deleteUser: (userId: number) => Promise<{ success: boolean; deletedId: number }>;
   updateUserPreferences: (userId: number, preferences: any) => Promise<void>;
   getQuestions: (category?: string, difficulty?: string) => Promise<any[]>;
   getQuestionById: (questionId: number) => Promise<any>;

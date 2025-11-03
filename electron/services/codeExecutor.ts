@@ -104,7 +104,7 @@ export class CodeExecutorService {
     code: string,
     testCases: TestCase[]
   ): Promise<ExecutionResult> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       const testRunnerPath = path.join(this.pythonServicePath, 'test_runner.py');
 
       const inputData = JSON.stringify({

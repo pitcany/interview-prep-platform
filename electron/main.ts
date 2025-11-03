@@ -1,9 +1,13 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { config } from 'dotenv';
 import { DatabaseService } from './services/database';
 import { CodeExecutorService } from './services/codeExecutor';
 import { ClaudeAPIService } from './services/claudeAPI';
+
+// Load environment variables from .env file
+config();
 
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
@@ -100,6 +104,10 @@ ipcMain.handle('user:getAll', async () => {
   return await dbService.getAllUsers();
 });
 
+ipcMain.handle('user:delete', async (_, userId) => {
+  return await dbService.deleteUser(userId);
+});
+
 ipcMain.handle('user:updatePreferences', async (_, userId, preferences) => {
   return await dbService.updateUserPreferences(userId, preferences);
 });
@@ -123,7 +131,7 @@ ipcMain.handle('questions:getMLDesignDetails', async (_, questionId) => {
 
 // Code Execution
 ipcMain.handle('code:execute', async (_, executionData) => {
-  const { code, language, testCases, questionId } = executionData;
+  const { code, language, testCases } = executionData;
   return await codeExecutor.executeCode(code, language, testCases);
 });
 
@@ -194,9 +202,9 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
   const { userId, submissionId, submissionType, mockInterviewId } = feedbackData;
   
   // Get submission details
-  let submission;
-  let question;
-  
+  let submission: any;
+  let question: any;
+
   if (submissionType === 'code') {
     submission = await dbService.getCodeSubmission(submissionId);
     question = await dbService.getLeetCodeQuestionDetails(submission.questionId);

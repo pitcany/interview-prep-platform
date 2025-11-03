@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export class DatabaseService {
-  private db: Database.Database;
+  private db!: Database.Database;
   private dbPath: string;
 
   constructor(dbPath: string) {
@@ -54,6 +54,12 @@ export class DatabaseService {
 
   getAllUsers() {
     return this.db.prepare('SELECT * FROM users ORDER BY created_at DESC').all();
+  }
+
+  deleteUser(userId: number) {
+    const stmt = this.db.prepare('DELETE FROM users WHERE id = ?');
+    const result = stmt.run(userId);
+    return { success: result.changes > 0, deletedId: userId };
   }
 
   updateUserPreferences(userId: number, preferences: any) {
@@ -278,7 +284,7 @@ export class DatabaseService {
     `).get(userId);
 
     const byDifficulty = this.db.prepare(`
-      SELECT 
+      SELECT
         q.difficulty,
         COUNT(*) as attempts,
         SUM(CASE WHEN up.solved = 1 THEN 1 ELSE 0 END) as solved
@@ -288,7 +294,7 @@ export class DatabaseService {
       GROUP BY q.difficulty
     `).all(userId);
 
-    return { ...stats, byDifficulty };
+    return { ...(stats as object), byDifficulty };
   }
 
   getSubmissionHistory(userId: number, limit: number = 20) {

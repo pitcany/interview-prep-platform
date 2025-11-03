@@ -120,7 +120,6 @@ Be constructive, specific, and educational in your feedback.`;
   }
 
   private buildDesignFeedbackPrompt(submission: any, question: any): string {
-    const evaluationCriteria = JSON.parse(question.evaluation_criteria);
     const keyComponents = JSON.parse(question.key_components);
 
     return `You are an expert ML system design interviewer at Meta providing feedback on a senior-level ML system design question.
@@ -223,7 +222,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
     }
   }
 
-  private buildFeedbackText(parsed: any, submissionType: string): string {
+  private buildFeedbackText(parsed: any, _submissionType: string): string {
     let text = `## Summary\n${parsed.summary}\n\n`;
 
     // Scores
