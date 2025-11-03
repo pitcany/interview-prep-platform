@@ -7,25 +7,48 @@ Executes Python code safely with resource limits and timeout.
 import sys
 import json
 import traceback
-import resource
 import signal
+import threading
+import multiprocessing
+import queue
 from io import StringIO
 from contextlib import redirect_stdout, redirect_stderr
-from typing import Any, Dict, List
+from typing import Any, Dict
+
+try:
+    import resource
+except ImportError:  # pragma: no cover - not available on Windows
+    resource = None
+
+
+TIMEOUT_ERROR_MSG = "Code execution exceeded time limit"
 
 
 class TimeoutException(Exception):
     """Raised when code execution exceeds time limit."""
-    pass
 
 
 def timeout_handler(signum, frame):
     """Signal handler for execution timeout."""
-    raise TimeoutException("Code execution exceeded time limit")
+    raise TimeoutException(TIMEOUT_ERROR_MSG)
+
+
+SUPPORTS_SIGALRM = hasattr(signal, "SIGALRM")
+
+if SUPPORTS_SIGALRM:
+    signal.signal(signal.SIGALRM, timeout_handler)
 
 
 def set_resource_limits(max_memory_mb: int = 512):
     """Set resource limits for code execution."""
+    if resource is None:
+        warning = (
+            "Warning: Resource module not available; "
+            "skipping resource limits."
+        )
+        print(warning, file=sys.stderr)
+        return
+
     try:
         # Set memory limit (in bytes)
         max_memory = max_memory_mb * 1024 * 1024
@@ -37,27 +60,8 @@ def set_resource_limits(max_memory_mb: int = 512):
         print(f"Warning: Could not set resource limits: {e}", file=sys.stderr)
 
 
-def execute_code(code: str, test_input: Any, timeout_seconds: int = 10) -> Dict[str, Any]:
-    """
-    Execute Python code with a single test input.
-
-    Args:
-        code: Python code to execute
-        test_input: Input value to pass to the function
-        timeout_seconds: Maximum execution time in seconds
-
-    Returns:
-        Dict with execution results
-    """
-    # Set up timeout alarm
-    signal.signal(signal.SIGALRM, timeout_handler)
-    signal.alarm(timeout_seconds)
-
-    # Capture stdout and stderr
-    stdout_capture = StringIO()
-    stderr_capture = StringIO()
-
-    result = {
+def _initialize_result() -> Dict[str, Any]:
+    return {
         'success': False,
         'output': None,
         'stdout': '',
@@ -66,32 +70,51 @@ def execute_code(code: str, test_input: Any, timeout_seconds: int = 10) -> Dict[
         'error_type': None
     }
 
+
+def _timeout_result() -> Dict[str, Any]:
+    result = _initialize_result()
+    result['error'] = TIMEOUT_ERROR_MSG
+    result['error_type'] = 'timeout'
+    return result
+
+
+def _execution_error_result(message: str) -> Dict[str, Any]:
+    result = _initialize_result()
+    result['error'] = message
+    result['error_type'] = 'execution_error'
+    return result
+
+
+def _execute_user_code(code: str, test_input: Any) -> Dict[str, Any]:
+    stdout_capture = StringIO()
+    stderr_capture = StringIO()
+    result = _initialize_result()
+
     try:
-        # Create restricted execution environment
         exec_globals = {
             '__builtins__': __builtins__,
             'input_value': test_input
         }
 
-        # Redirect output streams
         with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
-            # Execute the code
             exec(code, exec_globals)
 
-            # Try to find and call the solution function
-            # Look for common function names
-            func_names = ['solution', 'solve', 'twoSum', 'threeSum', 'maxProfit',
-                         'findMedianSortedArrays', 'lengthOfLongestSubstring',
-                         'longestPalindrome', 'reverse', 'myAtoi', 'isMatch',
-                         'maxArea', 'intToRoman', 'romanToInt', 'longestCommonPrefix']
+            func_names = [
+                'solution', 'solve', 'twoSum', 'threeSum', 'maxProfit',
+                'findMedianSortedArrays', 'lengthOfLongestSubstring',
+                'longestPalindrome', 'reverse', 'myAtoi', 'isMatch',
+                'maxArea', 'intToRoman', 'romanToInt', 'longestCommonPrefix'
+            ]
 
             solution_func = None
             for func_name in func_names:
-                if func_name in exec_globals and callable(exec_globals[func_name]):
+                if (
+                    func_name in exec_globals
+                    and callable(exec_globals[func_name])
+                ):
                     solution_func = exec_globals[func_name]
                     break
 
-            # If no standard function found, look for any callable
             if solution_func is None:
                 for name, obj in exec_globals.items():
                     if callable(obj) and not name.startswith('_'):
@@ -101,7 +124,6 @@ def execute_code(code: str, test_input: Any, timeout_seconds: int = 10) -> Dict[
             if solution_func is None:
                 raise ValueError("No callable function found in code")
 
-            # Execute the function with test input
             if isinstance(test_input, dict):
                 output = solution_func(**test_input)
             elif isinstance(test_input, (list, tuple)):
@@ -116,7 +138,7 @@ def execute_code(code: str, test_input: Any, timeout_seconds: int = 10) -> Dict[
         result['error'] = str(e)
         result['error_type'] = 'timeout'
 
-    except MemoryError as e:
+    except MemoryError:
         result['error'] = "Memory limit exceeded"
         result['error_type'] = 'memory_error'
 
@@ -126,14 +148,89 @@ def execute_code(code: str, test_input: Any, timeout_seconds: int = 10) -> Dict[
         result['traceback'] = traceback.format_exc()
 
     finally:
-        # Cancel the alarm
-        signal.alarm(0)
-
-        # Capture output
         result['stdout'] = stdout_capture.getvalue()
         result['stderr'] = stderr_capture.getvalue()
 
     return result
+
+
+def _execution_worker(
+    code: str,
+    test_input: Any,
+    result_queue: multiprocessing.Queue,
+) -> None:
+    try:
+        result = _execute_user_code(code, test_input)
+    except Exception as exc:  # pragma: no cover - defensive programming
+        result = _execution_error_result(f"Executor worker failed: {exc}")
+        result['traceback'] = traceback.format_exc()
+    result_queue.put(result)
+
+
+def _execute_code_in_subprocess(
+    code: str,
+    test_input: Any,
+    timeout_seconds: int,
+) -> Dict[str, Any]:
+    result_queue: multiprocessing.Queue = multiprocessing.Queue()
+    process = multiprocessing.Process(
+        target=_execution_worker,
+        args=(code, test_input, result_queue),
+    )
+
+    try:
+        process.start()
+        process.join(timeout_seconds)
+
+        if process.is_alive():
+            process.terminate()
+            process.join()
+            result = _timeout_result()
+        else:
+            try:
+                result = result_queue.get_nowait()
+            except queue.Empty:
+                result = _execution_error_result(
+                    "No result returned from execution process."
+                )
+    finally:
+        result_queue.close()
+        result_queue.join_thread()
+
+    return result
+
+
+def _can_use_unix_alarm() -> bool:
+    return (
+        SUPPORTS_SIGALRM
+        and threading.current_thread() is threading.main_thread()
+    )
+
+
+def execute_code(
+    code: str,
+    test_input: Any,
+    timeout_seconds: int = 10,
+) -> Dict[str, Any]:
+    """
+    Execute Python code with a single test input.
+
+    Args:
+        code: Python code to execute
+        test_input: Input value to pass to the function
+        timeout_seconds: Maximum execution time in seconds
+
+    Returns:
+        Dict with execution results
+    """
+    if _can_use_unix_alarm():
+        signal.alarm(timeout_seconds)
+        try:
+            return _execute_user_code(code, test_input)
+        finally:
+            signal.alarm(0)
+
+    return _execute_code_in_subprocess(code, test_input, timeout_seconds)
 
 
 def main():
