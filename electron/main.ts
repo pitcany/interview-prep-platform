@@ -12,7 +12,7 @@ config();
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
 let codeExecutor: CodeExecutorService;
-let claudeAPI: ClaudeAPIService;
+let llmService: LocalLLMService;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -62,7 +62,10 @@ async function initializeServices() {
     codeExecutor = new CodeExecutorService();
     await codeExecutor.initialize();
 
-    claudeAPI = new ClaudeAPIService(process.env.CLAUDE_API_KEY || '');
+    llmService = new LocalLLMService(
+      process.env.LLM_BASE_URL || 'http://localhost:8000',
+      process.env.LLM_MODEL || 'gpt-oss-20b'
+    );
 
     console.log('All services initialized successfully');
   } catch (error) {
@@ -213,8 +216,8 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
     question = await dbService.getMLDesignQuestionDetails(submission.questionId);
   }
 
-  // Generate feedback using Claude API
-  const feedback = await claudeAPI.generateFeedback(submission, question, submissionType);
+  // Generate feedback using Local LLM
+  const feedback = await llmService.generateFeedback(submission, question, submissionType);
 
   // Save feedback
   const savedFeedback = await dbService.createFeedback({
