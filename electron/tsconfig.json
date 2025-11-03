@@ -23,7 +23,8 @@
     "types": ["node"],
     "sourceMap": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "composite": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "../node_modules", "../dist"]

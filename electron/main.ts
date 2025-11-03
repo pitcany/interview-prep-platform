@@ -1,9 +1,13 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { config } from 'dotenv';
 import { DatabaseService } from './services/database';
 import { CodeExecutorService } from './services/codeExecutor';
-import { LocalLLMService } from './services/localLLM';
+import { ClaudeAPIService } from './services/claudeAPI';
+
+// Load environment variables from .env file
+config();
 
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
@@ -103,6 +107,10 @@ ipcMain.handle('user:getAll', async () => {
   return await dbService.getAllUsers();
 });
 
+ipcMain.handle('user:delete', async (_, userId) => {
+  return await dbService.deleteUser(userId);
+});
+
 ipcMain.handle('user:updatePreferences', async (_, userId, preferences) => {
   return await dbService.updateUserPreferences(userId, preferences);
 });
@@ -198,7 +206,7 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
   
   // Get submission details
   let submission: any;
-  let question;
+  let question: any;
 
   if (submissionType === 'code') {
     submission = await dbService.getCodeSubmission(submissionId);

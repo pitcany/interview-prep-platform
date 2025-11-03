@@ -39,6 +39,10 @@ class APIService {
     return await this.api.getAllUsers();
   }
 
+  async deleteUser(userId: number): Promise<{ success: boolean; deletedId: number }> {
+    return await this.api.deleteUser(userId);
+  }
+
   async updateUserPreferences(
     userId: number,
     preferences: UserPreferences

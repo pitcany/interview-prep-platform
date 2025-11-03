@@ -222,7 +222,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
     }
   }
 
-  private buildFeedbackText(parsed: any): string {
+  private buildFeedbackText(parsed: any, _submissionType: string): string {
     let text = `## Summary\n${parsed.summary}\n\n`;
 
     // Scores

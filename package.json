@@ -32,6 +32,7 @@
     "better-sqlite3": "^9.2.2",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
+    "dotenv": "^17.2.3",
     "html-to-image": "^1.11.11",
     "lucide-react": "^0.294.0",
     "node-fetch": "^2.7.0",
