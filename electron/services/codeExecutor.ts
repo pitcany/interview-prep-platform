@@ -30,10 +30,14 @@ export class CodeExecutorService {
   private pythonServicePath: string;
   private maxExecutionTime: number = 10000; // 10 seconds
   private maxMemory: number = 512; // 512 MB
+  private usePythonService: boolean = false;
 
   constructor() {
     this.tempDir = path.join(os.tmpdir(), 'interview-prep-exec');
     this.pythonServicePath = path.join(__dirname, '../../python-service');
+
+    // Use Python service if SANDBOX_MODE is 'local', otherwise use Docker
+    this.usePythonService = process.env.SANDBOX_MODE === 'local';
   }
 
   async initialize() {
@@ -43,11 +47,15 @@ export class CodeExecutorService {
     }
 
     // Check if Python service is available
-    if (!fs.existsSync(this.pythonServicePath)) {
+    const testRunnerPath = path.join(this.pythonServicePath, 'test_runner.py');
+    if (this.usePythonService && !fs.existsSync(testRunnerPath)) {
       console.warn('Python service not found at:', this.pythonServicePath);
+      console.warn('Falling back to Docker execution');
+      this.usePythonService = false;
     }
 
     console.log('Code executor initialized');
+    console.log('Execution mode:', this.usePythonService ? 'Python Service (local)' : 'Docker');
   }
 
   async executeCode(
@@ -55,6 +63,12 @@ export class CodeExecutorService {
     language: string,
     testCases: TestCase[]
   ): Promise<ExecutionResult> {
+    // Use Python service for local execution (faster, supports only Python)
+    if (this.usePythonService && language === 'python') {
+      return this.executeWithPythonService(code, testCases);
+    }
+
+    // Use Docker for all other cases
     const startTime = Date.now();
     const testResults: TestResult[] = [];
 
@@ -84,6 +98,86 @@ export class CodeExecutorService {
         errorMessage: error.message,
       };
     }
+  }
+
+  private async executeWithPythonService(
+    code: string,
+    testCases: TestCase[]
+  ): Promise<ExecutionResult> {
+    return new Promise((resolve, reject) => {
+      const testRunnerPath = path.join(this.pythonServicePath, 'test_runner.py');
+
+      const inputData = JSON.stringify({
+        code,
+        testCases,
+        language: 'python',
+        timeout: this.maxExecutionTime / 1000, // Convert to seconds
+        maxMemory: this.maxMemory,
+      });
+
+      const pythonProcess = spawn('python3', [testRunnerPath, inputData]);
+
+      let stdout = '';
+      let stderr = '';
+
+      const timeout = setTimeout(() => {
+        pythonProcess.kill();
+        resolve({
+          status: 'timeout',
+          testResults: [],
+          executionTime: this.maxExecutionTime,
+          memoryUsed: 0,
+          errorMessage: 'Code execution timed out',
+        });
+      }, this.maxExecutionTime + 2000); // Extra buffer
+
+      pythonProcess.stdout.on('data', (data) => {
+        stdout += data.toString();
+      });
+
+      pythonProcess.stderr.on('data', (data) => {
+        stderr += data.toString();
+      });
+
+      pythonProcess.on('close', (code) => {
+        clearTimeout(timeout);
+
+        if (code !== 0 && !stdout) {
+          resolve({
+            status: 'error',
+            testResults: [],
+            executionTime: 0,
+            memoryUsed: 0,
+            errorMessage: stderr || `Process exited with code ${code}`,
+          });
+          return;
+        }
+
+        try {
+          const result = JSON.parse(stdout);
+          resolve(result);
+        } catch (error) {
+          resolve({
+            status: 'error',
+            testResults: [],
+            executionTime: 0,
+            memoryUsed: 0,
+            errorMessage: `Failed to parse output: ${stdout}`,
+          });
+        }
+      });
+
+      pythonProcess.on('error', (error) => {
+        clearTimeout(timeout);
+        resolve({
+          status: 'error',
+          testResults: [],
+          executionTime: 0,
+          memoryUsed: 0,
+          errorMessage: error.message,
+        });
+      });
+    });
   }
 
   private async executeTestCase(
