@@ -1199,460 +1199,519 @@ Merge all the linked-lists into one sorted linked-list and return it.""",
 ]
 
 # 10 ML System Design Questions
+# Meta/Atlassian Senior ML Engineer - ML System Design Questions
+# Replace the ML_QUESTIONS section in questions_data_full.py with this
+
 ML_QUESTIONS = [
     {
-        "title": "Design Netflix Movie Recommendation System",
-        "difficulty": "medium",
-        "description": "Design a personalized movie/TV show recommendation system for Netflix with 200M+ subscribers. The system should provide real-time, personalized content recommendations while handling cold start problems for new users and content.",
-        "scenario": """Netflix wants to improve user engagement and content discovery by building a sophisticated recommendation system. The platform has:
-- 200M+ active subscribers globally
-- 10,000+ movies and TV shows
-- User interactions: watch history, ratings, search queries, browsing behavior
-- Content metadata: genre, cast, director, release year, language
-- Real-time viewing patterns and completion rates
-
-The system must balance personalization with content diversity, handle the cold start problem for new users/content, and provide explainable recommendations.""",
-        "requirements": [
-            "Handle 200M+ active users with real-time recommendations",
-            "Provide personalized recommendations based on viewing history and preferences",
-            "Handle cold start problem for new users and new content",
-            "Support multiple recommendation strategies (collaborative filtering, content-based, hybrid)",
-            "Implement A/B testing framework for new recommendation algorithms",
-            "Provide explainability for recommendations",
-            "Scale to handle peak traffic during new content releases",
-            "Optimize for user engagement metrics (watch time, completion rate)"
-        ],
-        "evaluation_criteria": {
-            "problem_understanding": "Clarified requirements, success metrics, and constraints",
-            "data_pipeline": "Comprehensive feature engineering and data processing approach",
-            "model_design": "Appropriate model architecture for recommendations (collaborative filtering, neural networks, etc.)",
-            "scalability": "System handles 200M users efficiently with low latency",
-            "evaluation_metrics": "Clear offline (RMSE, precision@k) and online (CTR, watch time) metrics",
-            "cold_start_strategy": "Effective approach for new users/items",
-            "explainability": "Method to explain why content was recommended"
-        },
-        "key_components": [
-            "Data Collection & Feature Engineering",
-            "Candidate Generation (retrieve top-k items)",
-            "Ranking Model (score and rank candidates)",
-            "Serving Infrastructure (low-latency API)",
-            "Offline & Online Evaluation Metrics",
-            "A/B Testing Framework",
-            "Cold Start Strategy",
-            "Explainability Module"
-        ],
-        "tags": ["recommendation", "ranking", "collaborative-filtering", "cold-start", "scalability"]
-    },
-    {
-        "title": "Design YouTube Video Recommendation Engine",
-        "difficulty": "medium",
-        "description": "Design a recommendation system for YouTube that suggests relevant videos to users based on their viewing history, preferences, and real-time context.",
-        "scenario": """YouTube serves 2B+ users who watch billions of videos daily. The recommendation system must:
-- Handle massive scale (billions of videos, billions of users)
-- Provide real-time recommendations considering current session context
-- Balance between relevance, freshness, and diversity
-- Handle different user contexts (logged-in vs anonymous, mobile vs desktop)
-- Optimize for multiple objectives (watch time, user satisfaction, ad revenue)
-
-The system receives signals from watch history, likes/dislikes, subscriptions, search queries, and contextual information (time of day, device type).""",
-        "requirements": [
-            "Scale to 2B+ users and billions of videos",
-            "Real-time recommendations with <100ms latency",
-            "Multi-objective optimization (watch time, satisfaction, diversity)",
-            "Handle cold start for new videos and users",
-            "Consider contextual signals (time, device, location)",
-            "Balance freshness vs relevance",
-            "Support different recommendation surfaces (homepage, watch next, search)",
-            "Implement feedback loops to improve over time"
-        ],
-        "evaluation_criteria": {
-            "scale_handling": "Architecture handles billions of users and videos",
-            "model_architecture": "Two-stage approach (candidate generation + ranking)",
-            "feature_engineering": "Rich features from user behavior and video metadata",
-            "real_time_processing": "Low-latency serving infrastructure",
-            "multi_objective": "Balances multiple business objectives",
-            "freshness": "Strategy to promote new/trending content",
-            "evaluation": "Comprehensive offline and online metrics"
-        },
-        "key_components": [
-            "User & Video Feature Engineering",
-            "Candidate Generation (Deep Neural Networks)",
-            "Ranking Model (Gradient Boosted Trees or DNN)",
-            "Real-time Serving Infrastructure",
-            "Context Understanding (time, device, session)",
-            "Freshness & Diversity Injection",
-            "Multi-objective Optimization",
-            "A/B Testing & Monitoring"
-        ],
-        "tags": ["recommendation", "deep-learning", "real-time", "scalability", "multi-objective"]
-    },
-    {
-        "title": "Design E-commerce Product Recommendation System",
-        "difficulty": "medium",
-        "description": "Design a product recommendation system for an e-commerce platform like Amazon that personalizes product suggestions across various touchpoints.",
-        "scenario": """An e-commerce platform with 100M+ products and 500M+ users needs a recommendation system for:
-- Homepage personalized recommendations
-- Product detail page (frequently bought together, similar items)
-- Shopping cart recommendations
-- Email campaigns
-- Search result ranking
-
-The system must handle diverse product catalog, seasonal trends, inventory constraints, and optimize for conversion rate and revenue.""",
-        "requirements": [
-            "Handle 100M+ products and 500M+ users",
-            "Multiple recommendation types (similar items, complementary products, personalized)",
-            "Real-time recommendations based on current session",
-            "Consider inventory levels and business rules",
-            "Optimize for conversion rate and revenue",
-            "Handle seasonal trends and promotional events",
-            "Support different channels (web, mobile, email)",
-            "Cold start for new products and users"
-        ],
-        "evaluation_criteria": {
-            "business_understanding": "Optimization for revenue and conversion",
-            "recommendation_types": "Multiple recommendation strategies",
-            "real_time_capability": "Session-based recommendations",
-            "inventory_awareness": "Integration with inventory system",
-            "personalization": "User-specific recommendations",
-            "scalability": "Handles large product catalog efficiently",
-            "evaluation_metrics": "CTR, conversion rate, revenue per user"
-        },
-        "key_components": [
-            "User Behavior Tracking",
-            "Product Catalog Feature Engineering",
-            "Session-based Recommendations",
-            "Collaborative Filtering Models",
-            "Content-based Filtering",
-            "Business Rules Engine (inventory, promotions)",
-            "Multi-arm Bandit for Exploration",
-            "Real-time Serving Layer",
-            "A/B Testing & Revenue Attribution"
-        ],
-        "tags": ["recommendation", "e-commerce", "personalization", "real-time", "conversion-optimization"]
-    },
-    {
-        "title": "Design Google Search Ranking System",
+        "title": "Design Facebook News Feed Ranking System",
         "difficulty": "hard",
-        "description": "Design the machine learning system behind Google Search that ranks web pages for a given search query.",
-        "scenario": """Google Search processes billions of queries daily and must rank billions of web pages. The system needs to:
-- Understand user intent from short queries
-- Rank pages based on relevance, authority, freshness, and user experience
-- Handle different query types (informational, navigational, transactional)
-- Provide personalized results based on user context
-- Combat spam and low-quality content
-- Serve results with <200ms latency
+        "description": "Design the ML ranking system for Facebook's News Feed that serves 3B+ users, deciding which posts to show and in what order to maximize meaningful user engagement.",
+        "scenario": """Facebook's News Feed is the core product serving 3B+ users daily. The ML system must:
+- Rank posts from friends, pages, groups, and ads
+- Process millions of candidate posts per user
+- Predict multiple engagement types (likes, comments, shares, time spent, hide/report)
+- Optimize for "meaningful social interactions" not just clicks
+- Handle diverse content types (text, photo, video, link, live)
+- Serve feeds in <500ms while making complex ML predictions
+- Combat engagement bait, clickbait, and misinformation
+- Balance organic content with ads (revenue optimization)
 
-The system uses signals from page content, link structure, user behavior, and contextual factors.""",
+The system processes billions of posts daily, makes trillions of predictions, and directly impacts Meta's $100B+ revenue.""",
         "requirements": [
-            "Process billions of queries with <200ms latency",
-            "Rank billions of web pages for relevance",
-            "Understand query intent and context",
-            "Personalization based on user history and location",
-            "Quality signals to combat spam",
-            "Handle different query types and domains",
-            "Real-time indexing of new content",
-            "Multi-language and multi-region support"
+            "Rank feeds for 3B+ users in real-time (<500ms latency)",
+            "Multi-task prediction: likes, comments, shares, time spent, hide",
+            "Multi-objective optimization (engagement + quality + revenue)",
+            "Handle multiple content types with different engagement patterns",
+            "Lightweight models for edge devices (mobile)",
+            "Feature freshness (recent interactions matter)",
+            "Virality modeling (predict shares/spread)",
+            "Counter-abuse: clickbait, engagement bait, misinformation",
+            "Personalization at scale with privacy constraints",
+            "Seamless A/B testing infrastructure"
         ],
         "evaluation_criteria": {
-            "query_understanding": "NLP techniques for intent classification",
-            "ranking_model": "Learning-to-rank approach with hundreds of features",
-            "scalability": "Distributed architecture for billions of pages",
-            "latency": "Sub-200ms response time",
-            "relevance_signals": "Page content, links, user behavior signals",
-            "quality_filtering": "Spam detection and quality assessment",
-            "personalization": "Context-aware ranking adjustments",
-            "evaluation": "NDCG, MRR, and online metrics (CTR, long clicks)"
+            "architecture": "Two-stage: candidate generation + heavy ranking",
+            "model_design": "Multi-task learning for different engagement types",
+            "feature_engineering": "User features, post features, social graph, temporal",
+            "training_pipeline": "Distributed training, online learning",
+            "serving_infra": "Low-latency prediction serving at scale",
+            "multi_objective": "Balancing engagement, quality, revenue, user satisfaction",
+            "counter_abuse": "Strategies to detect and demote low-quality content",
+            "evaluation": "Online metrics (time spent, DAU), offline metrics (AUC, calibration)"
         },
         "key_components": [
-            "Query Understanding (NLP, Intent Classification)",
-            "Document Indexing & Retrieval",
-            "Feature Engineering (500+ ranking signals)",
-            "Learning-to-Rank Model (GBDT or Neural)",
-            "Quality & Spam Detection",
+            "Candidate Generation (filter from millions to thousands)",
+            "Heavy Ranker (GBDT or Deep Neural Network)",
+            "Multi-task Head (predict likes, comments, shares, time, hide)",
+            "Post-ranking Filters (diversity, freshness, ads insertion)",
+            "Real-time Feature Store",
+            "Online Learning Pipeline",
+            "Counter-abuse Models (clickbait, misinformation)",
+            "A/B Testing Platform",
+            "Metrics Dashboard (time spent, meaningful interactions)"
+        ],
+        "tags": ["ranking", "multi-task-learning", "news-feed", "meta", "scale", "personalization"]
+    },
+    {
+        "title": "Design Instagram Reels Recommendation System",
+        "difficulty": "hard",
+        "description": "Design the ML system powering Instagram Reels recommendations - a TikTok competitor serving short-form video to 2B+ users with multi-modal understanding.",
+        "scenario": """Instagram Reels competes with TikTok by recommending engaging short-form videos. The system must:
+- Understand video content (visual, audio, text, music)
+- Cold start: recommend videos to new users and new videos to users
+- Optimize for watch time and completion rate
+- Handle the \"creator economy\" (help creators grow)
+- Prevent filter bubbles while maximizing engagement
+- Support audio trends (viral sounds)
+- Real-time: new videos should surface quickly
+- Multi-modal: video, audio, captions, hashtags, music
+
+Key challenge: Unlike Feed (friends/following), Reels is discovery-based like TikTok.""",
+        "requirements": [
+            "Multi-modal understanding (video, audio, text, music)",
+            "Real-time recommendations (<100ms)",
+            "Cold start for new users and new content",
+            "Optimize for watch time and completion rate",
+            "Surface trending content quickly (viral detection)",
+            "Creator growth (help small creators get discovered)",
+            "Audio-based features (trending sounds)",
+            "Prevent filter bubbles (content diversity)",
+            "Handle billions of videos",
+            "Mobile-first (lightweight models)"
+        ],
+        "evaluation_criteria": {
+            "multi_modal": "How video, audio, text signals are combined",
+            "cold_start": "Strategy for new users and new content",
+            "viral_detection": "Identifying trending content early",
+            "model_architecture": "Two-tower, transformers, or hybrid approach",
+            "feature_engineering": "Video embeddings, audio features, engagement signals",
+            "training": "Handling data skew (power law distribution)",
+            "serving": "Low-latency multi-modal inference",
+            "metrics": "Watch time, completion rate, user retention"
+        },
+        "key_components": [
+            "Video Understanding (frame-level embeddings)",
+            "Audio Understanding (music/sound embeddings)",
+            "Text Understanding (captions, hashtags)",
+            "Two-Tower Model (user tower + video tower)",
+            "Candidate Retrieval (ANN search)",
+            "Ranking Model (watch time prediction)",
+            "Trending Detection System",
+            "Creator Recommendation Engine",
+            "Real-time Feature Pipeline",
+            "A/B Testing for Reels"
+        ],
+        "tags": ["recommendation", "multi-modal", "video", "meta", "instagram", "reels", "cold-start"]
+    },
+    {
+        "title": "Design Real-time Ad Targeting & Ranking System",
+        "difficulty": "hard",
+        "description": "Design Meta's ad targeting and ranking system that serves personalized ads to 3B+ users, generating $100B+ annual revenue while balancing user experience.",
+        "scenario": """Meta's ad system is critical infrastructure generating $100B+ revenue. The ML system must:
+- Target: Find right users for each ad campaign (audience selection)
+- Rank: Order ads by expected value (bid × pCTR × pConversion)
+- Auction: Run real-time ad auction for each impression
+- Budget: Manage advertiser budgets and pacing
+- Quality: Maintain user experience (not too many ads)
+- Privacy: Work with limited data (iOS privacy, GDPR)
+- Scale: Billions of users, millions of advertisers, trillions of impressions
+
+Revenue equation: eCPM = bid × pCTR × pConversion
+Goal: Maximize revenue while maintaining user satisfaction.""",
+        "requirements": [
+            "Real-time ad auction (<50ms per impression)",
+            "Predict CTR (click-through rate)",
+            "Predict conversion probability",
+            "Budget pacing (spend advertiser budgets evenly)",
+            "Audience targeting (find right users for ads)",
+            "Frequency capping (don't show same ad too much)",
+            "Ad quality scoring (prevent low-quality ads)",
+            "Privacy-preserving (limited tracking)",
+            "Handle billions of users, millions of advertisers",
+            "Revenue optimization vs user experience"
+        ],
+        "evaluation_criteria": {
+            "auction_mechanism": "Second-price auction, VCG, or generalized second price",
+            "pCTR_model": "Model for click prediction",
+            "pConversion_model": "Model for conversion prediction",
+            "targeting": "How to match ads to users",
+            "budget_pacing": "Algorithm to spend budgets over time",
+            "calibration": "Are predicted probabilities accurate?",
+            "privacy": "How to work with limited data",
+            "revenue_metrics": "eCPM, revenue lift, advertiser ROI"
+        },
+        "key_components": [
+            "Ad Retrieval (find candidate ads)",
+            "CTR Prediction Model",
+            "Conversion Prediction Model",
+            "Ad Auction System",
+            "Budget Pacing Algorithm",
+            "Frequency Capping",
+            "Ad Quality Classifier",
+            "Targeting Engine (lookalike audiences)",
+            "Attribution System (track conversions)",
+            "Real-time Bidding Infrastructure"
+        ],
+        "tags": ["ads", "ranking", "auction", "revenue", "meta", "ctr-prediction", "conversion"]
+    },
+    {
+        "title": "Design AI Content Moderation System for Meta",
+        "difficulty": "hard",
+        "description": "Design Meta's content moderation system that detects and removes harmful content (hate speech, violence, spam, misinformation) across Facebook, Instagram, WhatsApp at scale.",
+        "scenario": """Meta's content moderation is critical for platform safety. The system must:
+- Detect multiple violation types: hate speech, violence, nudity, spam, misinformation, bullying
+- Multi-modal: text, images, videos, audio
+- Real-time: flag content within seconds
+- Multi-language: 100+ languages
+- Precision is critical: false positives remove legitimate content
+- Recall is critical: false negatives allow harmful content
+- Human review: queue borderline content for human moderators
+- Adversarial: bad actors constantly try to evade detection
+- Scale: billions of posts/day
+
+This is a high-stakes system with regulatory, legal, and ethical implications.""",
+        "requirements": [
+            "Multi-modal detection (text, image, video, audio)",
+            "Real-time inference (<1s for text, <10s for video)",
+            "Multi-class: hate speech, violence, nudity, spam, etc.",
+            "Multi-language support (100+ languages)",
+            "High precision (>95%) to avoid removing legitimate content",
+            "High recall (>98%) for severe violations",
+            "Human-in-the-loop for borderline cases",
+            "Explainability for appeals",
+            "Adversarial robustness",
+            "Regional policy differences"
+        ],
+        "evaluation_criteria": {
+            "model_architecture": "Multi-modal models (CLIP, ViT, transformers)",
+            "data_pipeline": "How to get labeled data (human labeling, active learning)",
+            "precision_recall": "Strategy to balance false positives vs false negatives",
+            "adversarial": "Handling adversarial attacks (typos, obfuscation)",
+            "human_loop": "Queue design, reviewer workflow",
+            "explainability": "SHAP, attention, or rule-based explanations",
+            "scaling": "Distributed inference for billions of items",
+            "metrics": "Precision, recall, proactive rate, human review queue size"
+        },
+        "key_components": [
+            "Text Classification (hate speech, spam)",
+            "Image Classification (nudity, violence)",
+            "Video Understanding (frame + audio analysis)",
+            "Multi-modal Fusion",
+            "Human Review Queue",
+            "Active Learning Pipeline",
+            "Adversarial Detection",
+            "Explanation Generator",
+            "Appeal System",
+            "Policy Engine (region-specific rules)"
+        ],
+        "tags": ["content-moderation", "classification", "multi-modal", "safety", "meta", "nlp", "computer-vision"]
+    },
+    {
+        "title": "Design Spam Detection System for Messaging",
+        "difficulty": "medium",
+        "description": "Design a real-time spam detection system for Meta Messenger/WhatsApp that identifies and blocks spam, scams, and phishing at scale while preserving user privacy.",
+        "scenario": """Meta's messaging platforms (Messenger, WhatsApp, Instagram DMs) need spam detection:
+- Billions of messages daily
+- Real-time detection (<100ms)
+- Privacy: End-to-end encrypted (WhatsApp)
+- Multi-type: spam, scams, phishing, malware links
+- Low false positive rate (legitimate messages blocked)
+- Handle adversarial attackers (constantly evolving tactics)
+- Multi-language support
+- On-device ML (for encrypted messages)
+
+Challenge: Balance spam detection with privacy (can't read WhatsApp messages).""",
+        "requirements": [
+            "Real-time detection (<100ms per message)",
+            "Privacy-preserving (work with encrypted messages)",
+            "Multi-type: spam, scams, phishing, malware",
+            "Low false positive rate (<0.1%)",
+            "High recall for dangerous scams (>95%)",
+            "On-device models (for WhatsApp)",
+            "Handle text, images, links, files",
+            "Adversarial robustness",
+            "Multi-language support",
+            "Scale to billions of messages/day"
+        ],
+        "evaluation_criteria": {
+            "privacy": "How to detect spam without reading content",
+            "on_device": "Lightweight models for mobile devices",
+            "features": "Metadata vs content features",
+            "adversarial": "Handling typos, obfuscation, zero-day attacks",
+            "false_positives": "Strategy to minimize blocking legitimate messages",
+            "link_scanning": "Detecting malicious URLs",
+            "user_reports": "Incorporating user feedback",
+            "metrics": "Precision, recall, proactive detection rate"
+        },
+        "key_components": [
+            "Message Classifier (spam vs ham)",
+            "URL Scanner (malware/phishing detection)",
+            "Image OCR + Classification",
+            "Behavioral Signals (message patterns)",
+            "On-device Model (for WhatsApp)",
+            "Server-side Model (for Messenger)",
+            "User Report System",
+            "Challenge Flows (CAPTCHA for suspected spam)",
+            "Adversarial Detection",
+            "Feedback Loop"
+        ],
+        "tags": ["spam-detection", "classification", "privacy", "meta", "messaging", "adversarial"]
+    },
+    {
+        "title": "Design A/B Testing Platform for ML Experiments",
+        "difficulty": "medium",
+        "description": "Design Meta/Atlassian's ML experimentation platform that enables safe, fast, statistically rigorous A/B testing of ML models in production.",
+        "scenario": """Large tech companies run thousands of A/B tests. The platform must:
+- Enable data scientists to run ML experiments easily
+- Random assignment (users to treatment/control)
+- Metric computation (online + offline metrics)
+- Statistical testing (p-values, confidence intervals)
+- Heterogeneous treatment effects (does it work for all users?)
+- Interference handling (network effects, spillover)
+- Multi-armed bandits (explore/exploit)
+- Staged rollouts (1% → 10% → 100%)
+- Automated monitoring (metric guardrails)
+
+Meta runs 1000s of experiments concurrently. Atlassian tests product changes.""",
+        "requirements": [
+            "Support 1000s of concurrent experiments",
+            "Random assignment with stratification",
+            "Real-time metric computation",
+            "Statistical testing (t-test, bootstrap)",
+            "Heterogeneous treatment effects",
+            "Network effect handling",
+            "Multi-armed bandits",
+            "Automated rollout (gradual)",
+            "Metric guardrails (auto-disable bad experiments)",
+            "Experiment analysis dashboard"
+        ],
+        "evaluation_criteria": {
+            "randomization": "Proper random assignment, avoiding bias",
+            "metrics": "How to compute online and offline metrics",
+            "statistics": "Statistical rigor, multiple testing correction",
+            "interference": "Handling network effects, spillover",
+            "bandits": "Explore/exploit strategies",
+            "infrastructure": "Scalable, low-latency",
+            "usability": "Easy for data scientists to use",
+            "safety": "Guardrails to prevent bad launches"
+        },
+        "key_components": [
+            "Randomization Service",
+            "Experiment Configuration System",
+            "Metric Computation Pipeline",
+            "Statistical Testing Engine",
+            "Bandit Algorithm",
+            "Staged Rollout Controller",
+            "Metric Guardrails",
+            "Experiment Dashboard",
+            "Heterogeneous Treatment Effect Analysis",
+            "Interference Detection"
+        ],
+        "tags": ["ab-testing", "experimentation", "infrastructure", "statistics", "meta", "atlassian"]
+    },
+    {
+        "title": "Design Search Ranking for Atlassian Products",
+        "difficulty": "medium",
+        "description": "Design an ML-powered search system for Atlassian products (Jira, Confluence) that helps users find relevant issues, pages, and projects using natural language queries.",
+        "scenario": """Atlassian's products (Jira, Confluence) have extensive search needs:
+- Jira: Search issues, projects, filters, boards
+- Confluence: Search pages, spaces, attachments, comments
+- Cross-product search: Find related items across products
+- Natural language: Understand user intent (\"bugs from last sprint about login\")
+- Personalization: Rank based on user's role, projects, history
+- Structured data (Jira fields) + unstructured data (Confluence pages)
+- Enterprise scale: 100K+ issues, 50K+ pages per workspace
+- Permission-aware (only show what user can access)
+
+Key: Work with limited data (Atlassian is B2B, not consumer scale like Google).""",
+        "requirements": [
+            "Natural language query understanding",
+            "Multi-source search (Jira, Confluence, comments, attachments)",
+            "Semantic search (beyond keyword matching)",
+            "Personalized ranking",
+            "Permission-aware results",
+            "Sub-second latency",
+            "Handle structured + unstructured data",
+            "Cross-product search",
+            "Auto-complete and suggestions",
+            "Work with limited data (B2B, not web-scale)"
+        ],
+        "evaluation_criteria": {
+            "query_understanding": "NLP for intent extraction, entity recognition",
+            "semantic_search": "Embeddings for semantic similarity",
+            "ranking": "Learning-to-rank with personalization",
+            "indexing": "Efficient indexing for mixed data types",
+            "permissions": "Secure, fast permission filtering",
+            "personalization": "User context, project access, search history",
+            "limited_data": "How to work with limited training data",
+            "metrics": "Search success rate, CTR, time to find"
+        },
+        "key_components": [
+            "Query Parser (NLP, intent classification)",
+            "Document Indexing (Elasticsearch)",
+            "Semantic Embedding Models (sentence transformers)",
+            "Hybrid Search (keyword + semantic)",
+            "Ranking Model (LambdaMART or neural ranker)",
+            "Permission Filter",
             "Personalization Layer",
-            "Distributed Serving Infrastructure",
-            "Online Learning & Feedback Loops",
-            "A/B Testing Framework"
+            "Auto-complete Service",
+            "Cross-product Aggregator",
+            "Click-through Rate Tracker"
         ],
-        "tags": ["search", "ranking", "nlp", "learning-to-rank", "scalability"]
+        "tags": ["search", "ranking", "nlp", "semantic-search", "atlassian", "enterprise", "jira", "confluence"]
     },
     {
-        "title": "Design E-commerce Search with ML",
-        "difficulty": "medium",
-        "description": "Design a machine learning-powered search system for an e-commerce platform that understands product queries and returns relevant results.",
-        "scenario": """An e-commerce platform needs an intelligent search system that:
-- Handles natural language queries ('red dress for wedding')
-- Understands product attributes and variants
-- Ranks products based on relevance, popularity, and personalization
-- Handles misspellings and synonyms
-- Optimizes for conversion (not just clicks)
-- Provides faceted search and filters
-
-The system processes millions of queries daily across a catalog of 10M+ products.""",
-        "requirements": [
-            "Handle 10M+ products and millions of daily queries",
-            "Natural language understanding for product queries",
-            "Semantic search (understand intent beyond keywords)",
-            "Ranking based on relevance, popularity, conversion probability",
-            "Handle query variations (misspellings, synonyms)",
-            "Personalization based on user history",
-            "Real-time inventory awareness",
-            "Faceted search and filtering",
-            "Optimize for conversion and revenue"
-        ],
-        "evaluation_criteria": {
-            "query_understanding": "NLP for query parsing and entity extraction",
-            "semantic_search": "Embedding-based retrieval",
-            "ranking_model": "Multi-factor ranking (relevance + business metrics)",
-            "personalization": "User context integration",
-            "query_handling": "Spell correction, synonym expansion",
-            "business_optimization": "Conversion-focused ranking",
-            "evaluation_metrics": "Search success rate, CTR, conversion rate"
-        },
-        "key_components": [
-            "Query Understanding & Parsing",
-            "Product Indexing (Elasticsearch/Solr)",
-            "Semantic Embedding Models",
-            "Ranking Model (Relevance + Business Signals)",
-            "Personalization Engine",
-            "Query Rewriting (spell check, synonyms)",
-            "Faceted Search & Filtering",
-            "A/B Testing for Ranking Changes",
-            "Conversion Tracking & Attribution"
-        ],
-        "tags": ["search", "nlp", "e-commerce", "ranking", "semantic-search"]
-    },
-    {
-        "title": "Design News Feed Ranking (Facebook/Instagram)",
-        "difficulty": "medium",
-        "description": "Design the machine learning system that ranks posts in social media news feeds to maximize user engagement.",
-        "scenario": """A social media platform with 2B+ users needs to rank posts in personalized news feeds. The system must:
-- Rank posts from friends, pages, and groups
-- Predict user engagement (likes, comments, shares, watch time)
-- Balance different content types (text, image, video, links)
-- Consider recency and virality
-- Optimize for meaningful interactions (not just clicks)
-- Handle diverse user preferences and contexts
-
-The system processes millions of candidate posts per user and must serve feeds with low latency.""",
-        "requirements": [
-            "Rank feeds for 2B+ users in real-time",
-            "Predict multiple engagement types (likes, comments, shares)",
-            "Multi-objective optimization (engagement vs quality)",
-            "Handle different content types with different engagement patterns",
-            "Consider recency, virality, and social connections",
-            "Personalization based on user preferences and history",
-            "Low-latency serving (<500ms)",
-            "Combat clickbait and low-quality content"
-        ],
-        "evaluation_criteria": {
-            "prediction_model": "Multi-task learning for different engagement types",
-            "feature_engineering": "User, post, and social graph features",
-            "ranking_strategy": "Multi-objective optimization approach",
-            "scalability": "Efficient candidate retrieval and ranking",
-            "quality_control": "Mechanisms to reduce low-quality content",
-            "evaluation_metrics": "Time spent, meaningful interactions, user satisfaction"
-        },
-        "key_components": [
-            "Candidate Generation (retrieve relevant posts)",
-            "Feature Engineering (user, post, context)",
-            "Multi-task Prediction Model (engagement types)",
-            "Ranking with Multi-objective Optimization",
-            "Quality Scoring & Clickbait Detection",
-            "Real-time Feature Computation",
-            "Distributed Serving Infrastructure",
-            "Online Learning & Feedback Loops",
-            "A/B Testing Framework"
-        ],
-        "tags": ["ranking", "social-media", "multi-task-learning", "personalization", "engagement"]
-    },
-    {
-        "title": "Design Face Recognition System",
-        "difficulty": "medium",
-        "description": "Design a scalable face recognition system for authentication or identification in applications like security, photo tagging, or access control.",
-        "scenario": """Build a face recognition system that:
-- Enrolls users by capturing and storing face embeddings
-- Authenticates users in real-time from camera input
-- Handles variations in lighting, pose, and aging
-- Works across different devices and camera qualities
-- Maintains privacy and security of biometric data
-- Scales to millions of enrolled users
-
-The system is used for authentication (1:1 matching) and identification (1:N search).""",
-        "requirements": [
-            "High accuracy (>99% verification accuracy)",
-            "Low false positive rate for security",
-            "Real-time processing (<1 second per verification)",
-            "Handle variations (lighting, pose, expressions, aging)",
-            "Scale to millions of enrolled users",
-            "Privacy-preserving (store embeddings, not raw images)",
-            "Work with different camera qualities",
-            "Support both 1:1 verification and 1:N identification",
-            "Anti-spoofing (detect fake faces, photos)"
-        ],
-        "evaluation_criteria": {
-            "model_architecture": "Deep learning model for face embedding",
-            "accuracy_metrics": "FAR, FRR, verification accuracy",
-            "robustness": "Handle real-world variations",
-            "scalability": "Efficient 1:N search in large databases",
-            "privacy": "Secure storage and processing of biometric data",
-            "anti_spoofing": "Liveness detection techniques",
-            "deployment": "Edge vs cloud deployment considerations"
-        },
-        "key_components": [
-            "Face Detection & Alignment",
-            "Face Embedding Model (ResNet, FaceNet, ArcFace)",
-            "Embedding Storage & Indexing (Vector DB)",
-            "Similarity Matching (Cosine Distance)",
-            "Liveness Detection (Anti-spoofing)",
-            "Enrollment Pipeline",
-            "Real-time Verification API",
-            "Model Retraining with New Data",
-            "Privacy & Security Measures"
-        ],
-        "tags": ["computer-vision", "face-recognition", "biometrics", "deep-learning", "security"]
-    },
-    {
-        "title": "Design Object Detection System for Autonomous Vehicles",
+        "title": "Design Real-time Fraud Detection System",
         "difficulty": "hard",
-        "description": "Design a real-time object detection system for autonomous vehicles that identifies and tracks pedestrians, vehicles, traffic signs, and obstacles.",
-        "scenario": """An autonomous vehicle system needs real-time object detection that:
-- Detects multiple object types (cars, pedestrians, cyclists, signs)
-- Runs in real-time (30+ FPS) on vehicle hardware
-- Provides accurate bounding boxes and classifications
-- Handles various weather and lighting conditions
-- Maintains high recall (cannot miss critical objects)
-- Integrates with sensor fusion (cameras, LiDAR, radar)
-- Provides distance estimation and tracking
+        "description": "Design a real-time fraud detection system for Meta's payment products (Meta Pay, WhatsApp Pay) that identifies fraudulent transactions with <100ms latency.",
+        "scenario": """Meta's payment products need fraud detection:
+- Real-time: Score transactions in <100ms
+- Multi-type fraud: stolen cards, account takeover, fake accounts, money laundering
+- Class imbalance: fraud rate <1%
+- False positives are costly: block legitimate transactions
+- False negatives are costly: allow fraud, chargebacks
+- Adversarial: fraudsters constantly adapt
+- Explainability: Why was this transaction blocked?
+- Regulatory compliance: PCI-DSS, AML, KYC
 
-Safety is critical - false negatives can be catastrophic.""",
-        "requirements": [
-            "Real-time processing (30+ FPS) with low latency (<50ms)",
-            "High recall (>99% for critical objects like pedestrians)",
-            "Detect multiple object classes simultaneously",
-            "Handle challenging conditions (night, rain, fog)",
-            "3D bounding boxes with distance estimation",
-            "Object tracking across frames",
-            "Sensor fusion (camera + LiDAR + radar)",
-            "Run on edge hardware (GPUs in vehicle)",
-            "Safety validation and redundancy"
-        ],
-        "evaluation_criteria": {
-            "model_architecture": "Efficient real-time detection model (YOLO, SSD, etc.)",
-            "accuracy_metrics": "mAP, recall for safety-critical classes",
-            "real_time_performance": "Latency and throughput on edge hardware",
-            "robustness": "Performance in adverse conditions",
-            "sensor_fusion": "Integration of multiple sensor modalities",
-            "tracking": "Multi-object tracking accuracy",
-            "safety": "Fail-safe mechanisms and redundancy"
-        },
-        "key_components": [
-            "Multi-sensor Data Collection (Camera, LiDAR, Radar)",
-            "Real-time Object Detection Model (YOLO, Faster R-CNN)",
-            "3D Bounding Box Estimation",
-            "Sensor Fusion Algorithm",
-            "Multi-object Tracking (Kalman Filter, DeepSORT)",
-            "Edge Deployment (TensorRT, ONNX optimization)",
-            "Safety Validation & Testing",
-            "Continuous Learning from Fleet Data",
-            "Redundancy & Fail-safe Mechanisms"
-        ],
-        "tags": ["computer-vision", "object-detection", "autonomous-vehicles", "real-time", "safety-critical"]
-    },
-    {
-        "title": "Design Machine Translation System",
-        "difficulty": "hard",
-        "description": "Design a neural machine translation system like Google Translate that translates text between multiple languages with high quality.",
-        "scenario": """Build a machine translation system that:
-- Supports 100+ language pairs
-- Provides high-quality, fluent translations
-- Handles domain-specific terminology
-- Maintains context across sentences
-- Works in real-time for web and mobile apps
-- Handles informal language, slang, and idioms
-- Preserves formatting and special characters
-
-The system serves millions of translation requests per day across diverse domains.""",
-        "requirements": [
-            "Support 100+ languages (10,000+ language pairs)",
-            "High translation quality (BLEU score >30 for major pairs)",
-            "Real-time translation (<1 second for typical sentences)",
-            "Context-aware (consider previous sentences)",
-            "Handle domain-specific terminology",
-            "Low-resource language support",
-            "Preserve formatting, punctuation, numbers",
-            "API for high-throughput batch translation",
-            "Continuous improvement from user feedback"
-        ],
-        "evaluation_criteria": {
-            "model_architecture": "Transformer-based seq2seq model",
-            "training_data": "Parallel corpus collection and preprocessing",
-            "multilingual_strategy": "Multilingual vs bilingual models",
-            "quality_metrics": "BLEU, METEOR, human evaluation",
-            "contextual_understanding": "Document-level translation",
-            "domain_adaptation": "Fine-tuning for specific domains",
-            "serving_infrastructure": "Low-latency, high-throughput API",
-            "feedback_loop": "Learning from user corrections"
-        },
-        "key_components": [
-            "Parallel Corpus Collection & Cleaning",
-            "Tokenization & Subword Segmentation (BPE, SentencePiece)",
-            "Transformer Model (Encoder-Decoder)",
-            "Multilingual Training Strategy",
-            "Beam Search Decoding",
-            "Domain Adaptation Fine-tuning",
-            "Quality Estimation Model",
-            "Real-time Serving Infrastructure",
-            "Human Feedback Integration",
-            "Model Distillation for Efficiency"
-        ],
-        "tags": ["nlp", "machine-translation", "transformers", "multilingual", "seq2seq"]
-    },
-    {
-        "title": "Design Credit Card Fraud Detection System",
-        "difficulty": "medium",
-        "description": "Design a real-time fraud detection system for credit card transactions that identifies fraudulent activities while minimizing false positives.",
-        "scenario": """A payment processor handles millions of credit card transactions daily and needs a fraud detection system that:
-- Analyzes transactions in real-time (<100ms)
-- Detects various fraud patterns (stolen cards, account takeover, synthetic fraud)
-- Minimizes false positives (legitimate transactions blocked)
-- Adapts to new fraud tactics quickly
-- Provides explainability for blocked transactions
-- Handles imbalanced data (fraud rate <1%)
-
-The system must balance security with user experience.""",
+The system processes millions of transactions daily, losing millions to fraud if ineffective.""",
         "requirements": [
             "Real-time scoring (<100ms per transaction)",
-            "High fraud detection rate (>90% recall)",
+            "Multi-type fraud detection",
+            "High recall for fraud (>90%)",
             "Low false positive rate (<2%)",
-            "Handle class imbalance (fraud <1% of transactions)",
-            "Detect emerging fraud patterns quickly",
-            "Explainable predictions for compliance",
-            "Scale to millions of transactions per day",
-            "Support multiple fraud types",
-            "Feedback loop from fraud investigations"
+            "Handle severe class imbalance (<1% fraud)",
+            "Adversarial robustness",
+            "Explainability for compliance",
+            "Online learning (adapt to new fraud patterns)",
+            "Scale to millions of transactions/day",
+            "Multi-stage: real-time → post-transaction analysis"
         ],
         "evaluation_criteria": {
-            "model_design": "Appropriate models for imbalanced classification",
-            "feature_engineering": "Transaction, user, and behavioral features",
-            "real_time_processing": "Streaming architecture for low latency",
-            "handling_imbalance": "Sampling, weighting, or specialized algorithms",
-            "adaptability": "Online learning or frequent retraining",
-            "explainability": "SHAP values or rule-based explanations",
-            "evaluation_metrics": "Precision, recall, F1, ROC-AUC for imbalanced data"
+            "model": "Gradient boosting, neural networks, or ensemble",
+            "features": "Transaction, user, device, behavioral features",
+            "imbalance": "Handling class imbalance (SMOTE, class weights)",
+            "adversarial": "Detecting novel fraud patterns",
+            "latency": "Sub-100ms inference",
+            "explainability": "SHAP, rule-based explanations",
+            "online_learning": "Continuous model updates",
+            "metrics": "Precision, recall, F1, fraud loss, false positive rate"
         },
         "key_components": [
-            "Real-time Transaction Feature Engineering",
-            "Behavioral Analytics (velocity, patterns)",
-            "Fraud Detection Model (Gradient Boosting, Neural Networks)",
-            "Handling Class Imbalance (SMOTE, class weighting)",
-            "Rule-based Detection for Known Patterns",
-            "Anomaly Detection for Novel Fraud",
-            "Real-time Scoring Infrastructure",
-            "Explainability Module (SHAP, LIME)",
-            "Feedback Loop from Fraud Investigations",
-            "Model Monitoring & Retraining"
+            "Real-time Transaction Scorer",
+            "Feature Engineering Pipeline",
+            "Fraud Detection Model (GBDT or NN)",
+            "Rule Engine (known fraud patterns)",
+            "Anomaly Detector (novel fraud)",
+            "Device Fingerprinting",
+            "Behavioral Analytics (velocity checks)",
+            "Post-transaction Analysis",
+            "Explainability Module",
+            "Feedback Loop (confirmed fraud cases)"
         ],
-        "tags": ["fraud-detection", "classification", "real-time", "imbalanced-data", "anomaly-detection"]
+        "tags": ["fraud-detection", "classification", "real-time", "payments", "meta", "imbalanced-data"]
+    },
+    {
+        "title": "Design Video Understanding System for Meta",
+        "difficulty": "hard",
+        "description": "Design Meta's video understanding system that analyzes billions of videos to enable search, recommendations, content moderation, and monetization.",
+        "scenario": """Meta processes billions of videos (Facebook, Instagram, Reels, Stories). The system must:
+- Understand video content: objects, actions, scenes, audio, text
+- Enable video search (\"find videos of surfing in Hawaii\")
+- Power recommendations (similar videos)
+- Content moderation (detect violations)
+- Ad placement (find ad-safe content)
+- Thumbnail selection (pick engaging frame)
+- Auto-captions (accessibility)
+- Copyright detection (match against known content)
+
+Challenge: Video processing is expensive (compute, storage). Need efficient models.""",
+        "requirements": [
+            "Multi-modal understanding (visual, audio, text)",
+            "Scale to billions of videos",
+            "Real-time for short videos (<10s)",
+            "Batch processing for long videos",
+            "Frame-level analysis (scene detection)",
+            "Audio understanding (speech, music, sounds)",
+            "Text extraction (OCR on video)",
+            "Efficient inference (cost-effective)",
+            "Enable search, recommendations, moderation",
+            "Copyright detection"
+        ],
+        "evaluation_criteria": {
+            "model_architecture": "Video transformers, 3D CNNs, or frame sampling",
+            "multi_modal": "How to fuse visual, audio, text signals",
+            "efficiency": "Cost-effective processing at scale",
+            "embeddings": "Quality of video embeddings for search/recommendations",
+            "scene_detection": "Identifying scene boundaries",
+            "audio_processing": "Speech recognition, music detection",
+            "ocr": "Text extraction from video frames",
+            "metrics": "Video search quality, recommendation CTR, moderation accuracy"
+        },
+        "key_components": [
+            "Video Encoder (frame embeddings)",
+            "Audio Encoder (audio embeddings)",
+            "Text Encoder (captions, OCR)",
+            "Multi-modal Fusion",
+            "Scene Detection",
+            "Object/Action Recognition",
+            "Speech-to-Text",
+            "Thumbnail Selector",
+            "Copyright Matcher",
+            "Video Search Index"
+        ],
+        "tags": ["video-understanding", "multi-modal", "computer-vision", "meta", "reels", "deep-learning"]
+    },
+    {
+        "title": "Design Real-time Personalization Engine",
+        "difficulty": "medium",
+        "description": "Design a real-time personalization system that adapts Meta/Atlassian products to individual users based on their behavior, preferences, and context.",
+        "scenario": """Modern products need personalization at scale:
+- Meta: Personalize Feed, Reels, notifications, ads
+- Atlassian: Personalize Jira dashboards, Confluence recommendations
+- Real-time: Update preferences as user interacts
+- Cold start: New users have no history
+- Context: Time of day, device, location matter
+- Privacy: Limited data collection
+- Scale: Billions of users
+- Latency: <50ms per request
+
+Goal: Show the right content to the right user at the right time.""",
+        "requirements": [
+            "Real-time preference updates (<50ms)",
+            "Handle billions of users",
+            "Cold start for new users",
+            "Context-aware (time, device, location)",
+            "Privacy-preserving",
+            "Multi-product personalization",
+            "Efficient user representation (embeddings)",
+            "Online learning (user preferences change)",
+            "A/B testing integration",
+            "Explainability (why this recommendation?)"
+        ],
+        "evaluation_criteria": {
+            "user_modeling": "How to represent users (embeddings, features)",
+            "real_time": "Low-latency updates and inference",
+            "cold_start": "Strategy for new users",
+            "context": "Incorporating temporal, device, location signals",
+            "online_learning": "Continuous preference updates",
+            "privacy": "Working with limited data",
+            "scalability": "Handling billions of users efficiently",
+            "metrics": "Engagement lift, user satisfaction, CTR"
+        },
+        "key_components": [
+            "User Profile Store (preferences, embeddings)",
+            "Real-time Event Stream (user actions)",
+            "User Embedding Model",
+            "Context Feature Service",
+            "Personalization API",
+            "Cold Start Solver",
+            "Online Learning Pipeline",
+            "A/B Testing Integration",
+            "Privacy Controls",
+            "Explainability Module"
+        ],
+        "tags": ["personalization", "user-modeling", "real-time", "meta", "atlassian", "recommendations"]
     }
 ]
