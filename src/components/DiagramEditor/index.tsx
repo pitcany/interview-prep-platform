@@ -25,6 +25,7 @@ import {
   Download,
   Trash2,
   Plus,
+  X,
 } from 'lucide-react';
 
 // Node types for ML systems
@@ -123,6 +124,7 @@ export default function DiagramEditor({
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedNodeType, setSelectedNodeType] = useState<string>('data');
   const [nodeCounter, setNodeCounter] = useState(1);
+  const [showInstructions, setShowInstructions] = useState(true);
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -282,9 +284,16 @@ export default function DiagramEditor({
       </div>
 
       {/* Instructions */}
-      {!readOnly && nodes.length === 0 && (
+      {!readOnly && nodes.length === 0 && showInstructions && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 text-center max-w-md">
+          <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 text-center max-w-md pointer-events-auto relative">
+            <button
+              onClick={() => setShowInstructions(false)}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors"
+              title="Close instructions"
+            >
+              <X size={20} />
+            </button>
             <Brain className="mx-auto mb-3 text-gray-500" size={48} />
             <h3 className="text-white font-semibold mb-2">
               Design Your ML System

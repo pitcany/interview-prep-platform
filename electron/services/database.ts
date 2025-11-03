@@ -123,8 +123,26 @@ export class DatabaseService {
   }
 
   getMLDesignQuestionDetails(questionId: number) {
-    return this.db.prepare('SELECT * FROM ml_design_questions WHERE question_id = ?')
-      .get(questionId);
+    const result: any = this.db.prepare(`
+      SELECT
+        q.*,
+        c.name as category_name,
+        ml.*
+      FROM questions q
+      JOIN question_categories c ON q.category_id = c.id
+      JOIN ml_design_questions ml ON q.id = ml.question_id
+      WHERE q.id = ?
+    `).get(questionId);
+
+    if (!result) return null;
+
+    // Parse JSON fields
+    return {
+      ...result,
+      requirements: result.requirements ? JSON.parse(result.requirements) : [],
+      evaluation_criteria: result.evaluation_criteria ? JSON.parse(result.evaluation_criteria) : {},
+      key_components: result.key_components ? JSON.parse(result.key_components) : [],
+    };
   }
 
   // Code Submissions

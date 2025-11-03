@@ -8,6 +8,7 @@ interface QuestionListProps {
   onSelectQuestion: (question: Question) => void;
   selectedQuestionId?: number;
   userId: number;
+  onCategoryChange?: (category: 'leetcode' | 'ml_system_design') => void;
 }
 
 export default function QuestionList({
@@ -15,6 +16,7 @@ export default function QuestionList({
   onSelectQuestion,
   selectedQuestionId,
   userId,
+  onCategoryChange,
 }: QuestionListProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [progress, setProgress] = useState<UserProgress[]>([]);
@@ -82,9 +84,33 @@ export default function QuestionList({
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="p-4 border-b border-gray-700">
-        <h2 className="text-lg font-bold text-white mb-3">
-          {category === 'leetcode' ? 'LeetCode' : 'ML System Design'}
-        </h2>
+        <h2 className="text-lg font-bold text-white mb-3">Practice</h2>
+
+        {/* Category toggle */}
+        {onCategoryChange && (
+          <div className="flex gap-2 mb-3">
+            <button
+              onClick={() => onCategoryChange('leetcode')}
+              className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                category === 'leetcode'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              LeetCode
+            </button>
+            <button
+              onClick={() => onCategoryChange('ml_system_design')}
+              className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                category === 'ml_system_design'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              ML Design
+            </button>
+          </div>
+        )}
 
         {/* Difficulty filter */}
         <div className="flex gap-2 mb-2">
