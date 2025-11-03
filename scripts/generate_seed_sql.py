@@ -76,8 +76,15 @@ INSERT INTO questions (id, category_id, title, difficulty, description, tags) VA
 def main():
     output_file = Path(__file__).parent.parent / "database" / "seed_complete.sql"
     
+    # Select exactly 40 LeetCode questions: 8 Easy, 25 Medium, 7 Hard
+    easy_qs = [q for q in LEETCODE_QUESTIONS if q['difficulty'] == 'easy']
+    medium_qs = [q for q in LEETCODE_QUESTIONS if q['difficulty'] == 'medium'][:25]  # Take first 25
+    hard_qs = [q for q in LEETCODE_QUESTIONS if q['difficulty'] == 'hard']
+    
+    selected_leetcode = easy_qs + medium_qs + hard_qs
+    
     print(f"🔧 Generating seed SQL file...")
-    print(f"   LeetCode questions: {len(LEETCODE_QUESTIONS)}")
+    print(f"   LeetCode questions: {len(selected_leetcode)} (8 Easy, 25 Medium, 7 Hard)")
     print(f"   ML Design questions: {len(ML_QUESTIONS)}")
     
     sql_lines = [
