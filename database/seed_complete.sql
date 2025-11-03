@@ -20,7 +20,7 @@ INSERT OR IGNORE INTO question_categories (id, name, description) VALUES
 
 -- Question 1: Two Sum
 -- Two Sum (EASY)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (1, 1, 'Two Sum', 'easy',
 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 
@@ -29,7 +29,8 @@ You may assume that each input would have exactly one solution, and you may not 
 You can return the answer in any order.',
 '["2 <= nums.length <= 10^4", "-10^9 <= nums[i] <= 10^9", "-10^9 <= target <= 10^9", "Only one valid answer exists"]',
 '[{"input": {"nums": [2, 7, 11, 15], "target": 9}, "output": [0, 1], "explanation": "Because nums[0] + nums[1] == 9, we return [0, 1]."}, {"input": {"nums": [3, 2, 4], "target": 6}, "output": [1, 2], "explanation": "Because nums[1] + nums[2] == 6, we return [1, 2]."}]',
-'["array", "hash-table"]');
+'["array", "hash-table"]',
+'["LeetCode URL: https://leetcode.com/problems/two-sum/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (1,
@@ -54,7 +55,7 @@ public:
 
 -- Question 2: Valid Parentheses
 -- Valid Parentheses (EASY)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (2, 1, 'Valid Parentheses', 'easy',
 'Given a string s containing just the characters ''('', '')'', ''{'', ''}'', ''['' and '']'', determine if the input string is valid.
 
@@ -64,7 +65,8 @@ An input string is valid if:
 3. Every close bracket has a corresponding open bracket of the same type.',
 '["1 <= s.length <= 10^4", "s consists of parentheses only ''()[]{}''"]',
 '[{"input": {"s": "()"}, "output": true, "explanation": "The string is valid."}, {"input": {"s": "()[]{}"}, "output": true, "explanation": "All brackets are properly closed."}, {"input": {"s": "(]"}, "output": false, "explanation": "Mismatched brackets."}]',
-'["string", "stack"]');
+'["string", "stack"]',
+'["LeetCode URL: https://leetcode.com/problems/valid-parentheses/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (2,
@@ -89,7 +91,7 @@ public:
 
 -- Question 3: Best Time to Buy and Sell Stock
 -- Best Time to Buy and Sell Stock (EASY)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (3, 1, 'Best Time to Buy and Sell Stock', 'easy',
 'You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
@@ -98,7 +100,8 @@ You want to maximize your profit by choosing a single day to buy one stock and c
 Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.',
 '["1 <= prices.length <= 10^5", "0 <= prices[i] <= 10^4"]',
 '[{"input": {"prices": [7, 1, 5, 3, 6, 4]}, "output": 5, "explanation": "Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5."}, {"input": {"prices": [7, 6, 4, 3, 1]}, "output": 0, "explanation": "In this case, no transactions are done and the max profit = 0."}]',
-'["array", "dynamic-programming"]');
+'["array", "dynamic-programming"]',
+'["LeetCode URL: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (3,
@@ -123,14 +126,15 @@ public:
 
 -- Question 4: Climbing Stairs
 -- Climbing Stairs (EASY)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (4, 1, 'Climbing Stairs', 'easy',
 'You are climbing a staircase. It takes n steps to reach the top.
 
 Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?',
 '["1 <= n <= 45"]',
 '[{"input": {"n": 2}, "output": 2, "explanation": "There are two ways: 1. 1 step + 1 step, 2. 2 steps"}, {"input": {"n": 3}, "output": 3, "explanation": "There are three ways: 1. 1+1+1, 2. 1+2, 3. 2+1"}]',
-'["dynamic-programming", "math"]');
+'["dynamic-programming", "math"]',
+'["LeetCode URL: https://leetcode.com/problems/climbing-stairs/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (4,
@@ -155,14 +159,15 @@ public:
 
 -- Question 5: Linked List Cycle
 -- Linked List Cycle (EASY)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (5, 1, 'Linked List Cycle', 'easy',
 'Given head, the head of a linked list, determine if the linked list has a cycle in it.
 
 There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer.',
 '["The number of the nodes in the list is in the range [0, 10^4]", "-10^5 <= Node.val <= 10^5", "pos is -1 or a valid index in the linked-list"]',
 '[{"input": {"head": [3, 2, 0, -4], "pos": 1}, "output": true, "explanation": "There is a cycle where the tail connects to the 1st node."}, {"input": {"head": [1], "pos": -1}, "output": false, "explanation": "There is no cycle in the linked list."}]',
-'["linked-list", "two-pointers", "hash-table"]');
+'["linked-list", "two-pointers", "hash-table"]',
+'["LeetCode URL: https://leetcode.com/problems/linked-list-cycle/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (5,
@@ -187,12 +192,13 @@ public:
 
 -- Question 6: Longest Substring Without Repeating Characters
 -- Longest Substring Without Repeating Characters (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (6, 1, 'Longest Substring Without Repeating Characters', 'medium',
 'Given a string s, find the length of the longest substring without repeating characters.',
 '["0 <= s.length <= 5 * 10^4", "s consists of English letters, digits, symbols and spaces"]',
 '[{"input": {"s": "abcabcbb"}, "output": 3, "explanation": "The answer is ''abc'', with the length of 3."}, {"input": {"s": "bbbbb"}, "output": 1, "explanation": "The answer is ''b'', with the length of 1."}]',
-'["string", "sliding-window", "hash-table"]');
+'["string", "sliding-window", "hash-table"]',
+'["LeetCode URL: https://leetcode.com/problems/longest-substring-without-repeating-characters/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (6,
@@ -217,14 +223,15 @@ public:
 
 -- Question 7: Add Two Numbers
 -- Add Two Numbers (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (7, 1, 'Add Two Numbers', 'medium',
 'You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
 
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.',
 '["The number of nodes in each linked list is in the range [1, 100]", "0 <= Node.val <= 9", "It is guaranteed that the list represents a number that does not have leading zeros"]',
 '[{"input": {"l1": [2, 4, 3], "l2": [5, 6, 4]}, "output": [7, 0, 8], "explanation": "342 + 465 = 807."}, {"input": {"l1": [0], "l2": [0]}, "output": [0], "explanation": "0 + 0 = 0."}]',
-'["linked-list", "math", "recursion"]');
+'["linked-list", "math", "recursion"]',
+'["LeetCode URL: https://leetcode.com/problems/add-two-numbers/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (7,
@@ -249,7 +256,7 @@ public:
 
 -- Question 8: Container With Most Water
 -- Container With Most Water (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (8, 1, 'Container With Most Water', 'medium',
 'You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
 
@@ -258,7 +265,8 @@ Find two lines that together with the x-axis form a container, such that the con
 Return the maximum amount of water a container can store.',
 '["n == height.length", "2 <= n <= 10^5", "0 <= height[i] <= 10^4"]',
 '[{"input": {"height": [1, 8, 6, 2, 5, 4, 8, 3, 7]}, "output": 49, "explanation": "The max area is between index 1 (height 8) and index 8 (height 7)."}]',
-'["array", "two-pointers", "greedy"]');
+'["array", "two-pointers", "greedy"]',
+'["LeetCode URL: https://leetcode.com/problems/container-with-most-water/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (8,
@@ -283,14 +291,15 @@ public:
 
 -- Question 9: 3Sum
 -- 3Sum (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (9, 1, '3Sum', 'medium',
 'Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
 Notice that the solution set must not contain duplicate triplets.',
 '["3 <= nums.length <= 3000", "-10^5 <= nums[i] <= 10^5"]',
 '[{"input": {"nums": [-1, 0, 1, 2, -1, -4]}, "output": [[-1, -1, 2], [-1, 0, 1]], "explanation": "The distinct triplets are [-1,0,1] and [-1,-1,2]."}, {"input": {"nums": [0, 1, 1]}, "output": [], "explanation": "The only possible triplet does not sum up to 0."}]',
-'["array", "two-pointers", "sorting"]');
+'["array", "two-pointers", "sorting"]',
+'["LeetCode URL: https://leetcode.com/problems/3sum/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (9,
@@ -315,14 +324,15 @@ public:
 
 -- Question 10: Group Anagrams
 -- Group Anagrams (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (10, 1, 'Group Anagrams', 'medium',
 'Given an array of strings strs, group the anagrams together. You can return the answer in any order.
 
 An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.',
 '["1 <= strs.length <= 10^4", "0 <= strs[i].length <= 100", "strs[i] consists of lowercase English letters"]',
 '[{"input": {"strs": ["eat", "tea", "tan", "ate", "nat", "bat"]}, "output": [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]], "explanation": "Group words that are anagrams."}]',
-'["array", "hash-table", "string", "sorting"]');
+'["array", "hash-table", "string", "sorting"]',
+'["LeetCode URL: https://leetcode.com/problems/group-anagrams/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (10,
@@ -347,12 +357,13 @@ public:
 
 -- Question 11: Longest Palindromic Substring
 -- Longest Palindromic Substring (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (11, 1, 'Longest Palindromic Substring', 'medium',
 'Given a string s, return the longest palindromic substring in s.',
 '["1 <= s.length <= 1000", "s consist of only digits and English letters"]',
 '[{"input": {"s": "babad"}, "output": "bab", "explanation": "Note: ''aba'' is also a valid answer."}, {"input": {"s": "cbbd"}, "output": "bb", "explanation": "The longest palindrome is ''bb''."}]',
-'["string", "dynamic-programming"]');
+'["string", "dynamic-programming"]',
+'["LeetCode URL: https://leetcode.com/problems/longest-palindromic-substring/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (11,
@@ -377,14 +388,15 @@ public:
 
 -- Question 12: Product of Array Except Self
 -- Product of Array Except Self (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (12, 1, 'Product of Array Except Self', 'medium',
 'Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
 
 You must write an algorithm that runs in O(n) time and without using the division operation.',
 '["2 <= nums.length <= 10^5", "-30 <= nums[i] <= 30", "The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer"]',
 '[{"input": {"nums": [1, 2, 3, 4]}, "output": [24, 12, 8, 6], "explanation": "answer[0] = 2*3*4 = 24, answer[1] = 1*3*4 = 12, etc."}]',
-'["array", "prefix-sum"]');
+'["array", "prefix-sum"]',
+'["LeetCode URL: https://leetcode.com/problems/product-of-array-except-self/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (12,
@@ -409,12 +421,13 @@ public:
 
 -- Question 13: Spiral Matrix
 -- Spiral Matrix (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (13, 1, 'Spiral Matrix', 'medium',
 'Given an m x n matrix, return all elements of the matrix in spiral order.',
 '["m == matrix.length", "n == matrix[i].length", "1 <= m, n <= 10", "-100 <= matrix[i][j] <= 100"]',
 '[{"input": {"matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, "output": [1, 2, 3, 6, 9, 8, 7, 4, 5], "explanation": "Traverse the matrix in spiral order."}]',
-'["array", "matrix", "simulation"]');
+'["array", "matrix", "simulation"]',
+'["LeetCode URL: https://leetcode.com/problems/spiral-matrix/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (13,
@@ -439,14 +452,15 @@ public:
 
 -- Question 14: Rotate Image
 -- Rotate Image (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (14, 1, 'Rotate Image', 'medium',
 'You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
 
 You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.',
 '["n == matrix.length == matrix[i].length", "1 <= n <= 20", "-1000 <= matrix[i][j] <= 1000"]',
 '[{"input": {"matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, "output": [[7, 4, 1], [8, 5, 2], [9, 6, 3]], "explanation": "Rotate 90 degrees clockwise."}]',
-'["array", "matrix"]');
+'["array", "matrix"]',
+'["LeetCode URL: https://leetcode.com/problems/rotate-image/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (14,
@@ -471,14 +485,15 @@ public:
 
 -- Question 15: Set Matrix Zeroes
 -- Set Matrix Zeroes (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (15, 1, 'Set Matrix Zeroes', 'medium',
 'Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0''s.
 
 You must do it in place.',
 '["m == matrix.length", "n == matrix[0].length", "1 <= m, n <= 200", "-2^31 <= matrix[i][j] <= 2^31 - 1"]',
 '[{"input": {"matrix": [[1, 1, 1], [1, 0, 1], [1, 1, 1]]}, "output": [[1, 0, 1], [0, 0, 0], [1, 0, 1]], "explanation": "Mark row and column of 0s."}]',
-'["array", "matrix", "hash-table"]');
+'["array", "matrix", "hash-table"]',
+'["LeetCode URL: https://leetcode.com/problems/set-matrix-zeroes/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (15,
@@ -503,14 +518,15 @@ public:
 
 -- Question 16: Subarray Sum Equals K
 -- Subarray Sum Equals K (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (16, 1, 'Subarray Sum Equals K', 'medium',
 'Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
 
 A subarray is a contiguous non-empty sequence of elements within an array.',
 '["1 <= nums.length <= 2 * 10^4", "-1000 <= nums[i] <= 1000", "-10^7 <= k <= 10^7"]',
 '[{"input": {"nums": [1, 1, 1], "k": 2}, "output": 2, "explanation": "Subarrays [1,1] and [1,1] sum to 2."}, {"input": {"nums": [1, 2, 3], "k": 3}, "output": 2, "explanation": "Subarrays [1,2] and [3] sum to 3."}]',
-'["array", "hash-table", "prefix-sum"]');
+'["array", "hash-table", "prefix-sum"]',
+'["LeetCode URL: https://leetcode.com/problems/subarray-sum-equals-k/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (16,
@@ -535,12 +551,13 @@ public:
 
 -- Question 17: Maximum Subarray
 -- Maximum Subarray (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (17, 1, 'Maximum Subarray', 'medium',
 'Given an integer array nums, find the subarray with the largest sum, and return its sum.',
 '["1 <= nums.length <= 10^5", "-10^4 <= nums[i] <= 10^4"]',
 '[{"input": {"nums": [-2, 1, -3, 4, -1, 2, 1, -5, 4]}, "output": 6, "explanation": "The subarray [4,-1,2,1] has the largest sum 6."}, {"input": {"nums": [1]}, "output": 1, "explanation": "The subarray [1] has the largest sum 1."}]',
-'["array", "divide-and-conquer", "dynamic-programming"]');
+'["array", "divide-and-conquer", "dynamic-programming"]',
+'["LeetCode URL: https://leetcode.com/problems/maximum-subarray/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (17,
@@ -565,12 +582,13 @@ public:
 
 -- Question 18: Remove Nth Node From End of List
 -- Remove Nth Node From End of List (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (18, 1, 'Remove Nth Node From End of List', 'medium',
 'Given the head of a linked list, remove the nth node from the end of the list and return its head.',
 '["The number of nodes in the list is sz", "1 <= sz <= 30", "0 <= Node.val <= 100", "1 <= n <= sz"]',
 '[{"input": {"head": [1, 2, 3, 4, 5], "n": 2}, "output": [1, 2, 3, 5], "explanation": "Remove 2nd node from end."}]',
-'["linked-list", "two-pointers"]');
+'["linked-list", "two-pointers"]',
+'["LeetCode URL: https://leetcode.com/problems/remove-nth-node-from-end-of-list/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (18,
@@ -595,12 +613,13 @@ public:
 
 -- Question 19: Reverse Linked List II
 -- Reverse Linked List II (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (19, 1, 'Reverse Linked List II', 'medium',
 'Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.',
 '["The number of nodes in the list is n", "1 <= n <= 500", "-500 <= Node.val <= 500", "1 <= left <= right <= n"]',
 '[{"input": {"head": [1, 2, 3, 4, 5], "left": 2, "right": 4}, "output": [1, 4, 3, 2, 5], "explanation": "Reverse nodes from position 2 to 4."}]',
-'["linked-list"]');
+'["linked-list"]',
+'["LeetCode URL: https://leetcode.com/problems/reverse-linked-list-ii/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (19,
@@ -625,12 +644,13 @@ public:
 
 -- Question 20: Swap Nodes in Pairs
 -- Swap Nodes in Pairs (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (20, 1, 'Swap Nodes in Pairs', 'medium',
 'Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list''s nodes.',
 '["The number of nodes in the list is in the range [0, 100]", "0 <= Node.val <= 100"]',
 '[{"input": {"head": [1, 2, 3, 4]}, "output": [2, 1, 4, 3], "explanation": "Swap adjacent pairs."}]',
-'["linked-list", "recursion"]');
+'["linked-list", "recursion"]',
+'["LeetCode URL: https://leetcode.com/problems/swap-nodes-in-pairs/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (20,
@@ -655,12 +675,13 @@ public:
 
 -- Question 21: Binary Tree Level Order Traversal
 -- Binary Tree Level Order Traversal (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (21, 1, 'Binary Tree Level Order Traversal', 'medium',
 'Given the root of a binary tree, return the level order traversal of its nodes'' values. (i.e., from left to right, level by level).',
 '["The number of nodes in the tree is in the range [0, 2000]", "-1000 <= Node.val <= 1000"]',
 '[{"input": {"root": [3, 9, 20, null, null, 15, 7]}, "output": [[3], [9, 20], [15, 7]], "explanation": "Level by level traversal."}]',
-'["tree", "breadth-first-search"]');
+'["tree", "breadth-first-search"]',
+'["LeetCode URL: https://leetcode.com/problems/binary-tree-level-order-traversal/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (21,
@@ -685,7 +706,7 @@ public:
 
 -- Question 22: Validate Binary Search Tree
 -- Validate Binary Search Tree (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (22, 1, 'Validate Binary Search Tree', 'medium',
 'Given the root of a binary tree, determine if it is a valid binary search tree (BST).
 
@@ -695,7 +716,8 @@ A valid BST is defined as follows:
 - Both the left and right subtrees must also be binary search trees.',
 '["The number of nodes in the tree is in the range [1, 10^4]", "-2^31 <= Node.val <= 2^31 - 1"]',
 '[{"input": {"root": [2, 1, 3]}, "output": true, "explanation": "Valid BST."}, {"input": {"root": [5, 1, 4, null, null, 3, 6]}, "output": false, "explanation": "Node 4 in right subtree of 5 violates BST property."}]',
-'["tree", "depth-first-search", "binary-search-tree"]');
+'["tree", "depth-first-search", "binary-search-tree"]',
+'["LeetCode URL: https://leetcode.com/problems/validate-binary-search-tree/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (22,
@@ -720,12 +742,13 @@ public:
 
 -- Question 23: Kth Smallest Element in a BST
 -- Kth Smallest Element in a BST (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (23, 1, 'Kth Smallest Element in a BST', 'medium',
 'Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.',
 '["The number of nodes in the tree is n", "1 <= k <= n <= 10^4", "0 <= Node.val <= 10^4"]',
 '[{"input": {"root": [3, 1, 4, null, 2], "k": 1}, "output": 1, "explanation": "The smallest element is 1."}, {"input": {"root": [5, 3, 6, 2, 4, null, null, 1], "k": 3}, "output": 3, "explanation": "The 3rd smallest is 3."}]',
-'["tree", "depth-first-search", "binary-search-tree"]');
+'["tree", "depth-first-search", "binary-search-tree"]',
+'["LeetCode URL: https://leetcode.com/problems/kth-smallest-element-in-a-bst/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (23,
@@ -750,12 +773,13 @@ public:
 
 -- Question 24: Binary Tree Right Side View
 -- Binary Tree Right Side View (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (24, 1, 'Binary Tree Right Side View', 'medium',
 'Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.',
 '["The number of nodes in the tree is in the range [0, 100]", "-100 <= Node.val <= 100"]',
 '[{"input": {"root": [1, 2, 3, null, 5, null, 4]}, "output": [1, 3, 4], "explanation": "Right side view shows nodes 1, 3, 4."}]',
-'["tree", "depth-first-search", "breadth-first-search"]');
+'["tree", "depth-first-search", "breadth-first-search"]',
+'["LeetCode URL: https://leetcode.com/problems/binary-tree-right-side-view/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (24,
@@ -780,14 +804,15 @@ public:
 
 -- Question 25: Path Sum II
 -- Path Sum II (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (25, 1, 'Path Sum II', 'medium',
 'Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
 
 A root-to-leaf path is a path starting from the root and ending at any leaf node.',
 '["The number of nodes in the tree is in the range [0, 5000]", "-1000 <= Node.val <= 1000", "-1000 <= targetSum <= 1000"]',
 '[{"input": {"root": [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], "targetSum": 22}, "output": [[5, 4, 11, 2], [5, 8, 4, 5]], "explanation": "Two paths sum to 22."}]',
-'["tree", "backtracking", "depth-first-search"]');
+'["tree", "backtracking", "depth-first-search"]',
+'["LeetCode URL: https://leetcode.com/problems/path-sum-ii/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (25,
@@ -812,12 +837,13 @@ public:
 
 -- Question 26: Construct Binary Tree from Preorder and Inorder Traversal
 -- Construct Binary Tree from Preorder and Inorder Traversal (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (26, 1, 'Construct Binary Tree from Preorder and Inorder Traversal', 'medium',
 'Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.',
 '["1 <= preorder.length <= 3000", "inorder.length == preorder.length", "-3000 <= preorder[i], inorder[i] <= 3000", "preorder and inorder consist of unique values"]',
 '[{"input": {"preorder": [3, 9, 20, 15, 7], "inorder": [9, 3, 15, 20, 7]}, "output": [3, 9, 20, null, null, 15, 7], "explanation": "Construct tree from traversals."}]',
-'["tree", "array", "hash-table", "divide-and-conquer"]');
+'["tree", "array", "hash-table", "divide-and-conquer"]',
+'["LeetCode URL: https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (26,
@@ -842,14 +868,15 @@ public:
 
 -- Question 27: Lowest Common Ancestor of a Binary Tree
 -- Lowest Common Ancestor of a Binary Tree (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (27, 1, 'Lowest Common Ancestor of a Binary Tree', 'medium',
 'Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
 
 The lowest common ancestor is defined as the lowest node in the tree that has both p and q as descendants (where we allow a node to be a descendant of itself).',
 '["The number of nodes in the tree is in the range [2, 10^5]", "-10^9 <= Node.val <= 10^9", "All Node.val are unique", "p != q", "p and q exist in the tree"]',
 '[{"input": {"root": [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], "p": 5, "q": 1}, "output": 3, "explanation": "The LCA of nodes 5 and 1 is 3."}]',
-'["tree", "depth-first-search", "binary-tree"]');
+'["tree", "depth-first-search", "binary-tree"]',
+'["LeetCode URL: https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (27,
@@ -874,14 +901,15 @@ public:
 
 -- Question 28: Number of Islands
 -- Number of Islands (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (28, 1, 'Number of Islands', 'medium',
 'Given an m x n 2D binary grid which represents a map of ''1''s (land) and ''0''s (water), return the number of islands.
 
 An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.',
 '["m == grid.length", "n == grid[i].length", "1 <= m, n <= 300", "grid[i][j] is ''0'' or ''1''"]',
 '[{"input": {"grid": [["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]}, "output": 1, "explanation": "One connected island."}]',
-'["array", "depth-first-search", "breadth-first-search", "union-find", "matrix"]');
+'["array", "depth-first-search", "breadth-first-search", "union-find", "matrix"]',
+'["LeetCode URL: https://leetcode.com/problems/number-of-islands/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (28,
@@ -906,14 +934,15 @@ public:
 
 -- Question 29: Course Schedule
 -- Course Schedule (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (29, 1, 'Course Schedule', 'medium',
 'There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
 Return true if you can finish all courses. Otherwise, return false.',
 '["1 <= numCourses <= 2000", "0 <= prerequisites.length <= 5000", "prerequisites[i].length == 2", "0 <= ai, bi < numCourses", "All the pairs prerequisites[i] are unique"]',
 '[{"input": {"numCourses": 2, "prerequisites": [[1, 0]]}, "output": true, "explanation": "Take course 0 first, then course 1."}, {"input": {"numCourses": 2, "prerequisites": [[1, 0], [0, 1]]}, "output": false, "explanation": "Circular dependency."}]',
-'["graph", "topological-sort", "depth-first-search", "breadth-first-search"]');
+'["graph", "topological-sort", "depth-first-search", "breadth-first-search"]',
+'["LeetCode URL: https://leetcode.com/problems/course-schedule/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (29,
@@ -938,14 +967,15 @@ public:
 
 -- Question 30: Clone Graph
 -- Clone Graph (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (30, 1, 'Clone Graph', 'medium',
 'Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph.
 
 Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.',
 '["The number of nodes in the graph is in the range [0, 100]", "1 <= Node.val <= 100", "Node.val is unique for each node", "There are no repeated edges and no self-loops"]',
 '[{"input": {"adjList": [[2, 4], [1, 3], [2, 4], [1, 3]]}, "output": [[2, 4], [1, 3], [2, 4], [1, 3]], "explanation": "Clone the graph."}]',
-'["hash-table", "depth-first-search", "breadth-first-search", "graph"]');
+'["hash-table", "depth-first-search", "breadth-first-search", "graph"]',
+'["LeetCode URL: https://leetcode.com/problems/clone-graph/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (30,
@@ -970,14 +1000,15 @@ public:
 
 -- Question 31: Word Search
 -- Word Search (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (31, 1, 'Word Search', 'medium',
 'Given an m x n grid of characters board and a string word, return true if word exists in the grid.
 
 The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring.',
 '["m == board.length", "n = board[i].length", "1 <= m, n <= 6", "1 <= word.length <= 15", "board and word consists of only lowercase and uppercase English letters"]',
 '[{"input": {"board": [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "word": "ABCCED"}, "output": true, "explanation": "Word found in board."}]',
-'["array", "backtracking", "matrix"]');
+'["array", "backtracking", "matrix"]',
+'["LeetCode URL: https://leetcode.com/problems/word-search/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (31,
@@ -1002,14 +1033,15 @@ public:
 
 -- Question 32: Coin Change
 -- Coin Change (MEDIUM)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (32, 1, 'Coin Change', 'medium',
 'You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
 
 Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.',
 '["1 <= coins.length <= 12", "1 <= coins[i] <= 2^31 - 1", "0 <= amount <= 10^4"]',
 '[{"input": {"coins": [1, 2, 5], "amount": 11}, "output": 3, "explanation": "11 = 5 + 5 + 1"}, {"input": {"coins": [2], "amount": 3}, "output": -1, "explanation": "Cannot make amount 3."}]',
-'["array", "dynamic-programming", "breadth-first-search"]');
+'["array", "dynamic-programming", "breadth-first-search"]',
+'["LeetCode URL: https://leetcode.com/problems/coin-change/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (32,
@@ -1034,12 +1066,13 @@ public:
 
 -- Question 33: Trapping Rain Water
 -- Trapping Rain Water (HARD)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (33, 1, 'Trapping Rain Water', 'hard',
 'Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.',
 '["n == height.length", "1 <= n <= 2 * 10^4", "0 <= height[i] <= 10^5"]',
 '[{"input": {"height": [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]}, "output": 6, "explanation": "The elevation map can trap 6 units of rain water."}]',
-'["array", "two-pointers", "dynamic-programming", "stack", "monotonic-stack"]');
+'["array", "two-pointers", "dynamic-programming", "stack", "monotonic-stack"]',
+'["LeetCode URL: https://leetcode.com/problems/trapping-rain-water/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (33,
@@ -1064,14 +1097,15 @@ public:
 
 -- Question 34: Median of Two Sorted Arrays
 -- Median of Two Sorted Arrays (HARD)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (34, 1, 'Median of Two Sorted Arrays', 'hard',
 'Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
 
 The overall run time complexity should be O(log (m+n)).',
 '["nums1.length == m", "nums2.length == n", "0 <= m <= 1000", "0 <= n <= 1000", "1 <= m + n <= 2000", "-10^6 <= nums1[i], nums2[i] <= 10^6"]',
 '[{"input": {"nums1": [1, 3], "nums2": [2]}, "output": 2.0, "explanation": "Merged array = [1,2,3], median = 2."}, {"input": {"nums1": [1, 2], "nums2": [3, 4]}, "output": 2.5, "explanation": "Merged array = [1,2,3,4], median = (2+3)/2 = 2.5."}]',
-'["array", "binary-search", "divide-and-conquer"]');
+'["array", "binary-search", "divide-and-conquer"]',
+'["LeetCode URL: https://leetcode.com/problems/median-of-two-sorted-arrays/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (34,
@@ -1096,7 +1130,7 @@ public:
 
 -- Question 35: Binary Tree Maximum Path Sum
 -- Binary Tree Maximum Path Sum (HARD)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (35, 1, 'Binary Tree Maximum Path Sum', 'hard',
 'A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.
 
@@ -1105,7 +1139,8 @@ The path sum of a path is the sum of the node''s values in the path.
 Given the root of a binary tree, return the maximum path sum of any non-empty path.',
 '["The number of nodes in the tree is in the range [1, 3 * 10^4]", "-1000 <= Node.val <= 1000"]',
 '[{"input": {"root": [1, 2, 3]}, "output": 6, "explanation": "The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6."}, {"input": {"root": [-10, 9, 20, null, null, 15, 7]}, "output": 42, "explanation": "The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42."}]',
-'["tree", "depth-first-search", "dynamic-programming", "binary-tree"]');
+'["tree", "depth-first-search", "dynamic-programming", "binary-tree"]',
+'["LeetCode URL: https://leetcode.com/problems/binary-tree-maximum-path-sum/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (35,
@@ -1130,14 +1165,15 @@ public:
 
 -- Question 36: Serialize and Deserialize Binary Tree
 -- Serialize and Deserialize Binary Tree (HARD)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (36, 1, 'Serialize and Deserialize Binary Tree', 'hard',
 'Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
 
 Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work.',
 '["The number of nodes in the tree is in the range [0, 10^4]", "-1000 <= Node.val <= 1000"]',
 '[{"input": {"root": [1, 2, 3, null, null, 4, 5]}, "output": [1, 2, 3, null, null, 4, 5], "explanation": "Serialize then deserialize the tree."}]',
-'["string", "tree", "depth-first-search", "breadth-first-search", "design", "binary-tree"]');
+'["string", "tree", "depth-first-search", "breadth-first-search", "design", "binary-tree"]',
+'["LeetCode URL: https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (36,
@@ -1173,7 +1209,7 @@ public:
 
 -- Question 37: Regular Expression Matching
 -- Regular Expression Matching (HARD)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (37, 1, 'Regular Expression Matching', 'hard',
 'Given an input string s and a pattern p, implement regular expression matching with support for ''.'' and ''*'' where:
 
@@ -1183,7 +1219,8 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 The matching should cover the entire input string (not partial).',
 '["1 <= s.length <= 20", "1 <= p.length <= 20", "s contains only lowercase English letters", "p contains only lowercase English letters, ''.'', and ''*''"]',
 '[{"input": {"s": "aa", "p": "a"}, "output": false, "explanation": "a does not match the entire string aa."}, {"input": {"s": "aa", "p": "a*"}, "output": true, "explanation": "* means zero or more of the preceding element, a. Therefore, by repeating a once, it becomes aa."}]',
-'["string", "dynamic-programming", "recursion"]');
+'["string", "dynamic-programming", "recursion"]',
+'["LeetCode URL: https://leetcode.com/problems/regular-expression-matching/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (37,
@@ -1208,7 +1245,7 @@ public:
 
 -- Question 38: Edit Distance
 -- Edit Distance (HARD)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (38, 1, 'Edit Distance', 'hard',
 'Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
 
@@ -1218,7 +1255,8 @@ You have the following three operations permitted on a word:
 - Replace a character',
 '["0 <= word1.length, word2.length <= 500", "word1 and word2 consist of lowercase English letters"]',
 '[{"input": {"word1": "horse", "word2": "ros"}, "output": 3, "explanation": "horse -> rorse (replace ''h'' with ''r'') -> rose (remove ''r'') -> ros (remove ''e'')"}, {"input": {"word1": "intention", "word2": "execution"}, "output": 5, "explanation": "intention -> inention (remove ''t'') -> enention (replace ''i'' with ''e'') -> exention (replace ''n'' with ''x'') -> exection (replace ''n'' with ''c'') -> execution (insert ''u'')"}]',
-'["string", "dynamic-programming"]');
+'["string", "dynamic-programming"]',
+'["LeetCode URL: https://leetcode.com/problems/edit-distance/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (38,
@@ -1243,7 +1281,7 @@ public:
 
 -- Question 39: Word Ladder
 -- Word Ladder (HARD)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (39, 1, 'Word Ladder', 'hard',
 'A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
 - Every adjacent pair of words differs by a single letter.
@@ -1253,7 +1291,8 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.',
 '["1 <= beginWord.length <= 10", "endWord.length == beginWord.length", "1 <= wordList.length <= 5000", "wordList[i].length == beginWord.length", "All strings consist of lowercase English letters", "beginWord != endWord", "All the words in wordList are unique"]',
 '[{"input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot", "dot", "dog", "lot", "log", "cog"]}, "output": 5, "explanation": "One shortest transformation sequence is ''hit'' -> ''hot'' -> ''dot'' -> ''dog'' -> ''cog'', which is 5 words long."}, {"input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot", "dot", "dog", "lot", "log"]}, "output": 0, "explanation": "The endWord ''cog'' is not in wordList, therefore there is no valid transformation sequence."}]',
-'["hash-table", "string", "breadth-first-search"]');
+'["hash-table", "string", "breadth-first-search"]',
+'["LeetCode URL: https://leetcode.com/problems/word-ladder/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (39,
@@ -1278,14 +1317,15 @@ public:
 
 -- Question 40: Merge k Sorted Lists
 -- Merge k Sorted Lists (HARD)
-INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags) VALUES
+INSERT INTO questions (id, category_id, title, difficulty, description, constraints, examples, tags, hints) VALUES
 (40, 1, 'Merge k Sorted Lists', 'hard',
 'You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
 
 Merge all the linked-lists into one sorted linked-list and return it.',
 '["k == lists.length", "0 <= k <= 10^4", "0 <= lists[i].length <= 500", "-10^4 <= lists[i][j] <= 10^4", "lists[i] is sorted in ascending order", "The sum of lists[i].length will not exceed 10^4"]',
 '[{"input": {"lists": [[1, 4, 5], [1, 3, 4], [2, 6]]}, "output": [1, 1, 2, 3, 4, 4, 5, 6], "explanation": "Merging all lists: [1,4,5], [1,3,4], and [2,6] into one sorted list."}, {"input": {"lists": []}, "output": [], "explanation": "Empty input."}, {"input": {"lists": [[]]}, "output": [], "explanation": "Single empty list."}]',
-'["linked-list", "divide-and-conquer", "heap", "merge-sort"]');
+'["linked-list", "divide-and-conquer", "heap", "merge-sort"]',
+'["LeetCode URL: https://leetcode.com/problems/merge-k-sorted-lists/"]');
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity) VALUES
 (40,
