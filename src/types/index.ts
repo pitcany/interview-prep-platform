@@ -35,7 +35,7 @@ export interface LeetCodeQuestion extends Question {
   function_signature_python?: string;
   function_signature_java?: string;
   function_signature_cpp?: string;
-  test_cases: TestCase[];
+  test_cases: string; // JSON string from DB
   expected_time_complexity?: string;
   expected_space_complexity?: string;
   solution_python?: string;

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAppStore } from '../store';
 import { api } from '../services/api';
+import { ConfirmModal } from '../components/ConfirmModal';
+import { Toast } from '../components/Toast';
+import { useToast } from '../hooks/useToast';
 import type { User } from '../types';
 
 export default function Login() {
@@ -11,7 +14,9 @@ export default function Login() {
   const [showNewUserForm, setShowNewUserForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [deleteConfirm, setDeleteConfirm] = useState<{ userId: number; username: string } | null>(null);
   const setCurrentUser = useAppStore((state) => state.setCurrentUser);
+  const { toasts, showToast, hideToast } = useToast();
 
   useEffect(() => {
     loadUsers();
@@ -67,23 +72,26 @@ export default function Login() {
   };
 
   const handleDeleteUser = async (userId: number, username: string) => {
-    if (!confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
-      return;
-    }
+    setDeleteConfirm({ userId, username });
+  };
+
+  const confirmDeleteUser = async () => {
+    if (!deleteConfirm) return;
 
     setIsLoading(true);
     setError('');
 
     try {
-      const result = await api.deleteUser(userId);
+      const result = await api.deleteUser(deleteConfirm.userId);
       if (result.success) {
         // Clear selection if deleted user was selected
-        const deletedUser = users.find(u => u.id === userId);
+        const deletedUser = users.find(u => u.id === deleteConfirm.userId);
         if (deletedUser && selectedUser === deletedUser.username) {
           setSelectedUser('');
         }
         // Reload users list
         await loadUsers();
+        showToast(`User "${deleteConfirm.username}" deleted successfully`, 'success');
       } else {
         setError('Failed to delete user');
       }
@@ -91,11 +99,13 @@ export default function Login() {
       setError('Failed to delete user: ' + err.message);
     } finally {
       setIsLoading(false);
+      setDeleteConfirm(null);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+    <>
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-gray-800 rounded-lg shadow-xl p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">
@@ -250,6 +260,29 @@ export default function Login() {
           </form>
         )}
       </div>
-    </div>
+      </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmModal
+        isOpen={deleteConfirm !== null}
+        title="Delete User"
+        message={`Are you sure you want to delete user "${deleteConfirm?.username}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="danger"
+        onConfirm={confirmDeleteUser}
+        onCancel={() => setDeleteConfirm(null)}
+      />
+
+      {/* Toast notifications */}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          onClose={() => hideToast(toast.id)}
+        />
+      ))}
+    </>
   );
 }
