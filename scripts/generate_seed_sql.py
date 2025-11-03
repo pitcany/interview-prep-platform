@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate comprehensive seed SQL file for 40 LeetCode + 10 ML System Design questions
+Optimized for Meta & Atlassian Senior ML Engineer Interviews
 Output: /app/database/seed_complete.sql
 """
 
@@ -11,7 +12,8 @@ from pathlib import Path
 # Add scripts directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from complete_questions_data import LEETCODE_QUESTIONS, ML_QUESTIONS
+# Use optimized questions for Meta/Atlassian
+from meta_atlassian_questions import LEETCODE_QUESTIONS, ML_QUESTIONS
 
 
 def escape_sql_string(s):
