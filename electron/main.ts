@@ -3,12 +3,12 @@ import * as path from 'path';
 import * as url from 'url';
 import { DatabaseService } from './services/database';
 import { CodeExecutorService } from './services/codeExecutor';
-import { ClaudeAPIService } from './services/claudeAPI';
+import { LocalLLMService } from './services/localLLM';
 
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
 let codeExecutor: CodeExecutorService;
-let claudeAPI: ClaudeAPIService;
+let llmService: LocalLLMService;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -58,7 +58,10 @@ async function initializeServices() {
     codeExecutor = new CodeExecutorService();
     await codeExecutor.initialize();
 
-    claudeAPI = new ClaudeAPIService(process.env.CLAUDE_API_KEY || '');
+    llmService = new LocalLLMService(
+      process.env.LLM_BASE_URL || 'http://localhost:8000',
+      process.env.LLM_MODEL || 'gpt-oss-20b'
+    );
 
     console.log('All services initialized successfully');
   } catch (error) {
@@ -123,7 +126,7 @@ ipcMain.handle('questions:getMLDesignDetails', async (_, questionId) => {
 
 // Code Execution
 ipcMain.handle('code:execute', async (_, executionData) => {
-  const { code, language, testCases, questionId } = executionData;
+  const { code, language, testCases } = executionData;
   return await codeExecutor.executeCode(code, language, testCases);
 });
 
@@ -194,9 +197,9 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
   const { userId, submissionId, submissionType, mockInterviewId } = feedbackData;
   
   // Get submission details
-  let submission;
+  let submission: any;
   let question;
-  
+
   if (submissionType === 'code') {
     submission = await dbService.getCodeSubmission(submissionId);
     question = await dbService.getLeetCodeQuestionDetails(submission.questionId);
@@ -205,8 +208,8 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
     question = await dbService.getMLDesignQuestionDetails(submission.questionId);
   }
 
-  // Generate feedback using Claude API
-  const feedback = await claudeAPI.generateFeedback(submission, question, submissionType);
+  // Generate feedback using Local LLM
+  const feedback = await llmService.generateFeedback(submission, question, submissionType);
 
   // Save feedback
   const savedFeedback = await dbService.createFeedback({

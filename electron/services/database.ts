@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export class DatabaseService {
-  private db: Database.Database;
+  private db!: Database.Database;
   private dbPath: string;
 
   constructor(dbPath: string) {
@@ -278,7 +278,7 @@ export class DatabaseService {
     `).get(userId);
 
     const byDifficulty = this.db.prepare(`
-      SELECT 
+      SELECT
         q.difficulty,
         COUNT(*) as attempts,
         SUM(CASE WHEN up.solved = 1 THEN 1 ELSE 0 END) as solved
@@ -288,7 +288,7 @@ export class DatabaseService {
       GROUP BY q.difficulty
     `).all(userId);
 
-    return { ...stats, byDifficulty };
+    return { ...(stats as any), byDifficulty };
   }
 
   getSubmissionHistory(userId: number, limit: number = 20) {
