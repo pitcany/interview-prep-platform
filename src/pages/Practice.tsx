@@ -172,13 +172,18 @@ export default function Practice() {
 
       setResults(result.executionResult);
 
-      // Generate feedback if all tests passed
+      // Generate feedback if all tests passed (optional, don't fail if not configured)
       if (result.executionResult.status === 'passed') {
-        await api.generateFeedback({
-          userId: currentUser.id,
-          submissionId: result.submission.id,
-          submissionType: 'code',
-        });
+        try {
+          await api.generateFeedback({
+            userId: currentUser.id,
+            submissionId: result.submission.id,
+            submissionType: 'code',
+          });
+        } catch (feedbackError: any) {
+          console.warn('Feedback generation not available:', feedbackError.message);
+          // Don't overwrite the successful test results
+        }
       }
     } catch (error: any) {
       console.error('Failed to submit code:', error);

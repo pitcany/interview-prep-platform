@@ -68,8 +68,16 @@ export class CodeExecutorService {
     language: string,
     testCases: TestCase[]
   ): Promise<ExecutionResult> {
+    console.log('executeCode called with:', {
+      codeLength: code.length,
+      language,
+      testCasesCount: testCases.length,
+      testCases: testCases
+    });
+
     // Use Python service for local execution (faster, supports only Python)
     if (this.usePythonService && language === 'python') {
+      console.log('Using Python service for execution');
       return this.executeWithPythonService(code, testCases);
     }
 
@@ -111,6 +119,7 @@ export class CodeExecutorService {
   ): Promise<ExecutionResult> {
     return new Promise((resolve, _reject) => {
       const testRunnerPath = path.join(this.pythonServicePath, 'test_runner.py');
+      console.log('Test runner path:', testRunnerPath);
 
       const inputData = JSON.stringify({
         code,
@@ -119,8 +128,10 @@ export class CodeExecutorService {
         timeout: this.maxExecutionTime / 1000, // Convert to seconds
         maxMemory: this.maxMemory,
       });
+      console.log('Spawning Python process with input data length:', inputData.length);
 
       const pythonProcess = spawn('python3', [testRunnerPath, inputData]);
+      console.log('Python process spawned with PID:', pythonProcess.pid);
 
       let stdout = '';
       let stderr = '';
@@ -138,14 +149,23 @@ export class CodeExecutorService {
 
       pythonProcess.stdout.on('data', (data) => {
         stdout += data.toString();
+        console.log('Python stdout:', data.toString());
       });
 
       pythonProcess.stderr.on('data', (data) => {
         stderr += data.toString();
+        console.log('Python stderr:', data.toString());
+      });
+
+      pythonProcess.on('error', (error) => {
+        console.error('Python process error:', error);
       });
 
       pythonProcess.on('close', (code) => {
         clearTimeout(timeout);
+        console.log('Python process closed with code:', code);
+        console.log('Final stdout length:', stdout.length);
+        console.log('Final stderr length:', stderr.length);
 
         if (code !== 0 && !stdout) {
           resolve({
@@ -160,8 +180,20 @@ export class CodeExecutorService {
 
         try {
           const result = JSON.parse(stdout);
-          resolve(result);
+
+          // Convert snake_case to camelCase for compatibility
+          const formattedResult: ExecutionResult = {
+            status: result.status,
+            testResults: result.test_results || [],
+            executionTime: result.execution_time || 0,
+            memoryUsed: result.memory_used || 0,
+            errorMessage: result.error_message || undefined,
+          };
+
+          console.log('Formatted result:', formattedResult);
+          resolve(formattedResult);
         } catch (error) {
+          console.error('Failed to parse Python output:', error);
           resolve({
             status: 'error',
             testResults: [],
