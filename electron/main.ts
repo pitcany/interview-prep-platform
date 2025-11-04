@@ -2,19 +2,55 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { config } from 'dotenv';
+import { existsSync } from 'fs';
 import { DatabaseService } from './services/database';
 import { CodeExecutorService } from './services/codeExecutor';
 import { LocalLLMService } from './services/localLLM';
 
-// Load environment variables from .env file
-// When compiled, __dirname is dist/electron, so we need to go up two levels to reach project root
-const envPath = path.join(__dirname, '..', '..', '.env');
-config({ path: envPath });
-console.log('Environment loaded from:', envPath);
-console.log('SANDBOX_MODE:', process.env.SANDBOX_MODE);
-console.log('LLM_BASE_URL:', process.env.LLM_BASE_URL ? 'Set' : 'Not set');
-console.log('LLM_MODEL:', process.env.LLM_MODEL || 'Not set');
-console.log('CLAUDE_API_KEY:', process.env.CLAUDE_API_KEY ? 'Set' : 'Not set (deprecated, use LLM_BASE_URL)');
+function loadEnvironmentVariables() {
+  const candidatePaths = new Set<string>();
+
+  const explicitEnvPath =
+    process.env.INTERVIEW_PREP_ENV_FILE ||
+    process.env.ELECTRON_ENV_FILE ||
+    process.env.ENV_FILE;
+
+  if (explicitEnvPath) {
+    candidatePaths.add(path.resolve(explicitEnvPath));
+  }
+
+  candidatePaths.add(path.join(process.cwd(), '.env'));
+  candidatePaths.add(path.join(__dirname, '.env'));
+  candidatePaths.add(path.join(__dirname, '..', '.env'));
+  candidatePaths.add(path.join(__dirname, '..', '..', '.env'));
+
+  if (app.isReady()) {
+    const appPath = app.getAppPath();
+    const appDir = appPath.endsWith('.asar') ? path.dirname(appPath) : appPath;
+    candidatePaths.add(path.join(appDir, '.env'));
+
+    candidatePaths.add(path.join(process.resourcesPath, '.env'));
+    candidatePaths.add(path.join(path.dirname(app.getPath('exe')), '.env'));
+  }
+
+  const envPath = [...candidatePaths].find((candidate) => existsSync(candidate));
+
+  if (envPath) {
+    config({ path: envPath });
+    console.log('Environment loaded from:', envPath);
+  } else {
+    config();
+    console.warn('No .env file found; relying on existing environment variables.');
+  }
+
+  console.log('SANDBOX_MODE:', process.env.SANDBOX_MODE);
+  console.log('LLM_BASE_URL:', process.env.LLM_BASE_URL ? 'Set' : 'Not set');
+  console.log('LLM_MODEL:', process.env.LLM_MODEL || 'Not set');
+  console.log(
+    'CLAUDE_API_KEY:',
+    process.env.CLAUDE_API_KEY ? 'Set' : 'Not set (deprecated, use LLM_BASE_URL)'
+  );
+}
 
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
@@ -89,6 +125,7 @@ async function initializeServices() {
 
 // App lifecycle
 app.on('ready', async () => {
+  loadEnvironmentVariables();
   await initializeServices();
   createWindow();
 });
