@@ -281,7 +281,9 @@ export class CodeExecutorService {
       // Check if any common method exists in the code
       // Look for "def methodName(" pattern (with or without self parameter)
       for (const method of commonMethods) {
-        const methodPattern = new RegExp(`def\\s+${method}\\s*\\(`);
+        // Escape special regex characters in method name
+        const escapedMethod = method.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const methodPattern = new RegExp(`def\\s+${escapedMethod}\\s*\\(`);
         if (methodPattern.test(code)) {
           return method;
         }
@@ -298,8 +300,9 @@ export class CodeExecutorService {
         }
       }
 
-      // Last resort: return 'solve' (will fail gracefully if doesn't exist)
-      return 'solve';
+      // Last resort: return empty string to trigger fallback logic in wrapper code
+      // The wrapper code will use introspection to find any method
+      return '';
     }
 
     // For other languages, return 'solve' as fallback
@@ -324,25 +327,38 @@ test_input = json.loads('${inputStr.replace(/'/g, "\\'")}')
 # Execute the solution
 try:
     sol = Solution()
-    if hasattr(sol, '${methodName}'):
-        if isinstance(test_input, list) and len(test_input) > 0:
-            result = sol.${methodName}(*test_input)
-        else:
-            result = sol.${methodName}(test_input)
+    
+    # First, get all available methods from Solution class
+    all_methods = [m for m in dir(sol) if not m.startswith('_') and callable(getattr(sol, m))]
+    
+    if not all_methods:
+        raise AttributeError("Solution class has no callable methods")
+    
+    # Try to use extracted method name if it exists and is available
+    method_name = None
+    extracted_method = '${methodName}'
+    if extracted_method and extracted_method != '' and extracted_method != 'solve' and extracted_method in all_methods:
+        method_name = extracted_method
+    
+    # If extracted method doesn't exist or is 'solve', use the first available method
+    if not method_name:
+        method_name = all_methods[0]
+    
+    # Call the method
+    method = getattr(sol, method_name)
+    if isinstance(test_input, list) and len(test_input) > 0:
+        result = method(*test_input)
     else:
-        # Try to find any method in Solution class
-        methods = [m for m in dir(sol) if not m.startswith('_') and callable(getattr(sol, m))]
-        if methods:
-            method = getattr(sol, methods[0])
-            if isinstance(test_input, list) and len(test_input) > 0:
-                result = method(*test_input)
-            else:
-                result = method(test_input)
-        else:
-            raise AttributeError("No method found in Solution class")
+        result = method(test_input)
+    
     print(json.dumps(result))
 except AttributeError as e:
-    print(json.dumps({"error": str(e), "method_tried": "${methodName}"}))
+    error_msg = str(e)
+    available_methods = all_methods if 'all_methods' in locals() else 'unknown'
+    print(json.dumps({"error": f"Solution class method error: {error_msg}. Available methods: {available_methods}", "method_tried": "${methodName}"}))
+    sys.exit(1)
+except Exception as e:
+    print(json.dumps({"error": str(e), "error_type": type(e).__name__}))
     sys.exit(1)
 `;
 
