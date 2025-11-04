@@ -138,8 +138,40 @@ export class DatabaseService {
   }
 
   getLeetCodeQuestionDetails(questionId: number) {
-    return this.db.prepare('SELECT * FROM leetcode_questions WHERE question_id = ?')
-      .get(questionId);
+    const result: any = this.db.prepare(`
+      SELECT 
+        lq.*,
+        q.hints
+      FROM leetcode_questions lq
+      JOIN questions q ON lq.question_id = q.id
+      WHERE lq.question_id = ?
+    `).get(questionId);
+
+    if (!result) return null;
+
+    // Parse hints if available
+    let hints: string[] = [];
+    if (result.hints) {
+      try {
+        hints = JSON.parse(result.hints);
+      } catch {
+        hints = [];
+      }
+    }
+
+    // Include all fields including solutions
+    // Note: test_cases and hidden_test_cases are kept as string because frontend expects to parse them
+    return {
+      ...result,
+      test_cases: result.test_cases || '[]',
+      hidden_test_cases: result.hidden_test_cases || '[]',
+      hints: hints,
+      // Solution fields are now included
+      solution_python: result.solution_python || '',
+      solution_java: result.solution_java || '',
+      solution_cpp: result.solution_cpp || '',
+      solution_explanation: result.solution_explanation || ''
+    };
   }
 
   getMLDesignQuestionDetails(questionId: number) {
@@ -162,6 +194,8 @@ export class DatabaseService {
       requirements: result.requirements ? JSON.parse(result.requirements) : [],
       evaluation_criteria: result.evaluation_criteria ? JSON.parse(result.evaluation_criteria) : {},
       key_components: result.key_components ? JSON.parse(result.key_components) : [],
+      // Include sample solution
+      sample_solution: result.sample_solution || ''
     };
   }
 
@@ -359,6 +393,47 @@ export class DatabaseService {
         new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime()
       )
       .slice(0, limit);
+  }
+
+  // Hints
+  getQuestionHints(questionId: number) {
+    const question = this.db.prepare('SELECT hints FROM questions WHERE id = ?')
+      .get(questionId) as { hints: string } | undefined;
+    
+    if (!question || !question.hints) {
+      return [];
+    }
+
+    try {
+      return JSON.parse(question.hints);
+    } catch {
+      return [];
+    }
+  }
+
+  // Progress Reset
+  resetUserProgress(userId: number) {
+    // Use transaction to ensure atomicity
+    const resetTransaction = this.db.transaction((userId: number) => {
+      // Delete all user progress
+      this.db.prepare('DELETE FROM user_progress WHERE user_id = ?').run(userId);
+      
+      // Delete all code submissions
+      this.db.prepare('DELETE FROM code_submissions WHERE user_id = ?').run(userId);
+      
+      // Delete all design submissions
+      this.db.prepare('DELETE FROM design_submissions WHERE user_id = ?').run(userId);
+      
+      // Delete all feedback (optional - you might want to keep feedback)
+      // this.db.prepare('DELETE FROM feedback WHERE user_id = ?').run(userId);
+      
+      // Delete mock interviews
+      this.db.prepare('DELETE FROM mock_interviews WHERE user_id = ?').run(userId);
+      
+      return { success: true };
+    });
+    
+    return resetTransaction(userId);
   }
 
   close() {

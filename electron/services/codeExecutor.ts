@@ -32,12 +32,17 @@ export class CodeExecutorService {
   private maxMemory: number = 512; // 512 MB
   private usePythonService: boolean = false;
 
-  constructor() {
-    this.tempDir = path.join(os.tmpdir(), 'interview-prep-exec');
+  constructor(userDataPath?: string) {
+    // Use userDataPath/code-exec instead of /tmp to avoid Docker mount issues
+    const baseDir = userDataPath || os.tmpdir();
+    this.tempDir = path.join(baseDir, 'code-exec');
     this.pythonServicePath = path.join(__dirname, '../../python-service');
 
     // Use Python service if SANDBOX_MODE is 'local', otherwise use Docker
     this.usePythonService = process.env.SANDBOX_MODE === 'local';
+
+    console.log('CodeExecutor mode:', this.usePythonService ? 'Local Python' : 'Docker');
+    console.log('CodeExecutor temp dir:', this.tempDir);
   }
 
   async initialize() {
@@ -63,8 +68,16 @@ export class CodeExecutorService {
     language: string,
     testCases: TestCase[]
   ): Promise<ExecutionResult> {
+    console.log('executeCode called with:', {
+      codeLength: code.length,
+      language,
+      testCasesCount: testCases.length,
+      testCases: testCases
+    });
+
     // Use Python service for local execution (faster, supports only Python)
     if (this.usePythonService && language === 'python') {
+      console.log('Using Python service for execution');
       return this.executeWithPythonService(code, testCases);
     }
 
@@ -106,6 +119,7 @@ export class CodeExecutorService {
   ): Promise<ExecutionResult> {
     return new Promise((resolve, _reject) => {
       const testRunnerPath = path.join(this.pythonServicePath, 'test_runner.py');
+      console.log('Test runner path:', testRunnerPath);
 
       const inputData = JSON.stringify({
         code,
@@ -114,8 +128,10 @@ export class CodeExecutorService {
         timeout: this.maxExecutionTime / 1000, // Convert to seconds
         maxMemory: this.maxMemory,
       });
+      console.log('Spawning Python process with input data length:', inputData.length);
 
       const pythonProcess = spawn('python3', [testRunnerPath, inputData]);
+      console.log('Python process spawned with PID:', pythonProcess.pid);
 
       let stdout = '';
       let stderr = '';
@@ -133,14 +149,23 @@ export class CodeExecutorService {
 
       pythonProcess.stdout.on('data', (data) => {
         stdout += data.toString();
+        console.log('Python stdout:', data.toString());
       });
 
       pythonProcess.stderr.on('data', (data) => {
         stderr += data.toString();
+        console.log('Python stderr:', data.toString());
+      });
+
+      pythonProcess.on('error', (error) => {
+        console.error('Python process error:', error);
       });
 
       pythonProcess.on('close', (code) => {
         clearTimeout(timeout);
+        console.log('Python process closed with code:', code);
+        console.log('Final stdout length:', stdout.length);
+        console.log('Final stderr length:', stderr.length);
 
         if (code !== 0 && !stdout) {
           resolve({
@@ -155,8 +180,20 @@ export class CodeExecutorService {
 
         try {
           const result = JSON.parse(stdout);
-          resolve(result);
+
+          // Convert snake_case to camelCase for compatibility
+          const formattedResult: ExecutionResult = {
+            status: result.status,
+            testResults: result.test_results || [],
+            executionTime: result.execution_time || 0,
+            memoryUsed: result.memory_used || 0,
+            errorMessage: result.error_message || undefined,
+          };
+
+          console.log('Formatted result:', formattedResult);
+          resolve(formattedResult);
         } catch (error) {
+          console.error('Failed to parse Python output:', error);
           resolve({
             status: 'error',
             testResults: [],
@@ -237,8 +274,76 @@ export class CodeExecutorService {
     }
   }
 
+  private extractMethodName(code: string, language: string): string {
+    if (language === 'python') {
+      // Extract method name from Solution class
+      // Look for pattern: def methodName(self, or def methodName(self)
+      // This regex handles multi-line class definitions with various whitespace
+      const methodMatch = code.match(/class\s+Solution\s*:[\s\S]*?def\s+(\w+)\s*\(\s*self\s*,?/);
+      if (methodMatch && methodMatch[1]) {
+        return methodMatch[1];
+      }
+
+      // Try to find any method in Solution class with more flexible matching
+      // Handle cases where class Solution might be on a different line
+      const classStartIndex = code.indexOf('class Solution');
+      if (classStartIndex !== -1) {
+        const afterClass = code.substring(classStartIndex);
+        // Match method definition after class, allowing for whitespace and comments
+        const methodMatch = afterClass.match(/def\s+(\w+)\s*\(\s*self\s*,?/);
+        if (methodMatch && methodMatch[1]) {
+          return methodMatch[1];
+        }
+      }
+
+      // Common LeetCode method names as fallback - check if they exist in code
+      const commonMethods = [
+        'twoSum', 'threeSum', 'maxProfit', 'findMedianSortedArrays',
+        'lengthOfLongestSubstring', 'longestPalindrome', 'reverse',
+        'myAtoi', 'isMatch', 'maxArea', 'intToRoman', 'romanToInt',
+        'longestCommonPrefix', 'isValid', 'mergeTwoLists', 'removeDuplicates',
+        'search', 'searchInsert', 'plusOne', 'addBinary', 'mySqrt',
+        'climbStairs', 'deleteDuplicates', 'merge', 'isSameTree',
+        'isSymmetric', 'maxDepth', 'levelOrder', 'sortedArrayToBST',
+        'inorderTraversal', 'preorderTraversal', 'postorderTraversal',
+        'hasPathSum', 'minDepth', 'isBalanced', 'flatten', 'connect',
+        'buildTree', 'numIslands', 'cloneGraph', 'canFinish', 'findOrder'
+      ];
+
+      // Check if any common method exists in the code
+      // Look for "def methodName(" pattern (with or without self parameter)
+      for (const method of commonMethods) {
+        // Escape special regex characters in method name
+        const escapedMethod = method.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const methodPattern = new RegExp(`def\\s+${escapedMethod}\\s*\\(`);
+        if (methodPattern.test(code)) {
+          return method;
+        }
+      }
+
+      // Last resort: try to find any method in Solution class
+      // Look for any method definition after "class Solution"
+      const solutionClassMatch = code.match(/class\s+Solution[^:]*:([\s\S]*?)(?=\n\s*class|\n\n|$)/);
+      if (solutionClassMatch) {
+        const classBody = solutionClassMatch[1];
+        const anyMethodMatch = classBody.match(/def\s+(\w+)\s*\(/);
+        if (anyMethodMatch && anyMethodMatch[1] && anyMethodMatch[1] !== '__init__') {
+          return anyMethodMatch[1];
+        }
+      }
+
+      // Last resort: return empty string to trigger fallback logic in wrapper code
+      // The wrapper code will use introspection to find any method
+      return '';
+    }
+
+    // For other languages, return 'solve' as fallback
+    return 'solve';
+  }
+
   private prepareCodeWithTestCase(code: string, language: string, testCase: TestCase): string {
     const inputStr = JSON.stringify(testCase.input);
+    const methodName = this.extractMethodName(code, language);
 
     switch (language) {
       case 'python':
@@ -252,16 +357,46 @@ ${code}
 test_input = json.loads('${inputStr.replace(/'/g, "\\'")}')
 
 # Execute the solution
-if isinstance(test_input, list) and len(test_input) > 0:
-    result = Solution().solve(*test_input)
-else:
-    result = Solution().solve(test_input)
-
-# Output result as JSON
-print(json.dumps(result))
+try:
+    sol = Solution()
+    
+    # First, get all available methods from Solution class
+    all_methods = [m for m in dir(sol) if not m.startswith('_') and callable(getattr(sol, m))]
+    
+    if not all_methods:
+        raise AttributeError("Solution class has no callable methods")
+    
+    # Try to use extracted method name if it exists and is available
+    method_name = None
+    extracted_method = '${methodName}'
+    if extracted_method and extracted_method != '' and extracted_method != 'solve' and extracted_method in all_methods:
+        method_name = extracted_method
+    
+    # If extracted method doesn't exist or is 'solve', use the first available method
+    if not method_name:
+        method_name = all_methods[0]
+    
+    # Call the method
+    method = getattr(sol, method_name)
+    if isinstance(test_input, list) and len(test_input) > 0:
+        result = method(*test_input)
+    else:
+        result = method(test_input)
+    
+    print(json.dumps(result))
+except AttributeError as e:
+    error_msg = str(e)
+    available_methods = all_methods if 'all_methods' in locals() else 'unknown'
+    print(json.dumps({"error": f"Solution class method error: {error_msg}. Available methods: {available_methods}", "method_tried": "${methodName}"}))
+    sys.exit(1)
+except Exception as e:
+    print(json.dumps({"error": str(e), "error_type": type(e).__name__}))
+    sys.exit(1)
 `;
 
       case 'java':
+        // For Java, we'd need to parse the method signature, but for now use a generic approach
+        // Note: This is simplified and may need adjustment based on actual Java code structure
         return `
 import com.google.gson.*;
 
@@ -274,14 +409,22 @@ public class Main {
         
         // Parse input and call solution
         // Note: This is simplified, actual implementation needs type handling
-        Object result = new Solution().solve(gson.fromJson(input, Object.class));
-        
-        System.out.println(gson.toJson(result));
+        // For now, try common method names or use reflection
+        Solution sol = new Solution();
+        try {
+            java.lang.reflect.Method method = sol.getClass().getDeclaredMethods()[0];
+            Object result = method.invoke(sol, gson.fromJson(input, Object.class));
+            System.out.println(gson.toJson(result));
+        } catch (Exception e) {
+            System.out.println("{\\"error\\": \\"" + e.getMessage() + "\\"}");
+        }
     }
 }
 `;
 
       case 'cpp':
+        // For C++, we'd need to parse the method signature, but for now use a generic approach
+        // Note: This is simplified and may need adjustment based on actual C++ code structure
         return `
 #include <iostream>
 #include <string>
@@ -296,7 +439,10 @@ int main() {
     json j = json::parse(input);
     
     Solution sol;
-    auto result = sol.solve(j);
+    // Note: This assumes the Solution class has a method that can be called
+    // For proper implementation, we'd need to parse the method signature
+    // For now, this is a placeholder that will need language-specific handling
+    auto result = sol.solve(j);  // This will need to be adjusted based on actual method
     
     std::cout << json(result).dump() << std::endl;
     return 0;
@@ -317,6 +463,9 @@ int main() {
       const volumeMount = `${path.dirname(filePath)}:/code`;
       const fileName = path.basename(filePath);
 
+      // Get execution command and split into shell args
+      const execCmd = this.getExecutionCommand(language, fileName);
+
       const dockerArgs = [
         'run',
         '--rm',
@@ -325,7 +474,7 @@ int main() {
         '--cpus', '1',
         '--network', 'none',
         containerName,
-        this.getExecutionCommand(language, fileName)
+        'sh', '-c', execCmd  // Use shell to execute complex commands with pipes
       ];
 
       const docker = spawn('docker', dockerArgs);
@@ -387,7 +536,7 @@ int main() {
   private getExecutionCommand(language: string, fileName: string): string {
     switch (language) {
       case 'python':
-        return `python /code/${fileName}`;
+        return `python3 /code/${fileName}`;
       case 'java':
         return `javac /code/${fileName} && java -cp /code Main`;
       case 'cpp':

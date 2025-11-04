@@ -99,30 +99,123 @@ def _execute_user_code(code: str, test_input: Any) -> Dict[str, Any]:
         with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
             exec(code, exec_globals)
 
-            func_names = [
-                'solution', 'solve', 'twoSum', 'threeSum', 'maxProfit',
-                'findMedianSortedArrays', 'lengthOfLongestSubstring',
-                'longestPalindrome', 'reverse', 'myAtoi', 'isMatch',
-                'maxArea', 'intToRoman', 'romanToInt', 'longestCommonPrefix'
-            ]
-
+            # First, check if there's a Solution class (LeetCode style)
+            solution_class = exec_globals.get('Solution')
             solution_func = None
-            for func_name in func_names:
-                if (
-                    func_name in exec_globals
-                    and callable(exec_globals[func_name])
-                ):
-                    solution_func = exec_globals[func_name]
-                    break
+            
+            if solution_class and isinstance(solution_class, type):
+                # Get all methods from the Solution class
+                # In Python, instance methods are stored as functions in the class __dict__
+                method_names = [
+                    name for name, method in solution_class.__dict__.items()
+                    if callable(method) and not name.startswith('_')
+                ]
+                
+                # Common LeetCode method names to try
+                # Note: 'solve' is NOT included here - LeetCode solutions don't use 'solve'
+                common_methods = [
+                    'twoSum', 'threeSum', 'maxProfit', 'findMedianSortedArrays',
+                    'lengthOfLongestSubstring', 'longestPalindrome', 'reverse',
+                    'myAtoi', 'isMatch', 'maxArea', 'intToRoman', 'romanToInt',
+                    'longestCommonPrefix', 'isValid', 'mergeTwoLists', 'removeDuplicates',
+                    'search', 'searchInsert', 'plusOne', 'addBinary', 'mySqrt',
+                    'climbStairs', 'deleteDuplicates', 'merge', 'isSameTree',
+                    'isSymmetric', 'maxDepth', 'levelOrder', 'sortedArrayToBST',
+                    'inorderTraversal', 'preorderTraversal', 'postorderTraversal',
+                    'hasPathSum', 'minDepth', 'isBalanced', 'flatten', 'connect',
+                    'buildTree', 'numIslands', 'cloneGraph', 'canFinish', 'findOrder'
+                ]
+                
+                # Try to find a method name in order of preference
+                method_name = None
+                for method in common_methods:
+                    if method in method_names:
+                        method_name = method
+                        break
+                
+                # If no common method found, use the first method (excluding __init__)
+                if method_name is None and method_names:
+                    # Filter out __init__ if present
+                    non_init_methods = [m for m in method_names if m != '__init__']
+                    if non_init_methods:
+                        method_name = non_init_methods[0]
+                
+                if method_name:
+                    # Instantiate Solution class and get the method
+                    try:
+                        solution_instance = solution_class()
+                        solution_func = getattr(solution_instance, method_name)
+                        # Verify it's actually callable
+                        if not callable(solution_func):
+                            solution_func = None
+                            method_name = None
+                    except AttributeError:
+                        # Method doesn't exist, reset and try fallback
+                        solution_func = None
+                        method_name = None
+                
+                # If we still don't have a method, try to use any available method
+                if solution_func is None and method_names:
+                    non_init_methods = [m for m in method_names if m != '__init__']
+                    if non_init_methods:
+                        try:
+                            solution_instance = solution_class()
+                            method_name = non_init_methods[0]
+                            solution_func = getattr(solution_instance, method_name)
+                            if not callable(solution_func):
+                                solution_func = None
+                        except AttributeError:
+                            solution_func = None
+            
+            # If no Solution class found, look for standalone functions
+            # Only do this if we didn't find a Solution class
+            if solution_func is None and not (solution_class and isinstance(solution_class, type)):
+                func_names = [
+                    'solution', 'twoSum', 'threeSum', 'maxProfit',
+                    'findMedianSortedArrays', 'lengthOfLongestSubstring',
+                    'longestPalindrome', 'reverse', 'myAtoi', 'isMatch',
+                    'maxArea', 'intToRoman', 'romanToInt', 'longestCommonPrefix'
+                    # Note: 'solve' removed from here to avoid calling non-existent methods
+                ]
 
-            if solution_func is None:
-                for name, obj in exec_globals.items():
-                    if callable(obj) and not name.startswith('_'):
-                        solution_func = obj
+                for func_name in func_names:
+                    if (
+                        func_name in exec_globals
+                        and callable(exec_globals[func_name])
+                    ):
+                        solution_func = exec_globals[func_name]
                         break
 
+                if solution_func is None:
+                    for name, obj in exec_globals.items():
+                        if callable(obj) and not name.startswith('_'):
+                            solution_func = obj
+                            break
+
+            # Final check - if we still don't have a function, raise an error
             if solution_func is None:
-                raise ValueError("No callable function found in code")
+                if solution_class and isinstance(solution_class, type):
+                    # Try to get any method from Solution class as last resort
+                    try:
+                        solution_instance = solution_class()
+                        # Get all methods using dir() and introspection
+                        all_methods = [m for m in dir(solution_instance) 
+                                     if not m.startswith('_') 
+                                     and callable(getattr(solution_instance, m))]
+                        if all_methods:
+                            solution_func = getattr(solution_instance, all_methods[0])
+                        else:
+                            raise ValueError(
+                                f"Solution class found but no callable methods found. "
+                                f"Available attributes: {[m for m in dir(solution_instance) if not m.startswith('__')]}"
+                            )
+                    except Exception as e:
+                        raise ValueError(
+                            f"Solution class found but could not find or call any method. "
+                            f"Error: {str(e)}"
+                        )
+                else:
+                    raise ValueError("No callable function or Solution class method found in code")
 
             if isinstance(test_input, dict):
                 output = solution_func(**test_input)

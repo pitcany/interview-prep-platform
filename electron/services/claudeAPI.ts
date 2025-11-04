@@ -55,7 +55,7 @@ export class ClaudeAPIService {
         ? message.content[0].text
         : '';
 
-      return this.parseFeedbackResponse(responseText);
+      return this.parseFeedbackResponse(responseText, submissionType);
     } catch (error: any) {
       console.error('Error generating feedback:', error);
       throw new Error(`Failed to generate feedback: ${error.message}`);
@@ -189,7 +189,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
     return `${nodes.length} components (${uniqueNodeTypes.join(', ')}), ${edges.length} connections`;
   }
 
-  private parseFeedbackResponse(responseText: string): FeedbackResponse {
+  private parseFeedbackResponse(responseText: string, submissionType: 'code' | 'design'): FeedbackResponse {
     try {
       // Try to extract JSON from markdown code blocks if present
       let jsonText = responseText;
@@ -201,7 +201,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
       const parsed = JSON.parse(jsonText);
 
       // Build comprehensive feedback text
-      const feedbackText = this.buildFeedbackText(parsed);
+      const feedbackText = this.buildFeedbackText(parsed, submissionType);
 
       return {
         text: feedbackText,
