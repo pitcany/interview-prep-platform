@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export class DatabaseService {
-  private db: Database.Database;
+  private db!: Database.Database;
   private dbPath: string;
 
   constructor(dbPath: string) {
@@ -20,6 +20,7 @@ export class DatabaseService {
     // Open database
     this.db = new Database(this.dbPath);
     this.db.pragma('journal_mode = WAL');
+    this.db.pragma('foreign_keys = ON');
 
     // Read and execute schema
     const schemaPath = path.join(__dirname, '../../database/schema.sql');
@@ -54,6 +55,31 @@ export class DatabaseService {
 
   getAllUsers() {
     return this.db.prepare('SELECT * FROM users ORDER BY created_at DESC').all();
+  }
+
+  deleteUser(userId: number) {
+    // Use transaction to ensure atomicity
+    const deleteTransaction = this.db.transaction((userId: number) => {
+      // The schema has ON DELETE CASCADE for most foreign keys, 
+      // but we'll explicitly delete from tables that reference users
+      // to ensure clean deletion
+      
+      // Delete from tables with foreign keys to users
+      this.db.prepare('DELETE FROM code_submissions WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM design_submissions WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM feedback WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM user_progress WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM user_preferences WHERE user_id = ?').run(userId);
+      this.db.prepare('DELETE FROM mock_interviews WHERE user_id = ?').run(userId);
+      
+      // Finally delete the user
+      const stmt = this.db.prepare('DELETE FROM users WHERE id = ?');
+      const result = stmt.run(userId);
+      return result;
+    });
+    
+    const result = deleteTransaction(userId);
+    return { success: result.changes > 0, deletedId: userId };
   }
 
   updateUserPreferences(userId: number, preferences: any) {
@@ -112,13 +138,65 @@ export class DatabaseService {
   }
 
   getLeetCodeQuestionDetails(questionId: number) {
-    return this.db.prepare('SELECT * FROM leetcode_questions WHERE question_id = ?')
-      .get(questionId);
+    const result: any = this.db.prepare(`
+      SELECT 
+        lq.*,
+        q.hints
+      FROM leetcode_questions lq
+      JOIN questions q ON lq.question_id = q.id
+      WHERE lq.question_id = ?
+    `).get(questionId);
+
+    if (!result) return null;
+
+    // Parse hints if available
+    let hints: string[] = [];
+    if (result.hints) {
+      try {
+        hints = JSON.parse(result.hints);
+      } catch {
+        hints = [];
+      }
+    }
+
+    // Include all fields including solutions
+    // Note: test_cases and hidden_test_cases are kept as string because frontend expects to parse them
+    return {
+      ...result,
+      test_cases: result.test_cases || '[]',
+      hidden_test_cases: result.hidden_test_cases || '[]',
+      hints: hints,
+      // Solution fields are now included
+      solution_python: result.solution_python || '',
+      solution_java: result.solution_java || '',
+      solution_cpp: result.solution_cpp || '',
+      solution_explanation: result.solution_explanation || ''
+    };
   }
 
   getMLDesignQuestionDetails(questionId: number) {
-    return this.db.prepare('SELECT * FROM ml_design_questions WHERE question_id = ?')
-      .get(questionId);
+    const result: any = this.db.prepare(`
+      SELECT
+        q.*,
+        c.name as category_name,
+        ml.*
+      FROM questions q
+      JOIN question_categories c ON q.category_id = c.id
+      JOIN ml_design_questions ml ON q.id = ml.question_id
+      WHERE q.id = ?
+    `).get(questionId);
+
+    if (!result) return null;
+
+    // Parse JSON fields
+    return {
+      ...result,
+      requirements: result.requirements ? JSON.parse(result.requirements) : [],
+      evaluation_criteria: result.evaluation_criteria ? JSON.parse(result.evaluation_criteria) : {},
+      key_components: result.key_components ? JSON.parse(result.key_components) : [],
+      // Include sample solution
+      sample_solution: result.sample_solution || ''
+    };
   }
 
   // Code Submissions
@@ -278,7 +356,7 @@ export class DatabaseService {
     `).get(userId);
 
     const byDifficulty = this.db.prepare(`
-      SELECT 
+      SELECT
         q.difficulty,
         COUNT(*) as attempts,
         SUM(CASE WHEN up.solved = 1 THEN 1 ELSE 0 END) as solved
@@ -288,7 +366,7 @@ export class DatabaseService {
       GROUP BY q.difficulty
     `).all(userId);
 
-    return { ...stats, byDifficulty };
+    return { ...(stats as object), byDifficulty };
   }
 
   getSubmissionHistory(userId: number, limit: number = 20) {
@@ -315,6 +393,47 @@ export class DatabaseService {
         new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime()
       )
       .slice(0, limit);
+  }
+
+  // Hints
+  getQuestionHints(questionId: number) {
+    const question = this.db.prepare('SELECT hints FROM questions WHERE id = ?')
+      .get(questionId) as { hints: string } | undefined;
+    
+    if (!question || !question.hints) {
+      return [];
+    }
+
+    try {
+      return JSON.parse(question.hints);
+    } catch {
+      return [];
+    }
+  }
+
+  // Progress Reset
+  resetUserProgress(userId: number) {
+    // Use transaction to ensure atomicity
+    const resetTransaction = this.db.transaction((userId: number) => {
+      // Delete all user progress
+      this.db.prepare('DELETE FROM user_progress WHERE user_id = ?').run(userId);
+      
+      // Delete all code submissions
+      this.db.prepare('DELETE FROM code_submissions WHERE user_id = ?').run(userId);
+      
+      // Delete all design submissions
+      this.db.prepare('DELETE FROM design_submissions WHERE user_id = ?').run(userId);
+      
+      // Delete all feedback (optional - you might want to keep feedback)
+      // this.db.prepare('DELETE FROM feedback WHERE user_id = ?').run(userId);
+      
+      // Delete mock interviews
+      this.db.prepare('DELETE FROM mock_interviews WHERE user_id = ?').run(userId);
+      
+      return { success: true };
+    });
+    
+    return resetTransaction(userId);
   }
 
   close() {

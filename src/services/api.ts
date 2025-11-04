@@ -39,6 +39,10 @@ class APIService {
     return await this.api.getAllUsers();
   }
 
+  async deleteUser(userId: number): Promise<{ success: boolean; deletedId: number }> {
+    return await this.api.deleteUser(userId);
+  }
+
   async updateUserPreferences(
     userId: number,
     preferences: UserPreferences
@@ -64,6 +68,10 @@ class APIService {
 
   async getMLDesignDetails(questionId: number): Promise<MLDesignQuestion> {
     return await this.api.getMLDesignDetails(questionId);
+  }
+
+  async getQuestionHints(questionId: number): Promise<string[]> {
+    return await this.api.getQuestionHints(questionId);
   }
 
   // Code Execution
@@ -149,6 +157,10 @@ class APIService {
 
   async getUserFeedback(userId: number, limit?: number): Promise<Feedback[]> {
     return await this.api.getUserFeedback(userId, limit);
+  }
+
+  async resetUserProgress(userId: number): Promise<{ success: boolean }> {
+    return await this.api.resetUserProgress(userId);
   }
 }
 

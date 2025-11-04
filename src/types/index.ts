@@ -31,17 +31,19 @@ export interface Question {
   created_at: string;
 }
 
-export interface LeetCodeQuestion extends Question {
+export interface LeetCodeQuestion extends Omit<Question, 'hints'> {
   function_signature_python?: string;
   function_signature_java?: string;
   function_signature_cpp?: string;
-  test_cases: TestCase[];
+  test_cases: string; // JSON string from DB (visible test cases)
+  hidden_test_cases?: string; // JSON string from DB (hidden test cases, run on submission)
   expected_time_complexity?: string;
   expected_space_complexity?: string;
   solution_python?: string;
   solution_java?: string;
   solution_cpp?: string;
   solution_explanation?: string;
+  hints?: string[]; // Parsed hints array (from DB hints JSON string)
 }
 
 export interface MLDesignQuestion extends Question {

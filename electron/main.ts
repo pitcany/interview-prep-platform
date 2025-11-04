@@ -1,14 +1,61 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { config } from 'dotenv';
+import { existsSync } from 'fs';
 import { DatabaseService } from './services/database';
 import { CodeExecutorService } from './services/codeExecutor';
-import { ClaudeAPIService } from './services/claudeAPI';
+import { LocalLLMService } from './services/localLLM';
+
+function loadEnvironmentVariables() {
+  const candidatePaths = new Set<string>();
+
+  const explicitEnvPath =
+    process.env.INTERVIEW_PREP_ENV_FILE ||
+    process.env.ELECTRON_ENV_FILE ||
+    process.env.ENV_FILE;
+
+  if (explicitEnvPath) {
+    candidatePaths.add(path.resolve(explicitEnvPath));
+  }
+
+  candidatePaths.add(path.join(process.cwd(), '.env'));
+  candidatePaths.add(path.join(__dirname, '.env'));
+  candidatePaths.add(path.join(__dirname, '..', '.env'));
+  candidatePaths.add(path.join(__dirname, '..', '..', '.env'));
+
+  if (app.isReady()) {
+    const appPath = app.getAppPath();
+    const appDir = appPath.endsWith('.asar') ? path.dirname(appPath) : appPath;
+    candidatePaths.add(path.join(appDir, '.env'));
+
+    candidatePaths.add(path.join(process.resourcesPath, '.env'));
+    candidatePaths.add(path.join(path.dirname(app.getPath('exe')), '.env'));
+  }
+
+  const envPath = [...candidatePaths].find((candidate) => existsSync(candidate));
+
+  if (envPath) {
+    config({ path: envPath });
+    console.log('Environment loaded from:', envPath);
+  } else {
+    config();
+    console.warn('No .env file found; relying on existing environment variables.');
+  }
+
+  console.log('SANDBOX_MODE:', process.env.SANDBOX_MODE);
+  console.log('LLM_BASE_URL:', process.env.LLM_BASE_URL ? 'Set' : 'Not set');
+  console.log('LLM_MODEL:', process.env.LLM_MODEL || 'Not set');
+  console.log(
+    'CLAUDE_API_KEY:',
+    process.env.CLAUDE_API_KEY ? 'Set' : 'Not set (deprecated, use LLM_BASE_URL)'
+  );
+}
 
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
 let codeExecutor: CodeExecutorService;
-let claudeAPI: ClaudeAPIService;
+let llmService: LocalLLMService;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -51,14 +98,23 @@ function createWindow() {
 // Initialize services
 async function initializeServices() {
   try {
-    const dbPath = path.join(app.getPath('userData'), 'interview-prep.db');
+    const userDataPath = app.getPath('userData');
+    const dbPath = path.join(userDataPath, 'interview-prep.db');
     dbService = new DatabaseService(dbPath);
     await dbService.initialize();
 
-    codeExecutor = new CodeExecutorService();
+    // Pass userDataPath to avoid Docker /tmp mount issues
+    codeExecutor = new CodeExecutorService(userDataPath);
     await codeExecutor.initialize();
 
-    claudeAPI = new ClaudeAPIService(process.env.CLAUDE_API_KEY || '');
+    // Initialize Local LLM service
+    const llmBaseUrl = process.env.LLM_BASE_URL;
+    const llmModel = process.env.LLM_MODEL || 'gpt-oss-20b';
+
+    if (!llmBaseUrl) {
+      console.warn('LLM_BASE_URL not set. AI feedback generation will not work. Set LLM_BASE_URL in .env to enable.');
+    }
+    llmService = new LocalLLMService(llmBaseUrl, llmModel);
 
     console.log('All services initialized successfully');
   } catch (error) {
@@ -69,6 +125,7 @@ async function initializeServices() {
 
 // App lifecycle
 app.on('ready', async () => {
+  loadEnvironmentVariables();
   await initializeServices();
   createWindow();
 });
@@ -100,6 +157,10 @@ ipcMain.handle('user:getAll', async () => {
   return await dbService.getAllUsers();
 });
 
+ipcMain.handle('user:delete', async (_, userId) => {
+  return await dbService.deleteUser(userId);
+});
+
 ipcMain.handle('user:updatePreferences', async (_, userId, preferences) => {
   return await dbService.updateUserPreferences(userId, preferences);
 });
@@ -123,7 +184,7 @@ ipcMain.handle('questions:getMLDesignDetails', async (_, questionId) => {
 
 // Code Execution
 ipcMain.handle('code:execute', async (_, executionData) => {
-  const { code, language, testCases, questionId } = executionData;
+  const { code, language, testCases } = executionData;
   return await codeExecutor.executeCode(code, language, testCases);
 });
 
@@ -194,9 +255,9 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
   const { userId, submissionId, submissionType, mockInterviewId } = feedbackData;
   
   // Get submission details
-  let submission;
-  let question;
-  
+  let submission: any;
+  let question: any;
+
   if (submissionType === 'code') {
     submission = await dbService.getCodeSubmission(submissionId);
     question = await dbService.getLeetCodeQuestionDetails(submission.questionId);
@@ -205,8 +266,8 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
     question = await dbService.getMLDesignQuestionDetails(submission.questionId);
   }
 
-  // Generate feedback using Claude API
-  const feedback = await claudeAPI.generateFeedback(submission, question, submissionType);
+  // Generate feedback using Local LLM
+  const feedback = await llmService.generateFeedback(submission, question, submissionType);
 
   // Save feedback
   const savedFeedback = await dbService.createFeedback({
@@ -238,6 +299,16 @@ ipcMain.handle('submissions:getHistory', async (_, userId, limit) => {
 
 ipcMain.handle('feedback:getByUser', async (_, userId, limit) => {
   return await dbService.getUserFeedback(userId, limit);
+});
+
+// Hints
+ipcMain.handle('questions:getHints', async (_, questionId) => {
+  return await dbService.getQuestionHints(questionId);
+});
+
+// Progress Reset
+ipcMain.handle('progress:reset', async (_, userId) => {
+  return await dbService.resetUserProgress(userId);
 });
 
 // Handle uncaught errors

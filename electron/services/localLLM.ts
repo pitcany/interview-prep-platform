@@ -1,4 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk';
+import fetch from 'node-fetch';
 
 interface FeedbackResponse {
   text: string;
@@ -15,15 +15,14 @@ interface FeedbackResponse {
   improvements: string[];
 }
 
-export class ClaudeAPIService {
-  private client: Anthropic | null = null;
+export class LocalLLMService {
+  private baseUrl: string;
+  private model: string;
 
-  constructor(apiKey: string) {
-    if (apiKey) {
-      this.client = new Anthropic({ apiKey });
-    } else {
-      console.warn('Claude API key not provided. Feedback generation will be disabled.');
-    }
+  constructor(baseUrl: string = 'http://localhost:8000', model: string = 'gpt-oss-20b') {
+    this.baseUrl = baseUrl;
+    this.model = model;
+    console.log(`LocalLLM configured: ${this.baseUrl} (model: ${this.model})`);
   }
 
   async generateFeedback(
@@ -31,33 +30,45 @@ export class ClaudeAPIService {
     question: any,
     submissionType: 'code' | 'design'
   ): Promise<FeedbackResponse> {
-    if (!this.client) {
-      throw new Error('Claude API not configured');
-    }
-
-    const prompt = submissionType === 'code' 
+    const prompt = submissionType === 'code'
       ? this.buildCodeFeedbackPrompt(submission, question)
       : this.buildDesignFeedbackPrompt(submission, question);
 
     try {
-      const message = await this.client.messages.create({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
+      // OpenAI-compatible API call
+      const response = await fetch(`${this.baseUrl}/v1/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: this.model,
+          messages: [
+            {
+              role: 'system',
+              content: 'You are an expert technical interviewer providing detailed feedback on coding problems and system design. Always respond with valid JSON only.'
+            },
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+          max_tokens: 2000,
+          temperature: 0.7,
+        }),
       });
 
-      const responseText = message.content[0].type === 'text'
-        ? message.content[0].text
-        : '';
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`LLM API error: ${response.status} ${response.statusText} - ${errorText}`);
+      }
 
-      return this.parseFeedbackResponse(responseText, submissionType);
+      const data = await response.json() as any;
+      const responseText = data.choices[0].message.content;
+
+      return this.parseFeedbackResponse(responseText);
     } catch (error: any) {
-      console.error('Error generating feedback:', error);
+      console.error('Error generating feedback with local LLM:', error);
       throw new Error(`Failed to generate feedback: ${error.message}`);
     }
   }
@@ -116,7 +127,7 @@ Focus on:
 4. Edge case handling
 5. Alternative approaches if applicable
 
-Be constructive, specific, and educational in your feedback.`;
+Be constructive, specific, and educational in your feedback. Respond ONLY with valid JSON, no markdown formatting.`;
   }
 
   private buildDesignFeedbackPrompt(submission: any, question: any): string {
@@ -175,33 +186,38 @@ Evaluate based on Meta's senior ML SWE standards:
 6. Discussion of tradeoffs and alternatives
 7. Communication clarity and structure
 
-Be thorough, constructive, and specific. Consider this is for a senior-level position.`;
+Be thorough, constructive, and specific. Consider this is for a senior-level position. Respond ONLY with valid JSON, no markdown formatting.`;
   }
 
   private extractDiagramSummary(diagramData: any): string {
-    // Extract key info from React Flow diagram
     const nodes = diagramData.nodes || [];
     const edges = diagramData.edges || [];
-    
     const nodeTypes = nodes.map((n: any) => n.type || 'default');
     const uniqueNodeTypes = [...new Set(nodeTypes)];
-    
     return `${nodes.length} components (${uniqueNodeTypes.join(', ')}), ${edges.length} connections`;
   }
 
-  private parseFeedbackResponse(responseText: string, submissionType: 'code' | 'design'): FeedbackResponse {
+  private parseFeedbackResponse(responseText: string): FeedbackResponse {
     try {
       // Try to extract JSON from markdown code blocks if present
-      let jsonText = responseText;
-      const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/);
+      let jsonText = responseText.trim();
+
+      // Remove markdown code blocks
+      const jsonMatch = responseText.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
       if (jsonMatch) {
-        jsonText = jsonMatch[1];
+        jsonText = jsonMatch[1].trim();
+      }
+
+      // Try to find JSON object in the text
+      const jsonObjectMatch = jsonText.match(/\{[\s\S]*\}/);
+      if (jsonObjectMatch) {
+        jsonText = jsonObjectMatch[0];
       }
 
       const parsed = JSON.parse(jsonText);
 
       // Build comprehensive feedback text
-      const feedbackText = this.buildFeedbackText(parsed, submissionType);
+      const feedbackText = this.buildFeedbackText(parsed);
 
       return {
         text: feedbackText,
@@ -211,7 +227,8 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
       };
     } catch (error) {
       console.error('Error parsing feedback response:', error);
-      
+      console.error('Raw response:', responseText);
+
       // Fallback to using raw response
       return {
         text: responseText,
@@ -222,7 +239,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
     }
   }
 
-  private buildFeedbackText(parsed: any, _submissionType: string): string {
+  private buildFeedbackText(parsed: any): string {
     let text = `## Summary\n${parsed.summary}\n\n`;
 
     // Scores

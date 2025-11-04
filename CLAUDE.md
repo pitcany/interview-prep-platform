@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 An Electron-based desktop application for LeetCode and ML System Design interview preparation with AI-powered feedback. Built with React + TypeScript frontend, Node.js backend, and Python code execution service.
 
-**Tech Stack:** Electron 28+, React 18, TypeScript, Monaco Editor, React Flow, TailwindCSS, SQLite (better-sqlite3), Claude API
+**Tech Stack:** Electron 28+, React 18, TypeScript, Monaco Editor, React Flow, TailwindCSS, SQLite (better-sqlite3), Local LLM (OpenAI-compatible API)
 
 ## Development Commands
 
@@ -107,7 +107,7 @@ The application follows Electron's multi-process architecture:
 1. **Main Process** (`electron/main.ts`)
    - Creates BrowserWindow
    - Manages application lifecycle
-   - Initializes all backend services (database, code executor, Claude API)
+   - Initializes all backend services (database, code executor, Local LLM)
    - Handles IPC communication via `ipcMain.handle()`
    - Database path: `app.getPath('userData')/interview-prep.db`
 
@@ -139,11 +139,12 @@ The application follows Electron's multi-process architecture:
   - Test case execution with result comparison
   - **Note:** Python service integration is incomplete (files not yet implemented)
 
-- **ClaudeAPIService** (`claudeAPI.ts`)
-  - Generates personalized feedback using Anthropic's Claude API
+- **LocalLLMService** (`localLLM.ts`)
+  - Generates personalized feedback using a local LLM (e.g., GPT OSS 20B)
   - Analyzes code submissions and system design diagrams
   - Returns structured feedback: scores, strengths, improvements
-  - API key configured via environment variable `CLAUDE_API_KEY`
+  - Connects to OpenAI-compatible API endpoint (vLLM, llama.cpp, text-generation-webui)
+  - Configuration: `LLM_BASE_URL` and `LLM_MODEL` environment variables
 
 ### Frontend Architecture
 
@@ -237,7 +238,7 @@ All IPC follows this pattern:
 4. CodeExecutorService runs code against test cases
 5. DatabaseService saves submission with results
 6. Progress tracking updated (solved status, attempt count)
-7. Optionally generate AI feedback via ClaudeAPIService
+7. Optionally generate AI feedback via LocalLLMService
 
 **Mock Interview Flow**:
 1. User selects interview type → `api.startMockInterview()`
@@ -268,7 +269,7 @@ All IPC follows this pattern:
 - No network access during code execution
 - Renderer process isolated (no Node.js access)
 - User data stored locally only
-- Claude API only receives code/diagrams for feedback (not executed there)
+- Local LLM only receives code/diagrams for feedback (not executed there)
 
 ### Monaco Editor Integration
 - Language support: Python, Java, C++
@@ -322,7 +323,8 @@ interview-prep-platform/
 │   └── services/         # Backend services
 │       ├── database.ts   # SQLite operations
 │       ├── codeExecutor.ts
-│       └── claudeAPI.ts
+│       ├── claudeAPI.ts      # DEPRECATED - Legacy Claude API service
+│       └── localLLM.ts       # Local LLM service (current)
 ├── src/                  # React frontend (renderer process)
 │   ├── components/       # Reusable UI components
 │   ├── pages/           # Top-level route components
@@ -349,30 +351,61 @@ interview-prep-platform/
 
 Create `.env` file in project root:
 ```
-CLAUDE_API_KEY=your_anthropic_api_key_here
+# Local LLM Configuration
+LLM_BASE_URL=http://localhost:8000  # Your local LLM API endpoint
+LLM_MODEL=gpt-oss-20b  # Model name/identifier
+
+# Code Execution Configuration
 SANDBOX_MODE=local  # 'docker' or 'local' (docker not yet implemented)
 MAX_EXECUTION_TIME=10000  # milliseconds
 MAX_MEMORY=512  # MB
 ```
 
-**Note:** Environment variables must be loaded before starting Electron. The main process reads `process.env.CLAUDE_API_KEY` at startup.
+**Note:** Environment variables must be loaded before starting Electron. The main process reads `process.env.LLM_BASE_URL` and `process.env.LLM_MODEL` at startup.
+
+### Running a Local LLM
+
+Before starting the application, you need to run a local LLM with an OpenAI-compatible API. Options include:
+
+**Option 1: vLLM (recommended for performance)**
+```bash
+pip install vllm
+python -m vllm.entrypoints.openai.api_server \
+  --model /path/to/gpt-oss-20b \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --max-model-len 4096
+```
+
+**Option 2: llama.cpp server**
+```bash
+./server -m /path/to/model.gguf \
+  --port 8000 \
+  --host 0.0.0.0 \
+  --ctx-size 4096
+```
+
+**Option 3: text-generation-webui with API**
+```bash
+python server.py --api --api-port 8000
+```
 
 ## Known Limitations & TODOs
 
-1. **Python Code Execution Service**: Not implemented. Need to create:
-   - `python-service/executor.py` - Code execution logic
+1. **Python Code Execution Service**: ✅ Implemented (see `python-service/` directory)
+   - `python-service/executor.py` - Code execution logic with resource limits
    - `python-service/sandbox.py` - Security wrapper
    - `python-service/test_runner.py` - Test case runner
 
-2. **Docker Sandboxing**: Planned but not implemented. Currently uses local execution (security risk).
+2. **LLM Feedback Quality**: Local LLMs may not follow JSON format as reliably as Claude API. The service includes robust parsing with fallbacks.
 
-3. **Java/C++ Execution**: CodeExecutorService has placeholders but no implementation.
+3. **Docker Sandboxing**: Planned but not implemented. Currently uses local execution (security risk).
 
-4. **Diagram Export**: html-to-image dependency added but image export not fully implemented.
+4. **Java/C++ Execution**: CodeExecutorService has placeholders but no implementation.
 
-5. **Test Coverage**: Test files not yet created (Vitest configured but no tests).
+5. **Diagram Export**: html-to-image dependency added but image export not fully implemented.
 
-6. **Build Configuration**: Vite config and tsconfig files may not exist (project structure suggests they should).
+6. **Test Coverage**: Test files not yet created (Vitest configured but no tests).
 
 ## Resources
 

@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   createUser: (userData: any) => ipcRenderer.invoke('user:create', userData),
   loginUser: (username: string) => ipcRenderer.invoke('user:login', username),
   getAllUsers: () => ipcRenderer.invoke('user:getAll'),
+  deleteUser: (userId: number) => ipcRenderer.invoke('user:delete', userId),
   updateUserPreferences: (userId: number, preferences: any) =>
     ipcRenderer.invoke('user:updatePreferences', userId, preferences),
 
@@ -19,6 +20,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('questions:getLeetCodeDetails', questionId),
   getMLDesignDetails: (questionId: number) =>
     ipcRenderer.invoke('questions:getMLDesignDetails', questionId),
+  getQuestionHints: (questionId: number) =>
+    ipcRenderer.invoke('questions:getHints', questionId),
 
   // Code Execution
   executeCode: (executionData: {
@@ -72,6 +75,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('submissions:getHistory', userId, limit),
   getUserFeedback: (userId: number, limit?: number) =>
     ipcRenderer.invoke('feedback:getByUser', userId, limit),
+  resetUserProgress: (userId: number) =>
+    ipcRenderer.invoke('progress:reset', userId),
 });
 
 // Type definitions for TypeScript
@@ -79,11 +84,13 @@ export interface ElectronAPI {
   createUser: (userData: any) => Promise<any>;
   loginUser: (username: string) => Promise<any>;
   getAllUsers: () => Promise<any[]>;
+  deleteUser: (userId: number) => Promise<{ success: boolean; deletedId: number }>;
   updateUserPreferences: (userId: number, preferences: any) => Promise<void>;
   getQuestions: (category?: string, difficulty?: string) => Promise<any[]>;
   getQuestionById: (questionId: number) => Promise<any>;
   getLeetCodeDetails: (questionId: number) => Promise<any>;
   getMLDesignDetails: (questionId: number) => Promise<any>;
+  getQuestionHints: (questionId: number) => Promise<string[]>;
   executeCode: (executionData: any) => Promise<any>;
   submitCode: (submissionData: any) => Promise<any>;
   submitDesign: (submissionData: any) => Promise<any>;
@@ -96,6 +103,7 @@ export interface ElectronAPI {
   getUserStats: (userId: number) => Promise<any>;
   getSubmissionHistory: (userId: number, limit?: number) => Promise<any[]>;
   getUserFeedback: (userId: number, limit?: number) => Promise<any[]>;
+  resetUserProgress: (userId: number) => Promise<{ success: boolean }>;
 }
 
 declare global {

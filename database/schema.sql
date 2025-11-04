@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS leetcode_questions (
     function_signature_python TEXT,
     function_signature_java TEXT,
     function_signature_cpp TEXT,
-    test_cases TEXT NOT NULL, -- JSON array of test cases
+    test_cases TEXT NOT NULL, -- JSON array of visible test cases
+    hidden_test_cases TEXT, -- JSON array of hidden test cases (run on submission)
     expected_time_complexity TEXT,
     expected_space_complexity TEXT,
     solution_python TEXT,

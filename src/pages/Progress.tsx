@@ -10,10 +10,12 @@ import {
   CheckCircle2,
   XCircle,
   Code,
-  Brain
+  Brain,
+  RotateCcw
 } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import type { UserStats, UserProgress, Feedback } from '../types';
+import { ConfirmModal } from '../components/ConfirmModal';
 
 export default function Progress() {
   const currentUser = useAppStore((state) => state.currentUser);
@@ -22,6 +24,8 @@ export default function Progress() {
   const [recentFeedback, setRecentFeedback] = useState<Feedback[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'problems' | 'feedback'>('overview');
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -80,6 +84,23 @@ export default function Progress() {
     return Math.round((stats.solved_count / stats.total_attempts) * 100);
   };
 
+  const handleResetProgress = async () => {
+    if (!currentUser) return;
+
+    setIsResetting(true);
+    try {
+      await api.resetUserProgress(currentUser.id);
+      setShowResetModal(false);
+      // Reload data after reset
+      await loadData();
+    } catch (error) {
+      console.error('Failed to reset progress:', error);
+      alert('Failed to reset progress. Please try again.');
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
   const COLORS = {
     easy: '#22c55e',
     medium: '#eab308',
@@ -104,10 +125,22 @@ export default function Progress() {
     <div className="h-screen flex flex-col bg-gray-900 overflow-hidden">
       {/* Header */}
       <div className="px-8 py-6 bg-gray-800 border-b border-gray-700">
-        <h1 className="text-3xl font-bold text-white mb-2">Your Progress</h1>
-        <p className="text-gray-400">
-          Track your performance and improvement over time
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">Your Progress</h1>
+            <p className="text-gray-400">
+              Track your performance and improvement over time
+            </p>
+          </div>
+          <button
+            onClick={() => setShowResetModal(true)}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors flex items-center gap-2"
+            title="Reset all progress, submissions, and mock interviews"
+          >
+            <RotateCcw size={18} />
+            Reset Progress
+          </button>
+        </div>
       </div>
 
       {/* Tabs */}
@@ -442,6 +475,25 @@ export default function Progress() {
           </div>
         )}
       </div>
+
+      {/* Reset Progress Confirmation Modal */}
+      <ConfirmModal
+        isOpen={showResetModal}
+        onCancel={() => setShowResetModal(false)}
+        onConfirm={handleResetProgress}
+        title="Reset Progress"
+        message="Are you sure you want to reset all your progress? This will delete all your:
+        
+• Progress data (attempts, solved status)
+• Code submissions
+• Design submissions
+• Mock interviews
+
+This action cannot be undone. Your feedback will be preserved."
+        confirmText={isResetting ? "Resetting..." : "Reset Progress"}
+        cancelText="Cancel"
+        variant="danger"
+      />
     </div>
   );
 }

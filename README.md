@@ -9,7 +9,7 @@ A lean desktop application for LeetCode and ML System Design interview preparati
 - **Multi-language Support**: Python, Java, C++
 - **Sandboxed Code Execution**: Secure local code running
 - **Structured Diagrams**: Save and export system design diagrams
-- **AI Feedback**: Personalized performance analysis via Claude API
+- **AI Feedback**: Personalized performance analysis via Local LLM (Ollama recommended) or Cloud APIs
 - **Multi-user Support**: Track progress across multiple users
 - **Progress Analytics**: Success rates, time spent, attempt history
 
@@ -28,7 +28,7 @@ A lean desktop application for LeetCode and ML System Design interview preparati
 - **Python 3.10+** - Code execution service
 - **SQLite** - Local database
 - **Docker** (optional) - Code sandboxing
-- **Claude API** - AI feedback generation
+- **Local LLM** (Ollama/vLLM/llama.cpp) or Cloud APIs - AI feedback generation
 
 ### Code Execution Sandbox
 - **Judge0 API** (self-hosted) or custom Docker containers
@@ -45,7 +45,8 @@ interview-prep-platform/
 │   └── services/
 │       ├── database.ts         # SQLite operations
 │       ├── codeExecutor.ts     # Code execution manager
-│       └── claudeAPI.ts        # Feedback generation
+│       ├── localLLM.ts         # Local LLM feedback (current)
+│       └── claudeAPI.ts        # Legacy Claude API (deprecated)
 ├── src/                        # React frontend
 │   ├── components/
 │   │   ├── CodeEditor/        # Monaco editor wrapper
@@ -94,8 +95,8 @@ See `database/schema.sql` for full schema. Key tables:
 ### Prerequisites
 - Node.js 18+
 - Python 3.10+
-- Docker (for code sandboxing)
-- Claude API key
+- Docker (optional - for code sandboxing)
+- **Ollama** (recommended - for AI feedback) OR Cloud LLM API key
 
 ### Installation
 
@@ -109,9 +110,16 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# Configure environment
-cp .env.example .env
-# Add your CLAUDE_API_KEY to .env
+# Configure AI feedback (choose one option)
+# Option 1: Ollama (recommended - see OLLAMA_SETUP.md)
+ollama pull llama3.1:8b
+echo "LLM_BASE_URL=http://localhost:11434" > .env
+echo "LLM_MODEL=llama3.1:8b" >> .env
+
+# Option 2: Cloud API (OpenAI/Anthropic/etc.)
+# echo "LLM_BASE_URL=https://api.openai.com" > .env
+# echo "LLM_MODEL=gpt-4" >> .env
+# echo "OPENAI_API_KEY=your-key-here" >> .env
 
 # Initialize database
 npm run db:init
@@ -134,12 +142,20 @@ npm run db:seed      # Seed initial questions
 ## Configuration
 
 Edit `.env`:
-```
-CLAUDE_API_KEY=your_key_here
+```env
+# AI Feedback Configuration
+LLM_BASE_URL=http://localhost:11434  # Ollama default
+LLM_MODEL=llama3.1:8b
+
+# Code Execution Configuration
 SANDBOX_MODE=docker  # 'docker' or 'local'
 MAX_EXECUTION_TIME=10000  # milliseconds
 MAX_MEMORY=512  # MB
 ```
+
+**AI Feedback Options:**
+- **Ollama (Recommended)**: Free, private, offline-capable - See [OLLAMA_SETUP.md](OLLAMA_SETUP.md)
+- **Cloud APIs**: OpenAI, Anthropic, etc. - See [LLM_COMPARISON.md](LLM_COMPARISON.md)
 
 ## Usage
 
@@ -165,11 +181,12 @@ MAX_MEMORY=512  # MB
 - Access to Node.js APIs
 - No browser restrictions
 
-### Why Local Execution?
-- Privacy (no code sent to external servers)
-- Offline capability
-- Fast execution
-- Full control over sandbox
+### Why Local LLM (Ollama)?
+- **Privacy**: Your code never leaves your machine
+- **Cost**: Free after initial setup (no per-request fees)
+- **Speed**: Low latency compared to cloud APIs
+- **Offline**: Works without internet connection
+- **Flexibility**: Swap models easily based on needs
 
 ### Why SQLite?
 - No server setup
@@ -185,11 +202,12 @@ MAX_MEMORY=512  # MB
 
 ## Security Considerations
 
-- Code runs in isolated Docker containers
+- Code runs in isolated Docker containers (when enabled)
 - Resource limits prevent infinite loops
-- No network access during execution
-- User data stored locally
-- Claude API calls only for feedback (no code execution)
+- No network access during code execution
+- User data stored 100% locally
+- AI feedback runs locally (with Ollama) or via cloud (optional)
+- No code sent to external services unless using cloud LLM option
 
 ## Roadmap
 
