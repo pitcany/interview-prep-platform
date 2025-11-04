@@ -242,8 +242,73 @@ export class CodeExecutorService {
     }
   }
 
+  private extractMethodName(code: string, language: string): string {
+    if (language === 'python') {
+      // Extract method name from Solution class
+      // Look for pattern: def methodName(self, or def methodName(self)
+      // This regex handles multi-line class definitions with various whitespace
+      const methodMatch = code.match(/class\s+Solution\s*:[\s\S]*?def\s+(\w+)\s*\(\s*self\s*,?/);
+      if (methodMatch && methodMatch[1]) {
+        return methodMatch[1];
+      }
+
+      // Try to find any method in Solution class with more flexible matching
+      // Handle cases where class Solution might be on a different line
+      const classStartIndex = code.indexOf('class Solution');
+      if (classStartIndex !== -1) {
+        const afterClass = code.substring(classStartIndex);
+        // Match method definition after class, allowing for whitespace and comments
+        const methodMatch = afterClass.match(/def\s+(\w+)\s*\(\s*self\s*,?/);
+        if (methodMatch && methodMatch[1]) {
+          return methodMatch[1];
+        }
+      }
+
+      // Common LeetCode method names as fallback - check if they exist in code
+      const commonMethods = [
+        'twoSum', 'threeSum', 'maxProfit', 'findMedianSortedArrays',
+        'lengthOfLongestSubstring', 'longestPalindrome', 'reverse',
+        'myAtoi', 'isMatch', 'maxArea', 'intToRoman', 'romanToInt',
+        'longestCommonPrefix', 'isValid', 'mergeTwoLists', 'removeDuplicates',
+        'search', 'searchInsert', 'plusOne', 'addBinary', 'mySqrt',
+        'climbStairs', 'deleteDuplicates', 'merge', 'isSameTree',
+        'isSymmetric', 'maxDepth', 'levelOrder', 'sortedArrayToBST',
+        'inorderTraversal', 'preorderTraversal', 'postorderTraversal',
+        'hasPathSum', 'minDepth', 'isBalanced', 'flatten', 'connect',
+        'buildTree', 'numIslands', 'cloneGraph', 'canFinish', 'findOrder'
+      ];
+
+      // Check if any common method exists in the code
+      // Look for "def methodName(" pattern (with or without self parameter)
+      for (const method of commonMethods) {
+        const methodPattern = new RegExp(`def\\s+${method}\\s*\\(`);
+        if (methodPattern.test(code)) {
+          return method;
+        }
+      }
+
+      // Last resort: try to find any method in Solution class
+      // Look for any method definition after "class Solution"
+      const solutionClassMatch = code.match(/class\s+Solution[^:]*:([\s\S]*?)(?=\n\s*class|\n\n|$)/);
+      if (solutionClassMatch) {
+        const classBody = solutionClassMatch[1];
+        const anyMethodMatch = classBody.match(/def\s+(\w+)\s*\(/);
+        if (anyMethodMatch && anyMethodMatch[1] && anyMethodMatch[1] !== '__init__') {
+          return anyMethodMatch[1];
+        }
+      }
+
+      // Last resort: return 'solve' (will fail gracefully if doesn't exist)
+      return 'solve';
+    }
+
+    // For other languages, return 'solve' as fallback
+    return 'solve';
+  }
+
   private prepareCodeWithTestCase(code: string, language: string, testCase: TestCase): string {
     const inputStr = JSON.stringify(testCase.input);
+    const methodName = this.extractMethodName(code, language);
 
     switch (language) {
       case 'python':
@@ -257,16 +322,33 @@ ${code}
 test_input = json.loads('${inputStr.replace(/'/g, "\\'")}')
 
 # Execute the solution
-if isinstance(test_input, list) and len(test_input) > 0:
-    result = Solution().solve(*test_input)
-else:
-    result = Solution().solve(test_input)
-
-# Output result as JSON
-print(json.dumps(result))
+try:
+    sol = Solution()
+    if hasattr(sol, '${methodName}'):
+        if isinstance(test_input, list) and len(test_input) > 0:
+            result = sol.${methodName}(*test_input)
+        else:
+            result = sol.${methodName}(test_input)
+    else:
+        # Try to find any method in Solution class
+        methods = [m for m in dir(sol) if not m.startswith('_') and callable(getattr(sol, m))]
+        if methods:
+            method = getattr(sol, methods[0])
+            if isinstance(test_input, list) and len(test_input) > 0:
+                result = method(*test_input)
+            else:
+                result = method(test_input)
+        else:
+            raise AttributeError("No method found in Solution class")
+    print(json.dumps(result))
+except AttributeError as e:
+    print(json.dumps({"error": str(e), "method_tried": "${methodName}"}))
+    sys.exit(1)
 `;
 
       case 'java':
+        // For Java, we'd need to parse the method signature, but for now use a generic approach
+        // Note: This is simplified and may need adjustment based on actual Java code structure
         return `
 import com.google.gson.*;
 
@@ -279,14 +361,22 @@ public class Main {
         
         // Parse input and call solution
         // Note: This is simplified, actual implementation needs type handling
-        Object result = new Solution().solve(gson.fromJson(input, Object.class));
-        
-        System.out.println(gson.toJson(result));
+        // For now, try common method names or use reflection
+        Solution sol = new Solution();
+        try {
+            java.lang.reflect.Method method = sol.getClass().getDeclaredMethods()[0];
+            Object result = method.invoke(sol, gson.fromJson(input, Object.class));
+            System.out.println(gson.toJson(result));
+        } catch (Exception e) {
+            System.out.println("{\"error\": \"" + e.getMessage() + "\"}");
+        }
     }
 }
 `;
 
       case 'cpp':
+        // For C++, we'd need to parse the method signature, but for now use a generic approach
+        // Note: This is simplified and may need adjustment based on actual C++ code structure
         return `
 #include <iostream>
 #include <string>
@@ -301,7 +391,10 @@ int main() {
     json j = json::parse(input);
     
     Solution sol;
-    auto result = sol.solve(j);
+    // Note: This assumes the Solution class has a method that can be called
+    // For proper implementation, we'd need to parse the method signature
+    // For now, this is a placeholder that will need language-specific handling
+    auto result = sol.solve(j);  // This will need to be adjusted based on actual method
     
     std::cout << json(result).dump() << std::endl;
     return 0;
