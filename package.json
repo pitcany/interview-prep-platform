@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "postinstall": "electron-rebuild",
     "start": "npm run dev",
     "dev": "concurrently \"npm run dev:react\" \"npm run dev:electron\"",
     "dev:react": "vite",
@@ -46,6 +47,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@electron/rebuild": "^4.0.1",
     "@types/better-sqlite3": "^7.6.8",
     "@types/node": "^20.10.0",
     "@types/node-fetch": "^2.6.13",
