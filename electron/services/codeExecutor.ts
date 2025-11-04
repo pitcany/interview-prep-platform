@@ -416,7 +416,7 @@ public class Main {
             Object result = method.invoke(sol, gson.fromJson(input, Object.class));
             System.out.println(gson.toJson(result));
         } catch (Exception e) {
-            System.out.println("{\"error\": \"" + e.getMessage() + "\"}");
+            System.out.println("{\\"error\\": \\"" + e.getMessage() + "\\"}");
         }
     }
 }
