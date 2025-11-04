@@ -5,7 +5,7 @@ import { config } from 'dotenv';
 import { existsSync } from 'fs';
 import { DatabaseService } from './services/database';
 import { CodeExecutorService } from './services/codeExecutor';
-import { LocalLLMService } from './services/localLLM';
+import { LLMProviderFactory, LLMProvider } from './services/llmProviderFactory';
 
 function loadEnvironmentVariables() {
   const candidatePaths = new Set<string>();
@@ -44,18 +44,16 @@ function loadEnvironmentVariables() {
   }
 
   console.log('SANDBOX_MODE:', process.env.SANDBOX_MODE);
+  console.log('CLAUDE_API_KEY:', process.env.CLAUDE_API_KEY ? 'Set' : 'Not set');
+  console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? 'Set' : 'Not set');
   console.log('LLM_BASE_URL:', process.env.LLM_BASE_URL ? 'Set' : 'Not set');
-  console.log('LLM_MODEL:', process.env.LLM_MODEL || 'Not set');
-  console.log(
-    'CLAUDE_API_KEY:',
-    process.env.CLAUDE_API_KEY ? 'Set' : 'Not set (deprecated, use LLM_BASE_URL)'
-  );
+  console.log('LLM_PROVIDER:', process.env.LLM_PROVIDER || 'Auto-select');
 }
 
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
 let codeExecutor: CodeExecutorService;
-let llmService: LocalLLMService;
+let llmService: LLMProvider;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -107,14 +105,19 @@ async function initializeServices() {
     codeExecutor = new CodeExecutorService(userDataPath);
     await codeExecutor.initialize();
 
-    // Initialize Local LLM service
-    const llmBaseUrl = process.env.LLM_BASE_URL;
-    const llmModel = process.env.LLM_MODEL || 'gpt-oss-20b';
-
-    if (!llmBaseUrl) {
-      console.warn('LLM_BASE_URL not set. AI feedback generation will not work. Set LLM_BASE_URL in .env to enable.');
+    // Initialize LLM provider (auto-selects based on environment variables)
+    try {
+      llmService = LLMProviderFactory.createProvider();
+      const providerInfo = LLMProviderFactory.getProviderInfo();
+      console.log(`LLM Provider: ${providerInfo.provider} (model: ${providerInfo.model || 'default'})`);
+      if (providerInfo.endpoint) {
+        console.log(`LLM Endpoint: ${providerInfo.endpoint}`);
+      }
+    } catch (error: any) {
+      console.warn('No LLM provider configured:', error.message);
+      console.warn('AI feedback generation will be disabled.');
+      console.warn('Set CLAUDE_API_KEY, OPENAI_API_KEY, or LLM_BASE_URL in .env to enable.');
     }
-    llmService = new LocalLLMService(llmBaseUrl, llmModel);
 
     console.log('All services initialized successfully');
   } catch (error) {

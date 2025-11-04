@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import OpenAI from 'openai';
 
 interface FeedbackResponse {
   text: string;
@@ -15,18 +15,22 @@ interface FeedbackResponse {
   improvements: string[];
 }
 
-export class LocalLLMService {
-  private baseUrl: string;
+export class OpenAIService {
+  private client: OpenAI | null = null;
   private model: string;
 
-  constructor(baseUrl: string = 'http://localhost:8000', model: string = 'gpt-oss-20b') {
-    this.baseUrl = baseUrl;
+  constructor(apiKey: string, model: string = 'gpt-4o') {
     this.model = model;
-    console.log(`LocalLLM configured: ${this.baseUrl} (model: ${this.model})`);
+    if (apiKey) {
+      this.client = new OpenAI({ apiKey });
+      console.log(`OpenAI configured with model: ${this.model}`);
+    } else {
+      console.warn('OpenAI API key not provided. Feedback generation will be disabled.');
+    }
   }
 
   getProviderName(): string {
-    return 'local';
+    return 'openai';
   }
 
   async generateFeedback(
@@ -34,45 +38,35 @@ export class LocalLLMService {
     question: any,
     submissionType: 'code' | 'design'
   ): Promise<FeedbackResponse> {
+    if (!this.client) {
+      throw new Error('OpenAI API not configured');
+    }
+
     const prompt = submissionType === 'code'
       ? this.buildCodeFeedbackPrompt(submission, question)
       : this.buildDesignFeedbackPrompt(submission, question);
 
     try {
-      // OpenAI-compatible API call
-      const response = await fetch(`${this.baseUrl}/v1/chat/completions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: this.model,
-          messages: [
-            {
-              role: 'system',
-              content: 'You are an expert technical interviewer providing detailed feedback on coding problems and system design. Always respond with valid JSON only.'
-            },
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
-          max_tokens: 2000,
-          temperature: 0.7,
-        }),
+      const response = await this.client.chat.completions.create({
+        model: this.model,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert technical interviewer providing detailed feedback on coding problems and system design. Always respond with valid JSON only.',
+          },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        max_tokens: 2000,
+        temperature: 0.7,
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`LLM API error: ${response.status} ${response.statusText} - ${errorText}`);
-      }
-
-      const data = await response.json() as any;
-      const responseText = data.choices[0].message.content;
-
+      const responseText = response.choices[0].message.content || '';
       return this.parseFeedbackResponse(responseText);
     } catch (error: any) {
-      console.error('Error generating feedback with local LLM:', error);
+      console.error('Error generating feedback with OpenAI:', error);
       throw new Error(`Failed to generate feedback: ${error.message}`);
     }
   }

@@ -26,6 +26,10 @@ export class ClaudeAPIService {
     }
   }
 
+  getProviderName(): string {
+    return 'claude';
+  }
+
   async generateFeedback(
     submission: any,
     question: any,
