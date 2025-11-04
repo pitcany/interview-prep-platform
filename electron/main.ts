@@ -4,7 +4,7 @@ import * as url from 'url';
 import { config } from 'dotenv';
 import { DatabaseService } from './services/database';
 import { CodeExecutorService } from './services/codeExecutor';
-import { ClaudeAPIService } from './services/claudeAPI';
+import { LocalLLMService } from './services/localLLM';
 
 // Load environment variables from .env file
 // When compiled, __dirname is dist/electron, so we need to go up two levels to reach project root
@@ -19,7 +19,7 @@ console.log('CLAUDE_API_KEY:', process.env.CLAUDE_API_KEY ? 'Set' : 'Not set (de
 let mainWindow: BrowserWindow | null = null;
 let dbService: DatabaseService;
 let codeExecutor: CodeExecutorService;
-let claudeService: ClaudeAPIService;
+let llmService: LocalLLMService;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -71,12 +71,14 @@ async function initializeServices() {
     codeExecutor = new CodeExecutorService(userDataPath);
     await codeExecutor.initialize();
 
-    // Initialize Claude API service
-    const apiKey = process.env.CLAUDE_API_KEY;
-    if (!apiKey) {
-      console.warn('CLAUDE_API_KEY not found in environment variables. Feedback generation will not work.');
+    // Initialize Local LLM service
+    const llmBaseUrl = process.env.LLM_BASE_URL;
+    const llmModel = process.env.LLM_MODEL || 'gpt-oss-20b';
+
+    if (!llmBaseUrl) {
+      console.warn('LLM_BASE_URL not set. AI feedback generation will not work. Set LLM_BASE_URL in .env to enable.');
     }
-    claudeService = new ClaudeAPIService(apiKey || '');
+    llmService = new LocalLLMService(llmBaseUrl, llmModel);
 
     console.log('All services initialized successfully');
   } catch (error) {
@@ -227,8 +229,8 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
     question = await dbService.getMLDesignQuestionDetails(submission.questionId);
   }
 
-  // Generate feedback using Claude API
-  const feedback = await claudeService.generateFeedback(submission, question, submissionType);
+  // Generate feedback using Local LLM
+  const feedback = await llmService.generateFeedback(submission, question, submissionType);
 
   // Save feedback
   const savedFeedback = await dbService.createFeedback({

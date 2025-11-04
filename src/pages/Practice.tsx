@@ -33,7 +33,7 @@ export default function Practice() {
   const [mlDesignDetails, setMlDesignDetails] = useState<MLDesignQuestion | null>(null);
   const [diagramData, setDiagramData] = useState<DiagramData>({ nodes: [], edges: [] });
   const [explanation, setExplanation] = useState('');
-  const [designStartTime] = useState<number>(Date.now());
+  const [designStartTime, setDesignStartTime] = useState<number>(Date.now());
 
   // Common state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -89,6 +89,7 @@ export default function Practice() {
         // Reset ML Design state
         setDiagramData({ nodes: [], edges: [] });
         setExplanation('');
+        setDesignStartTime(Date.now());
       }
     } catch (error) {
       console.error('Failed to load question details:', error);
