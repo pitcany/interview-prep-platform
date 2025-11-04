@@ -4,6 +4,7 @@ Validation script for LeetCode solutions
 Executes solutions against test cases and reports results
 """
 
+import os
 import re
 import sys
 from typing import List, Optional, Any
@@ -40,11 +41,12 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
         # Extract method name
         method_name = extract_method_name(python_sig)
 
-        # Execute solution code to define the class
-        exec(solution_code, globals())
+        # Execute solution code in isolated namespace
+        namespace = {}
+        exec(solution_code, namespace)
 
-        # Create instance
-        solution = Solution()
+        # Create instance from isolated namespace
+        solution = namespace['Solution']()
 
         # Verify method exists
         if not hasattr(solution, method_name):
@@ -76,8 +78,9 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
 
 def main():
     """Main validation entry point."""
-    # Import questions data
-    sys.path.insert(0, '/home/yannik/Work/interview-prep-platform/.worktrees/experimental/scripts')
+    # Import questions data - use dynamic path resolution
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    sys.path.insert(0, script_dir)
     from questions_data_full import LEETCODE_QUESTIONS
 
     # Questions to validate
