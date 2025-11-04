@@ -1255,7 +1255,39 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        pass',
         "java_sig": 'class Solution {\n    public int[] productExceptSelf(int[] nums) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<int> productExceptSelf(vector<int>& nums) {\n        \n    }\n};',
-        "solution_python": '# Solution for Product of Array Except Self\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        """
+        Two-pass approach using prefix and suffix products.
+        Builds result array where result[i] = product of all elements except nums[i].
+        Avoids division operator and runs in O(n) time.
+
+        Algorithm:
+        1. First pass: Calculate prefix products (product of all elements before i)
+        2. Second pass: Multiply by suffix products (product of all elements after i)
+
+        Time Complexity: O(n) - two passes through array
+        Space Complexity: O(1) - excluding output array (no extra space used)
+        """
+        n = len(nums)
+        result = [1] * n
+
+        # First pass: Calculate prefix products
+        # result[i] = product of all elements before index i
+        prefix = 1
+        for i in range(n):
+            result[i] = prefix
+            prefix *= nums[i]
+
+        # Second pass: Multiply by suffix products
+        # result[i] *= product of all elements after index i
+        suffix = 1
+        for i in range(n - 1, -1, -1):
+            result[i] *= suffix
+            suffix *= nums[i]
+
+        return result
+''',
         "solution_java": '// Solution for Product of Array Except Self\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Product of Array Except Self\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Product of Array Except Self\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

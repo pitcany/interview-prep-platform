@@ -41,8 +41,8 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
         # Extract method name
         method_name = extract_method_name(python_sig)
 
-        # Execute solution code in isolated namespace
-        namespace = {}
+        # Execute solution code in isolated namespace with typing imports
+        namespace = {'List': List, 'Optional': Optional, 'Any': Any}
         exec(solution_code, namespace)
 
         # Create instance from isolated namespace
