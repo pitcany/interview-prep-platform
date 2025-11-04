@@ -9,7 +9,7 @@ import DiagramEditor from '../components/DiagramEditor';
 import SolutionViewer from '../components/SolutionViewer';
 import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
-import { Play, Send, Sparkles, Loader2, ChevronLeft, FileText } from 'lucide-react';
+import { Play, Send, Sparkles, Loader2, ChevronLeft, FileText, Lightbulb } from 'lucide-react';
 import type { Question, LeetCodeQuestion, MLDesignQuestion, TestCase, ExecutionResult, DiagramData } from '../types';
 
 export default function Practice() {
@@ -38,10 +38,18 @@ export default function Practice() {
   // Common state
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showDescription, setShowDescription] = useState(true);
+  const [hints, setHints] = useState<string[]>([]);
+  const [revealedHints, setRevealedHints] = useState<number>(0);
+  const [isLoadingHints, setIsLoadingHints] = useState(false);
+  const [hintsLoaded, setHintsLoaded] = useState(false);
 
   useEffect(() => {
     if (selectedQuestion) {
       loadQuestionDetails();
+      // Reset hints when question changes
+      setHints([]);
+      setRevealedHints(0);
+      setHintsLoaded(false);
     }
   }, [selectedQuestion, language]);
 
@@ -205,6 +213,39 @@ export default function Practice() {
     }
   };
 
+  const handleGetHint = async () => {
+    if (!selectedQuestion || isLoadingHints) return;
+
+    try {
+      setIsLoadingHints(true);
+      
+      // If we haven't loaded hints yet, fetch them
+      let hintsToUse = hints;
+      if (!hintsLoaded) {
+        const fetchedHints = await api.getQuestionHints(selectedQuestion.id);
+        setHints(fetchedHints);
+        setHintsLoaded(true);
+        hintsToUse = fetchedHints;
+        
+        // If no hints are available, show a message
+        if (fetchedHints.length === 0) {
+          showToast('No hints available for this question', 'info');
+          return;
+        }
+      }
+
+      // Reveal the next hint
+      if (revealedHints < hintsToUse.length) {
+        setRevealedHints(revealedHints + 1);
+      }
+    } catch (error) {
+      console.error('Failed to get hints:', error);
+      showToast('Failed to load hints', 'error');
+    } finally {
+      setIsLoadingHints(false);
+    }
+  };
+
   const handleCategoryChange = (newCategory: 'leetcode' | 'ml_system_design') => {
     navigate(`/practice/${newCategory}`);
     setSelectedQuestion(null);
@@ -214,6 +255,9 @@ export default function Practice() {
     setExplanation('');
     setCode('');
     setResults(null);
+    setHints([]);
+    setRevealedHints(0);
+    setHintsLoaded(false);
   };
 
   const getStatusColor = () => {
@@ -278,12 +322,32 @@ export default function Practice() {
               </div>
             </div>
             
-            <button
-              onClick={() => setShowDescription(!showDescription)}
-              className="px-3 py-1 text-sm text-gray-400 hover:text-white transition-colors"
-            >
-              {showDescription ? 'Hide' : 'Show'} Description
-            </button>
+            <div className="flex items-center gap-3">
+              {selectedQuestion && (category === 'leetcode' || category === 'ml_system_design') && (
+                <button
+                  onClick={handleGetHint}
+                  disabled={isLoadingHints || (hintsLoaded && (hints.length === 0 || revealedHints >= hints.length))}
+                  className="px-3 py-1.5 text-sm bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center gap-2"
+                  title={
+                    hintsLoaded && hints.length === 0 ? 'No hints available' :
+                    hintsLoaded && revealedHints >= hints.length ? 'All hints revealed' :
+                    'Get a hint'
+                  }
+                >
+                  <Lightbulb size={16} />
+                  {isLoadingHints ? 'Loading...' : 
+                   hintsLoaded && hints.length === 0 ? 'No Hints Available' :
+                   hintsLoaded && revealedHints >= hints.length ? 'All Hints Revealed' :
+                   `Get Hint (${revealedHints}/${hints.length > 0 ? hints.length : '?'})`}
+                </button>
+              )}
+              <button
+                onClick={() => setShowDescription(!showDescription)}
+                className="px-3 py-1 text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                {showDescription ? 'Hide' : 'Show'} Description
+              </button>
+            </div>
           </div>
 
           {/* Content area */}
@@ -332,6 +396,28 @@ export default function Practice() {
                       <div className="text-sm text-gray-400">
                         <p>Time Complexity: {questionDetails.expected_time_complexity}</p>
                         <p>Space Complexity: {questionDetails.expected_space_complexity}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Hints Section */}
+                  {revealedHints > 0 && (
+                    <div className="mt-6">
+                      <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+                        <Lightbulb className="text-yellow-500" size={20} />
+                        Hints
+                      </h3>
+                      <div className="space-y-3">
+                        {hints.slice(0, revealedHints).map((hint, index) => (
+                          <div key={index} className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                            <div className="flex items-start gap-3">
+                              <span className="text-yellow-500 font-semibold text-sm mt-0.5">
+                                Hint {index + 1}:
+                              </span>
+                              <p className="text-sm text-gray-300 flex-1">{hint}</p>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}

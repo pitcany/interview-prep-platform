@@ -20,6 +20,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('questions:getLeetCodeDetails', questionId),
   getMLDesignDetails: (questionId: number) =>
     ipcRenderer.invoke('questions:getMLDesignDetails', questionId),
+  getQuestionHints: (questionId: number) =>
+    ipcRenderer.invoke('questions:getHints', questionId),
 
   // Code Execution
   executeCode: (executionData: {
@@ -73,6 +75,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('submissions:getHistory', userId, limit),
   getUserFeedback: (userId: number, limit?: number) =>
     ipcRenderer.invoke('feedback:getByUser', userId, limit),
+  resetUserProgress: (userId: number) =>
+    ipcRenderer.invoke('progress:reset', userId),
 });
 
 // Type definitions for TypeScript
@@ -86,6 +90,7 @@ export interface ElectronAPI {
   getQuestionById: (questionId: number) => Promise<any>;
   getLeetCodeDetails: (questionId: number) => Promise<any>;
   getMLDesignDetails: (questionId: number) => Promise<any>;
+  getQuestionHints: (questionId: number) => Promise<string[]>;
   executeCode: (executionData: any) => Promise<any>;
   submitCode: (submissionData: any) => Promise<any>;
   submitDesign: (submissionData: any) => Promise<any>;
@@ -98,6 +103,7 @@ export interface ElectronAPI {
   getUserStats: (userId: number) => Promise<any>;
   getSubmissionHistory: (userId: number, limit?: number) => Promise<any[]>;
   getUserFeedback: (userId: number, limit?: number) => Promise<any[]>;
+  resetUserProgress: (userId: number) => Promise<{ success: boolean }>;
 }
 
 declare global {

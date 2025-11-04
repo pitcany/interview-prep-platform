@@ -377,6 +377,47 @@ export class DatabaseService {
       .slice(0, limit);
   }
 
+  // Hints
+  getQuestionHints(questionId: number) {
+    const question = this.db.prepare('SELECT hints FROM questions WHERE id = ?')
+      .get(questionId) as { hints: string } | undefined;
+    
+    if (!question || !question.hints) {
+      return [];
+    }
+
+    try {
+      return JSON.parse(question.hints);
+    } catch {
+      return [];
+    }
+  }
+
+  // Progress Reset
+  resetUserProgress(userId: number) {
+    // Use transaction to ensure atomicity
+    const resetTransaction = this.db.transaction((userId: number) => {
+      // Delete all user progress
+      this.db.prepare('DELETE FROM user_progress WHERE user_id = ?').run(userId);
+      
+      // Delete all code submissions
+      this.db.prepare('DELETE FROM code_submissions WHERE user_id = ?').run(userId);
+      
+      // Delete all design submissions
+      this.db.prepare('DELETE FROM design_submissions WHERE user_id = ?').run(userId);
+      
+      // Delete all feedback (optional - you might want to keep feedback)
+      // this.db.prepare('DELETE FROM feedback WHERE user_id = ?').run(userId);
+      
+      // Delete mock interviews
+      this.db.prepare('DELETE FROM mock_interviews WHERE user_id = ?').run(userId);
+      
+      return { success: true };
+    });
+    
+    return resetTransaction(userId);
+  }
+
   close() {
     this.db.close();
   }

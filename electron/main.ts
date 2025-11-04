@@ -262,6 +262,16 @@ ipcMain.handle('feedback:getByUser', async (_, userId, limit) => {
   return await dbService.getUserFeedback(userId, limit);
 });
 
+// Hints
+ipcMain.handle('questions:getHints', async (_, questionId) => {
+  return await dbService.getQuestionHints(questionId);
+});
+
+// Progress Reset
+ipcMain.handle('progress:reset', async (_, userId) => {
+  return await dbService.resetUserProgress(userId);
+});
+
 // Handle uncaught errors
 process.on('uncaughtException', (error) => {
   console.error('Uncaught Exception:', error);

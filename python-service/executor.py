@@ -99,30 +99,77 @@ def _execute_user_code(code: str, test_input: Any) -> Dict[str, Any]:
         with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
             exec(code, exec_globals)
 
-            func_names = [
-                'solution', 'solve', 'twoSum', 'threeSum', 'maxProfit',
-                'findMedianSortedArrays', 'lengthOfLongestSubstring',
-                'longestPalindrome', 'reverse', 'myAtoi', 'isMatch',
-                'maxArea', 'intToRoman', 'romanToInt', 'longestCommonPrefix'
-            ]
-
+            # First, check if there's a Solution class (LeetCode style)
+            solution_class = exec_globals.get('Solution')
             solution_func = None
-            for func_name in func_names:
-                if (
-                    func_name in exec_globals
-                    and callable(exec_globals[func_name])
-                ):
-                    solution_func = exec_globals[func_name]
-                    break
-
+            
+            if solution_class and isinstance(solution_class, type):
+                # Get all methods from the Solution class
+                # In Python, instance methods are stored as functions in the class __dict__
+                method_names = [
+                    name for name, method in solution_class.__dict__.items()
+                    if callable(method) and not name.startswith('_')
+                ]
+                
+                # Common LeetCode method names to try
+                common_methods = [
+                    'twoSum', 'threeSum', 'maxProfit', 'findMedianSortedArrays',
+                    'lengthOfLongestSubstring', 'longestPalindrome', 'reverse',
+                    'myAtoi', 'isMatch', 'maxArea', 'intToRoman', 'romanToInt',
+                    'longestCommonPrefix', 'isValid', 'mergeTwoLists', 'removeDuplicates',
+                    'search', 'searchInsert', 'plusOne', 'addBinary', 'mySqrt',
+                    'climbStairs', 'deleteDuplicates', 'merge', 'isSameTree',
+                    'isSymmetric', 'maxDepth', 'levelOrder', 'sortedArrayToBST',
+                    'inorderTraversal', 'preorderTraversal', 'postorderTraversal',
+                    'hasPathSum', 'minDepth', 'isBalanced', 'flatten', 'connect',
+                    'buildTree', 'numIslands', 'cloneGraph', 'canFinish', 'findOrder',
+                    'solve', 'solution'  # Generic fallback names
+                ]
+                
+                # Try to find a method name in order of preference
+                method_name = None
+                for method in common_methods:
+                    if method in method_names:
+                        method_name = method
+                        break
+                
+                # If no common method found, use the first method (excluding __init__)
+                if method_name is None and method_names:
+                    # Filter out __init__ if present
+                    non_init_methods = [m for m in method_names if m != '__init__']
+                    if non_init_methods:
+                        method_name = non_init_methods[0]
+                
+                if method_name:
+                    # Instantiate Solution class and get the method
+                    solution_instance = solution_class()
+                    solution_func = getattr(solution_instance, method_name)
+            
+            # If no Solution class found, look for standalone functions
             if solution_func is None:
-                for name, obj in exec_globals.items():
-                    if callable(obj) and not name.startswith('_'):
-                        solution_func = obj
+                func_names = [
+                    'solution', 'solve', 'twoSum', 'threeSum', 'maxProfit',
+                    'findMedianSortedArrays', 'lengthOfLongestSubstring',
+                    'longestPalindrome', 'reverse', 'myAtoi', 'isMatch',
+                    'maxArea', 'intToRoman', 'romanToInt', 'longestCommonPrefix'
+                ]
+
+                for func_name in func_names:
+                    if (
+                        func_name in exec_globals
+                        and callable(exec_globals[func_name])
+                    ):
+                        solution_func = exec_globals[func_name]
                         break
 
+                if solution_func is None:
+                    for name, obj in exec_globals.items():
+                        if callable(obj) and not name.startswith('_'):
+                            solution_func = obj
+                            break
+
             if solution_func is None:
-                raise ValueError("No callable function found in code")
+                raise ValueError("No callable function or Solution class method found in code")
 
             if isinstance(test_input, dict):
                 output = solution_func(**test_input)

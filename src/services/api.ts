@@ -70,6 +70,10 @@ class APIService {
     return await this.api.getMLDesignDetails(questionId);
   }
 
+  async getQuestionHints(questionId: number): Promise<string[]> {
+    return await this.api.getQuestionHints(questionId);
+  }
+
   // Code Execution
   async executeCode(executionData: {
     code: string;
@@ -153,6 +157,10 @@ class APIService {
 
   async getUserFeedback(userId: number, limit?: number): Promise<Feedback[]> {
     return await this.api.getUserFeedback(userId, limit);
+  }
+
+  async resetUserProgress(userId: number): Promise<{ success: boolean }> {
+    return await this.api.resetUserProgress(userId);
   }
 }
 
