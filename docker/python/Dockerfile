@@ -1,9 +1,8 @@
 # Dockerfile for Python code execution sandbox
 FROM python:3.11-slim
 
-# Install minimal dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+# Install minimal dependencies (none needed - base image has everything)
+RUN apt-get update && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
 RUN useradd -m -u 1000 coderunner && \

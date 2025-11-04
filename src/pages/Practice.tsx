@@ -40,7 +40,6 @@ export default function Practice() {
   const [showDescription, setShowDescription] = useState(true);
   const [hints, setHints] = useState<string[]>([]);
   const [revealedHints, setRevealedHints] = useState<number>(0);
-  const [isLoadingHints, setIsLoadingHints] = useState(false);
   const [hintsLoaded, setHintsLoaded] = useState(false);
 
   useEffect(() => {
@@ -72,6 +71,16 @@ export default function Practice() {
         const cases = JSON.parse(details.test_cases);
         setTestCases(cases);
         setResults(null);
+
+        // Load hints from question details
+        if (details.hints && Array.isArray(details.hints) && details.hints.length > 0) {
+          setHints(details.hints);
+          setHintsLoaded(true);
+        } else {
+          setHints([]);
+          setHintsLoaded(true);
+        }
+        setRevealedHints(0);
       } else {
         const details = await api.getMLDesignDetails(selectedQuestion.id);
         setMlDesignDetails(details);
@@ -117,12 +126,48 @@ export default function Practice() {
 
     setIsSubmitting(true);
     try {
+      // Always use test cases from question details for submission
+      // This ensures we always have the official test cases even if state is empty
+      let visibleTestCases: TestCase[] = [];
+      
+      if (questionDetails.test_cases) {
+        try {
+          visibleTestCases = JSON.parse(questionDetails.test_cases);
+        } catch (e) {
+          console.error('Failed to parse test cases from question:', e);
+          // Fallback to state test cases if parsing fails
+          visibleTestCases = testCases;
+        }
+      } else {
+        // Fallback to state test cases if question doesn't have test cases
+        visibleTestCases = testCases;
+      }
+
+      // Parse hidden test cases if available
+      let hiddenTestCases: TestCase[] = [];
+      if (questionDetails.hidden_test_cases) {
+        try {
+          hiddenTestCases = JSON.parse(questionDetails.hidden_test_cases);
+        } catch (e) {
+          console.error('Failed to parse hidden test cases from question:', e);
+        }
+      }
+
+      // Combine visible and hidden test cases for submission
+      // Hidden test cases are run but results are only shown as pass/fail
+      const allTestCases = [...visibleTestCases, ...hiddenTestCases];
+
+      // Ensure we have test cases to run
+      if (allTestCases.length === 0) {
+        throw new Error('No test cases available for this question');
+      }
+
       const result = await api.submitCode({
         userId: currentUser.id,
         questionId: selectedQuestion.id,
         code,
         language,
-        customTestCases: testCases,
+        customTestCases: allTestCases,
       });
 
       setResults(result.executionResult);
@@ -214,35 +259,25 @@ export default function Practice() {
   };
 
   const handleGetHint = async () => {
-    if (!selectedQuestion || isLoadingHints) return;
+    if (!selectedQuestion) return;
 
-    try {
-      setIsLoadingHints(true);
-      
-      // If we haven't loaded hints yet, fetch them
-      let hintsToUse = hints;
-      if (!hintsLoaded) {
-        const fetchedHints = await api.getQuestionHints(selectedQuestion.id);
-        setHints(fetchedHints);
-        setHintsLoaded(true);
-        hintsToUse = fetchedHints;
-        
-        // If no hints are available, show a message
-        if (fetchedHints.length === 0) {
-          showToast('No hints available for this question', 'info');
-          return;
-        }
-      }
+    // If no hints are available, show a message
+    if (hintsLoaded && hints.length === 0) {
+      showToast('No hints available for this question', 'info');
+      return;
+    }
 
-      // Reveal the next hint
-      if (revealedHints < hintsToUse.length) {
-        setRevealedHints(revealedHints + 1);
-      }
-    } catch (error) {
-      console.error('Failed to get hints:', error);
-      showToast('Failed to load hints', 'error');
-    } finally {
-      setIsLoadingHints(false);
+    // If we haven't loaded hints yet, try to get them from question details
+    if (!hintsLoaded && questionDetails?.hints) {
+      setHints(questionDetails.hints);
+      setHintsLoaded(true);
+    }
+
+    // Reveal the next hint
+    if (revealedHints < hints.length) {
+      setRevealedHints(revealedHints + 1);
+    } else if (hints.length > 0) {
+      showToast('All hints have been revealed', 'info');
     }
   };
 
@@ -326,7 +361,7 @@ export default function Practice() {
               {selectedQuestion && (category === 'leetcode' || category === 'ml_system_design') && (
                 <button
                   onClick={handleGetHint}
-                  disabled={isLoadingHints || (hintsLoaded && (hints.length === 0 || revealedHints >= hints.length))}
+                  disabled={hintsLoaded && (hints.length === 0 || revealedHints >= hints.length)}
                   className="px-3 py-1.5 text-sm bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center gap-2"
                   title={
                     hintsLoaded && hints.length === 0 ? 'No hints available' :
@@ -335,10 +370,10 @@ export default function Practice() {
                   }
                 >
                   <Lightbulb size={16} />
-                  {isLoadingHints ? 'Loading...' : 
-                   hintsLoaded && hints.length === 0 ? 'No Hints Available' :
+                  {hintsLoaded && hints.length === 0 ? 'No Hints Available' :
                    hintsLoaded && revealedHints >= hints.length ? 'All Hints Revealed' :
-                   `Get Hint (${revealedHints}/${hints.length > 0 ? hints.length : '?'})`}
+                   hintsLoaded ? `Get Hint (${revealedHints}/${hints.length})` :
+                   `Get Hint (0/?)`}
                 </button>
               )}
               <button

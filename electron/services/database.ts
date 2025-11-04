@@ -138,16 +138,34 @@ export class DatabaseService {
   }
 
   getLeetCodeQuestionDetails(questionId: number) {
-    const result: any = this.db.prepare('SELECT * FROM leetcode_questions WHERE question_id = ?')
-      .get(questionId);
+    const result: any = this.db.prepare(`
+      SELECT 
+        lq.*,
+        q.hints
+      FROM leetcode_questions lq
+      JOIN questions q ON lq.question_id = q.id
+      WHERE lq.question_id = ?
+    `).get(questionId);
 
     if (!result) return null;
 
+    // Parse hints if available
+    let hints: string[] = [];
+    if (result.hints) {
+      try {
+        hints = JSON.parse(result.hints);
+      } catch {
+        hints = [];
+      }
+    }
+
     // Include all fields including solutions
-    // Note: test_cases is kept as string because frontend expects to parse it
+    // Note: test_cases and hidden_test_cases are kept as string because frontend expects to parse them
     return {
       ...result,
       test_cases: result.test_cases || '[]',
+      hidden_test_cases: result.hidden_test_cases || '[]',
+      hints: hints,
       // Solution fields are now included
       solution_python: result.solution_python || '',
       solution_java: result.solution_java || '',
