@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "postinstall": "electron-rebuild",
     "start": "npm run dev",
     "dev": "concurrently \"npm run dev:react\" \"npm run dev:electron\"",
     "dev:react": "vite",
@@ -37,6 +38,7 @@
     "html-to-image": "^1.11.11",
     "lucide-react": "^0.294.0",
     "node-fetch": "^2.7.0",
+    "openai": "^6.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.0",
@@ -45,6 +47,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@electron/rebuild": "^4.0.1",
     "@types/better-sqlite3": "^7.6.8",
     "@types/node": "^20.10.0",
     "@types/node-fetch": "^2.6.13",
