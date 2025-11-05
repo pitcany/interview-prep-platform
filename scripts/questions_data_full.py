@@ -4292,7 +4292,40 @@ class Solution:
         "python_sig": 'class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        pass',
         "java_sig": 'class Solution {\n    public List<String> generateParenthesis(int n) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        \n    }\n};',
-        "solution_python": '# Solution for Generate Parentheses\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        """
+        Backtracking with constraints to generate valid parentheses.
+        Ensures well-formed by tracking open/close counts.
+
+        Algorithm:
+        1. Backtrack, adding '(' when we have remaining opens
+        2. Add ')' only when closes < opens (ensures validity)
+        3. Complete when used all n pairs
+
+        Time Complexity: O(4^n / sqrt(n)) - Catalan number
+        Space Complexity: O(n) - recursion depth
+        """
+        result = []
+
+        def backtrack(current: str, open_count: int, close_count: int):
+            """Build valid combinations with open/close tracking."""
+            # Base case: used all n pairs
+            if len(current) == 2 * n:
+                result.append(current)
+                return
+
+            # Add '(' if we have remaining opens
+            if open_count < n:
+                backtrack(current + '(', open_count + 1, close_count)
+
+            # Add ')' only if it won't violate validity (closes < opens)
+            if close_count < open_count:
+                backtrack(current + ')', open_count, close_count + 1)
+
+        backtrack("", 0, 0)
+        return result
+''',
         "solution_java": '// Solution for Generate Parentheses\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Generate Parentheses\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Generate Parentheses\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
