@@ -192,7 +192,7 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             expected = test_case['expectedOutput']
 
             # Handle tree-based inputs (convert list to TreeNode)
-            if ('Tree' in title or 'BST' in title) and test_input and isinstance(test_input[0], list):
+            if ('Tree' in title or 'BST' in title or 'Path Sum' in title) and test_input and isinstance(test_input[0], list):
                 root = build_tree_from_list(test_input[0])
                 test_input = [root] + test_input[1:]
 

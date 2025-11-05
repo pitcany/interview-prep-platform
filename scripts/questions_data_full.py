@@ -3057,7 +3057,47 @@ class Solution:
         "python_sig": 'class Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n        pass',
         "java_sig": 'class Solution {\n    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {\n        \n    }\n};',
-        "solution_python": '# Solution for Path Sum II\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Path Sum II
+from typing import Optional, List
+
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        """
+        Find all root-to-leaf paths that sum to target.
+
+        Approach:
+        - DFS backtracking
+        - Maintain current path
+        - At leaf, check if sum equals target
+        - IMPORTANT: Copy path before adding to result
+
+        Time: O(n) - visit each node once
+        Space: O(h) for recursion stack
+        """
+        result = []
+
+        def dfs(node, current_path, current_sum):
+            if not node:
+                return
+
+            # Add current node to path
+            current_path.append(node.val)
+            current_sum += node.val
+
+            # Check if leaf node with target sum
+            if not node.left and not node.right and current_sum == targetSum:
+                result.append(current_path[:])  # Must copy path
+
+            # Recurse on children
+            dfs(node.left, current_path, current_sum)
+            dfs(node.right, current_path, current_sum)
+
+            # Backtrack
+            current_path.pop()
+
+        dfs(root, [], 0)
+        return result
+''',
         "solution_java": '// Solution for Path Sum II\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Path Sum II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Path Sum II\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
