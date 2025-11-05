@@ -46,6 +46,65 @@ def build_tree_from_list(values: List[Optional[int]]) -> Optional[TreeNode]:
     return root
 
 
+# Graph node definition for graph-based problems
+class Node:
+    def __init__(self, val=0, neighbors=None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+
+
+def build_graph_from_adjacency_list(adj_list: List[List[int]]) -> Optional[Node]:
+    """Build graph from adjacency list representation."""
+    if not adj_list:
+        return None
+
+    # Special case: [[]] represents a single node with no neighbors
+    if len(adj_list) == 1 and len(adj_list[0]) == 0:
+        return Node(1)
+
+    # Create all nodes first
+    nodes = {i + 1: Node(i + 1) for i in range(len(adj_list))}
+
+    # Connect neighbors
+    for i, neighbors in enumerate(adj_list):
+        node = nodes[i + 1]
+        node.neighbors = [nodes[neighbor] for neighbor in neighbors]
+
+    return nodes.get(1)
+
+
+def graph_to_adjacency_list(node: Optional[Node]) -> List[List[int]]:
+    """Convert graph to adjacency list for comparison."""
+    if not node:
+        return []
+
+    visited = {}
+
+    def dfs(n: Node):
+        if n.val in visited:
+            return
+        visited[n.val] = [neighbor.val for neighbor in n.neighbors]
+        for neighbor in n.neighbors:
+            dfs(neighbor)
+
+    dfs(node)
+
+    # Convert to list format
+    if not visited:
+        return []
+
+    # Special case: single node with no neighbors should return [[]]
+    if len(visited) == 1 and len(list(visited.values())[0]) == 0:
+        return [[]]
+
+    max_val = max(visited.keys())
+    result = [[] for _ in range(max_val)]
+    for val, neighbors in visited.items():
+        result[val - 1] = sorted(neighbors)
+
+    return result
+
+
 def extract_method_name(python_sig: str) -> str:
     """Extract method name from python signature string."""
     # Pattern: def methodName(self, ...
@@ -77,8 +136,8 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
         # Extract method name
         method_name = extract_method_name(python_sig)
 
-        # Execute solution code in isolated namespace with typing imports and TreeNode
-        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'deque': deque}
+        # Execute solution code in isolated namespace with typing imports, TreeNode, and Node
+        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'Node': Node, 'deque': deque}
         exec(solution_code, namespace)
 
         # Create instance from isolated namespace
@@ -97,9 +156,17 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             if 'Tree' in title and test_input and isinstance(test_input[0], list):
                 test_input = [build_tree_from_list(test_input[0])] + test_input[1:]
 
+            # Handle graph-based inputs (convert adjacency list to Node)
+            if 'Graph' in title and test_input and isinstance(test_input[0], list):
+                test_input = [build_graph_from_adjacency_list(test_input[0])]
+
             # Call the method with unpacked inputs
             method = getattr(solution, method_name)
             actual = method(*test_input)
+
+            # Handle graph output (convert back to adjacency list)
+            if 'Graph' in title:
+                actual = graph_to_adjacency_list(actual)
 
             # Compare results
             if actual != expected:

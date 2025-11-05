@@ -3372,7 +3372,54 @@ class Solution:
         "python_sig": "class Solution:\n    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:\n        pass",
         "java_sig": 'class Solution {\n    public Node cloneGraph(Node node) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    Node* cloneGraph(Node* node) {\n        \n    }\n};',
-        "solution_python": '# Solution for Clone Graph\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        """
+        Deep copy graph using DFS with hash map.
+        Creates independent copy where no node is shared with original.
+
+        Algorithm:
+        1. Use hash map to track original node -> cloned node mapping
+        2. DFS through graph:
+           - Clone current node if not already cloned
+           - Recursively clone all neighbors
+           - Connect cloned node to cloned neighbors
+
+        Time Complexity: O(V + E) - visit each vertex and edge once
+        Space Complexity: O(V) - hash map + recursion stack
+        """
+        if not node:
+            return None
+
+        # Map: original node -> cloned node
+        cloned = {}
+
+        def dfs(original: 'Node') -> 'Node':
+            """Recursively clone node and its neighbors."""
+            # If already cloned, return the clone
+            if original in cloned:
+                return cloned[original]
+
+            # Create clone of current node (without neighbors yet)
+            clone = Node(original.val)
+            cloned[original] = clone
+
+            # Recursively clone all neighbors and connect them
+            for neighbor in original.neighbors:
+                clone.neighbors.append(dfs(neighbor))
+
+            return clone
+
+        return dfs(node)
+''',
         "solution_java": '// Solution for Clone Graph\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Clone Graph\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Clone Graph\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
