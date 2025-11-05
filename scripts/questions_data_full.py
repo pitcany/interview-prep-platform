@@ -3533,7 +3533,43 @@ class Solution:
         "python_sig": 'class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int coinChange(int[] coins, int amount) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        \n    }\n};',
-        "solution_python": '# Solution for Coin Change\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        """
+        Bottom-up Dynamic Programming approach.
+        Find minimum number of coins needed to make up the target amount.
+
+        Algorithm:
+        1. Create DP array where dp[i] = min coins needed for amount i
+        2. Initialize dp[0] = 0 (zero coins for amount 0)
+        3. For each amount from 1 to target:
+           - Try each coin denomination
+           - Take minimum of all valid options
+
+        Time Complexity: O(amount * len(coins))
+        Space Complexity: O(amount) - DP array
+        """
+        # Initialize DP array with infinity (impossible to make)
+        # dp[i] represents min coins needed to make amount i
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0  # Base case: 0 coins for amount 0
+
+        # Build up solution for each amount from 1 to target
+        for current_amount in range(1, amount + 1):
+            # Try each coin denomination
+            for coin in coins:
+                if coin <= current_amount:
+                    # If we can use this coin, check if it gives better solution
+                    # dp[current_amount - coin] + 1 means:
+                    # "min coins for (current_amount - coin)" + this coin
+                    dp[current_amount] = min(
+                        dp[current_amount],
+                        dp[current_amount - coin] + 1
+                    )
+
+        # If dp[amount] is still infinity, amount cannot be made
+        return dp[amount] if dp[amount] != float('inf') else -1
+''',
         "solution_java": '// Solution for Coin Change\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Coin Change\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Coin Change\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
