@@ -4485,7 +4485,44 @@ class Solution:
         "python_sig": 'class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        pass',
         "java_sig": 'class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        \n    }\n};',
-        "solution_python": '# Solution for Permutations\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        """
+        Backtracking to generate all permutations.
+        Swaps elements to build each permutation in-place.
+
+        Algorithm:
+        1. Use backtracking with index tracking
+        2. Swap current index with each remaining element
+        3. Recurse to next position
+        4. Backtrack by swapping back
+
+        Time Complexity: O(n! * n) - n! permutations, each takes O(n) to copy
+        Space Complexity: O(n) - recursion depth
+        """
+        result = []
+
+        def backtrack(start: int):
+            """Build permutations by swapping elements."""
+            # Base case: built complete permutation
+            if start == len(nums):
+                result.append(nums[:])  # Copy current permutation
+                return
+
+            # Try each element in remaining positions
+            for i in range(start, len(nums)):
+                # Swap to place element at current position
+                nums[start], nums[i] = nums[i], nums[start]
+
+                # Recurse to next position
+                backtrack(start + 1)
+
+                # Backtrack: restore original order
+                nums[start], nums[i] = nums[i], nums[start]
+
+        backtrack(0)
+        return sorted(result)
+''',
         "solution_java": '// Solution for Permutations\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Permutations\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Permutations\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
