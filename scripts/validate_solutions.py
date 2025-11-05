@@ -355,7 +355,8 @@ def main():
         'House Robber II',
         'Decode Ways',
         # Batch 5
-        'Median of Two Sorted Arrays'
+        'Median of Two Sorted Arrays',
+        'Binary Tree Maximum Path Sum'
     ]
 
     print("=" * 60)
