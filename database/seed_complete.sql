@@ -2822,11 +2822,69 @@ public:
 'O(n)',
 'O(n)',
 '# Solution for Construct Binary Tree from Preorder and Inorder Traversal
-# Implement the optimal algorithm here
+from typing import List, Optional
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        """
+        Construct binary tree from preorder and inorder traversals.
+
+        Approach:
+        - Preorder: [root, left subtree, right subtree]
+        - Inorder: [left subtree, root, right subtree]
+        - Use first element of preorder as root
+        - Find root in inorder to split left/right subtrees
+        - Recursively build left and right subtrees
+
+        Optimization:
+        - Use hashmap for O(1) inorder index lookup (instead of O(n) search)
+        - Track global preorder index
+        - Pass inorder bounds to avoid array slicing
+
+        Time: O(n) - visit each node once
+        Space: O(n) - hashmap storage + O(h) recursion stack
+        """
+        if not preorder or not inorder:
+            return None
+
+        # Build hashmap: value -> index in inorder traversal
+        # This allows O(1) lookup to find root position
+        inorder_map = {val: idx for idx, val in enumerate(inorder)}
+
+        # Track current position in preorder traversal
+        self.preorder_idx = 0
+
+        def build(in_left: int, in_right: int) -> Optional[TreeNode]:
+            """
+            Build tree for inorder range [in_left, in_right].
+            Uses and advances self.preorder_idx.
+            """
+            # Base case: empty range
+            if in_left > in_right:
+                return None
+
+            # Get root value from preorder and advance index
+            root_val = preorder[self.preorder_idx]
+            self.preorder_idx += 1
+
+            # Create root node
+            root = TreeNode(root_val)
+
+            # Find root position in inorder (O(1) with hashmap)
+            in_root_idx = inorder_map[root_val]
+
+            # Build left subtree: inorder range [in_left, in_root_idx - 1]
+            # Must build left before right (preorder visits left first)
+            root.left = build(in_left, in_root_idx - 1)
+
+            # Build right subtree: inorder range [in_root_idx + 1, in_right]
+            root.right = build(in_root_idx + 1, in_right)
+
+            return root
+
+        # Build entire tree: inorder range [0, n-1]
+        return build(0, len(inorder) - 1)
+',
 '// Solution for Construct Binary Tree from Preorder and Inorder Traversal
 class Solution {
     public returnType solve(inputType input) {
@@ -3603,11 +3661,46 @@ public:
 'O(m*n)',
 'O(m*n)',
 '# Solution for Unique Paths
-# Implement the optimal algorithm here
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def uniquePaths(self, m: int, n: int) -> int:
+        """
+        2D Dynamic Programming with Space Optimization
+
+        Problem: Count unique paths in m x n grid from top-left to bottom-right
+        Constraint: Can only move right or down
+
+        Key Insight:
+        - dp[i][j] = number of ways to reach cell (i, j)
+        - Recurrence: dp[i][j] = dp[i-1][j] + dp[i][j-1]
+          (paths from above + paths from left)
+        - Base case: All cells in first row/column have exactly 1 path
+
+        Space Optimization:
+        - Full 2D DP would use O(m*n) space
+        - We only need previous row to compute current row
+        - Use single 1D array of size n, update in-place
+
+        Time: O(m*n) - visit each cell once
+        Space: O(n) - only store one row
+        """
+        # Initialize dp array representing one row
+        # All positions in first row have 1 path (move right only)
+        dp = [1] * n
+
+        # Process each row starting from row 1
+        for i in range(1, m):
+            # For each column in current row
+            for j in range(1, n):
+                # dp[j] currently holds value from previous row (paths from above)
+                # dp[j-1] holds value from current row (paths from left)
+                # Sum them to get total paths to current cell
+                dp[j] += dp[j - 1]
+
+            # Note: dp[0] stays 1 (first column always has 1 path - move down only)
+
+        # Bottom-right corner value is stored at dp[n-1]
+        return dp[n - 1]
+',
 '// Solution for Unique Paths
 class Solution {
     public returnType solve(inputType input) {

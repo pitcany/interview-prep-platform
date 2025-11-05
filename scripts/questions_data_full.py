@@ -4394,7 +4394,47 @@ class Solution:
         "python_sig": 'class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int uniquePaths(int m, int n) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        \n    }\n};',
-        "solution_python": '# Solution for Unique Paths\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Unique Paths
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        """
+        2D Dynamic Programming with Space Optimization
+
+        Problem: Count unique paths in m x n grid from top-left to bottom-right
+        Constraint: Can only move right or down
+
+        Key Insight:
+        - dp[i][j] = number of ways to reach cell (i, j)
+        - Recurrence: dp[i][j] = dp[i-1][j] + dp[i][j-1]
+          (paths from above + paths from left)
+        - Base case: All cells in first row/column have exactly 1 path
+
+        Space Optimization:
+        - Full 2D DP would use O(m*n) space
+        - We only need previous row to compute current row
+        - Use single 1D array of size n, update in-place
+
+        Time: O(m*n) - visit each cell once
+        Space: O(n) - only store one row
+        """
+        # Initialize dp array representing one row
+        # All positions in first row have 1 path (move right only)
+        dp = [1] * n
+
+        # Process each row starting from row 1
+        for i in range(1, m):
+            # For each column in current row
+            for j in range(1, n):
+                # dp[j] currently holds value from previous row (paths from above)
+                # dp[j-1] holds value from current row (paths from left)
+                # Sum them to get total paths to current cell
+                dp[j] += dp[j - 1]
+
+            # Note: dp[0] stays 1 (first column always has 1 path - move down only)
+
+        # Bottom-right corner value is stored at dp[n-1]
+        return dp[n - 1]
+''',
         "solution_java": '// Solution for Unique Paths\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Unique Paths\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Unique Paths\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

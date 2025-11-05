@@ -350,7 +350,8 @@ def main():
         'Binary Tree Right Side View',
         'Path Sum II',
         # Batch 4
-        'Construct Binary Tree from Preorder and Inorder Traversal'
+        'Construct Binary Tree from Preorder and Inorder Traversal',
+        'Unique Paths'
     ]
 
     print("=" * 60)
