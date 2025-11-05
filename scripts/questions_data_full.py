@@ -5231,7 +5231,53 @@ class Codec:
         "python_sig": 'class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int minDistance(String word1, String word2) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        \n    }\n};',
-        "solution_python": '# Solution for Edit Distance\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        """
+        Dynamic Programming (Levenshtein Distance).
+        Finds minimum edit operations to transform word1 to word2.
+
+        Operations: insert, delete, replace (each costs 1)
+
+        Algorithm:
+        1. Create DP table where dp[i][j] = min edits for word1[0:i] -> word2[0:j]
+        2. Base cases: empty string conversions
+        3. If characters match: dp[i][j] = dp[i-1][j-1]
+        4. If differ: take min of (insert, delete, replace) + 1
+
+        Time Complexity: O(m * n) where m, n are string lengths
+        Space Complexity: O(m * n) for DP table
+        """
+        m, n = len(word1), len(word2)
+
+        # dp[i][j] = min edits to transform word1[0:i] to word2[0:j]
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+        # Base cases: transforming from/to empty string
+        for i in range(m + 1):
+            dp[i][0] = i  # Delete all characters
+        for j in range(n + 1):
+            dp[0][j] = j  # Insert all characters
+
+        # Fill DP table
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if word1[i - 1] == word2[j - 1]:
+                    # Characters match: no operation needed
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    # Take minimum of:
+                    # - Replace: dp[i-1][j-1] + 1
+                    # - Insert: dp[i][j-1] + 1
+                    # - Delete: dp[i-1][j] + 1
+                    dp[i][j] = min(
+                        dp[i - 1][j - 1],  # Replace
+                        dp[i][j - 1],      # Insert
+                        dp[i - 1][j]       # Delete
+                    ) + 1
+
+        return dp[m][n]
+''',
         "solution_java": '// Solution for Edit Distance\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Edit Distance\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Edit Distance\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
