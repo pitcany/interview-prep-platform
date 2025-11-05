@@ -2267,7 +2267,54 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        pass',
         "java_sig": 'class Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        \n    }\n};',
-        "solution_python": '# Solution for Binary Tree Level Order Traversal\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
+
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        """
+        Breadth-First Search (BFS) using a queue.
+        Traverses tree level by level, collecting nodes at each level.
+
+        Algorithm:
+        1. Use queue to track nodes at current level
+        2. For each level, process all nodes and collect their values
+        3. Add children of current level to queue for next level
+
+        Time Complexity: O(n) - visit each node once
+        Space Complexity: O(w) - where w is maximum width of tree (queue size)
+        """
+        if not root:
+            return []
+
+        result = []
+        queue = deque([root])
+
+        while queue:
+            level_size = len(queue)
+            current_level = []
+
+            # Process all nodes at current level
+            for _ in range(level_size):
+                node = queue.popleft()
+                current_level.append(node.val)
+
+                # Add children to queue for next level
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+            result.append(current_level)
+
+        return result
+''',
         "solution_java": '// Solution for Binary Tree Level Order Traversal\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Binary Tree Level Order Traversal\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Binary Tree Level Order Traversal\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

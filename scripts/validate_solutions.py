@@ -7,7 +7,43 @@ Executes solutions against test cases and reports results
 import os
 import re
 import sys
+from collections import deque
 from typing import List, Optional, Any
+
+
+# Tree node definition for tree-based problems
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+def build_tree_from_list(values: List[Optional[int]]) -> Optional[TreeNode]:
+    """Build binary tree from level-order list representation."""
+    if not values:
+        return None
+
+    root = TreeNode(values[0])
+    queue = deque([root])
+    i = 1
+
+    while queue and i < len(values):
+        node = queue.popleft()
+
+        # Left child
+        if i < len(values) and values[i] is not None:
+            node.left = TreeNode(values[i])
+            queue.append(node.left)
+        i += 1
+
+        # Right child
+        if i < len(values) and values[i] is not None:
+            node.right = TreeNode(values[i])
+            queue.append(node.right)
+        i += 1
+
+    return root
 
 
 def extract_method_name(python_sig: str) -> str:
@@ -41,8 +77,8 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
         # Extract method name
         method_name = extract_method_name(python_sig)
 
-        # Execute solution code in isolated namespace with typing imports
-        namespace = {'List': List, 'Optional': Optional, 'Any': Any}
+        # Execute solution code in isolated namespace with typing imports and TreeNode
+        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'deque': deque}
         exec(solution_code, namespace)
 
         # Create instance from isolated namespace
@@ -57,6 +93,10 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             test_input = test_case['input']
             expected = test_case['expectedOutput']
 
+            # Handle tree-based inputs (convert list to TreeNode)
+            if 'Tree' in title and test_input and isinstance(test_input[0], list):
+                test_input = [build_tree_from_list(test_input[0])] + test_input[1:]
+
             # Call the method with unpacked inputs
             method = getattr(solution, method_name)
             actual = method(*test_input)
@@ -65,7 +105,7 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             if actual != expected:
                 errors.append(
                     f"  Test {i} FAILED:\n"
-                    f"    Input: {test_input}\n"
+                    f"    Input: {test_case['input']}\n"
                     f"    Expected: {expected}\n"
                     f"    Got: {actual}"
                 )
