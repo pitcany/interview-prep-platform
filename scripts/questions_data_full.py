@@ -4494,7 +4494,51 @@ class Solution:
         "python_sig": 'class Solution:\n    def trap(self, height: List[int]) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int trap(int[] height) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int trap(vector<int>& height) {\n        \n    }\n};',
-        "solution_python": '# Solution for Trapping Rain Water\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def trap(self, height: List[int]) -> int:
+        """
+        Two-pointer technique to calculate trapped water.
+        Water level at position i = min(max_left[i], max_right[i]) - height[i]
+
+        Algorithm:
+        Use two pointers moving inward, tracking max heights from both sides:
+        1. Start with left and right pointers at edges
+        2. Move pointer with smaller max height inward
+        3. Calculate water trapped based on current max heights
+        4. Key insight: water trapped depends on the SMALLER of left/right max
+
+        Time Complexity: O(n) - single pass with two pointers
+        Space Complexity: O(1) - only using pointers and max trackers
+        """
+        if not height:
+            return 0
+
+        left, right = 0, len(height) - 1
+        left_max, right_max = 0, 0
+        water = 0
+
+        while left < right:
+            if height[left] < height[right]:
+                # Process left side
+                if height[left] >= left_max:
+                    # Update left max
+                    left_max = height[left]
+                else:
+                    # Water trapped = left_max - current height
+                    water += left_max - height[left]
+                left += 1
+            else:
+                # Process right side
+                if height[right] >= right_max:
+                    # Update right max
+                    right_max = height[right]
+                else:
+                    # Water trapped = right_max - current height
+                    water += right_max - height[right]
+                right -= 1
+
+        return water
+''',
         "solution_java": '// Solution for Trapping Rain Water\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Trapping Rain Water\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Trapping Rain Water\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
