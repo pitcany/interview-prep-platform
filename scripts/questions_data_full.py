@@ -3669,7 +3669,49 @@ class Solution:
         "python_sig": 'class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int lengthOfLIS(int[] nums) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        \n    }\n};',
-        "solution_python": '# Solution for Longest Increasing Subsequence\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        """
+        Dynamic Programming with Binary Search optimization.
+        Finds length of longest strictly increasing subsequence.
+
+        Algorithm (Patience Sort approach):
+        1. Maintain array 'sub' of smallest tail values for increasing subsequences
+        2. For each number, binary search for position in 'sub'
+        3. If larger than all elements, extend subsequence
+        4. Otherwise, replace first element >= current number
+
+        Why this works: We're maintaining optimal tails for all subsequence lengths.
+
+        Time Complexity: O(n log n) - binary search for each element
+        Space Complexity: O(n) - sub array
+        """
+        if not nums:
+            return 0
+
+        # sub[i] = smallest tail element for increasing subsequence of length i+1
+        sub = []
+
+        for num in nums:
+            # Binary search for position to insert/replace
+            left, right = 0, len(sub)
+
+            while left < right:
+                mid = (left + right) // 2
+                if sub[mid] < num:
+                    left = mid + 1
+                else:
+                    right = mid
+
+            # If num is larger than all elements in sub, extend subsequence
+            if left == len(sub):
+                sub.append(num)
+            else:
+                # Replace first element >= num to keep smallest possible tail
+                sub[left] = num
+
+        return len(sub)
+''',
         "solution_java": '// Solution for Longest Increasing Subsequence\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Longest Increasing Subsequence\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Longest Increasing Subsequence\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
