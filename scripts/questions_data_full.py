@@ -5048,7 +5048,66 @@ class Solution:
         "python_sig": 'class Codec:\n    def serialize(self, root: Optional[TreeNode]) -> str:\n        pass\n    \n    def deserialize(self, data: str) -> Optional[TreeNode]:\n        pass',
         "java_sig": 'public class Codec {\n    public String serialize(TreeNode root) {\n        \n    }\n    \n    public TreeNode deserialize(String data) {\n        \n    }\n}',
         "cpp_sig": 'class Codec {\npublic:\n    string serialize(TreeNode* root) {\n        \n    }\n    \n    TreeNode* deserialize(string data) {\n        \n    }\n};',
-        "solution_python": '# Solution for Serialize and Deserialize Binary Tree\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+    """
+    Serialize and deserialize binary tree using preorder traversal.
+    Uses '#' to represent null nodes, ',' as delimiter.
+
+    Time Complexity: O(n) for both serialize and deserialize
+    Space Complexity: O(n) for storing tree data
+    """
+
+    def serialize(self, root: TreeNode) -> str:
+        """
+        Encodes tree to string using preorder traversal.
+
+        Algorithm:
+        1. Preorder traversal (root, left, right)
+        2. Use '#' for null nodes
+        3. Join with commas
+        """
+        def preorder(node):
+            if not node:
+                return '#'
+            # Preorder: root, left subtree, right subtree
+            return f"{node.val},{preorder(node.left)},{preorder(node.right)}"
+
+        return preorder(root)
+
+    def deserialize(self, data: str) -> TreeNode:
+        """
+        Decodes string to tree using preorder reconstruction.
+
+        Algorithm:
+        1. Split string by commas
+        2. Use iterator to build tree in preorder
+        3. '#' creates None, numbers create nodes
+        """
+        def build():
+            val = next(values)
+            if val == '#':
+                return None
+
+            # Create node and recursively build subtrees
+            node = TreeNode(int(val))
+            node.left = build()
+            node.right = build()
+            return node
+
+        values = iter(data.split(','))
+        return build()
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.deserialize(codec.serialize(root))
+''',
         "solution_java": '// Solution for Serialize and Deserialize Binary Tree\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Serialize and Deserialize Binary Tree\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Serialize and Deserialize Binary Tree\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

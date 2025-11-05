@@ -175,7 +175,11 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
         exec(solution_code, namespace)
 
         # Create instance from isolated namespace
-        solution = namespace['Solution']()
+        # Special handling for Codec class (Serialize/Deserialize)
+        if 'Codec' in namespace:
+            solution = namespace['Codec']()
+        else:
+            solution = namespace['Solution']()
 
         # Verify method exists
         if not hasattr(solution, method_name):
@@ -218,9 +222,36 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 # Convert first array to linked list
                 test_input = [build_list_from_array(test_input[0])] + test_input[1:]
 
-            # Call the method with unpacked inputs
-            method = getattr(solution, method_name)
-            actual = method(*test_input)
+            # Special handling for Serialize and Deserialize
+            if 'Serialize and Deserialize' in title:
+                # Build tree from input
+                root = test_input[0] if test_input else None
+                # Serialize then deserialize
+                serialized = solution.serialize(root)
+                deserialized = solution.deserialize(serialized)
+                # Convert back to list for comparison
+                def tree_to_list(node):
+                    if not node:
+                        return []
+                    result = []
+                    queue = deque([node])
+                    while queue:
+                        current = queue.popleft()
+                        if current:
+                            result.append(current.val)
+                            queue.append(current.left)
+                            queue.append(current.right)
+                        else:
+                            result.append(None)
+                    # Remove trailing None values
+                    while result and result[-1] is None:
+                        result.pop()
+                    return result
+                actual = tree_to_list(deserialized)
+            else:
+                # Call the method with unpacked inputs
+                method = getattr(solution, method_name)
+                actual = method(*test_input)
 
             # Handle graph output (convert back to adjacency list)
             if 'Graph' in title:
