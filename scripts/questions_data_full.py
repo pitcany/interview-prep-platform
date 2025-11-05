@@ -1806,7 +1806,51 @@ class Solution:
         "python_sig": 'class Solution:\n    def setZeroes(self, matrix: List[List[int]]) -> None:\n        pass',
         "java_sig": 'class Solution {\n    public void setZeroes(int[][] matrix) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        \n    }\n};',
-        "solution_python": '# Solution for Set Matrix Zeroes\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Set Matrix Zeroes
+from typing import List
+
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Set entire row and column to zero if element is zero.
+
+        Approach:
+        - Use first row and first column as markers
+        - Track separately if first column has zeros
+        - Mark zeros in first row/col
+        - Apply zeros using markers
+        - Handle first row/col last
+
+        Time: O(m*n)
+        Space: O(1) - reuse matrix for markers
+        """
+        m, n = len(matrix), len(matrix[0])
+        first_row_has_zero = any(matrix[0][j] == 0 for j in range(n))
+        first_col_has_zero = any(matrix[i][0] == 0 for i in range(m))
+
+        # Use first row and column as markers (skip row 0, col 0)
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == 0:
+                    matrix[i][0] = 0  # Mark row
+                    matrix[0][j] = 0  # Mark column
+
+        # Set zeros based on markers (skip first row/col)
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][0] == 0 or matrix[0][j] == 0:
+                    matrix[i][j] = 0
+
+        # Handle first column first (including row 0)
+        if first_col_has_zero:
+            for i in range(m):
+                matrix[i][0] = 0
+
+        # Handle first row second (will overwrite matrix[0][0] if needed)
+        if first_row_has_zero:
+            for j in range(n):
+                matrix[0][j] = 0
+''',
         "solution_java": '// Solution for Set Matrix Zeroes\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Set Matrix Zeroes\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Set Matrix Zeroes\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

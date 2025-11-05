@@ -329,7 +329,8 @@ def main():
         'Merge k Sorted Lists',
         # Batch 3
         'Spiral Matrix',
-        'Rotate Image'
+        'Rotate Image',
+        'Set Matrix Zeroes'
     ]
 
     print("=" * 60)

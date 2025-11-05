@@ -1593,11 +1593,54 @@ public:
 'O(m*n)',
 'O(1)',
 '# Solution for Spiral Matrix
-# Implement the optimal algorithm here
+from typing import List
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        """
+        Return elements of matrix in spiral order.
+
+        Approach:
+        - Track four boundaries: top, bottom, left, right
+        - Traverse right → down → left → up
+        - Shrink boundaries after each direction
+        - Stop when boundaries cross
+
+        Time: O(m*n) - visit each element once
+        Space: O(1) - excluding output array
+        """
+        if not matrix or not matrix[0]:
+            return []
+
+        result = []
+        top, bottom = 0, len(matrix) - 1
+        left, right = 0, len(matrix[0]) - 1
+
+        while top <= bottom and left <= right:
+            # Traverse right along top row
+            for col in range(left, right + 1):
+                result.append(matrix[top][col])
+            top += 1
+
+            # Traverse down along right column
+            for row in range(top, bottom + 1):
+                result.append(matrix[row][right])
+            right -= 1
+
+            # Traverse left along bottom row (if row exists)
+            if top <= bottom:
+                for col in range(right, left - 1, -1):
+                    result.append(matrix[bottom][col])
+                bottom -= 1
+
+            # Traverse up along left column (if column exists)
+            if left <= right:
+                for row in range(bottom, top - 1, -1):
+                    result.append(matrix[row][left])
+                left += 1
+
+        return result
+',
 '// Solution for Spiral Matrix
 class Solution {
     public returnType solve(inputType input) {
@@ -1656,11 +1699,32 @@ public:
 'O(n^2)',
 'O(1)',
 '# Solution for Rotate Image
-# Implement the optimal algorithm here
+from typing import List
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Rotate matrix 90 degrees clockwise in-place.
+
+        Approach:
+        1. Transpose matrix (swap matrix[i][j] with matrix[j][i])
+        2. Reverse each row
+        Result: 90° clockwise rotation
+
+        Time: O(n²) - process each element twice
+        Space: O(1) - in-place modification
+        """
+        n = len(matrix)
+
+        # Step 1: Transpose matrix
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+        # Step 2: Reverse each row
+        for row in matrix:
+            row.reverse()
+',
 '// Solution for Rotate Image
 class Solution {
     public returnType solve(inputType input) {
@@ -1719,11 +1783,50 @@ public:
 'O(m*n)',
 'O(1)',
 '# Solution for Set Matrix Zeroes
-# Implement the optimal algorithm here
+from typing import List
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Set entire row and column to zero if element is zero.
+
+        Approach:
+        - Use first row and first column as markers
+        - Track separately if first column has zeros
+        - Mark zeros in first row/col
+        - Apply zeros using markers
+        - Handle first row/col last
+
+        Time: O(m*n)
+        Space: O(1) - reuse matrix for markers
+        """
+        m, n = len(matrix), len(matrix[0])
+        first_row_has_zero = any(matrix[0][j] == 0 for j in range(n))
+        first_col_has_zero = any(matrix[i][0] == 0 for i in range(m))
+
+        # Use first row and column as markers (skip row 0, col 0)
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == 0:
+                    matrix[i][0] = 0  # Mark row
+                    matrix[0][j] = 0  # Mark column
+
+        # Set zeros based on markers (skip first row/col)
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][0] == 0 or matrix[0][j] == 0:
+                    matrix[i][j] = 0
+
+        # Handle first column first (including row 0)
+        if first_col_has_zero:
+            for i in range(m):
+                matrix[i][0] = 0
+
+        # Handle first row second (will overwrite matrix[0][0] if needed)
+        if first_row_has_zero:
+            for j in range(n):
+                matrix[0][j] = 0
+',
 '// Solution for Set Matrix Zeroes
 class Solution {
     public returnType solve(inputType input) {
