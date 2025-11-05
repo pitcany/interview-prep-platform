@@ -2279,7 +2279,44 @@ class Solution:
         "python_sig": 'class Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        pass',
         "java_sig": 'class Solution {\n    public ListNode reverseBetween(ListNode head, int left, int right) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    ListNode* reverseBetween(ListNode* head, int left, int right) {\n        \n    }\n};',
-        "solution_python": '# Solution for Reverse Linked List II\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Reverse Linked List II
+from typing import Optional
+
+class Solution:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        """
+        Reverse linked list from position left to right.
+
+        Approach:
+        - Use dummy head for clean edge case handling
+        - Find node before left position
+        - Reverse sublist using standard three-pointer reversal
+        - Reconnect reversed portion
+
+        Time: O(n)
+        Space: O(1)
+        """
+        if not head or left == right:
+            return head
+
+        dummy = ListNode(0)
+        dummy.next = head
+        prev = dummy
+
+        # Move to node before left position
+        for _ in range(left - 1):
+            prev = prev.next
+
+        # Reverse from left to right
+        current = prev.next
+        for _ in range(right - left):
+            next_node = current.next
+            current.next = next_node.next
+            next_node.next = prev.next
+            prev.next = next_node
+
+        return dummy.next
+''',
         "solution_java": '// Solution for Reverse Linked List II\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Reverse Linked List II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Reverse Linked List II\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

@@ -332,7 +332,8 @@ def main():
         'Spiral Matrix',
         'Rotate Image',
         'Set Matrix Zeroes',
-        'Remove Nth Node From End of List'
+        'Remove Nth Node From End of List',
+        'Reverse Linked List II'
     ]
 
     print("=" * 60)
