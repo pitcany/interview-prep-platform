@@ -1629,7 +1629,33 @@ class Solution:
         "python_sig": 'class Solution:\n    def rotate(self, matrix: List[List[int]]) -> None:\n        pass',
         "java_sig": 'class Solution {\n    public void rotate(int[][] matrix) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        \n    }\n};',
-        "solution_python": '# Solution for Rotate Image\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Rotate Image
+from typing import List
+
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Rotate matrix 90 degrees clockwise in-place.
+
+        Approach:
+        1. Transpose matrix (swap matrix[i][j] with matrix[j][i])
+        2. Reverse each row
+        Result: 90° clockwise rotation
+
+        Time: O(n²) - process each element twice
+        Space: O(1) - in-place modification
+        """
+        n = len(matrix)
+
+        # Step 1: Transpose matrix
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+        # Step 2: Reverse each row
+        for row in matrix:
+            row.reverse()
+''',
         "solution_java": '// Solution for Rotate Image\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Rotate Image\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Rotate Image\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

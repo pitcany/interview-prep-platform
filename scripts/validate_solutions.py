@@ -259,6 +259,13 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 method = getattr(solution, method_name)
                 actual = method(*test_input)
 
+                # Handle in-place modifications (methods that return None)
+                # For these, the expected output is the modified input
+                if actual is None and 'Rotate Image' in title:
+                    actual = test_input[0]
+                elif actual is None and 'Set Matrix Zeroes' in title:
+                    actual = test_input[0]
+
             # Handle graph output (convert back to adjacency list)
             if 'Graph' in title:
                 actual = graph_to_adjacency_list(actual)
@@ -321,7 +328,8 @@ def main():
         'Edit Distance',
         'Merge k Sorted Lists',
         # Batch 3
-        'Spiral Matrix'
+        'Spiral Matrix',
+        'Rotate Image'
     ]
 
     print("=" * 60)
