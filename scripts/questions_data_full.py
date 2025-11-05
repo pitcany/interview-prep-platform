@@ -4182,7 +4182,48 @@ class Solution:
         "python_sig": 'class Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        pass',
         "java_sig": 'class Solution {\n    public List<String> letterCombinations(String digits) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<string> letterCombinations(string digits) {\n        \n    }\n};',
-        "solution_python": '# Solution for Letter Combinations of a Phone Number\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        """
+        Backtracking to generate all possible letter combinations.
+        Maps each digit to its corresponding letters on phone keypad.
+
+        Algorithm:
+        1. Use digit-to-letters mapping (2='abc', 3='def', etc.)
+        2. Backtrack through each digit, trying all letter choices
+        3. When path length equals input length, add to result
+
+        Time Complexity: O(4^n) - worst case 4 letters per digit
+        Space Complexity: O(n) - recursion depth and current path
+        """
+        if not digits:
+            return []
+
+        # Phone keypad mapping
+        phone_map = {
+            '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',
+            '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'
+        }
+
+        result = []
+
+        def backtrack(index: int, path: str):
+            """Build combinations by trying each letter for current digit."""
+            # Base case: built complete combination
+            if index == len(digits):
+                result.append(path)
+                return
+
+            # Get letters for current digit
+            letters = phone_map[digits[index]]
+
+            # Try each letter
+            for letter in letters:
+                backtrack(index + 1, path + letter)
+
+        backtrack(0, "")
+        return result
+''',
         "solution_java": '// Solution for Letter Combinations of a Phone Number\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Letter Combinations of a Phone Number\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Letter Combinations of a Phone Number\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

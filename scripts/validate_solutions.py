@@ -235,6 +235,7 @@ def main():
 
     # Questions to validate
     target_questions = [
+        # Batch 1
         'Product of Array Except Self',
         'Maximum Subarray',
         'Number of Islands',
@@ -244,7 +245,18 @@ def main():
         'Longest Increasing Subsequence',
         'Course Schedule',
         'Clone Graph',
-        'Trapping Rain Water'
+        'Trapping Rain Water',
+        # Batch 2
+        'Letter Combinations of a Phone Number',
+        'Generate Parentheses',
+        'Permutations',
+        'Subarray Sum Equals K',
+        'Word Search',
+        'Word Break',
+        'Lowest Common Ancestor of a Binary Tree',
+        'Serialize and Deserialize Binary Tree',
+        'Edit Distance',
+        'Merge k Sorted Lists'
     ]
 
     print("=" * 60)
