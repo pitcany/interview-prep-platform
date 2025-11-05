@@ -47,6 +47,26 @@ def build_tree_from_list(values: List[Optional[int]]) -> Optional[TreeNode]:
     return root
 
 
+def tree_to_list(node: Optional[TreeNode]) -> List[Optional[int]]:
+    """Convert binary tree to level-order list representation."""
+    if not node:
+        return []
+    result = []
+    queue = deque([node])
+    while queue:
+        current = queue.popleft()
+        if current:
+            result.append(current.val)
+            queue.append(current.left)
+            queue.append(current.right)
+        else:
+            result.append(None)
+    # Remove trailing None values
+    while result and result[-1] is None:
+        result.pop()
+    return result
+
+
 # Graph node definition for graph-based problems
 class Node:
     def __init__(self, val=0, neighbors=None):
@@ -192,7 +212,10 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             expected = test_case['expectedOutput']
 
             # Handle tree-based inputs (convert list to TreeNode)
-            if ('Tree' in title or 'BST' in title or 'Path Sum' in title) and test_input and isinstance(test_input[0], list):
+            # Exception: "Construct Binary Tree" takes lists as input, not TreeNode
+            if ('Tree' in title or 'BST' in title or 'Path Sum' in title) and \
+               'Construct Binary Tree' not in title and \
+               test_input and isinstance(test_input[0], list):
                 root = build_tree_from_list(test_input[0])
                 test_input = [root] + test_input[1:]
 
@@ -238,23 +261,6 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 serialized = solution.serialize(root)
                 deserialized = solution.deserialize(serialized)
                 # Convert back to list for comparison
-                def tree_to_list(node):
-                    if not node:
-                        return []
-                    result = []
-                    queue = deque([node])
-                    while queue:
-                        current = queue.popleft()
-                        if current:
-                            result.append(current.val)
-                            queue.append(current.left)
-                            queue.append(current.right)
-                        else:
-                            result.append(None)
-                    # Remove trailing None values
-                    while result and result[-1] is None:
-                        result.pop()
-                    return result
                 actual = tree_to_list(deserialized)
             else:
                 # Call the method with unpacked inputs
@@ -267,6 +273,10 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                     actual = test_input[0]
                 elif actual is None and 'Set Matrix Zeroes' in title:
                     actual = test_input[0]
+
+            # Handle tree construction output (convert TreeNode to list)
+            if 'Construct Binary Tree' in title and actual is not None:
+                actual = tree_to_list(actual)
 
             # Handle graph output (convert back to adjacency list)
             if 'Graph' in title:
@@ -338,7 +348,9 @@ def main():
         'Swap Nodes in Pairs',
         'Kth Smallest Element in a BST',
         'Binary Tree Right Side View',
-        'Path Sum II'
+        'Path Sum II',
+        # Batch 4
+        'Construct Binary Tree from Preorder and Inorder Traversal'
     ]
 
     print("=" * 60)

@@ -3196,7 +3196,70 @@ class Solution:
         "python_sig": 'class Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        pass',
         "java_sig": 'class Solution {\n    public TreeNode buildTree(int[] preorder, int[] inorder) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {\n        \n    }\n};',
-        "solution_python": '# Solution for Construct Binary Tree from Preorder and Inorder Traversal\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Construct Binary Tree from Preorder and Inorder Traversal
+from typing import List, Optional
+
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        """
+        Construct binary tree from preorder and inorder traversals.
+
+        Approach:
+        - Preorder: [root, left subtree, right subtree]
+        - Inorder: [left subtree, root, right subtree]
+        - Use first element of preorder as root
+        - Find root in inorder to split left/right subtrees
+        - Recursively build left and right subtrees
+
+        Optimization:
+        - Use hashmap for O(1) inorder index lookup (instead of O(n) search)
+        - Track global preorder index
+        - Pass inorder bounds to avoid array slicing
+
+        Time: O(n) - visit each node once
+        Space: O(n) - hashmap storage + O(h) recursion stack
+        """
+        if not preorder or not inorder:
+            return None
+
+        # Build hashmap: value -> index in inorder traversal
+        # This allows O(1) lookup to find root position
+        inorder_map = {val: idx for idx, val in enumerate(inorder)}
+
+        # Track current position in preorder traversal
+        self.preorder_idx = 0
+
+        def build(in_left: int, in_right: int) -> Optional[TreeNode]:
+            """
+            Build tree for inorder range [in_left, in_right].
+            Uses and advances self.preorder_idx.
+            """
+            # Base case: empty range
+            if in_left > in_right:
+                return None
+
+            # Get root value from preorder and advance index
+            root_val = preorder[self.preorder_idx]
+            self.preorder_idx += 1
+
+            # Create root node
+            root = TreeNode(root_val)
+
+            # Find root position in inorder (O(1) with hashmap)
+            in_root_idx = inorder_map[root_val]
+
+            # Build left subtree: inorder range [in_left, in_root_idx - 1]
+            # Must build left before right (preorder visits left first)
+            root.left = build(in_left, in_root_idx - 1)
+
+            # Build right subtree: inorder range [in_root_idx + 1, in_right]
+            root.right = build(in_root_idx + 1, in_right)
+
+            return root
+
+        # Build entire tree: inorder range [0, n-1]
+        return build(0, len(inorder) - 1)
+''',
         "solution_java": '// Solution for Construct Binary Tree from Preorder and Inorder Traversal\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Construct Binary Tree from Preorder and Inorder Traversal\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Construct Binary Tree from Preorder and Inorder Traversal\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
