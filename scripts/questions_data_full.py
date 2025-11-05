@@ -4739,12 +4739,95 @@ public:
         
     }
 };''',
-        "solution_python": '''# Solution for Regular Expression Matching
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass''',
+        "solution_python": '''class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        """
+        2D Dynamic Programming for Regular Expression Matching.
+        Matches string 's' against pattern 'p' with '.' and '*' operators.
+        
+        WHY 2D DP?
+        - Subproblem structure: Match status of s[0:i] vs p[0:j] depends on
+          previous subproblems (smaller prefixes)
+        - Optimal substructure: dp[i][j] built from dp[i-1][j-1], dp[i-1][j], etc.
+        - Overlapping subproblems: Same prefixes checked multiple times
+        
+        KEY INSIGHTS:
+        1. '.' operator: Matches ANY single character (simple substitution)
+        2. '*' operator: Matches ZERO or MORE of the PRECEDING character
+           - Think of 'a*' as a UNIT (not separate 'a' and '*')
+           - p[j-2] is the char that '*' modifies (p[j-1] is the '*')
+        3. For '*', we have TWO choices:
+           a) Use ZERO occurrences: dp[i][j-2] (skip char + '*')
+           b) Use ONE+ occurrences: dp[i-1][j] IF chars match
+        
+        DP RECURRENCE RELATION:
+        - dp[i][j] = True if s[0:i] matches p[0:j]
+        - Base case: dp[0][0] = True (empty matches empty)
+        - Base case: dp[0][j] = handle patterns like "a*b*" (can match empty)
+        
+        Algorithm:
+        1. Create (m+1) x (n+1) DP table
+        2. Initialize base cases
+        3. For each cell dp[i][j]:
+           - If p[j-1] is '*': combine zero-occurrence OR one+-occurrence
+           - Else: match current chars and use dp[i-1][j-1]
+        
+        Time Complexity: O(m * n) where m = len(s), n = len(p)
+        Space Complexity: O(m * n) for DP table (can optimize to O(n))
+        """
+        m, n = len(s), len(p)
+        
+        # dp[i][j] = does s[0:i] match p[0:j]?
+        dp = [[False] * (n + 1) for _ in range(m + 1)]
+        
+        # Base case: empty string matches empty pattern
+        dp[0][0] = True
+        
+        # Base case: Handle patterns that can match empty string
+        # Pattern like "a*", "a*b*", "a*b*c*" can match empty string
+        # The '*' makes preceding character optional (zero occurrences)
+        for j in range(2, n + 1):
+            if p[j - 1] == '*':
+                # '*' can make preceding char disappear
+                dp[0][j] = dp[0][j - 2]
+        
+        # Helper function: check if two characters match
+        def matches(s_char: str, p_char: str) -> bool:
+            """Check if pattern character matches string character."""
+            return p_char == '.' or s_char == p_char
+        
+        # Fill DP table
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if p[j - 1] == '*':
+                    # '*' operator: MODIFIES the PRECEDING character p[j-2]
+                    # Two choices:
+                    
+                    # Choice 1: Use ZERO occurrences of preceding char
+                    # Skip both the character and '*' in pattern
+                    # Example: "ab" matches "abc*" by ignoring "c*"
+                    dp[i][j] = dp[i][j - 2]
+                    
+                    # Choice 2: Use ONE or MORE occurrences
+                    # Check if current string char matches the char before '*'
+                    # If match, we can "consume" one char from string and
+                    # keep the "char*" pattern (for more matches)
+                    # Example: "aaa" matches "a*" by consuming each 'a'
+                    if matches(s[i - 1], p[j - 2]):
+                        # dp[i-1][j] means: we matched one char from string,
+                        # but keep the "char*" pattern for potential more matches
+                        dp[i][j] = dp[i][j] or dp[i - 1][j]
+                
+                else:
+                    # Regular character or '.' operator
+                    # Must match current characters exactly (or '.' wildcard)
+                    if matches(s[i - 1], p[j - 1]):
+                        # Both chars match: inherit result from previous state
+                        dp[i][j] = dp[i - 1][j - 1]
+        
+        # Final answer: does full string match full pattern?
+        return dp[m][n]
+''',
         "solution_java": '''// Solution for Regular Expression Matching
 class Solution {
     public returnType solve(inputType input) {
