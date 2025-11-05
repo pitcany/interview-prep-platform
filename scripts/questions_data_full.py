@@ -3189,7 +3189,62 @@ class Solution:
         "python_sig": 'class Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        pass',
         "java_sig": 'class Solution {\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        \n    }\n};',
-        "solution_python": '# Solution for Course Schedule\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        """
+        Topological Sort using DFS to detect cycles.
+        Check if course schedule is possible (no circular dependencies).
+
+        Algorithm:
+        1. Build adjacency list (prerequisite graph)
+        2. Use DFS with state tracking:
+           - UNVISITED (0): not processed
+           - VISITING (1): currently in DFS path (cycle if revisited)
+           - VISITED (2): fully processed
+        3. If we encounter VISITING node, there's a cycle
+
+        Time Complexity: O(V + E) - vertices (courses) + edges (prerequisites)
+        Space Complexity: O(V + E) - graph storage + recursion stack
+        """
+        from collections import defaultdict
+
+        # Build adjacency list: course -> list of courses that depend on it
+        graph = defaultdict(list)
+        for course, prereq in prerequisites:
+            graph[prereq].append(course)
+
+        # State: 0=unvisited, 1=visiting (in current DFS path), 2=visited
+        state = [0] * numCourses
+
+        def has_cycle(course: int) -> bool:
+            """DFS to detect cycle. Returns True if cycle found."""
+            if state[course] == 1:
+                # Currently visiting - found cycle
+                return True
+            if state[course] == 2:
+                # Already fully processed - no cycle through this path
+                return False
+
+            # Mark as visiting (in current DFS path)
+            state[course] = 1
+
+            # Check all courses that depend on this one
+            for next_course in graph[course]:
+                if has_cycle(next_course):
+                    return True
+
+            # Mark as visited (fully processed)
+            state[course] = 2
+            return False
+
+        # Check each course for cycles
+        for course in range(numCourses):
+            if state[course] == 0:  # Unvisited
+                if has_cycle(course):
+                    return False
+
+        return True
+''',
         "solution_java": '// Solution for Course Schedule\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Course Schedule\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Course Schedule\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
