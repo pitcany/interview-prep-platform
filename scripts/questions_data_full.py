@@ -1420,7 +1420,55 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        pass',
         "java_sig": 'class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        \n    }\n};',
-        "solution_python": '# Solution for Spiral Matrix\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Spiral Matrix
+from typing import List
+
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        """
+        Return elements of matrix in spiral order.
+
+        Approach:
+        - Track four boundaries: top, bottom, left, right
+        - Traverse right → down → left → up
+        - Shrink boundaries after each direction
+        - Stop when boundaries cross
+
+        Time: O(m*n) - visit each element once
+        Space: O(1) - excluding output array
+        """
+        if not matrix or not matrix[0]:
+            return []
+
+        result = []
+        top, bottom = 0, len(matrix) - 1
+        left, right = 0, len(matrix[0]) - 1
+
+        while top <= bottom and left <= right:
+            # Traverse right along top row
+            for col in range(left, right + 1):
+                result.append(matrix[top][col])
+            top += 1
+
+            # Traverse down along right column
+            for row in range(top, bottom + 1):
+                result.append(matrix[row][right])
+            right -= 1
+
+            # Traverse left along bottom row (if row exists)
+            if top <= bottom:
+                for col in range(right, left - 1, -1):
+                    result.append(matrix[bottom][col])
+                bottom -= 1
+
+            # Traverse up along left column (if column exists)
+            if left <= right:
+                for row in range(bottom, top - 1, -1):
+                    result.append(matrix[row][left])
+                left += 1
+
+        return result
+''',
         "solution_java": '// Solution for Spiral Matrix\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Spiral Matrix\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Spiral Matrix\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

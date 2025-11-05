@@ -319,7 +319,9 @@ def main():
         'Lowest Common Ancestor of a Binary Tree',
         'Serialize and Deserialize Binary Tree',
         'Edit Distance',
-        'Merge k Sorted Lists'
+        'Merge k Sorted Lists',
+        # Batch 3
+        'Spiral Matrix'
     ]
 
     print("=" * 60)
