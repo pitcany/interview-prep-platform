@@ -1897,7 +1897,35 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int maxSubArray(int[] nums) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        \n    }\n};',
-        "solution_python": '# Solution for Maximum Subarray\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        """
+        Kadane's Algorithm - Classic dynamic programming approach.
+        Finds contiguous subarray with the largest sum.
+
+        Key insight: At each position, we decide whether to:
+        - Extend the current subarray (add current element)
+        - Start a new subarray (current element alone is better)
+
+        Time Complexity: O(n) - single pass through array
+        Space Complexity: O(1) - only tracking two variables
+        """
+        # Track the maximum sum ending at current position
+        current_sum = nums[0]
+        # Track the overall maximum sum seen so far
+        max_sum = nums[0]
+
+        # Iterate through array starting from second element
+        for i in range(1, len(nums)):
+            # Decide: extend current subarray or start fresh
+            # If current_sum is negative, starting fresh is better
+            current_sum = max(nums[i], current_sum + nums[i])
+
+            # Update global maximum
+            max_sum = max(max_sum, current_sum)
+
+        return max_sum
+''',
         "solution_java": '// Solution for Maximum Subarray\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Maximum Subarray\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Maximum Subarray\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
