@@ -1807,7 +1807,41 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def subarraySum(self, nums: List[int], k: int) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int subarraySum(int[] nums, int k) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int subarraySum(vector<int>& nums, int k) {\n        \n    }\n};',
-        "solution_python": '# Solution for Subarray Sum Equals K\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        """
+        Hash map with prefix sums to count subarrays summing to k.
+        Uses the insight: if prefix_sum[i] - prefix_sum[j] = k,
+        then subarray from j+1 to i sums to k.
+
+        Algorithm:
+        1. Track running prefix sum
+        2. Store frequency of each prefix sum in hash map
+        3. For each position, check if (current_sum - k) exists
+        4. Count those occurrences (number of valid subarrays ending here)
+
+        Time Complexity: O(n) - single pass through array
+        Space Complexity: O(n) - hash map storage
+        """
+        # Map: prefix_sum -> frequency
+        prefix_sums = {0: 1}  # Base case: empty prefix sum
+        current_sum = 0
+        count = 0
+
+        for num in nums:
+            # Update running prefix sum
+            current_sum += num
+
+            # Check if (current_sum - k) exists
+            # If yes, we found subarrays ending at current position
+            if current_sum - k in prefix_sums:
+                count += prefix_sums[current_sum - k]
+
+            # Record current prefix sum
+            prefix_sums[current_sum] = prefix_sums.get(current_sum, 0) + 1
+
+        return count
+''',
         "solution_java": '// Solution for Subarray Sum Equals K\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Subarray Sum Equals K\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Subarray Sum Equals K\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
