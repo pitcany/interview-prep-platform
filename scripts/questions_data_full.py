@@ -4636,7 +4636,69 @@ class Solution:
         "python_sig": 'class Solution:\n    def rob(self, nums: List[int]) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int rob(int[] nums) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        \n    }\n};',
-        "solution_python": '# Solution for House Robber II\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def rob(self, nums: List[int]) -> int:
+        """
+        House Robber II - Houses arranged in a circle
+
+        Key Insight: The circular constraint means we cannot rob both
+        the first AND last house. This reduces the problem to:
+        max(rob houses 0 to n-2, rob houses 1 to n-1)
+
+        Each subproblem is solved using House Robber I logic (linear DP).
+
+        Time Complexity: O(n) - two linear passes
+        Space Complexity: O(1) - only track prev1 and prev2
+        """
+        n = len(nums)
+
+        # Edge case: only one house - rob it
+        if n == 1:
+            return nums[0]
+
+        # Edge case: two houses - rob the one with more money
+        if n == 2:
+            return max(nums[0], nums[1])
+
+        # Helper function: House Robber I for a range [start, end)
+        def rob_linear(start: int, end: int) -> int:
+            """
+            Rob houses from index start to end-1 (linear street).
+
+            DP recurrence: dp[i] = max(dp[i-1], dp[i-2] + nums[i])
+            - dp[i-1]: skip current house, take max up to previous
+            - dp[i-2] + nums[i]: rob current house, add to max from 2 houses back
+
+            Space optimization: only need prev1 (dp[i-1]) and prev2 (dp[i-2])
+            """
+            prev2 = 0  # dp[i-2]: max money 2 houses back
+            prev1 = 0  # dp[i-1]: max money 1 house back
+
+            for i in range(start, end):
+                # Current choice: skip (prev1) or rob (prev2 + nums[i])
+                current = max(prev1, prev2 + nums[i])
+
+                # Shift variables for next iteration
+                prev2 = prev1
+                prev1 = current
+
+            return prev1
+
+        # Case 1: Rob houses 0 to n-2 (exclude last house)
+        # This allows us to rob the first house if beneficial
+        case1 = rob_linear(0, n - 1)
+
+        # Case 2: Rob houses 1 to n-1 (exclude first house)
+        # This allows us to rob the last house if beneficial
+        case2 = rob_linear(1, n)
+
+        # Return the maximum of both strategies
+        return max(case1, case2)
+
+    def solve(self, input):
+        """Wrapper for test framework"""
+        nums = input[0]
+        return self.rob(nums)''',
         "solution_java": '// Solution for House Robber II\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for House Robber II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for House Robber II\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

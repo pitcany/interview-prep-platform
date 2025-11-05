@@ -351,7 +351,8 @@ def main():
         'Path Sum II',
         # Batch 4
         'Construct Binary Tree from Preorder and Inorder Traversal',
-        'Unique Paths'
+        'Unique Paths',
+        'House Robber II'
     ]
 
     print("=" * 60)
