@@ -1,0 +1,244 @@
+#!/usr/bin/env python3
+"""
+Validation script for LeetCode solutions
+Executes solutions against test cases and reports results
+"""
+
+import os
+import re
+import sys
+from collections import deque
+from typing import List, Optional, Any
+
+
+# Tree node definition for tree-based problems
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+def build_tree_from_list(values: List[Optional[int]]) -> Optional[TreeNode]:
+    """Build binary tree from level-order list representation."""
+    if not values:
+        return None
+
+    root = TreeNode(values[0])
+    queue = deque([root])
+    i = 1
+
+    while queue and i < len(values):
+        node = queue.popleft()
+
+        # Left child
+        if i < len(values) and values[i] is not None:
+            node.left = TreeNode(values[i])
+            queue.append(node.left)
+        i += 1
+
+        # Right child
+        if i < len(values) and values[i] is not None:
+            node.right = TreeNode(values[i])
+            queue.append(node.right)
+        i += 1
+
+    return root
+
+
+# Graph node definition for graph-based problems
+class Node:
+    def __init__(self, val=0, neighbors=None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+
+
+def build_graph_from_adjacency_list(adj_list: List[List[int]]) -> Optional[Node]:
+    """Build graph from adjacency list representation."""
+    if not adj_list:
+        return None
+
+    # Special case: [[]] represents a single node with no neighbors
+    if len(adj_list) == 1 and len(adj_list[0]) == 0:
+        return Node(1)
+
+    # Create all nodes first
+    nodes = {i + 1: Node(i + 1) for i in range(len(adj_list))}
+
+    # Connect neighbors
+    for i, neighbors in enumerate(adj_list):
+        node = nodes[i + 1]
+        node.neighbors = [nodes[neighbor] for neighbor in neighbors]
+
+    return nodes.get(1)
+
+
+def graph_to_adjacency_list(node: Optional[Node]) -> List[List[int]]:
+    """Convert graph to adjacency list for comparison."""
+    if not node:
+        return []
+
+    visited = {}
+
+    def dfs(n: Node):
+        if n.val in visited:
+            return
+        visited[n.val] = [neighbor.val for neighbor in n.neighbors]
+        for neighbor in n.neighbors:
+            dfs(neighbor)
+
+    dfs(node)
+
+    # Convert to list format
+    if not visited:
+        return []
+
+    # Special case: single node with no neighbors should return [[]]
+    if len(visited) == 1 and len(list(visited.values())[0]) == 0:
+        return [[]]
+
+    max_val = max(visited.keys())
+    result = [[] for _ in range(max_val)]
+    for val, neighbors in visited.items():
+        result[val - 1] = sorted(neighbors)
+
+    return result
+
+
+def extract_method_name(python_sig: str) -> str:
+    """Extract method name from python signature string."""
+    # Pattern: def methodName(self, ...
+    match = re.search(r'def\s+(\w+)\s*\(', python_sig)
+    if match:
+        return match.group(1)
+    raise ValueError(f"Could not extract method name from: {python_sig}")
+
+
+def validate_solution(question: dict) -> tuple[bool, list[str]]:
+    """
+    Validate a single question's solution against its test cases.
+
+    Returns:
+        (all_passed, error_messages)
+    """
+    title = question['title']
+    solution_code = question.get('solution_python', '')
+    python_sig = question.get('python_sig', '')
+    test_cases = question.get('test_cases', [])
+
+    # Skip if placeholder solution
+    if 'TODO: Implement solution' in solution_code:
+        return False, [f"Skipped - placeholder solution"]
+
+    errors = []
+
+    try:
+        # Extract method name
+        method_name = extract_method_name(python_sig)
+
+        # Execute solution code in isolated namespace with typing imports, TreeNode, and Node
+        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'Node': Node, 'deque': deque}
+        exec(solution_code, namespace)
+
+        # Create instance from isolated namespace
+        solution = namespace['Solution']()
+
+        # Verify method exists
+        if not hasattr(solution, method_name):
+            return False, [f"Method '{method_name}' not found in solution"]
+
+        # Run test cases
+        for i, test_case in enumerate(test_cases, 1):
+            test_input = test_case['input']
+            expected = test_case['expectedOutput']
+
+            # Handle tree-based inputs (convert list to TreeNode)
+            if 'Tree' in title and test_input and isinstance(test_input[0], list):
+                test_input = [build_tree_from_list(test_input[0])] + test_input[1:]
+
+            # Handle graph-based inputs (convert adjacency list to Node)
+            if 'Graph' in title and test_input and isinstance(test_input[0], list):
+                test_input = [build_graph_from_adjacency_list(test_input[0])]
+
+            # Call the method with unpacked inputs
+            method = getattr(solution, method_name)
+            actual = method(*test_input)
+
+            # Handle graph output (convert back to adjacency list)
+            if 'Graph' in title:
+                actual = graph_to_adjacency_list(actual)
+
+            # Compare results
+            if actual != expected:
+                errors.append(
+                    f"  Test {i} FAILED:\n"
+                    f"    Input: {test_case['input']}\n"
+                    f"    Expected: {expected}\n"
+                    f"    Got: {actual}"
+                )
+
+        return len(errors) == 0, errors
+
+    except Exception as e:
+        return False, [f"  Error: {str(e)}"]
+
+
+def main():
+    """Main validation entry point."""
+    # Import questions data - use dynamic path resolution
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    sys.path.insert(0, script_dir)
+    from questions_data_full import LEETCODE_QUESTIONS
+
+    # Questions to validate
+    target_questions = [
+        'Product of Array Except Self',
+        'Maximum Subarray',
+        'Number of Islands',
+        'Coin Change',
+        'Binary Tree Level Order Traversal',
+        'Validate Binary Search Tree',
+        'Longest Increasing Subsequence',
+        'Course Schedule',
+        'Clone Graph',
+        'Trapping Rain Water'
+    ]
+
+    print("=" * 60)
+    print("LeetCode Solutions Validation")
+    print("=" * 60)
+    print()
+
+    passed = 0
+    failed = 0
+
+    for question in LEETCODE_QUESTIONS:
+        if question['title'] not in target_questions:
+            continue
+
+        title = question['title']
+        print(f"Testing: {title}")
+
+        success, errors = validate_solution(question)
+
+        if success:
+            num_tests = len(question.get('test_cases', []))
+            print(f"  ✓ All {num_tests} test cases passed")
+            passed += 1
+        else:
+            print(f"  ✗ FAILED")
+            for error in errors:
+                print(error)
+            failed += 1
+
+        print()
+
+    print("=" * 60)
+    print(f"Summary: {passed}/{passed + failed} solutions passing")
+    print("=" * 60)
+
+    return 0 if failed == 0 else 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())
