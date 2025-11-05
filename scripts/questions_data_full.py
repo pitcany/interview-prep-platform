@@ -2164,7 +2164,41 @@ class Solution:
         "python_sig": 'class Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        pass',
         "java_sig": 'class Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        \n    }\n};',
-        "solution_python": '# Solution for Remove Nth Node From End of List\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Remove Nth Node From End of List
+from typing import Optional
+
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        """
+        Remove nth node from end of linked list in one pass.
+
+        Approach:
+        - Use dummy head to handle edge cases
+        - Two pointers: fast moves n steps ahead
+        - Move both until fast reaches end
+        - slow.next is the node to remove
+
+        Time: O(L) where L is list length
+        Space: O(1)
+        """
+        dummy = ListNode(0)
+        dummy.next = head
+        fast = slow = dummy
+
+        # Move fast n steps ahead
+        for _ in range(n):
+            fast = fast.next
+
+        # Move both until fast reaches end
+        while fast.next:
+            fast = fast.next
+            slow = slow.next
+
+        # Remove the nth node
+        slow.next = slow.next.next
+
+        return dummy.next
+''',
         "solution_java": '// Solution for Remove Nth Node From End of List\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Remove Nth Node From End of List\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Remove Nth Node From End of List\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
