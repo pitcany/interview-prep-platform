@@ -4042,7 +4042,40 @@ class Solution:
         "python_sig": 'class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        pass',
         "java_sig": 'class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        \n    }\n};',
-        "solution_python": '# Solution for Word Break\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        """
+        Dynamic Programming to check if string can be segmented.
+        Uses DP array where dp[i] = can segment s[0:i].
+
+        Algorithm:
+        1. dp[0] = True (empty string is valid)
+        2. For each position i, check all words
+        3. If word fits and previous portion is valid, mark dp[i] = True
+        4. Return dp[len(s)]
+
+        Time Complexity: O(n^2 * m) where n=string length, m=avg word length
+        Space Complexity: O(n) - DP array
+        """
+        n = len(s)
+        # dp[i] = True if s[0:i] can be segmented
+        dp = [False] * (n + 1)
+        dp[0] = True  # Base case: empty string
+
+        # Convert to set for O(1) lookup
+        word_set = set(wordDict)
+
+        # Build up solution for each position
+        for i in range(1, n + 1):
+            # Check if any word ends at position i
+            for j in range(i):
+                # If s[0:j] is valid and s[j:i] is a word
+                if dp[j] and s[j:i] in word_set:
+                    dp[i] = True
+                    break  # Found valid segmentation to position i
+
+        return dp[n]
+''',
         "solution_java": '// Solution for Word Break\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Word Break\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Word Break\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
