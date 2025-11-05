@@ -188,7 +188,26 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
 
             # Handle tree-based inputs (convert list to TreeNode)
             if 'Tree' in title and test_input and isinstance(test_input[0], list):
-                test_input = [build_tree_from_list(test_input[0])] + test_input[1:]
+                root = build_tree_from_list(test_input[0])
+                test_input = [root] + test_input[1:]
+
+                # For LCA, convert p and q values to TreeNode references
+                if 'Lowest Common Ancestor' in title and len(test_input) >= 3:
+                    p_val, q_val = test_input[1], test_input[2]
+                    # Find nodes with these values
+                    def find_node(node, val):
+                        if not node:
+                            return None
+                        if node.val == val:
+                            return node
+                        left = find_node(node.left, val)
+                        if left:
+                            return left
+                        return find_node(node.right, val)
+
+                    p_node = find_node(root, p_val)
+                    q_node = find_node(root, q_val)
+                    test_input = [root, p_node, q_node]
 
             # Handle graph-based inputs (convert adjacency list to Node)
             if 'Graph' in title and test_input and isinstance(test_input[0], list):
@@ -210,6 +229,10 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             # Handle linked list output (convert ListNode to array)
             if 'List' in title and 'Linked' in title and actual is not None and isinstance(actual, ListNode):
                 actual = list_to_array(actual)
+
+            # Handle LCA output (convert TreeNode to value)
+            if 'Lowest Common Ancestor' in title and actual is not None and hasattr(actual, 'val'):
+                actual = actual.val
 
             # Compare results
             if actual != expected:

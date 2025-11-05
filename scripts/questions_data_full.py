@@ -2948,7 +2948,44 @@ class Solution:
         "python_sig": 'class Solution:\n    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n        pass',
         "java_sig": 'class Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        \n    }\n};',
-        "solution_python": '# Solution for Lowest Common Ancestor of a Binary Tree\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        """
+        Recursive approach to find lowest common ancestor.
+        LCA is the deepest node that has both p and q as descendants.
+
+        Algorithm:
+        1. If current node is None or matches p or q, return it
+        2. Recursively search left and right subtrees
+        3. If both subtrees return non-null, current is LCA
+        4. Otherwise, return whichever subtree found a match
+
+        Time Complexity: O(n) - visit each node once
+        Space Complexity: O(h) - recursion stack height
+        """
+        # Base case: empty node or found target
+        if not root or root == p or root == q:
+            return root
+
+        # Search in left and right subtrees
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+
+        # If both subtrees found a target, current node is LCA
+        if left and right:
+            return root
+
+        # Otherwise, return whichever subtree found a target
+        # (or None if neither found)
+        return left if left else right
+''',
         "solution_java": '// Solution for Lowest Common Ancestor of a Binary Tree\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Lowest Common Ancestor of a Binary Tree\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Lowest Common Ancestor of a Binary Tree\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
