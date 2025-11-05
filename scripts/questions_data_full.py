@@ -4390,7 +4390,7 @@ class Solution:
         }
 ],
         "time_complexity": 'O(m*n)',
-        "space_complexity": 'O(m*n)',
+        "space_complexity": 'O(n)',
         "python_sig": 'class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int uniquePaths(int m, int n) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        \n    }\n};',
