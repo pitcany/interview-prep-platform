@@ -3589,7 +3589,57 @@ class Solution:
         "python_sig": 'class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        pass',
         "java_sig": 'class Solution {\n    public boolean exist(char[][] board, String word) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        \n    }\n};',
-        "solution_python": '# Solution for Word Search\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        """
+        Backtracking (DFS) on 2D grid to find word path.
+        Marks visited cells to avoid reuse in same path.
+
+        Algorithm:
+        1. Try starting from each cell
+        2. DFS in 4 directions matching word characters
+        3. Mark visited cells, backtrack to unmark
+        4. Return true if complete word found
+
+        Time Complexity: O(m * n * 4^L) where L is word length
+        Space Complexity: O(L) - recursion depth
+        """
+        rows, cols = len(board), len(board[0])
+
+        def backtrack(r: int, c: int, index: int) -> bool:
+            """DFS to match word starting from position (r,c)."""
+            # Base case: matched entire word
+            if index == len(word):
+                return True
+
+            # Check bounds and cell match
+            if (r < 0 or r >= rows or c < 0 or c >= cols or
+                board[r][c] != word[index]):
+                return False
+
+            # Mark as visited
+            temp = board[r][c]
+            board[r][c] = '#'
+
+            # Explore all 4 directions
+            found = (backtrack(r + 1, c, index + 1) or
+                    backtrack(r - 1, c, index + 1) or
+                    backtrack(r, c + 1, index + 1) or
+                    backtrack(r, c - 1, index + 1))
+
+            # Backtrack: restore cell
+            board[r][c] = temp
+
+            return found
+
+        # Try starting from each cell
+        for r in range(rows):
+            for c in range(cols):
+                if backtrack(r, c, 0):
+                    return True
+
+        return False
+''',
         "solution_java": '// Solution for Word Search\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Word Search\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Word Search\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
