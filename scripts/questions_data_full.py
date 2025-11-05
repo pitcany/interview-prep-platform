@@ -3052,7 +3052,54 @@ class Solution:
         "python_sig": 'class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int numIslands(char[][] grid) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n        \n    }\n};',
-        "solution_python": '# Solution for Number of Islands\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        """
+        Depth-First Search (DFS) to find connected components.
+        Each island is a connected component of '1's (land).
+
+        Algorithm:
+        1. Iterate through each cell in grid
+        2. When we find unvisited land ('1'), it's a new island
+        3. DFS from that cell to mark all connected land as visited
+        4. Count total number of DFS calls (number of islands)
+
+        Time Complexity: O(m * n) - visit each cell at most twice
+        Space Complexity: O(m * n) - worst case recursion depth (all land)
+        """
+        if not grid or not grid[0]:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
+        num_islands = 0
+
+        def dfs(r: int, c: int) -> None:
+            """Mark all connected land cells as visited."""
+            # Base cases: out of bounds or water or already visited
+            if (r < 0 or r >= rows or c < 0 or c >= cols or
+                grid[r][c] != '1'):
+                return
+
+            # Mark current cell as visited by changing to '0'
+            grid[r][c] = '0'
+
+            # Explore all 4 directions (up, down, left, right)
+            dfs(r + 1, c)  # down
+            dfs(r - 1, c)  # up
+            dfs(r, c + 1)  # right
+            dfs(r, c - 1)  # left
+
+        # Scan entire grid
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == '1':
+                    # Found new island
+                    num_islands += 1
+                    # Mark all connected land
+                    dfs(r, c)
+
+        return num_islands
+''',
         "solution_java": '// Solution for Number of Islands\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Number of Islands\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Number of Islands\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
