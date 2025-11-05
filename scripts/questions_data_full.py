@@ -2392,7 +2392,46 @@ class Solution:
         "python_sig": 'class Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        pass',
         "java_sig": 'class Solution {\n    public boolean isValidBST(TreeNode root) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        \n    }\n};',
-        "solution_python": '# Solution for Validate Binary Search Tree\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        """
+        Recursive validation with min/max bounds.
+        BST property: all nodes in left subtree < root < all nodes in right subtree
+
+        Algorithm:
+        - Track valid range [min_val, max_val] for each node
+        - Left child must be < current node value
+        - Right child must be > current node value
+        - Recursively validate with updated bounds
+
+        Time Complexity: O(n) - visit each node once
+        Space Complexity: O(h) - recursion stack where h is tree height
+        """
+        def validate(node: Optional[TreeNode], min_val: float, max_val: float) -> bool:
+            # Empty tree is valid BST
+            if not node:
+                return True
+
+            # Check if current node violates BST property
+            if node.val <= min_val or node.val >= max_val:
+                return False
+
+            # Recursively validate left and right subtrees with updated bounds
+            # Left subtree: all values must be < node.val
+            # Right subtree: all values must be > node.val
+            return (validate(node.left, min_val, node.val) and
+                    validate(node.right, node.val, max_val))
+
+        # Start with infinite bounds
+        return validate(root, float('-inf'), float('inf'))
+''',
         "solution_java": '// Solution for Validate Binary Search Tree\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Validate Binary Search Tree\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Validate Binary Search Tree\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
