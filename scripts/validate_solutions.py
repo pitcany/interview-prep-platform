@@ -192,7 +192,7 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             expected = test_case['expectedOutput']
 
             # Handle tree-based inputs (convert list to TreeNode)
-            if 'Tree' in title and test_input and isinstance(test_input[0], list):
+            if ('Tree' in title or 'BST' in title or 'Path Sum' in title) and test_input and isinstance(test_input[0], list):
                 root = build_tree_from_list(test_input[0])
                 test_input = [root] + test_input[1:]
 
@@ -224,7 +224,9 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 # Convert each list to ListNode
                 list_of_lists = [build_list_from_array(arr) if arr else None for arr in test_input[0]]
                 test_input = [list_of_lists]
-            elif 'List' in title and 'Linked' in title and test_input and isinstance(test_input[0], list):
+            elif ('List' in title and 'Linked' in title and test_input and isinstance(test_input[0], list)) or \
+                 ('Remove Nth Node' in title and test_input and isinstance(test_input[0], list)) or \
+                 ('Swap Nodes in Pairs' in title and test_input and isinstance(test_input[0], list)):
                 # Convert first array to linked list
                 test_input = [build_list_from_array(test_input[0])] + test_input[1:]
 
@@ -259,12 +261,19 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 method = getattr(solution, method_name)
                 actual = method(*test_input)
 
+                # Handle in-place modifications (methods that return None)
+                # For these, the expected output is the modified input
+                if actual is None and 'Rotate Image' in title:
+                    actual = test_input[0]
+                elif actual is None and 'Set Matrix Zeroes' in title:
+                    actual = test_input[0]
+
             # Handle graph output (convert back to adjacency list)
             if 'Graph' in title:
                 actual = graph_to_adjacency_list(actual)
 
             # Handle linked list output (convert ListNode to array)
-            if ('List' in title and 'Linked' in title) or 'Merge k' in title:
+            if ('List' in title and 'Linked' in title) or 'Merge k' in title or 'Remove Nth Node' in title or 'Swap Nodes in Pairs' in title:
                 if actual is None:
                     actual = []
                 elif isinstance(actual, ListNode):
@@ -319,7 +328,17 @@ def main():
         'Lowest Common Ancestor of a Binary Tree',
         'Serialize and Deserialize Binary Tree',
         'Edit Distance',
-        'Merge k Sorted Lists'
+        'Merge k Sorted Lists',
+        # Batch 3
+        'Spiral Matrix',
+        'Rotate Image',
+        'Set Matrix Zeroes',
+        'Remove Nth Node From End of List',
+        'Reverse Linked List II',
+        'Swap Nodes in Pairs',
+        'Kth Smallest Element in a BST',
+        'Binary Tree Right Side View',
+        'Path Sum II'
     ]
 
     print("=" * 60)

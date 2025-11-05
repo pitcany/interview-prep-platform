@@ -1420,7 +1420,55 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        pass',
         "java_sig": 'class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        \n    }\n};',
-        "solution_python": '# Solution for Spiral Matrix\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Spiral Matrix
+from typing import List
+
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        """
+        Return elements of matrix in spiral order.
+
+        Approach:
+        - Track four boundaries: top, bottom, left, right
+        - Traverse right → down → left → up
+        - Shrink boundaries after each direction
+        - Stop when boundaries cross
+
+        Time: O(m*n) - visit each element once
+        Space: O(1) - excluding output array
+        """
+        if not matrix or not matrix[0]:
+            return []
+
+        result = []
+        top, bottom = 0, len(matrix) - 1
+        left, right = 0, len(matrix[0]) - 1
+
+        while top <= bottom and left <= right:
+            # Traverse right along top row
+            for col in range(left, right + 1):
+                result.append(matrix[top][col])
+            top += 1
+
+            # Traverse down along right column
+            for row in range(top, bottom + 1):
+                result.append(matrix[row][right])
+            right -= 1
+
+            # Traverse left along bottom row (if row exists)
+            if top <= bottom:
+                for col in range(right, left - 1, -1):
+                    result.append(matrix[bottom][col])
+                bottom -= 1
+
+            # Traverse up along left column (if column exists)
+            if left <= right:
+                for row in range(bottom, top - 1, -1):
+                    result.append(matrix[row][left])
+                left += 1
+
+        return result
+''',
         "solution_java": '// Solution for Spiral Matrix\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Spiral Matrix\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Spiral Matrix\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
@@ -1581,7 +1629,33 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def rotate(self, matrix: List[List[int]]) -> None:\n        pass',
         "java_sig": 'class Solution {\n    public void rotate(int[][] matrix) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        \n    }\n};',
-        "solution_python": '# Solution for Rotate Image\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Rotate Image
+from typing import List
+
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Rotate matrix 90 degrees clockwise in-place.
+
+        Approach:
+        1. Transpose matrix (swap matrix[i][j] with matrix[j][i])
+        2. Reverse each row
+        Result: 90° clockwise rotation
+
+        Time: O(n²) - process each element twice
+        Space: O(1) - in-place modification
+        """
+        n = len(matrix)
+
+        # Step 1: Transpose matrix
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+        # Step 2: Reverse each row
+        for row in matrix:
+            row.reverse()
+''',
         "solution_java": '// Solution for Rotate Image\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Rotate Image\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Rotate Image\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
@@ -1732,7 +1806,51 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def setZeroes(self, matrix: List[List[int]]) -> None:\n        pass',
         "java_sig": 'class Solution {\n    public void setZeroes(int[][] matrix) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        \n    }\n};',
-        "solution_python": '# Solution for Set Matrix Zeroes\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Set Matrix Zeroes
+from typing import List
+
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Set entire row and column to zero if element is zero.
+
+        Approach:
+        - Use first row and first column as markers
+        - Track separately if first column has zeros
+        - Mark zeros in first row/col
+        - Apply zeros using markers
+        - Handle first row/col last
+
+        Time: O(m*n)
+        Space: O(1) - reuse matrix for markers
+        """
+        m, n = len(matrix), len(matrix[0])
+        first_row_has_zero = any(matrix[0][j] == 0 for j in range(n))
+        first_col_has_zero = any(matrix[i][0] == 0 for i in range(m))
+
+        # Use first row and column as markers (skip row 0, col 0)
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == 0:
+                    matrix[i][0] = 0  # Mark row
+                    matrix[0][j] = 0  # Mark column
+
+        # Set zeros based on markers (skip first row/col)
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][0] == 0 or matrix[0][j] == 0:
+                    matrix[i][j] = 0
+
+        # Handle first column first (including row 0)
+        if first_col_has_zero:
+            for i in range(m):
+                matrix[i][0] = 0
+
+        # Handle first row second (will overwrite matrix[0][0] if needed)
+        if first_row_has_zero:
+            for j in range(n):
+                matrix[0][j] = 0
+''',
         "solution_java": '// Solution for Set Matrix Zeroes\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Set Matrix Zeroes\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Set Matrix Zeroes\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
@@ -2046,7 +2164,41 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        pass',
         "java_sig": 'class Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        \n    }\n};',
-        "solution_python": '# Solution for Remove Nth Node From End of List\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Remove Nth Node From End of List
+from typing import Optional
+
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        """
+        Remove nth node from end of linked list in one pass.
+
+        Approach:
+        - Use dummy head to handle edge cases
+        - Two pointers: fast moves n steps ahead
+        - Move both until fast reaches end
+        - slow.next is the node to remove
+
+        Time: O(L) where L is list length
+        Space: O(1)
+        """
+        dummy = ListNode(0)
+        dummy.next = head
+        fast = slow = dummy
+
+        # Move fast n steps ahead
+        for _ in range(n):
+            fast = fast.next
+
+        # Move both until fast reaches end
+        while fast.next:
+            fast = fast.next
+            slow = slow.next
+
+        # Remove the nth node
+        slow.next = slow.next.next
+
+        return dummy.next
+''',
         "solution_java": '// Solution for Remove Nth Node From End of List\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Remove Nth Node From End of List\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Remove Nth Node From End of List\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
@@ -2127,7 +2279,44 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        pass',
         "java_sig": 'class Solution {\n    public ListNode reverseBetween(ListNode head, int left, int right) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    ListNode* reverseBetween(ListNode* head, int left, int right) {\n        \n    }\n};',
-        "solution_python": '# Solution for Reverse Linked List II\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Reverse Linked List II
+from typing import Optional
+
+class Solution:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        """
+        Reverse linked list from position left to right.
+
+        Approach:
+        - Use dummy head for clean edge case handling
+        - Find node before left position
+        - Reverse sublist using standard three-pointer reversal
+        - Reconnect reversed portion
+
+        Time: O(n)
+        Space: O(1)
+        """
+        if not head or left == right:
+            return head
+
+        dummy = ListNode(0)
+        dummy.next = head
+        prev = dummy
+
+        # Move to node before left position
+        for _ in range(left - 1):
+            prev = prev.next
+
+        # Reverse from left to right
+        current = prev.next
+        for _ in range(right - left):
+            next_node = current.next
+            current.next = next_node.next
+            next_node.next = prev.next
+            prev.next = next_node
+
+        return dummy.next
+''',
         "solution_java": '// Solution for Reverse Linked List II\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Reverse Linked List II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Reverse Linked List II\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
@@ -2203,7 +2392,41 @@ LEETCODE_QUESTIONS = [
         "python_sig": 'class Solution:\n    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
         "java_sig": 'class Solution {\n    public ListNode swapPairs(ListNode head) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    ListNode* swapPairs(ListNode* head) {\n        \n    }\n};',
-        "solution_python": '# Solution for Swap Nodes in Pairs\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Swap Nodes in Pairs
+from typing import Optional
+
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        """
+        Swap every two adjacent nodes in linked list.
+
+        Approach:
+        - Use dummy head for clean handling
+        - For each pair: adjust pointers to swap
+        - Move to next pair
+
+        Time: O(n)
+        Space: O(1)
+        """
+        dummy = ListNode(0)
+        dummy.next = head
+        prev = dummy
+
+        while prev.next and prev.next.next:
+            # Identify nodes to swap
+            first = prev.next
+            second = prev.next.next
+
+            # Perform swap
+            prev.next = second
+            first.next = second.next
+            second.next = first
+
+            # Move to next pair
+            prev = first
+
+        return dummy.next
+''',
         "solution_java": '// Solution for Swap Nodes in Pairs\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Swap Nodes in Pairs\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Swap Nodes in Pairs\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
@@ -2554,7 +2777,44 @@ class Solution:
         "python_sig": 'class Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        \n    }\n};',
-        "solution_python": '# Solution for Kth Smallest Element in a BST\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Kth Smallest Element in a BST
+from typing import Optional
+
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        """
+        Find kth smallest element in BST.
+
+        Approach:
+        - In-order traversal of BST yields sorted sequence
+        - Use counter to track position
+        - Return when counter reaches k
+
+        Time: O(n) worst case, O(k) average
+        Space: O(h) for recursion stack
+        """
+        self.count = 0
+        self.result = None
+
+        def inorder(node):
+            if not node or self.result is not None:
+                return
+
+            # Traverse left subtree
+            inorder(node.left)
+
+            # Process current node
+            self.count += 1
+            if self.count == k:
+                self.result = node.val
+                return
+
+            # Traverse right subtree
+            inorder(node.right)
+
+        inorder(root)
+        return self.result
+''',
         "solution_java": '// Solution for Kth Smallest Element in a BST\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Kth Smallest Element in a BST\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Kth Smallest Element in a BST\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
@@ -2638,7 +2898,47 @@ class Solution:
         "python_sig": 'class Solution:\n    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n        pass',
         "java_sig": 'class Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        \n    }\n};',
-        "solution_python": '# Solution for Binary Tree Right Side View\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Binary Tree Right Side View
+from typing import Optional, List
+from collections import deque
+
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        """
+        Return values of nodes visible from right side of tree.
+
+        Approach:
+        - Level-order traversal (BFS)
+        - Capture rightmost node at each level
+        - Rightmost = last node processed per level
+
+        Time: O(n) - visit each node once
+        Space: O(w) where w is max width of tree
+        """
+        if not root:
+            return []
+
+        result = []
+        queue = deque([root])
+
+        while queue:
+            level_size = len(queue)
+
+            for i in range(level_size):
+                node = queue.popleft()
+
+                # Last node in this level is rightmost
+                if i == level_size - 1:
+                    result.append(node.val)
+
+                # Add children for next level
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+        return result
+''',
         "solution_java": '// Solution for Binary Tree Right Side View\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Binary Tree Right Side View\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Binary Tree Right Side View\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
@@ -2757,7 +3057,47 @@ class Solution:
         "python_sig": 'class Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n        pass',
         "java_sig": 'class Solution {\n    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {\n        \n    }\n};',
-        "solution_python": '# Solution for Path Sum II\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Path Sum II
+from typing import Optional, List
+
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        """
+        Find all root-to-leaf paths that sum to target.
+
+        Approach:
+        - DFS backtracking
+        - Maintain current path
+        - At leaf, check if sum equals target
+        - IMPORTANT: Copy path before adding to result
+
+        Time: O(n) - visit each node once
+        Space: O(h) for recursion stack
+        """
+        result = []
+
+        def dfs(node, current_path, current_sum):
+            if not node:
+                return
+
+            # Add current node to path
+            current_path.append(node.val)
+            current_sum += node.val
+
+            # Check if leaf node with target sum
+            if not node.left and not node.right and current_sum == targetSum:
+                result.append(current_path[:])  # Must copy path
+
+            # Recurse on children
+            dfs(node.left, current_path, current_sum)
+            dfs(node.right, current_path, current_sum)
+
+            # Backtrack
+            current_path.pop()
+
+        dfs(root, [], 0)
+        return result
+''',
         "solution_java": '// Solution for Path Sum II\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Path Sum II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Path Sum II\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
