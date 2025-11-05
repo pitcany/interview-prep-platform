@@ -2898,7 +2898,47 @@ class Solution:
         "python_sig": 'class Solution:\n    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n        pass',
         "java_sig": 'class Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        \n    }\n};',
-        "solution_python": '# Solution for Binary Tree Right Side View\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Binary Tree Right Side View
+from typing import Optional, List
+from collections import deque
+
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        """
+        Return values of nodes visible from right side of tree.
+
+        Approach:
+        - Level-order traversal (BFS)
+        - Capture rightmost node at each level
+        - Rightmost = last node processed per level
+
+        Time: O(n) - visit each node once
+        Space: O(w) where w is max width of tree
+        """
+        if not root:
+            return []
+
+        result = []
+        queue = deque([root])
+
+        while queue:
+            level_size = len(queue)
+
+            for i in range(level_size):
+                node = queue.popleft()
+
+                # Last node in this level is rightmost
+                if i == level_size - 1:
+                    result.append(node.val)
+
+                # Add children for next level
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+        return result
+''',
         "solution_java": '// Solution for Binary Tree Right Side View\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Binary Tree Right Side View\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Binary Tree Right Side View\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

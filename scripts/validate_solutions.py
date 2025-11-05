@@ -336,7 +336,9 @@ def main():
         'Remove Nth Node From End of List',
         'Reverse Linked List II',
         'Swap Nodes in Pairs',
-        'Kth Smallest Element in a BST'
+        'Kth Smallest Element in a BST',
+        'Binary Tree Right Side View',
+        'Path Sum II'
     ]
 
     print("=" * 60)
