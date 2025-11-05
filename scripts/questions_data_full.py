@@ -5453,7 +5453,121 @@ class Solution:
         "python_sig": 'class Solution:\n    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:\n        pass',
         "java_sig": 'class Solution {\n    public double findMedianSortedArrays(int[] nums1, int[] nums2) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {\n        \n    }\n};',
-        "solution_python": '# Solution for Median of Two Sorted Arrays\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        """
+        Binary Search Solution for Median of Two Sorted Arrays
+        
+        PROBLEM STATEMENT:
+        Find the median of two sorted arrays in O(log(min(m,n))) time.
+        
+        KEY INSIGHT:
+        Instead of merging arrays, we can use binary search to find the correct "partition point"
+        that divides both arrays such that all elements on the left are <= all elements on the right.
+        
+        WHY BINARY SEARCH ON PARTITION POINTS WORKS:
+        1. A median divides a sorted array into two equal halves
+        2. For combined arrays, we need to partition both so that:
+           - Total elements on left = Total elements on right (or differ by 1)
+           - All left elements <= All right elements
+        3. If we choose partition i in nums1, partition j in nums2 is determined:
+           j = (m + n + 1) // 2 - i
+        4. We binary search for the correct i value
+        
+        PARTITION VISUALIZATION:
+        nums1: [1, 3, 8, 9, 15]  partition at i=2: [1, 3 | 8, 9, 15]
+        nums2: [7, 11, 18, 19, 21, 25]  partition at j=4: [7, 11, 18, 19 | 21, 25]
+        
+        Combined left half: [1, 3, 7, 11, 18, 19]  (6 elements)
+        Combined right half: [8, 9, 15, 21, 25]    (5 elements)
+        
+        Valid partition conditions:
+        - nums1[i-1] <= nums2[j]  (nums1's left <= nums2's right)
+        - nums2[j-1] <= nums1[i]  (nums2's left <= nums1's right)
+        
+        ALGORITHM STEPS:
+        1. Ensure nums1 is the smaller array (minimize search space)
+        2. Binary search on nums1's partition point (i)
+        3. Calculate corresponding partition in nums2 (j)
+        4. Check if partition is valid
+        5. If valid, calculate median from boundary elements
+        6. If invalid, adjust binary search range
+        
+        TIME COMPLEXITY: O(log(min(m,n))) - binary search on smaller array
+        SPACE COMPLEXITY: O(1) - only using variables
+        """
+        
+        # Step 1: Ensure nums1 is the smaller array for optimal binary search
+        # This minimizes our search space to log(min(m,n))
+        if len(nums1) > len(nums2):
+            nums1, nums2 = nums2, nums1
+        
+        m, n = len(nums1), len(nums2)
+        
+        # Step 2: Binary search on nums1's partition point
+        # We search for position i where:
+        # - i represents number of elements from nums1 in left partition
+        # - Range: [0, m] (we can take 0 to all elements from nums1)
+        left, right = 0, m
+        
+        while left <= right:
+            # Step 3: Choose partition point i in nums1
+            # This determines how many elements from nums1 go to left half
+            i = (left + right) // 2
+            
+            # Step 4: Calculate partition point j in nums2
+            # Total elements in left half should be (m+n+1)//2
+            # If we take i from nums1, we need j = (m+n+1)//2 - i from nums2
+            # The +1 handles both odd and even length cases correctly
+            j = (m + n + 1) // 2 - i
+            
+            # Step 5: Get boundary elements around partitions
+            # Use -infinity and +infinity for edge cases (partition at start/end)
+            
+            # Left side of nums1's partition (largest element in nums1's left half)
+            nums1_left = float('-inf') if i == 0 else nums1[i - 1]
+            
+            # Right side of nums1's partition (smallest element in nums1's right half)
+            nums1_right = float('inf') if i == m else nums1[i]
+            
+            # Left side of nums2's partition (largest element in nums2's left half)
+            nums2_left = float('-inf') if j == 0 else nums2[j - 1]
+            
+            # Right side of nums2's partition (smallest element in nums2's right half)
+            nums2_right = float('inf') if j == n else nums2[j]
+            
+            # Step 6: Check if this partition is valid
+            # Valid partition means: all left elements <= all right elements
+            if nums1_left <= nums2_right and nums2_left <= nums1_right:
+                # VALID PARTITION FOUND!
+                
+                # Step 7: Calculate median based on total length (odd vs even)
+                if (m + n) % 2 == 0:
+                    # Even total length: median = average of two middle elements
+                    # Left middle = max of left boundaries
+                    # Right middle = min of right boundaries
+                    return (max(nums1_left, nums2_left) + min(nums1_right, nums2_right)) / 2.0
+                else:
+                    # Odd total length: median = largest element in left half
+                    # This works because left half has one more element than right
+                    return float(max(nums1_left, nums2_left))
+            
+            # Step 8: Adjust binary search based on partition validity
+            elif nums1_left > nums2_right:
+                # nums1's left side is too large
+                # We have too many elements from nums1 in left partition
+                # Move partition i to the left (take fewer from nums1)
+                right = i - 1
+            else:
+                # nums2_left > nums1_right
+                # nums1's left side is too small
+                # We have too few elements from nums1 in left partition
+                # Move partition i to the right (take more from nums1)
+                left = i + 1
+        
+        # Should never reach here if inputs are valid sorted arrays
+        raise ValueError("Input arrays are not sorted or invalid")
+''',
         "solution_java": '// Solution for Median of Two Sorted Arrays\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Median of Two Sorted Arrays\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Median of Two Sorted Arrays\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

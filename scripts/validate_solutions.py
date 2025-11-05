@@ -353,7 +353,9 @@ def main():
         'Construct Binary Tree from Preorder and Inorder Traversal',
         'Unique Paths',
         'House Robber II',
-        'Decode Ways'
+        'Decode Ways',
+        # Batch 5
+        'Median of Two Sorted Arrays'
     ]
 
     print("=" * 60)
