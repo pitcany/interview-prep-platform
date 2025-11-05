@@ -1781,12 +1781,41 @@ public:
 '[]',
 'O(n)',
 'O(n)',
-'# Solution for Subarray Sum Equals K
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        """
+        Hash map with prefix sums to count subarrays summing to k.
+        Uses the insight: if prefix_sum[i] - prefix_sum[j] = k,
+        then subarray from j+1 to i sums to k.
+
+        Algorithm:
+        1. Track running prefix sum
+        2. Store frequency of each prefix sum in hash map
+        3. For each position, check if (current_sum - k) exists
+        4. Count those occurrences (number of valid subarrays ending here)
+
+        Time Complexity: O(n) - single pass through array
+        Space Complexity: O(n) - hash map storage
+        """
+        # Map: prefix_sum -> frequency
+        prefix_sums = {0: 1}  # Base case: empty prefix sum
+        current_sum = 0
+        count = 0
+
+        for num in nums:
+            # Update running prefix sum
+            current_sum += num
+
+            # Check if (current_sum - k) exists
+            # If yes, we found subarrays ending at current position
+            if current_sum - k in prefix_sums:
+                count += prefix_sums[current_sum - k]
+
+            # Record current prefix sum
+            prefix_sums[current_sum] = prefix_sums.get(current_sum, 0) + 1
+
+        return count
+',
 '// Solution for Subarray Sum Equals K
 class Solution {
     public returnType solve(inputType input) {
@@ -2560,12 +2589,44 @@ public:
 '[]',
 'O(n)',
 'O(n)',
-'# Solution for Lowest Common Ancestor of a Binary Tree
-# Implement the optimal algorithm here
+'# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        """
+        Recursive approach to find lowest common ancestor.
+        LCA is the deepest node that has both p and q as descendants.
+
+        Algorithm:
+        1. If current node is None or matches p or q, return it
+        2. Recursively search left and right subtrees
+        3. If both subtrees return non-null, current is LCA
+        4. Otherwise, return whichever subtree found a match
+
+        Time Complexity: O(n) - visit each node once
+        Space Complexity: O(h) - recursion stack height
+        """
+        # Base case: empty node or found target
+        if not root or root == p or root == q:
+            return root
+
+        # Search in left and right subtrees
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+
+        # If both subtrees found a target, current node is LCA
+        if left and right:
+            return root
+
+        # Otherwise, return whichever subtree found a target
+        # (or None if neither found)
+        return left if left else right
+',
 '// Solution for Lowest Common Ancestor of a Binary Tree
 class Solution {
     public returnType solve(inputType input) {
@@ -2946,12 +3007,57 @@ public:
 '[]',
 'O(m*n*4^L)',
 'O(L)',
-'# Solution for Word Search
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        """
+        Backtracking (DFS) on 2D grid to find word path.
+        Marks visited cells to avoid reuse in same path.
+
+        Algorithm:
+        1. Try starting from each cell
+        2. DFS in 4 directions matching word characters
+        3. Mark visited cells, backtrack to unmark
+        4. Return true if complete word found
+
+        Time Complexity: O(m * n * 4^L) where L is word length
+        Space Complexity: O(L) - recursion depth
+        """
+        rows, cols = len(board), len(board[0])
+
+        def backtrack(r: int, c: int, index: int) -> bool:
+            """DFS to match word starting from position (r,c)."""
+            # Base case: matched entire word
+            if index == len(word):
+                return True
+
+            # Check bounds and cell match
+            if (r < 0 or r >= rows or c < 0 or c >= cols or
+                board[r][c] != word[index]):
+                return False
+
+            # Mark as visited
+            temp = board[r][c]
+            board[r][c] = ''#''
+
+            # Explore all 4 directions
+            found = (backtrack(r + 1, c, index + 1) or
+                    backtrack(r - 1, c, index + 1) or
+                    backtrack(r, c + 1, index + 1) or
+                    backtrack(r, c - 1, index + 1))
+
+            # Backtrack: restore cell
+            board[r][c] = temp
+
+            return found
+
+        # Try starting from each cell
+        for r in range(rows):
+            for c in range(cols):
+                if backtrack(r, c, 0):
+                    return True
+
+        return False
+',
 '// Solution for Word Search
 class Solution {
     public returnType solve(inputType input) {
@@ -3264,12 +3370,40 @@ public:
 '[]',
 'O(n^2)',
 'O(n)',
-'# Solution for Word Break
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        """
+        Dynamic Programming to check if string can be segmented.
+        Uses DP array where dp[i] = can segment s[0:i].
+
+        Algorithm:
+        1. dp[0] = True (empty string is valid)
+        2. For each position i, check all words
+        3. If word fits and previous portion is valid, mark dp[i] = True
+        4. Return dp[len(s)]
+
+        Time Complexity: O(n^2 * m) where n=string length, m=avg word length
+        Space Complexity: O(n) - DP array
+        """
+        n = len(s)
+        # dp[i] = True if s[0:i] can be segmented
+        dp = [False] * (n + 1)
+        dp[0] = True  # Base case: empty string
+
+        # Convert to set for O(1) lookup
+        word_set = set(wordDict)
+
+        # Build up solution for each position
+        for i in range(1, n + 1):
+            # Check if any word ends at position i
+            for j in range(i):
+                # If s[0:j] is valid and s[j:i] is a word
+                if dp[j] and s[j:i] in word_set:
+                    dp[i] = True
+                    break  # Found valid segmentation to position i
+
+        return dp[n]
+',
 '// Solution for Word Break
 class Solution {
     public returnType solve(inputType input) {
@@ -3456,12 +3590,48 @@ public:
 '[]',
 'O(4^n)',
 'O(n)',
-'# Solution for Letter Combinations of a Phone Number
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        """
+        Backtracking to generate all possible letter combinations.
+        Maps each digit to its corresponding letters on phone keypad.
+
+        Algorithm:
+        1. Use digit-to-letters mapping (2=''abc'', 3=''def'', etc.)
+        2. Backtrack through each digit, trying all letter choices
+        3. When path length equals input length, add to result
+
+        Time Complexity: O(4^n) - worst case 4 letters per digit
+        Space Complexity: O(n) - recursion depth and current path
+        """
+        if not digits:
+            return []
+
+        # Phone keypad mapping
+        phone_map = {
+            ''2'': ''abc'', ''3'': ''def'', ''4'': ''ghi'', ''5'': ''jkl'',
+            ''6'': ''mno'', ''7'': ''pqrs'', ''8'': ''tuv'', ''9'': ''wxyz''
+        }
+
+        result = []
+
+        def backtrack(index: int, path: str):
+            """Build combinations by trying each letter for current digit."""
+            # Base case: built complete combination
+            if index == len(digits):
+                result.append(path)
+                return
+
+            # Get letters for current digit
+            letters = phone_map[digits[index]]
+
+            # Try each letter
+            for letter in letters:
+                backtrack(index + 1, path + letter)
+
+        backtrack(0, "")
+        return result
+',
 '// Solution for Letter Combinations of a Phone Number
 class Solution {
     public returnType solve(inputType input) {
@@ -3517,12 +3687,40 @@ public:
 '[]',
 'O(4^n/sqrt(n))',
 'O(n)',
-'# Solution for Generate Parentheses
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        """
+        Backtracking with constraints to generate valid parentheses.
+        Ensures well-formed by tracking open/close counts.
+
+        Algorithm:
+        1. Backtrack, adding ''('' when we have remaining opens
+        2. Add '')'' only when closes < opens (ensures validity)
+        3. Complete when used all n pairs
+
+        Time Complexity: O(4^n / sqrt(n)) - Catalan number
+        Space Complexity: O(n) - recursion depth
+        """
+        result = []
+
+        def backtrack(current: str, open_count: int, close_count: int):
+            """Build valid combinations with open/close tracking."""
+            # Base case: used all n pairs
+            if len(current) == 2 * n:
+                result.append(current)
+                return
+
+            # Add ''('' if we have remaining opens
+            if open_count < n:
+                backtrack(current + ''('', open_count + 1, close_count)
+
+            # Add '')'' only if it won''t violate validity (closes < opens)
+            if close_count < open_count:
+                backtrack(current + '')'', open_count, close_count + 1)
+
+        backtrack("", 0, 0)
+        return result
+',
 '// Solution for Generate Parentheses
 class Solution {
     public returnType solve(inputType input) {
@@ -3578,12 +3776,44 @@ public:
 '[]',
 'O(n!)',
 'O(n)',
-'# Solution for Permutations
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        """
+        Backtracking to generate all permutations.
+        Swaps elements to build each permutation in-place.
+
+        Algorithm:
+        1. Use backtracking with index tracking
+        2. Swap current index with each remaining element
+        3. Recurse to next position
+        4. Backtrack by swapping back
+
+        Time Complexity: O(n! * n) - n! permutations, each takes O(n) to copy
+        Space Complexity: O(n) - recursion depth
+        """
+        result = []
+
+        def backtrack(start: int):
+            """Build permutations by swapping elements."""
+            # Base case: built complete permutation
+            if start == len(nums):
+                result.append(nums[:])  # Copy current permutation
+                return
+
+            # Try each element in remaining positions
+            for i in range(start, len(nums)):
+                # Swap to place element at current position
+                nums[start], nums[i] = nums[i], nums[start]
+
+                # Recurse to next position
+                backtrack(start + 1)
+
+                # Backtrack: restore original order
+                nums[start], nums[i] = nums[i], nums[start]
+
+        backtrack(0)
+        return sorted(result)
+',
 '// Solution for Permutations
 class Solution {
     public returnType solve(inputType input) {
@@ -3880,12 +4110,66 @@ public:
 '[]',
 'O(n)',
 'O(n)',
-'# Solution for Serialize and Deserialize Binary Tree
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+    """
+    Serialize and deserialize binary tree using preorder traversal.
+    Uses ''#'' to represent null nodes, '','' as delimiter.
+
+    Time Complexity: O(n) for both serialize and deserialize
+    Space Complexity: O(n) for storing tree data
+    """
+
+    def serialize(self, root: TreeNode) -> str:
+        """
+        Encodes tree to string using preorder traversal.
+
+        Algorithm:
+        1. Preorder traversal (root, left, right)
+        2. Use ''#'' for null nodes
+        3. Join with commas
+        """
+        def preorder(node):
+            if not node:
+                return ''#''
+            # Preorder: root, left subtree, right subtree
+            return f"{node.val},{preorder(node.left)},{preorder(node.right)}"
+
+        return preorder(root)
+
+    def deserialize(self, data: str) -> TreeNode:
+        """
+        Decodes string to tree using preorder reconstruction.
+
+        Algorithm:
+        1. Split string by commas
+        2. Use iterator to build tree in preorder
+        3. ''#'' creates None, numbers create nodes
+        """
+        def build():
+            val = next(values)
+            if val == ''#'':
+                return None
+
+            # Create node and recursively build subtrees
+            node = TreeNode(int(val))
+            node.left = build()
+            node.right = build()
+            return node
+
+        values = iter(data.split('',''))
+        return build()
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.deserialize(codec.serialize(root))
+',
 '// Solution for Serialize and Deserialize Binary Tree
 class Solution {
     public returnType solve(inputType input) {
@@ -4012,12 +4296,53 @@ public:
 '[]',
 'O(m*n)',
 'O(m*n)',
-'# Solution for Edit Distance
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        """
+        Dynamic Programming (Levenshtein Distance).
+        Finds minimum edit operations to transform word1 to word2.
+
+        Operations: insert, delete, replace (each costs 1)
+
+        Algorithm:
+        1. Create DP table where dp[i][j] = min edits for word1[0:i] -> word2[0:j]
+        2. Base cases: empty string conversions
+        3. If characters match: dp[i][j] = dp[i-1][j-1]
+        4. If differ: take min of (insert, delete, replace) + 1
+
+        Time Complexity: O(m * n) where m, n are string lengths
+        Space Complexity: O(m * n) for DP table
+        """
+        m, n = len(word1), len(word2)
+
+        # dp[i][j] = min edits to transform word1[0:i] to word2[0:j]
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+        # Base cases: transforming from/to empty string
+        for i in range(m + 1):
+            dp[i][0] = i  # Delete all characters
+        for j in range(n + 1):
+            dp[0][j] = j  # Insert all characters
+
+        # Fill DP table
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if word1[i - 1] == word2[j - 1]:
+                    # Characters match: no operation needed
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    # Take minimum of:
+                    # - Replace: dp[i-1][j-1] + 1
+                    # - Insert: dp[i][j-1] + 1
+                    # - Delete: dp[i-1][j] + 1
+                    dp[i][j] = min(
+                        dp[i - 1][j - 1],  # Replace
+                        dp[i][j - 1],      # Insert
+                        dp[i - 1][j]       # Delete
+                    ) + 1
+
+        return dp[m][n]
+',
 '// Solution for Edit Distance
 class Solution {
     public returnType solve(inputType input) {
@@ -4141,12 +4466,56 @@ public:
 '[]',
 'O(N log k) where N is total number of nodes',
 'O(k) for heap or O(log k) for divide-and-conquer',
-'# Solution for Merge k Sorted Lists
-# Implement the optimal algorithm here
+'# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+import heapq
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        """
+        Min-heap to efficiently merge k sorted linked lists.
+        Heap maintains smallest element across all lists.
+
+        Algorithm:
+        1. Add first node from each non-empty list to min-heap
+        2. Repeatedly extract minimum and add to result
+        3. Add next node from that list to heap
+        4. Continue until heap is empty
+
+        Time Complexity: O(N log k) where N=total nodes, k=number of lists
+        Space Complexity: O(k) - heap size
+        """
+        # Min-heap: (value, list_index, node)
+        # Need list_index for tie-breaking (Python heapq requires comparable items)
+        heap = []
+
+        # Add first node from each list to heap
+        for i, head in enumerate(lists):
+            if head:
+                heapq.heappush(heap, (head.val, i, head))
+
+        # Dummy head for result list
+        dummy = ListNode(0)
+        current = dummy
+
+        # Build merged list
+        while heap:
+            val, list_idx, node = heapq.heappop(heap)
+
+            # Add node to result
+            current.next = node
+            current = current.next
+
+            # Add next node from same list to heap
+            if node.next:
+                heapq.heappush(heap, (node.next.val, list_idx, node.next))
+
+        return dummy.next
+',
 '// Solution for Merge k Sorted Lists
 class Solution {
     public returnType solve(inputType input) {

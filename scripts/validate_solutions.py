@@ -7,6 +7,7 @@ Executes solutions against test cases and reports results
 import os
 import re
 import sys
+import heapq
 from collections import deque
 from typing import List, Optional, Any
 
@@ -51,6 +52,40 @@ class Node:
     def __init__(self, val=0, neighbors=None):
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
+
+
+# Linked list node definition for linked list problems
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def build_list_from_array(values: List[int]) -> Optional[ListNode]:
+    """Build linked list from array representation."""
+    if not values:
+        return None
+
+    head = ListNode(values[0])
+    current = head
+
+    for val in values[1:]:
+        current.next = ListNode(val)
+        current = current.next
+
+    return head
+
+
+def list_to_array(head: Optional[ListNode]) -> List[int]:
+    """Convert linked list to array for comparison."""
+    result = []
+    current = head
+
+    while current:
+        result.append(current.val)
+        current = current.next
+
+    return result
 
 
 def build_graph_from_adjacency_list(adj_list: List[List[int]]) -> Optional[Node]:
@@ -137,11 +172,15 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
         method_name = extract_method_name(python_sig)
 
         # Execute solution code in isolated namespace with typing imports, TreeNode, and Node
-        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'Node': Node, 'deque': deque}
+        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'Node': Node, 'ListNode': ListNode, 'deque': deque, 'heapq': heapq}
         exec(solution_code, namespace)
 
         # Create instance from isolated namespace
-        solution = namespace['Solution']()
+        # Special handling for Codec class (Serialize/Deserialize)
+        if 'Codec' in namespace:
+            solution = namespace['Codec']()
+        else:
+            solution = namespace['Solution']()
 
         # Verify method exists
         if not hasattr(solution, method_name):
@@ -154,19 +193,86 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
 
             # Handle tree-based inputs (convert list to TreeNode)
             if 'Tree' in title and test_input and isinstance(test_input[0], list):
-                test_input = [build_tree_from_list(test_input[0])] + test_input[1:]
+                root = build_tree_from_list(test_input[0])
+                test_input = [root] + test_input[1:]
+
+                # For LCA, convert p and q values to TreeNode references
+                if 'Lowest Common Ancestor' in title and len(test_input) >= 3:
+                    p_val, q_val = test_input[1], test_input[2]
+                    # Find nodes with these values
+                    def find_node(node, val):
+                        if not node:
+                            return None
+                        if node.val == val:
+                            return node
+                        left = find_node(node.left, val)
+                        if left:
+                            return left
+                        return find_node(node.right, val)
+
+                    p_node = find_node(root, p_val)
+                    q_node = find_node(root, q_val)
+                    test_input = [root, p_node, q_node]
 
             # Handle graph-based inputs (convert adjacency list to Node)
             if 'Graph' in title and test_input and isinstance(test_input[0], list):
                 test_input = [build_graph_from_adjacency_list(test_input[0])]
 
-            # Call the method with unpacked inputs
-            method = getattr(solution, method_name)
-            actual = method(*test_input)
+            # Handle linked list inputs (convert array to ListNode)
+            # Special case: Merge k Sorted Lists - list of lists
+            if 'Merge k' in title and test_input and isinstance(test_input[0], list):
+                # Convert each list to ListNode
+                list_of_lists = [build_list_from_array(arr) if arr else None for arr in test_input[0]]
+                test_input = [list_of_lists]
+            elif 'List' in title and 'Linked' in title and test_input and isinstance(test_input[0], list):
+                # Convert first array to linked list
+                test_input = [build_list_from_array(test_input[0])] + test_input[1:]
+
+            # Special handling for Serialize and Deserialize
+            if 'Serialize and Deserialize' in title:
+                # Build tree from input
+                root = test_input[0] if test_input else None
+                # Serialize then deserialize
+                serialized = solution.serialize(root)
+                deserialized = solution.deserialize(serialized)
+                # Convert back to list for comparison
+                def tree_to_list(node):
+                    if not node:
+                        return []
+                    result = []
+                    queue = deque([node])
+                    while queue:
+                        current = queue.popleft()
+                        if current:
+                            result.append(current.val)
+                            queue.append(current.left)
+                            queue.append(current.right)
+                        else:
+                            result.append(None)
+                    # Remove trailing None values
+                    while result and result[-1] is None:
+                        result.pop()
+                    return result
+                actual = tree_to_list(deserialized)
+            else:
+                # Call the method with unpacked inputs
+                method = getattr(solution, method_name)
+                actual = method(*test_input)
 
             # Handle graph output (convert back to adjacency list)
             if 'Graph' in title:
                 actual = graph_to_adjacency_list(actual)
+
+            # Handle linked list output (convert ListNode to array)
+            if ('List' in title and 'Linked' in title) or 'Merge k' in title:
+                if actual is None:
+                    actual = []
+                elif isinstance(actual, ListNode):
+                    actual = list_to_array(actual)
+
+            # Handle LCA output (convert TreeNode to value)
+            if 'Lowest Common Ancestor' in title and actual is not None and hasattr(actual, 'val'):
+                actual = actual.val
 
             # Compare results
             if actual != expected:
@@ -192,6 +298,7 @@ def main():
 
     # Questions to validate
     target_questions = [
+        # Batch 1
         'Product of Array Except Self',
         'Maximum Subarray',
         'Number of Islands',
@@ -201,7 +308,18 @@ def main():
         'Longest Increasing Subsequence',
         'Course Schedule',
         'Clone Graph',
-        'Trapping Rain Water'
+        'Trapping Rain Water',
+        # Batch 2
+        'Letter Combinations of a Phone Number',
+        'Generate Parentheses',
+        'Permutations',
+        'Subarray Sum Equals K',
+        'Word Search',
+        'Word Break',
+        'Lowest Common Ancestor of a Binary Tree',
+        'Serialize and Deserialize Binary Tree',
+        'Edit Distance',
+        'Merge k Sorted Lists'
     ]
 
     print("=" * 60)
