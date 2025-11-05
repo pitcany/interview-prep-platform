@@ -4757,7 +4757,68 @@ class Solution:
         "python_sig": 'class Solution:\n    def numDecodings(self, s: str) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int numDecodings(String s) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int numDecodings(string s) {\n        \n    }\n};',
-        "solution_python": '# Solution for Decode Ways\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Decode Ways
+# Optimal Algorithm: Bottom-up DP with space optimization
+# Time: O(n), Space: O(1)
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        """
+        Count the number of ways to decode a digit string.
+
+        Key Insight: Similar to climbing stairs, but with validation constraints.
+        - Each position can contribute to 1-digit decode (if valid)
+        - Each position can contribute to 2-digit decode (if valid with previous)
+
+        DP Recurrence:
+        dp[i] = number of ways to decode s[0:i]
+        dp[i] = (dp[i-1] if s[i] is '1'-'9') + (dp[i-2] if s[i-1:i+1] is '10'-'26')
+
+        Base Cases:
+        - dp[0] = 1 (empty string has one way: decode nothing)
+        - dp[1] = 1 if s[0] != '0', else 0 (single digit must be valid)
+
+        Invalid Cases:
+        - Leading zeros: "06" -> 0 ways (can't decode '0' alone)
+        - Isolated zeros: "30" -> 0 ways ('0' must be paired with 1 or 2)
+        """
+        n = len(s)
+
+        # Edge case: empty string or starts with '0'
+        if n == 0 or s[0] == '0':
+            return 0
+
+        # Space optimization: only track dp[i-2] and dp[i-1]
+        # prev2 = dp[i-2]: ways to decode up to 2 positions back
+        # prev1 = dp[i-1]: ways to decode up to 1 position back
+        prev2 = 1  # dp[0]: empty string has 1 way
+        prev1 = 1  # dp[1]: first character is valid (checked above)
+
+        # Process each position starting from index 1
+        for i in range(1, n):
+            current = 0  # dp[i]: ways to decode up to position i
+
+            # Check 1-digit decode: s[i] alone
+            # Valid if s[i] is '1' through '9' (not '0')
+            one_digit = int(s[i])
+            if 1 <= one_digit <= 9:
+                current += prev1  # Add ways from dp[i-1]
+
+            # Check 2-digit decode: s[i-1:i+1] together
+            # Valid if value is between 10 and 26
+            two_digit = int(s[i-1:i+1])
+            if 10 <= two_digit <= 26:
+                current += prev2  # Add ways from dp[i-2]
+
+            # Shift variables for next iteration
+            prev2 = prev1
+            prev1 = current
+
+        return prev1
+
+    def solve(self, input):
+        """Wrapper for test framework"""
+        s = input[0]
+        return self.numDecodings(s)''',
         "solution_java": '// Solution for Decode Ways\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Decode Ways\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Decode Ways\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

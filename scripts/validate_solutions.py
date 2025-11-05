@@ -352,7 +352,8 @@ def main():
         # Batch 4
         'Construct Binary Tree from Preorder and Inorder Traversal',
         'Unique Paths',
-        'House Robber II'
+        'House Robber II',
+        'Decode Ways'
     ]
 
     print("=" * 60)
