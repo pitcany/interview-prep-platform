@@ -5494,7 +5494,56 @@ class Codec:
         "python_sig": 'class Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        pass',
         "java_sig": 'class Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        \n    }\n};',
-        "solution_python": '# Solution for Merge k Sorted Lists\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+import heapq
+
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        """
+        Min-heap to efficiently merge k sorted linked lists.
+        Heap maintains smallest element across all lists.
+
+        Algorithm:
+        1. Add first node from each non-empty list to min-heap
+        2. Repeatedly extract minimum and add to result
+        3. Add next node from that list to heap
+        4. Continue until heap is empty
+
+        Time Complexity: O(N log k) where N=total nodes, k=number of lists
+        Space Complexity: O(k) - heap size
+        """
+        # Min-heap: (value, list_index, node)
+        # Need list_index for tie-breaking (Python heapq requires comparable items)
+        heap = []
+
+        # Add first node from each list to heap
+        for i, head in enumerate(lists):
+            if head:
+                heapq.heappush(heap, (head.val, i, head))
+
+        # Dummy head for result list
+        dummy = ListNode(0)
+        current = dummy
+
+        # Build merged list
+        while heap:
+            val, list_idx, node = heapq.heappop(heap)
+
+            # Add node to result
+            current.next = node
+            current = current.next
+
+            # Add next node from same list to heap
+            if node.next:
+                heapq.heappush(heap, (node.next.val, list_idx, node.next))
+
+        return dummy.next
+''',
         "solution_java": '// Solution for Merge k Sorted Lists\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Merge k Sorted Lists\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Merge k Sorted Lists\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

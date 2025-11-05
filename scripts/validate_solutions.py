@@ -7,6 +7,7 @@ Executes solutions against test cases and reports results
 import os
 import re
 import sys
+import heapq
 from collections import deque
 from typing import List, Optional, Any
 
@@ -171,7 +172,7 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
         method_name = extract_method_name(python_sig)
 
         # Execute solution code in isolated namespace with typing imports, TreeNode, and Node
-        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'Node': Node, 'ListNode': ListNode, 'deque': deque}
+        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'Node': Node, 'ListNode': ListNode, 'deque': deque, 'heapq': heapq}
         exec(solution_code, namespace)
 
         # Create instance from isolated namespace
@@ -218,7 +219,12 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 test_input = [build_graph_from_adjacency_list(test_input[0])]
 
             # Handle linked list inputs (convert array to ListNode)
-            if 'List' in title and 'Linked' in title and test_input and isinstance(test_input[0], list):
+            # Special case: Merge k Sorted Lists - list of lists
+            if 'Merge k' in title and test_input and isinstance(test_input[0], list):
+                # Convert each list to ListNode
+                list_of_lists = [build_list_from_array(arr) if arr else None for arr in test_input[0]]
+                test_input = [list_of_lists]
+            elif 'List' in title and 'Linked' in title and test_input and isinstance(test_input[0], list):
                 # Convert first array to linked list
                 test_input = [build_list_from_array(test_input[0])] + test_input[1:]
 
@@ -258,8 +264,11 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 actual = graph_to_adjacency_list(actual)
 
             # Handle linked list output (convert ListNode to array)
-            if 'List' in title and 'Linked' in title and actual is not None and isinstance(actual, ListNode):
-                actual = list_to_array(actual)
+            if ('List' in title and 'Linked' in title) or 'Merge k' in title:
+                if actual is None:
+                    actual = []
+                elif isinstance(actual, ListNode):
+                    actual = list_to_array(actual)
 
             # Handle LCA output (convert TreeNode to value)
             if 'Lowest Common Ancestor' in title and actual is not None and hasattr(actual, 'val'):
