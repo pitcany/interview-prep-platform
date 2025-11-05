@@ -2392,7 +2392,41 @@ class Solution:
         "python_sig": 'class Solution:\n    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
         "java_sig": 'class Solution {\n    public ListNode swapPairs(ListNode head) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    ListNode* swapPairs(ListNode* head) {\n        \n    }\n};',
-        "solution_python": '# Solution for Swap Nodes in Pairs\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Swap Nodes in Pairs
+from typing import Optional
+
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        """
+        Swap every two adjacent nodes in linked list.
+
+        Approach:
+        - Use dummy head for clean handling
+        - For each pair: adjust pointers to swap
+        - Move to next pair
+
+        Time: O(n)
+        Space: O(1)
+        """
+        dummy = ListNode(0)
+        dummy.next = head
+        prev = dummy
+
+        while prev.next and prev.next.next:
+            # Identify nodes to swap
+            first = prev.next
+            second = prev.next.next
+
+            # Perform swap
+            prev.next = second
+            first.next = second.next
+            second.next = first
+
+            # Move to next pair
+            prev = first
+
+        return dummy.next
+''',
         "solution_java": '// Solution for Swap Nodes in Pairs\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Swap Nodes in Pairs\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Swap Nodes in Pairs\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'

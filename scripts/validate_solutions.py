@@ -225,7 +225,8 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 list_of_lists = [build_list_from_array(arr) if arr else None for arr in test_input[0]]
                 test_input = [list_of_lists]
             elif ('List' in title and 'Linked' in title and test_input and isinstance(test_input[0], list)) or \
-                 ('Remove Nth Node' in title and test_input and isinstance(test_input[0], list)):
+                 ('Remove Nth Node' in title and test_input and isinstance(test_input[0], list)) or \
+                 ('Swap Nodes in Pairs' in title and test_input and isinstance(test_input[0], list)):
                 # Convert first array to linked list
                 test_input = [build_list_from_array(test_input[0])] + test_input[1:]
 
@@ -272,7 +273,7 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 actual = graph_to_adjacency_list(actual)
 
             # Handle linked list output (convert ListNode to array)
-            if ('List' in title and 'Linked' in title) or 'Merge k' in title or 'Remove Nth Node' in title:
+            if ('List' in title and 'Linked' in title) or 'Merge k' in title or 'Remove Nth Node' in title or 'Swap Nodes in Pairs' in title:
                 if actual is None:
                     actual = []
                 elif isinstance(actual, ListNode):
@@ -333,7 +334,8 @@ def main():
         'Rotate Image',
         'Set Matrix Zeroes',
         'Remove Nth Node From End of List',
-        'Reverse Linked List II'
+        'Reverse Linked List II',
+        'Swap Nodes in Pairs'
     ]
 
     print("=" * 60)
