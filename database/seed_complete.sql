@@ -30,9 +30,9 @@ You can return the answer in any order.',
 '["2 <= nums.length <= 10^4", "-10^9 <= nums[i] <= 10^9", "-10^9 <= target <= 10^9", "Only one valid answer exists"]',
 '[{"input": {"nums": [2, 7, 11, 15], "target": 9}, "output": [0, 1], "explanation": "Because nums[0] + nums[1] == 9, we return [0, 1]."}, {"input": {"nums": [3, 2, 4], "target": 6}, "output": [1, 2], "explanation": "Because nums[1] + nums[2] == 6, we return [1, 2]."}]',
 '["array", "hash-table"]',
-'["LeetCode URL: https://leetcode.com/problems/two-sum/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Start with a brute force approach, then optimize if needed.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/two-sum/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (1,
 'class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
@@ -49,6 +49,7 @@ public:
     }
 };',
 '[{"input": [[2, 7, 11, 15], 9], "expectedOutput": [0, 1]}, {"input": [[3, 2, 4], 6], "expectedOutput": [1, 2]}, {"input": [[3, 3], 6], "expectedOutput": [0, 1]}]',
+'[]',
 'O(n)',
 'O(n)',
 'class Solution:
@@ -120,9 +121,9 @@ An input string is valid if:
 '["1 <= s.length <= 10^4", "s consists of parentheses only ''()[]{}''"]',
 '[{"input": {"s": "()"}, "output": true, "explanation": "The string is valid."}, {"input": {"s": "()[]{}"}, "output": true, "explanation": "All brackets are properly closed."}, {"input": {"s": "(]"}, "output": false, "explanation": "Mismatched brackets."}]',
 '["string", "stack"]',
-'["LeetCode URL: https://leetcode.com/problems/valid-parentheses/"]');
+'["A stack data structure (LIFO) might be useful here.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Start with a brute force approach, then optimize if needed.", "Track opening and closing brackets, ensuring they match correctly.", "LeetCode URL: https://leetcode.com/problems/valid-parentheses/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (2,
 'class Solution:
     def isValid(self, s: str) -> bool:
@@ -139,6 +140,7 @@ public:
     }
 };',
 '[{"input": ["()"], "expectedOutput": true}, {"input": ["()[]{}"], "expectedOutput": true}, {"input": ["(]"], "expectedOutput": false}, {"input": ["([)]"], "expectedOutput": false}]',
+'[]',
 'O(n)',
 'O(n)',
 'class Solution:
@@ -225,9 +227,9 @@ Return the head of the merged linked list.',
 '["The number of nodes in both lists is in the range [0, 50]", "-100 <= Node.val <= 100", "Both list1 and list2 are sorted in non-decreasing order"]',
 '[{"input": {"list1": [1, 2, 4], "list2": [1, 3, 4]}, "output": [1, 1, 2, 3, 4, 4], "explanation": "Merge both sorted lists."}, {"input": {"list1": [], "list2": []}, "output": [], "explanation": "Both lists are empty."}]',
 '["linked-list", "recursion"]',
-'["LeetCode URL: https://leetcode.com/problems/merge-two-sorted-lists/"]');
+'["Start with a brute force approach, then optimize if needed.", "Think about how to combine two sorted sequences efficiently.", "LeetCode URL: https://leetcode.com/problems/merge-two-sorted-lists/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (3,
 'class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
@@ -244,6 +246,7 @@ public:
     }
 };',
 '[{"input": [[1, 2, 4], [1, 3, 4]], "expectedOutput": [1, 1, 2, 3, 4, 4]}, {"input": [[], []], "expectedOutput": []}, {"input": [[], [0]], "expectedOutput": [0]}]',
+'[]',
 'O(n+m)',
 'O(1)',
 'class Solution:
@@ -327,9 +330,9 @@ Return the maximum profit you can achieve from this transaction. If you cannot a
 '["1 <= prices.length <= 10^5", "0 <= prices[i] <= 10^4"]',
 '[{"input": {"prices": [7, 1, 5, 3, 6, 4]}, "output": 5, "explanation": "Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5."}, {"input": {"prices": [7, 6, 4, 3, 1]}, "output": 0, "explanation": "In this case, no transactions are done and the max profit = 0."}]',
 '["array", "dynamic-programming"]',
-'["LeetCode URL: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (4,
 'class Solution:
     def maxProfit(self, prices: List[int]) -> int:
@@ -346,6 +349,7 @@ public:
     }
 };',
 '[{"input": [[7, 1, 5, 3, 6, 4]], "expectedOutput": 5}, {"input": [[7, 6, 4, 3, 1]], "expectedOutput": 0}]',
+'[]',
 'O(n)',
 'O(1)',
 'class Solution:
@@ -407,9 +411,9 @@ Given a string s, return True if it is a palindrome, or False otherwise.',
 '["1 <= s.length <= 2 * 10^5", "s consists only of printable ASCII characters"]',
 '[{"input": {"s": "A man, a plan, a canal: Panama"}, "output": true, "explanation": "After cleaning: amanaplanacanalpanama which is a palindrome."}, {"input": {"s": "race a car"}, "output": false, "explanation": "After cleaning: raceacar which is not a palindrome."}]',
 '["two-pointers", "string"]',
-'["LeetCode URL: https://leetcode.com/problems/valid-palindrome/"]');
+'["Try using two pointers - one starting from the beginning and one from the end.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/valid-palindrome/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (5,
 'class Solution:
     def isPalindrome(self, s: str) -> bool:
@@ -426,6 +430,7 @@ public:
     }
 };',
 '[{"input": ["A man, a plan, a canal: Panama"], "expectedOutput": true}, {"input": ["race a car"], "expectedOutput": false}, {"input": [" "], "expectedOutput": true}]',
+'[]',
 'O(n)',
 'O(1)',
 'class Solution:
@@ -515,9 +520,9 @@ Each time you can either climb 1 or 2 steps. In how many distinct ways can you c
 '["1 <= n <= 45"]',
 '[{"input": {"n": 2}, "output": 2, "explanation": "There are two ways: 1. 1 step + 1 step, 2. 2 steps"}, {"input": {"n": 3}, "output": 3, "explanation": "There are three ways: 1. 1+1+1, 2. 1+2, 3. 2+1"}]',
 '["dynamic-programming", "math"]',
-'["LeetCode URL: https://leetcode.com/problems/climbing-stairs/"]');
+'["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/climbing-stairs/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (6,
 'class Solution:
     def climbStairs(self, n: int) -> int:
@@ -534,6 +539,7 @@ public:
     }
 };',
 '[{"input": [2], "expectedOutput": 2}, {"input": [3], "expectedOutput": 3}, {"input": [4], "expectedOutput": 5}]',
+'[]',
 'O(n)',
 'O(1)',
 'class Solution:
@@ -603,9 +609,9 @@ Inorder traversal: Left -> Root -> Right',
 '["The number of nodes in the tree is in the range [0, 100]", "-100 <= Node.val <= 100"]',
 '[{"input": {"root": [1, null, 2, 3]}, "output": [1, 3, 2], "explanation": "Inorder traversal of the tree."}, {"input": {"root": []}, "output": [], "explanation": "Empty tree."}]',
 '["tree", "depth-first-search", "stack"]',
-'["LeetCode URL: https://leetcode.com/problems/binary-tree-inorder-traversal/"]');
+'["A stack data structure (LIFO) might be useful here.", "Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/binary-tree-inorder-traversal/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (7,
 'class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
@@ -622,6 +628,7 @@ public:
     }
 };',
 '[{"input": [[1, null, 2, 3]], "expectedOutput": [1, 3, 2]}, {"input": [[]], "expectedOutput": []}, {"input": [[1]], "expectedOutput": [1]}]',
+'[]',
 'O(n)',
 'O(n)',
 'class Solution:
@@ -708,9 +715,9 @@ There is a cycle in a linked list if there is some node in the list that can be 
 '["The number of the nodes in the list is in the range [0, 10^4]", "-10^5 <= Node.val <= 10^5", "pos is -1 or a valid index in the linked-list"]',
 '[{"input": {"head": [3, 2, 0, -4], "pos": 1}, "output": true, "explanation": "There is a cycle where the tail connects to the 1st node."}, {"input": {"head": [1], "pos": -1}, "output": false, "explanation": "There is no cycle in the linked list."}]',
 '["linked-list", "two-pointers", "hash-table"]',
-'["LeetCode URL: https://leetcode.com/problems/linked-list-cycle/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Try using two pointers - one starting from the beginning and one from the end.", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/linked-list-cycle/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (8,
 'class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
@@ -727,6 +734,7 @@ public:
     }
 };',
 '[{"input": [[3, 2, 0, -4], 1], "expectedOutput": true}, {"input": [[1, 2], 0], "expectedOutput": true}, {"input": [[1], -1], "expectedOutput": false}]',
+'[]',
 'O(n)',
 'O(1)',
 'class Solution:
@@ -801,9 +809,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["0 <= s.length <= 5 * 10^4", "s consists of English letters, digits, symbols and spaces"]',
 '[{"input": {"s": "abcabcbb"}, "output": 3, "explanation": "The answer is ''abc'', with the length of 3."}, {"input": {"s": "bbbbb"}, "output": 1, "explanation": "The answer is ''b'', with the length of 1."}]',
 '["string", "sliding-window", "hash-table"]',
-'["LeetCode URL: https://leetcode.com/problems/longest-substring-without-repeating-characters/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Consider maintaining a window of elements that slides through the array.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/longest-substring-without-repeating-characters/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (9,
 'class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
@@ -820,6 +828,7 @@ public:
     }
 };',
 '[{"input": ["abcabcbb"], "expectedOutput": 3}, {"input": ["bbbbb"], "expectedOutput": 1}, {"input": ["pwwkew"], "expectedOutput": 3}]',
+'[]',
 'O(n)',
 'O(min(m,n))',
 'class Solution:
@@ -897,9 +906,9 @@ You may assume the two numbers do not contain any leading zero, except the numbe
 '["The number of nodes in each linked list is in the range [1, 100]", "0 <= Node.val <= 9", "It is guaranteed that the list represents a number that does not have leading zeros"]',
 '[{"input": {"l1": [2, 4, 3], "l2": [5, 6, 4]}, "output": [7, 0, 8], "explanation": "342 + 465 = 807."}, {"input": {"l1": [0], "l2": [0]}, "output": [0], "explanation": "0 + 0 = 0."}]',
 '["linked-list", "math", "recursion"]',
-'["LeetCode URL: https://leetcode.com/problems/add-two-numbers/"]');
+'["Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/add-two-numbers/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (10,
 'class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
@@ -916,6 +925,7 @@ public:
     }
 };',
 '[{"input": [[2, 4, 3], [5, 6, 4]], "expectedOutput": [7, 0, 8]}, {"input": [[0], [0]], "expectedOutput": [0]}, {"input": [[9, 9, 9], [9, 9, 9, 9]], "expectedOutput": [8, 9, 9, 0, 1]}]',
+'[]',
 'O(max(m,n))',
 'O(max(m,n))',
 'class Solution:
@@ -1009,9 +1019,9 @@ Return the maximum amount of water a container can store.',
 '["n == height.length", "2 <= n <= 10^5", "0 <= height[i] <= 10^4"]',
 '[{"input": {"height": [1, 8, 6, 2, 5, 4, 8, 3, 7]}, "output": 49, "explanation": "The max area is between index 1 (height 8) and index 8 (height 7)."}]',
 '["array", "two-pointers", "greedy"]',
-'["LeetCode URL: https://leetcode.com/problems/container-with-most-water/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Try using two pointers - one starting from the beginning and one from the end.", "Try making the locally optimal choice at each step.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/container-with-most-water/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (11,
 'class Solution:
     def maxArea(self, height: List[int]) -> int:
@@ -1028,6 +1038,7 @@ public:
     }
 };',
 '[{"input": [[1, 8, 6, 2, 5, 4, 8, 3, 7]], "expectedOutput": 49}, {"input": [[1, 1]], "expectedOutput": 1}, {"input": [[4, 3, 2, 1, 4]], "expectedOutput": 16}]',
+'[]',
 'O(n)',
 'O(1)',
 'class Solution:
@@ -1110,9 +1121,9 @@ Notice that the solution set must not contain duplicate triplets.',
 '["3 <= nums.length <= 3000", "-10^5 <= nums[i] <= 10^5"]',
 '[{"input": {"nums": [-1, 0, 1, 2, -1, -4]}, "output": [[-1, -1, 2], [-1, 0, 1]], "explanation": "The distinct triplets are [-1,0,1] and [-1,-1,2]."}, {"input": {"nums": [0, 1, 1]}, "output": [], "explanation": "The only possible triplet does not sum up to 0."}]',
 '["array", "two-pointers", "sorting"]',
-'["LeetCode URL: https://leetcode.com/problems/3sum/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Try using two pointers - one starting from the beginning and one from the end.", "Would sorting the input help simplify the problem?", "Think about the time and space complexity trade-offs.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/3sum/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (12,
 'class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
@@ -1129,6 +1140,7 @@ public:
     }
 };',
 '[{"input": [[-1, 0, 1, 2, -1, -4]], "expectedOutput": [[-1, -1, 2], [-1, 0, 1]]}, {"input": [[0, 1, 1]], "expectedOutput": []}, {"input": [[0, 0, 0]], "expectedOutput": [[0, 0, 0]]}]',
+'[]',
 'O(n^2)',
 'O(1)',
 'class Solution:
@@ -1250,9 +1262,9 @@ An Anagram is a word or phrase formed by rearranging the letters of a different 
 '["1 <= strs.length <= 10^4", "0 <= strs[i].length <= 100", "strs[i] consists of lowercase English letters"]',
 '[{"input": {"strs": ["eat", "tea", "tan", "ate", "nat", "bat"]}, "output": [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]], "explanation": "Group words that are anagrams."}]',
 '["array", "hash-table", "string", "sorting"]',
-'["LeetCode URL: https://leetcode.com/problems/group-anagrams/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Would sorting the input help simplify the problem?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/group-anagrams/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (13,
 'class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
@@ -1269,6 +1281,7 @@ public:
     }
 };',
 '[{"input": [["eat", "tea", "tan", "ate", "nat", "bat"]], "expectedOutput": [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]}, {"input": [[""]], "expectedOutput": [[""]]}, {"input": [["a"]], "expectedOutput": [["a"]]}]',
+'[]',
 'O(n*k)',
 'O(n*k)',
 'class Solution:
@@ -1340,9 +1353,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["1 <= s.length <= 1000", "s consist of only digits and English letters"]',
 '[{"input": {"s": "babad"}, "output": "bab", "explanation": "Note: ''aba'' is also a valid answer."}, {"input": {"s": "cbbd"}, "output": "bb", "explanation": "The longest palindrome is ''bb''."}]',
 '["string", "dynamic-programming"]',
-'["LeetCode URL: https://leetcode.com/problems/longest-palindromic-substring/"]');
+'["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/longest-palindromic-substring/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (14,
 'class Solution:
     def longestPalindrome(self, s: str) -> str:
@@ -1359,6 +1372,7 @@ public:
     }
 };',
 '[{"input": ["babad"], "expectedOutput": "bab"}, {"input": ["cbbd"], "expectedOutput": "bb"}, {"input": ["a"], "expectedOutput": "a"}]',
+'[]',
 'O(n^2)',
 'O(1)',
 'class Solution:
@@ -1468,9 +1482,9 @@ You must write an algorithm that runs in O(n) time and without using the divisio
 '["2 <= nums.length <= 10^5", "-30 <= nums[i] <= 30", "The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer"]',
 '[{"input": {"nums": [1, 2, 3, 4]}, "output": [24, 12, 8, 6], "explanation": "answer[0] = 2*3*4 = 24, answer[1] = 1*3*4 = 12, etc."}]',
 '["array", "prefix-sum"]',
-'["LeetCode URL: https://leetcode.com/problems/product-of-array-except-self/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/product-of-array-except-self/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (15,
 'class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
@@ -1487,14 +1501,42 @@ public:
     }
 };',
 '[{"input": [[1, 2, 3, 4]], "expectedOutput": [24, 12, 8, 6]}, {"input": [[-1, 1, 0, -3, 3]], "expectedOutput": [0, 0, 9, 0, 0]}]',
+'[]',
 'O(n)',
 'O(1)',
-'# Solution for Product of Array Except Self
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        """
+        Two-pass approach using prefix and suffix products.
+        Builds result array where result[i] = product of all elements except nums[i].
+        Avoids division operator and runs in O(n) time.
+
+        Algorithm:
+        1. First pass: Calculate prefix products (product of all elements before i)
+        2. Second pass: Multiply by suffix products (product of all elements after i)
+
+        Time Complexity: O(n) - two passes through array
+        Space Complexity: O(1) - excluding output array (no extra space used)
+        """
+        n = len(nums)
+        result = [1] * n
+
+        # First pass: Calculate prefix products
+        # result[i] = product of all elements before index i
+        prefix = 1
+        for i in range(n):
+            result[i] = prefix
+            prefix *= nums[i]
+
+        # Second pass: Multiply by suffix products
+        # result[i] *= product of all elements after index i
+        suffix = 1
+        for i in range(n - 1, -1, -1):
+            result[i] *= suffix
+            suffix *= nums[i]
+
+        return result
+',
 '// Solution for Product of Array Except Self
 class Solution {
     public returnType solve(inputType input) {
@@ -1528,9 +1570,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["m == matrix.length", "n == matrix[i].length", "1 <= m, n <= 10", "-100 <= matrix[i][j] <= 100"]',
 '[{"input": {"matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, "output": [1, 2, 3, 6, 9, 8, 7, 4, 5], "explanation": "Traverse the matrix in spiral order."}]',
 '["array", "matrix", "simulation"]',
-'["LeetCode URL: https://leetcode.com/problems/spiral-matrix/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/spiral-matrix/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (16,
 'class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
@@ -1547,6 +1589,7 @@ public:
     }
 };',
 '[{"input": [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]], "expectedOutput": [1, 2, 3, 6, 9, 8, 7, 4, 5]}, {"input": [[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]], "expectedOutput": [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]}]',
+'[]',
 'O(m*n)',
 'O(1)',
 '# Solution for Spiral Matrix
@@ -1590,9 +1633,9 @@ You have to rotate the image in-place, which means you have to modify the input 
 '["n == matrix.length == matrix[i].length", "1 <= n <= 20", "-1000 <= matrix[i][j] <= 1000"]',
 '[{"input": {"matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, "output": [[7, 4, 1], [8, 5, 2], [9, 6, 3]], "explanation": "Rotate 90 degrees clockwise."}]',
 '["array", "matrix"]',
-'["LeetCode URL: https://leetcode.com/problems/rotate-image/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/rotate-image/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (17,
 'class Solution:
     def rotate(self, matrix: List[List[int]]) -> None:
@@ -1609,6 +1652,7 @@ public:
     }
 };',
 '[{"input": [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]], "expectedOutput": [[7, 4, 1], [8, 5, 2], [9, 6, 3]]}, {"input": [[[5, 1, 9, 11], [2, 4, 8, 10], [13, 3, 6, 7], [15, 14, 12, 16]]], "expectedOutput": [[15, 13, 2, 5], [14, 3, 4, 1], [12, 6, 8, 9], [16, 7, 10, 11]]}]',
+'[]',
 'O(n^2)',
 'O(1)',
 '# Solution for Rotate Image
@@ -1652,9 +1696,9 @@ You must do it in place.',
 '["m == matrix.length", "n == matrix[0].length", "1 <= m, n <= 200", "-2^31 <= matrix[i][j] <= 2^31 - 1"]',
 '[{"input": {"matrix": [[1, 1, 1], [1, 0, 1], [1, 1, 1]]}, "output": [[1, 0, 1], [0, 0, 0], [1, 0, 1]], "explanation": "Mark row and column of 0s."}]',
 '["array", "matrix", "hash-table"]',
-'["LeetCode URL: https://leetcode.com/problems/set-matrix-zeroes/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/set-matrix-zeroes/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (18,
 'class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
@@ -1671,6 +1715,7 @@ public:
     }
 };',
 '[{"input": [[[1, 1, 1], [1, 0, 1], [1, 1, 1]]], "expectedOutput": [[1, 0, 1], [0, 0, 0], [1, 0, 1]]}, {"input": [[[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]]], "expectedOutput": [[0, 0, 0, 0], [0, 4, 5, 0], [0, 3, 1, 0]]}]',
+'[]',
 'O(m*n)',
 'O(1)',
 '# Solution for Set Matrix Zeroes
@@ -1714,9 +1759,9 @@ A subarray is a contiguous non-empty sequence of elements within an array.',
 '["1 <= nums.length <= 2 * 10^4", "-1000 <= nums[i] <= 1000", "-10^7 <= k <= 10^7"]',
 '[{"input": {"nums": [1, 1, 1], "k": 2}, "output": 2, "explanation": "Subarrays [1,1] and [1,1] sum to 2."}, {"input": {"nums": [1, 2, 3], "k": 3}, "output": 2, "explanation": "Subarrays [1,2] and [3] sum to 3."}]',
 '["array", "hash-table", "prefix-sum"]',
-'["LeetCode URL: https://leetcode.com/problems/subarray-sum-equals-k/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/subarray-sum-equals-k/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (19,
 'class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
@@ -1733,6 +1778,7 @@ public:
     }
 };',
 '[{"input": [[1, 1, 1], 2], "expectedOutput": 2}, {"input": [[1, 2, 3], 3], "expectedOutput": 2}]',
+'[]',
 'O(n)',
 'O(n)',
 '# Solution for Subarray Sum Equals K
@@ -1774,9 +1820,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["1 <= nums.length <= 10^5", "-10^4 <= nums[i] <= 10^4"]',
 '[{"input": {"nums": [-2, 1, -3, 4, -1, 2, 1, -5, 4]}, "output": 6, "explanation": "The subarray [4,-1,2,1] has the largest sum 6."}, {"input": {"nums": [1]}, "output": 1, "explanation": "The subarray [1] has the largest sum 1."}]',
 '["array", "divide-and-conquer", "dynamic-programming"]',
-'["LeetCode URL: https://leetcode.com/problems/maximum-subarray/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/maximum-subarray/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (20,
 'class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
@@ -1793,14 +1839,38 @@ public:
     }
 };',
 '[{"input": [[-2, 1, -3, 4, -1, 2, 1, -5, 4]], "expectedOutput": 6}, {"input": [[1]], "expectedOutput": 1}, {"input": [[5, 4, -1, 7, 8]], "expectedOutput": 23}]',
+'[]',
 'O(n)',
 'O(1)',
-'# Solution for Maximum Subarray
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        """
+        Kadane''s Algorithm - Classic dynamic programming approach.
+        Finds contiguous subarray with the largest sum.
+
+        Key insight: At each position, we decide whether to:
+        - Extend the current subarray (add current element)
+        - Start a new subarray (current element alone is better)
+
+        Time Complexity: O(n) - single pass through array
+        Space Complexity: O(1) - only tracking two variables
+        """
+        # Track the maximum sum ending at current position
+        current_sum = nums[0]
+        # Track the overall maximum sum seen so far
+        max_sum = nums[0]
+
+        # Iterate through array starting from second element
+        for i in range(1, len(nums)):
+            # Decide: extend current subarray or start fresh
+            # If current_sum is negative, starting fresh is better
+            current_sum = max(nums[i], current_sum + nums[i])
+
+            # Update global maximum
+            max_sum = max(max_sum, current_sum)
+
+        return max_sum
+',
 '// Solution for Maximum Subarray
 class Solution {
     public returnType solve(inputType input) {
@@ -1834,9 +1904,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["The number of nodes in the list is sz", "1 <= sz <= 30", "0 <= Node.val <= 100", "1 <= n <= sz"]',
 '[{"input": {"head": [1, 2, 3, 4, 5], "n": 2}, "output": [1, 2, 3, 5], "explanation": "Remove 2nd node from end."}]',
 '["linked-list", "two-pointers"]',
-'["LeetCode URL: https://leetcode.com/problems/remove-nth-node-from-end-of-list/"]');
+'["Try using two pointers - one starting from the beginning and one from the end.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/remove-nth-node-from-end-of-list/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (21,
 'class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
@@ -1853,6 +1923,7 @@ public:
     }
 };',
 '[{"input": [[1, 2, 3, 4, 5], 2], "expectedOutput": [1, 2, 3, 5]}, {"input": [[1], 1], "expectedOutput": []}, {"input": [[1, 2], 1], "expectedOutput": [1]}]',
+'[]',
 'O(n)',
 'O(1)',
 '# Solution for Remove Nth Node From End of List
@@ -1894,9 +1965,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["The number of nodes in the list is n", "1 <= n <= 500", "-500 <= Node.val <= 500", "1 <= left <= right <= n"]',
 '[{"input": {"head": [1, 2, 3, 4, 5], "left": 2, "right": 4}, "output": [1, 4, 3, 2, 5], "explanation": "Reverse nodes from position 2 to 4."}]',
 '["linked-list"]',
-'["LeetCode URL: https://leetcode.com/problems/reverse-linked-list-ii/"]');
+'["Think about the time and space complexity trade-offs.", "Consider reversing the entire sequence or parts of it.", "LeetCode URL: https://leetcode.com/problems/reverse-linked-list-ii/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (22,
 'class Solution:
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
@@ -1913,6 +1984,7 @@ public:
     }
 };',
 '[{"input": [[1, 2, 3, 4, 5], 2, 4], "expectedOutput": [1, 4, 3, 2, 5]}, {"input": [[5], 1, 1], "expectedOutput": [5]}]',
+'[]',
 'O(n)',
 'O(1)',
 '# Solution for Reverse Linked List II
@@ -1954,9 +2026,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["The number of nodes in the list is in the range [0, 100]", "0 <= Node.val <= 100"]',
 '[{"input": {"head": [1, 2, 3, 4]}, "output": [2, 1, 4, 3], "explanation": "Swap adjacent pairs."}]',
 '["linked-list", "recursion"]',
-'["LeetCode URL: https://leetcode.com/problems/swap-nodes-in-pairs/"]');
+'["Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/swap-nodes-in-pairs/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (23,
 'class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -1973,6 +2045,7 @@ public:
     }
 };',
 '[{"input": [[1, 2, 3, 4]], "expectedOutput": [2, 1, 4, 3]}, {"input": [[]], "expectedOutput": []}, {"input": [[1]], "expectedOutput": [1]}]',
+'[]',
 'O(n)',
 'O(1)',
 '# Solution for Swap Nodes in Pairs
@@ -2014,9 +2087,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["The number of nodes in the tree is in the range [0, 2000]", "-1000 <= Node.val <= 1000"]',
 '[{"input": {"root": [3, 9, 20, null, null, 15, 7]}, "output": [[3], [9, 20], [15, 7]], "explanation": "Level by level traversal."}]',
 '["tree", "breadth-first-search"]',
-'["LeetCode URL: https://leetcode.com/problems/binary-tree-level-order-traversal/"]');
+'["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/binary-tree-level-order-traversal/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (24,
 'class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
@@ -2033,14 +2106,57 @@ public:
     }
 };',
 '[{"input": [[3, 9, 20, null, null, 15, 7]], "expectedOutput": [[3], [9, 20], [15, 7]]}, {"input": [[1]], "expectedOutput": [[1]]}, {"input": [[]], "expectedOutput": []}]',
+'[]',
 'O(n)',
 'O(n)',
-'# Solution for Binary Tree Level Order Traversal
-# Implement the optimal algorithm here
+'# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        """
+        Breadth-First Search (BFS) using a queue.
+        Traverses tree level by level, collecting nodes at each level.
+
+        Algorithm:
+        1. Use queue to track nodes at current level
+        2. For each level, process all nodes and collect their values
+        3. Add children of current level to queue for next level
+
+        Time Complexity: O(n) - visit each node once
+        Space Complexity: O(w) - where w is maximum width of tree (queue size)
+        """
+        if not root:
+            return []
+
+        result = []
+        queue = deque([root])
+
+        while queue:
+            level_size = len(queue)
+            current_level = []
+
+            # Process all nodes at current level
+            for _ in range(level_size):
+                node = queue.popleft()
+                current_level.append(node.val)
+
+                # Add children to queue for next level
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+            result.append(current_level)
+
+        return result
+',
 '// Solution for Binary Tree Level Order Traversal
 class Solution {
     public returnType solve(inputType input) {
@@ -2079,9 +2195,9 @@ A valid BST is defined as follows:
 '["The number of nodes in the tree is in the range [1, 10^4]", "-2^31 <= Node.val <= 2^31 - 1"]',
 '[{"input": {"root": [2, 1, 3]}, "output": true, "explanation": "Valid BST."}, {"input": {"root": [5, 1, 4, null, null, 3, 6]}, "output": false, "explanation": "Node 4 in right subtree of 5 violates BST property."}]',
 '["tree", "depth-first-search", "binary-search-tree"]',
-'["LeetCode URL: https://leetcode.com/problems/validate-binary-search-tree/"]');
+'["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "If the data is sorted, binary search can be very efficient.", "LeetCode URL: https://leetcode.com/problems/validate-binary-search-tree/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (25,
 'class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
@@ -2098,14 +2214,49 @@ public:
     }
 };',
 '[{"input": [[2, 1, 3]], "expectedOutput": true}, {"input": [[5, 1, 4, null, null, 3, 6]], "expectedOutput": false}]',
+'[]',
 'O(n)',
 'O(n)',
-'# Solution for Validate Binary Search Tree
-# Implement the optimal algorithm here
+'# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        """
+        Recursive validation with min/max bounds.
+        BST property: all nodes in left subtree < root < all nodes in right subtree
+
+        Algorithm:
+        - Track valid range [min_val, max_val] for each node
+        - Left child must be < current node value
+        - Right child must be > current node value
+        - Recursively validate with updated bounds
+
+        Time Complexity: O(n) - visit each node once
+        Space Complexity: O(h) - recursion stack where h is tree height
+        """
+        def validate(node: Optional[TreeNode], min_val: float, max_val: float) -> bool:
+            # Empty tree is valid BST
+            if not node:
+                return True
+
+            # Check if current node violates BST property
+            if node.val <= min_val or node.val >= max_val:
+                return False
+
+            # Recursively validate left and right subtrees with updated bounds
+            # Left subtree: all values must be < node.val
+            # Right subtree: all values must be > node.val
+            return (validate(node.left, min_val, node.val) and
+                    validate(node.right, node.val, max_val))
+
+        # Start with infinite bounds
+        return validate(root, float(''-inf''), float(''inf''))
+',
 '// Solution for Validate Binary Search Tree
 class Solution {
     public returnType solve(inputType input) {
@@ -2139,9 +2290,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["The number of nodes in the tree is n", "1 <= k <= n <= 10^4", "0 <= Node.val <= 10^4"]',
 '[{"input": {"root": [3, 1, 4, null, 2], "k": 1}, "output": 1, "explanation": "The smallest element is 1."}, {"input": {"root": [5, 3, 6, 2, 4, null, null, 1], "k": 3}, "output": 3, "explanation": "The 3rd smallest is 3."}]',
 '["tree", "depth-first-search", "binary-search-tree"]',
-'["LeetCode URL: https://leetcode.com/problems/kth-smallest-element-in-a-bst/"]');
+'["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/kth-smallest-element-in-a-bst/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (26,
 'class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
@@ -2158,6 +2309,7 @@ public:
     }
 };',
 '[{"input": [[3, 1, 4, null, 2], 1], "expectedOutput": 1}, {"input": [[5, 3, 6, 2, 4, null, null, 1], 3], "expectedOutput": 3}]',
+'[]',
 'O(n)',
 'O(n)',
 '# Solution for Kth Smallest Element in a BST
@@ -2199,9 +2351,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["The number of nodes in the tree is in the range [0, 100]", "-100 <= Node.val <= 100"]',
 '[{"input": {"root": [1, 2, 3, null, 5, null, 4]}, "output": [1, 3, 4], "explanation": "Right side view shows nodes 1, 3, 4."}]',
 '["tree", "depth-first-search", "breadth-first-search"]',
-'["LeetCode URL: https://leetcode.com/problems/binary-tree-right-side-view/"]');
+'["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/binary-tree-right-side-view/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (27,
 'class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
@@ -2218,6 +2370,7 @@ public:
     }
 };',
 '[{"input": [[1, 2, 3, null, 5, null, 4]], "expectedOutput": [1, 3, 4]}, {"input": [[1, null, 3]], "expectedOutput": [1, 3]}, {"input": [[]], "expectedOutput": []}]',
+'[]',
 'O(n)',
 'O(n)',
 '# Solution for Binary Tree Right Side View
@@ -2261,9 +2414,9 @@ A root-to-leaf path is a path starting from the root and ending at any leaf node
 '["The number of nodes in the tree is in the range [0, 5000]", "-1000 <= Node.val <= 1000", "-1000 <= targetSum <= 1000"]',
 '[{"input": {"root": [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], "targetSum": 22}, "output": [[5, 4, 11, 2], [5, 8, 4, 5]], "explanation": "Two paths sum to 22."}]',
 '["tree", "backtracking", "depth-first-search"]',
-'["LeetCode URL: https://leetcode.com/problems/path-sum-ii/"]');
+'["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Try exploring all possibilities using recursion and backtracking.", "Think about the time and space complexity trade-offs.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/path-sum-ii/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (28,
 'class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
@@ -2280,6 +2433,7 @@ public:
     }
 };',
 '[{"input": [[5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], 22], "expectedOutput": [[5, 4, 11, 2], [5, 8, 4, 5]]}, {"input": [[1, 2, 3], 5], "expectedOutput": []}, {"input": [[1, 2], 0], "expectedOutput": []}]',
+'[]',
 'O(n^2)',
 'O(n)',
 '# Solution for Path Sum II
@@ -2321,9 +2475,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["1 <= preorder.length <= 3000", "inorder.length == preorder.length", "-3000 <= preorder[i], inorder[i] <= 3000", "preorder and inorder consist of unique values"]',
 '[{"input": {"preorder": [3, 9, 20, 15, 7], "inorder": [9, 3, 15, 20, 7]}, "output": [3, 9, 20, null, null, 15, 7], "explanation": "Construct tree from traversals."}]',
 '["tree", "array", "hash-table", "divide-and-conquer"]',
-'["LeetCode URL: https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (29,
 'class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
@@ -2340,6 +2494,7 @@ public:
     }
 };',
 '[{"input": [[3, 9, 20, 15, 7], [9, 3, 15, 20, 7]], "expectedOutput": [3, 9, 20, null, null, 15, 7]}, {"input": [[-1], [-1]], "expectedOutput": [-1]}]',
+'[]',
 'O(n)',
 'O(n)',
 '# Solution for Construct Binary Tree from Preorder and Inorder Traversal
@@ -2383,9 +2538,9 @@ The lowest common ancestor is defined as the lowest node in the tree that has bo
 '["The number of nodes in the tree is in the range [2, 10^5]", "-10^9 <= Node.val <= 10^9", "All Node.val are unique", "p != q", "p and q exist in the tree"]',
 '[{"input": {"root": [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], "p": 5, "q": 1}, "output": 3, "explanation": "The LCA of nodes 5 and 1 is 3."}]',
 '["tree", "depth-first-search", "binary-tree"]',
-'["LeetCode URL: https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"]');
+'["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (30,
 'class Solution:
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
@@ -2402,6 +2557,7 @@ public:
     }
 };',
 '[{"input": [[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], 5, 1], "expectedOutput": 3}, {"input": [[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], 5, 4], "expectedOutput": 5}]',
+'[]',
 'O(n)',
 'O(n)',
 '# Solution for Lowest Common Ancestor of a Binary Tree
@@ -2445,9 +2601,9 @@ An island is surrounded by water and is formed by connecting adjacent lands hori
 '["m == grid.length", "n == grid[i].length", "1 <= m, n <= 300", "grid[i][j] is ''0'' or ''1''"]',
 '[{"input": {"grid": [["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]}, "output": 1, "explanation": "One connected island."}]',
 '["array", "depth-first-search", "breadth-first-search", "union-find", "matrix"]',
-'["LeetCode URL: https://leetcode.com/problems/number-of-islands/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/number-of-islands/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (31,
 'class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
@@ -2464,14 +2620,57 @@ public:
     }
 };',
 '[{"input": [[["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]], "expectedOutput": 1}, {"input": [[["1", "1", "0", "0", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "1", "0", "0"], ["0", "0", "0", "1", "1"]]], "expectedOutput": 3}]',
+'[]',
 'O(m*n)',
 'O(m*n)',
-'# Solution for Number of Islands
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        """
+        Depth-First Search (DFS) to find connected components.
+        Each island is a connected component of ''1''s (land).
+
+        Algorithm:
+        1. Iterate through each cell in grid
+        2. When we find unvisited land (''1''), it''s a new island
+        3. DFS from that cell to mark all connected land as visited
+        4. Count total number of DFS calls (number of islands)
+
+        Time Complexity: O(m * n) - visit each cell at most twice
+        Space Complexity: O(m * n) - worst case recursion depth (all land)
+        """
+        if not grid or not grid[0]:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
+        num_islands = 0
+
+        def dfs(r: int, c: int) -> None:
+            """Mark all connected land cells as visited."""
+            # Base cases: out of bounds or water or already visited
+            if (r < 0 or r >= rows or c < 0 or c >= cols or
+                grid[r][c] != ''1''):
+                return
+
+            # Mark current cell as visited by changing to ''0''
+            grid[r][c] = ''0''
+
+            # Explore all 4 directions (up, down, left, right)
+            dfs(r + 1, c)  # down
+            dfs(r - 1, c)  # up
+            dfs(r, c + 1)  # right
+            dfs(r, c - 1)  # left
+
+        # Scan entire grid
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == ''1'':
+                    # Found new island
+                    num_islands += 1
+                    # Mark all connected land
+                    dfs(r, c)
+
+        return num_islands
+',
 '// Solution for Number of Islands
 class Solution {
     public returnType solve(inputType input) {
@@ -2507,9 +2706,9 @@ Return True if you can finish all courses. Otherwise, return False.',
 '["1 <= numCourses <= 2000", "0 <= prerequisites.length <= 5000", "prerequisites[i].length == 2", "0 <= ai, bi < numCourses", "All the pairs prerequisites[i] are unique"]',
 '[{"input": {"numCourses": 2, "prerequisites": [[1, 0]]}, "output": true, "explanation": "Take course 0 first, then course 1."}, {"input": {"numCourses": 2, "prerequisites": [[1, 0], [0, 1]]}, "output": false, "explanation": "Circular dependency."}]',
 '["graph", "topological-sort", "depth-first-search", "breadth-first-search"]',
-'["LeetCode URL: https://leetcode.com/problems/course-schedule/"]');
+'["Consider graph traversal algorithms like DFS or BFS.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/course-schedule/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (32,
 'class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
@@ -2526,14 +2725,65 @@ public:
     }
 };',
 '[{"input": [2, [[1, 0]]], "expectedOutput": true}, {"input": [2, [[1, 0], [0, 1]]], "expectedOutput": false}]',
+'[]',
 'O(V+E)',
 'O(V+E)',
-'# Solution for Course Schedule
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        """
+        Topological Sort using DFS to detect cycles.
+        Check if course schedule is possible (no circular dependencies).
+
+        Algorithm:
+        1. Build adjacency list (prerequisite graph)
+        2. Use DFS with state tracking:
+           - UNVISITED (0): not processed
+           - VISITING (1): currently in DFS path (cycle if revisited)
+           - VISITED (2): fully processed
+        3. If we encounter VISITING node, there''s a cycle
+
+        Time Complexity: O(V + E) - vertices (courses) + edges (prerequisites)
+        Space Complexity: O(V + E) - graph storage + recursion stack
+        """
+        from collections import defaultdict
+
+        # Build adjacency list: course -> list of courses that depend on it
+        graph = defaultdict(list)
+        for course, prereq in prerequisites:
+            graph[prereq].append(course)
+
+        # State: 0=unvisited, 1=visiting (in current DFS path), 2=visited
+        state = [0] * numCourses
+
+        def has_cycle(course: int) -> bool:
+            """DFS to detect cycle. Returns True if cycle found."""
+            if state[course] == 1:
+                # Currently visiting - found cycle
+                return True
+            if state[course] == 2:
+                # Already fully processed - no cycle through this path
+                return False
+
+            # Mark as visiting (in current DFS path)
+            state[course] = 1
+
+            # Check all courses that depend on this one
+            for next_course in graph[course]:
+                if has_cycle(next_course):
+                    return True
+
+            # Mark as visited (fully processed)
+            state[course] = 2
+            return False
+
+        # Check each course for cycles
+        for course in range(numCourses):
+            if state[course] == 0:  # Unvisited
+                if has_cycle(course):
+                    return False
+
+        return True
+',
 '// Solution for Course Schedule
 class Solution {
     public returnType solve(inputType input) {
@@ -2569,9 +2819,9 @@ Each node in the graph contains a value (int) and a list (List[Node]) of its nei
 '["The number of nodes in the graph is in the range [0, 100]", "1 <= Node.val <= 100", "Node.val is unique for each node", "There are no repeated edges and no self-loops"]',
 '[{"input": {"adjList": [[2, 4], [1, 3], [2, 4], [1, 3]]}, "output": [[2, 4], [1, 3], [2, 4], [1, 3]], "explanation": "Clone the graph."}]',
 '["hash-table", "depth-first-search", "breadth-first-search", "graph"]',
-'["LeetCode URL: https://leetcode.com/problems/clone-graph/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Consider graph traversal algorithms like DFS or BFS.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/clone-graph/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (33,
 'class Solution:
     def cloneGraph(self, node: Optional[''Node'']) -> Optional[''Node'']:
@@ -2588,14 +2838,57 @@ public:
     }
 };',
 '[{"input": [[[2, 4], [1, 3], [2, 4], [1, 3]]], "expectedOutput": [[2, 4], [1, 3], [2, 4], [1, 3]]}, {"input": [[[]]], "expectedOutput": [[]]}, {"input": [[]], "expectedOutput": []}]',
+'[]',
 'O(N+M)',
 'O(N)',
-'# Solution for Clone Graph
-# Implement the optimal algorithm here
+'"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+    def cloneGraph(self, node: ''Node'') -> ''Node'':
+        """
+        Deep copy graph using DFS with hash map.
+        Creates independent copy where no node is shared with original.
+
+        Algorithm:
+        1. Use hash map to track original node -> cloned node mapping
+        2. DFS through graph:
+           - Clone current node if not already cloned
+           - Recursively clone all neighbors
+           - Connect cloned node to cloned neighbors
+
+        Time Complexity: O(V + E) - visit each vertex and edge once
+        Space Complexity: O(V) - hash map + recursion stack
+        """
+        if not node:
+            return None
+
+        # Map: original node -> cloned node
+        cloned = {}
+
+        def dfs(original: ''Node'') -> ''Node'':
+            """Recursively clone node and its neighbors."""
+            # If already cloned, return the clone
+            if original in cloned:
+                return cloned[original]
+
+            # Create clone of current node (without neighbors yet)
+            clone = Node(original.val)
+            cloned[original] = clone
+
+            # Recursively clone all neighbors and connect them
+            for neighbor in original.neighbors:
+                clone.neighbors.append(dfs(neighbor))
+
+            return clone
+
+        return dfs(node)
+',
 '// Solution for Clone Graph
 class Solution {
     public returnType solve(inputType input) {
@@ -2631,9 +2924,9 @@ The word can be constructed from letters of sequentially adjacent cells, where a
 '["m == board.length", "n = board[i].length", "1 <= m, n <= 6", "1 <= word.length <= 15", "board and word consists of only lowercase and uppercase English letters"]',
 '[{"input": {"board": [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "word": "ABCCED"}, "output": true, "explanation": "Word found in board."}]',
 '["array", "backtracking", "matrix"]',
-'["LeetCode URL: https://leetcode.com/problems/word-search/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Try exploring all possibilities using recursion and backtracking.", "Think about the time and space complexity trade-offs.", "If the data is sorted, binary search can be very efficient.", "LeetCode URL: https://leetcode.com/problems/word-search/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (34,
 'class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
@@ -2650,6 +2943,7 @@ public:
     }
 };',
 '[{"input": [[["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCCED"], "expectedOutput": true}, {"input": [[["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "SEE"], "expectedOutput": true}, {"input": [[["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCB"], "expectedOutput": false}]',
+'[]',
 'O(m*n*4^L)',
 'O(L)',
 '# Solution for Word Search
@@ -2693,9 +2987,9 @@ Return the fewest number of coins that you need to make up that amount. If that 
 '["1 <= coins.length <= 12", "1 <= coins[i] <= 2^31 - 1", "0 <= amount <= 10^4"]',
 '[{"input": {"coins": [1, 2, 5], "amount": 11}, "output": 3, "explanation": "11 = 5 + 5 + 1"}, {"input": {"coins": [2], "amount": 3}, "output": -1, "explanation": "Cannot make amount 3."}]',
 '["array", "dynamic-programming", "breadth-first-search"]',
-'["LeetCode URL: https://leetcode.com/problems/coin-change/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/coin-change/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (35,
 'class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
@@ -2712,14 +3006,46 @@ public:
     }
 };',
 '[{"input": [[1, 2, 5], 11], "expectedOutput": 3}, {"input": [[2], 3], "expectedOutput": -1}, {"input": [[1], 0], "expectedOutput": 0}]',
+'[]',
 'O(amount * n)',
 'O(amount)',
-'# Solution for Coin Change
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        """
+        Bottom-up Dynamic Programming approach.
+        Find minimum number of coins needed to make up the target amount.
+
+        Algorithm:
+        1. Create DP array where dp[i] = min coins needed for amount i
+        2. Initialize dp[0] = 0 (zero coins for amount 0)
+        3. For each amount from 1 to target:
+           - Try each coin denomination
+           - Take minimum of all valid options
+
+        Time Complexity: O(amount * len(coins))
+        Space Complexity: O(amount) - DP array
+        """
+        # Initialize DP array with infinity (impossible to make)
+        # dp[i] represents min coins needed to make amount i
+        dp = [float(''inf'')] * (amount + 1)
+        dp[0] = 0  # Base case: 0 coins for amount 0
+
+        # Build up solution for each amount from 1 to target
+        for current_amount in range(1, amount + 1):
+            # Try each coin denomination
+            for coin in coins:
+                if coin <= current_amount:
+                    # If we can use this coin, check if it gives better solution
+                    # dp[current_amount - coin] + 1 means:
+                    # "min coins for (current_amount - coin)" + this coin
+                    dp[current_amount] = min(
+                        dp[current_amount],
+                        dp[current_amount - coin] + 1
+                    )
+
+        # If dp[amount] is still infinity, amount cannot be made
+        return dp[amount] if dp[amount] != float(''inf'') else -1
+',
 '// Solution for Coin Change
 class Solution {
     public returnType solve(inputType input) {
@@ -2753,9 +3079,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["1 <= nums.length <= 2500", "-10^4 <= nums[i] <= 10^4"]',
 '[{"input": {"nums": [10, 9, 2, 5, 3, 7, 101, 18]}, "output": 4, "explanation": "The longest increasing subsequence is [2,3,7,101]."}, {"input": {"nums": [0, 1, 0, 3, 2, 3]}, "output": 4, "explanation": "The longest increasing subsequence is [0,1,2,3]."}]',
 '["array", "binary-search", "dynamic-programming"]',
-'["LeetCode URL: https://leetcode.com/problems/longest-increasing-subsequence/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "If the input is sorted, binary search can achieve O(log n) time complexity.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/longest-increasing-subsequence/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (36,
 'class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
@@ -2772,14 +3098,52 @@ public:
     }
 };',
 '[{"input": [[10, 9, 2, 5, 3, 7, 101, 18]], "expectedOutput": 4}, {"input": [[0, 1, 0, 3, 2, 3]], "expectedOutput": 4}, {"input": [[7, 7, 7, 7, 7, 7, 7]], "expectedOutput": 1}]',
+'[]',
 'O(n^2)',
 'O(n)',
-'# Solution for Longest Increasing Subsequence
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        """
+        Dynamic Programming with Binary Search optimization.
+        Finds length of longest strictly increasing subsequence.
+
+        Algorithm (Patience Sort approach):
+        1. Maintain array ''sub'' of smallest tail values for increasing subsequences
+        2. For each number, binary search for position in ''sub''
+        3. If larger than all elements, extend subsequence
+        4. Otherwise, replace first element >= current number
+
+        Why this works: We''re maintaining optimal tails for all subsequence lengths.
+
+        Time Complexity: O(n log n) - binary search for each element
+        Space Complexity: O(n) - sub array
+        """
+        if not nums:
+            return 0
+
+        # sub[i] = smallest tail element for increasing subsequence of length i+1
+        sub = []
+
+        for num in nums:
+            # Binary search for position to insert/replace
+            left, right = 0, len(sub)
+
+            while left < right:
+                mid = (left + right) // 2
+                if sub[mid] < num:
+                    left = mid + 1
+                else:
+                    right = mid
+
+            # If num is larger than all elements in sub, extend subsequence
+            if left == len(sub):
+                sub.append(num)
+            else:
+                # Replace first element >= num to keep smallest possible tail
+                sub[left] = num
+
+        return len(sub)
+',
 '// Solution for Longest Increasing Subsequence
 class Solution {
     public returnType solve(inputType input) {
@@ -2815,9 +3179,9 @@ Given the two integers m and n, return the number of possible unique paths that 
 '["1 <= m, n <= 100"]',
 '[{"input": {"m": 3, "n": 7}, "output": 28, "explanation": "There are 28 unique paths."}, {"input": {"m": 3, "n": 2}, "output": 3, "explanation": "From top-left: right->down->down, down->down->right, down->right->down"}]',
 '["math", "dynamic-programming", "combinatorics"]',
-'["LeetCode URL: https://leetcode.com/problems/unique-paths/"]');
+'["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/unique-paths/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (37,
 'class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
@@ -2834,6 +3198,7 @@ public:
     }
 };',
 '[{"input": [3, 7], "expectedOutput": 28}, {"input": [3, 2], "expectedOutput": 3}]',
+'[]',
 'O(m*n)',
 'O(m*n)',
 '# Solution for Unique Paths
@@ -2877,9 +3242,9 @@ Note that the same word in the dictionary may be reused multiple times in the se
 '["1 <= s.length <= 300", "1 <= wordDict.length <= 1000", "1 <= wordDict[i].length <= 20", "s and wordDict[i] consist of only lowercase English letters", "All strings in wordDict are unique"]',
 '[{"input": {"s": "leetcode", "wordDict": ["leet", "code"]}, "output": true, "explanation": "''leetcode'' can be segmented as ''leet code''."}, {"input": {"s": "applepenapple", "wordDict": ["apple", "pen"]}, "output": true, "explanation": "''applepenapple'' can be segmented as ''apple pen apple''."}]',
 '["hash-table", "string", "dynamic-programming", "trie", "memoization"]',
-'["LeetCode URL: https://leetcode.com/problems/word-break/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/word-break/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (38,
 'class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
@@ -2896,6 +3261,7 @@ public:
     }
 };',
 '[{"input": ["leetcode", ["leet", "code"]], "expectedOutput": true}, {"input": ["applepenapple", ["apple", "pen"]], "expectedOutput": true}, {"input": ["catsandog", ["cats", "dog", "sand", "and", "cat"]], "expectedOutput": false}]',
+'[]',
 'O(n^2)',
 'O(n)',
 '# Solution for Word Break
@@ -2939,9 +3305,9 @@ Given an integer array nums representing the amount of money of each house, retu
 '["1 <= nums.length <= 100", "0 <= nums[i] <= 1000"]',
 '[{"input": {"nums": [2, 3, 2]}, "output": 3, "explanation": "You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent."}, {"input": {"nums": [1, 2, 3, 1]}, "output": 4, "explanation": "Rob house 1 (money = 1) and then rob house 3 (money = 3). Total = 1 + 3 = 4."}]',
 '["array", "dynamic-programming"]',
-'["LeetCode URL: https://leetcode.com/problems/house-robber-ii/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/house-robber-ii/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (39,
 'class Solution:
     def rob(self, nums: List[int]) -> int:
@@ -2958,6 +3324,7 @@ public:
     }
 };',
 '[{"input": [[2, 3, 2]], "expectedOutput": 3}, {"input": [[1, 2, 3, 1]], "expectedOutput": 4}, {"input": [[1, 2, 3]], "expectedOutput": 3}]',
+'[]',
 'O(n)',
 'O(1)',
 '# Solution for House Robber II
@@ -3002,9 +3369,9 @@ To decode an encoded message, all the digits must be grouped then mapped back in
 '["1 <= s.length <= 100", "s contains only digits and may contain leading zero(s)"]',
 '[{"input": {"s": "12"}, "output": 2, "explanation": "It could be decoded as ''AB'' (1 2) or ''L'' (12)."}, {"input": {"s": "226"}, "output": 3, "explanation": "It could be decoded as ''BZ'' (2 26), ''VF'' (22 6), or ''BBF'' (2 2 6)."}]',
 '["string", "dynamic-programming"]',
-'["LeetCode URL: https://leetcode.com/problems/decode-ways/"]');
+'["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/decode-ways/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (40,
 'class Solution:
     def numDecodings(self, s: str) -> int:
@@ -3021,6 +3388,7 @@ public:
     }
 };',
 '[{"input": ["12"], "expectedOutput": 2}, {"input": ["226"], "expectedOutput": 3}, {"input": ["06"], "expectedOutput": 0}]',
+'[]',
 'O(n)',
 'O(n)',
 '# Solution for Decode Ways
@@ -3066,9 +3434,9 @@ A mapping of digits to letters (just like on the telephone buttons) is given bel
 '["0 <= digits.length <= 4", "digits[i] is a digit in the range [''2'', ''9'']"]',
 '[{"input": {"digits": "23"}, "output": ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"], "explanation": "All possible combinations."}, {"input": {"digits": ""}, "output": [], "explanation": "Empty input."}]',
 '["hash-table", "string", "backtracking"]',
-'["LeetCode URL: https://leetcode.com/problems/letter-combinations-of-a-phone-number/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Try exploring all possibilities using recursion and backtracking.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/letter-combinations-of-a-phone-number/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (41,
 'class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
@@ -3085,6 +3453,7 @@ public:
     }
 };',
 '[{"input": ["23"], "expectedOutput": ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]}, {"input": [""], "expectedOutput": []}, {"input": ["2"], "expectedOutput": ["a", "b", "c"]}]',
+'[]',
 'O(4^n)',
 'O(n)',
 '# Solution for Letter Combinations of a Phone Number
@@ -3126,9 +3495,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["1 <= n <= 8"]',
 '[{"input": {"n": 3}, "output": ["((()))", "(()())", "(())()", "()(())", "()()()"], "explanation": "All valid combinations of 3 pairs."}, {"input": {"n": 1}, "output": ["()"], "explanation": "Only one combination."}]',
 '["string", "dynamic-programming", "backtracking"]',
-'["LeetCode URL: https://leetcode.com/problems/generate-parentheses/"]');
+'["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Try exploring all possibilities using recursion and backtracking.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "Track opening and closing brackets, ensuring they match correctly.", "LeetCode URL: https://leetcode.com/problems/generate-parentheses/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (42,
 'class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
@@ -3145,6 +3514,7 @@ public:
     }
 };',
 '[{"input": [3], "expectedOutput": ["((()))", "(()())", "(())()", "()(())", "()()()"]}, {"input": [1], "expectedOutput": ["()"]}]',
+'[]',
 'O(4^n/sqrt(n))',
 'O(n)',
 '# Solution for Generate Parentheses
@@ -3186,9 +3556,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["1 <= nums.length <= 6", "-10 <= nums[i] <= 10", "All the integers of nums are unique"]',
 '[{"input": {"nums": [1, 2, 3]}, "output": [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]], "explanation": "All permutations."}, {"input": {"nums": [0, 1]}, "output": [[0, 1], [1, 0]], "explanation": "Two permutations."}]',
 '["array", "backtracking"]',
-'["LeetCode URL: https://leetcode.com/problems/permutations/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Try exploring all possibilities using recursion and backtracking.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/permutations/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (43,
 'class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
@@ -3205,6 +3575,7 @@ public:
     }
 };',
 '[{"input": [[1, 2, 3]], "expectedOutput": [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]}, {"input": [[0, 1]], "expectedOutput": [[0, 1], [1, 0]]}, {"input": [[1]], "expectedOutput": [[1]]}]',
+'[]',
 'O(n!)',
 'O(n)',
 '# Solution for Permutations
@@ -3246,9 +3617,9 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 '["n == height.length", "1 <= n <= 2 * 10^4", "0 <= height[i] <= 10^5"]',
 '[{"input": {"height": [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]}, "output": 6, "explanation": "The elevation map can trap 6 units of rain water."}]',
 '["array", "two-pointers", "dynamic-programming", "stack", "monotonic-stack"]',
-'["LeetCode URL: https://leetcode.com/problems/trapping-rain-water/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "Try using two pointers - one starting from the beginning and one from the end.", "A stack data structure (LIFO) might be useful here.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/trapping-rain-water/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (44,
 'class Solution:
     def trap(self, height: List[int]) -> int:
@@ -3265,14 +3636,54 @@ public:
     }
 };',
 '[{"input": [[0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]], "expectedOutput": 6}, {"input": [[4, 2, 0, 3, 2, 5]], "expectedOutput": 9}]',
+'[]',
 'O(n)',
 'O(1)',
-'# Solution for Trapping Rain Water
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def trap(self, height: List[int]) -> int:
+        """
+        Two-pointer technique to calculate trapped water.
+        Water level at position i = min(max_left[i], max_right[i]) - height[i]
+
+        Algorithm:
+        Use two pointers moving inward, tracking max heights from both sides:
+        1. Start with left and right pointers at edges
+        2. Move pointer with smaller max height inward
+        3. Calculate water trapped based on current max heights
+        4. Key insight: water trapped depends on the SMALLER of left/right max
+
+        Time Complexity: O(n) - single pass with two pointers
+        Space Complexity: O(1) - only using pointers and max trackers
+        """
+        if not height:
+            return 0
+
+        left, right = 0, len(height) - 1
+        left_max, right_max = 0, 0
+        water = 0
+
+        while left < right:
+            if height[left] < height[right]:
+                # Process left side
+                if height[left] >= left_max:
+                    # Update left max
+                    left_max = height[left]
+                else:
+                    # Water trapped = left_max - current height
+                    water += left_max - height[left]
+                left += 1
+            else:
+                # Process right side
+                if height[right] >= right_max:
+                    # Update right max
+                    right_max = height[right]
+                else:
+                    # Water trapped = right_max - current height
+                    water += right_max - height[right]
+                right -= 1
+
+        return water
+',
 '// Solution for Trapping Rain Water
 class Solution {
     public returnType solve(inputType input) {
@@ -3308,9 +3719,9 @@ The overall run time complexity should be O(log (m+n)).',
 '["nums1.length == m", "nums2.length == n", "0 <= m <= 1000", "0 <= n <= 1000", "1 <= m + n <= 2000", "-10^6 <= nums1[i], nums2[i] <= 10^6"]',
 '[{"input": {"nums1": [1, 3], "nums2": [2]}, "output": 2.0, "explanation": "Merged array = [1,2,3], median = 2."}, {"input": {"nums1": [1, 2], "nums2": [3, 4]}, "output": 2.5, "explanation": "Merged array = [1,2,3,4], median = (2+3)/2 = 2.5."}]',
 '["array", "binary-search", "divide-and-conquer"]',
-'["LeetCode URL: https://leetcode.com/problems/median-of-two-sorted-arrays/"]');
+'["Think about the array indices and how you can traverse or manipulate them.", "If the input is sorted, binary search can achieve O(log n) time complexity.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/median-of-two-sorted-arrays/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (45,
 'class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
@@ -3327,6 +3738,7 @@ public:
     }
 };',
 '[{"input": [[1, 3], [2]], "expectedOutput": 2.0}, {"input": [[1, 2], [3, 4]], "expectedOutput": 2.5}]',
+'[]',
 'O(log(min(m,n)))',
 'O(1)',
 '# Solution for Median of Two Sorted Arrays
@@ -3372,9 +3784,9 @@ Given the root of a binary tree, return the maximum path sum of any non-empty pa
 '["The number of nodes in the tree is in the range [1, 3 * 10^4]", "-1000 <= Node.val <= 1000"]',
 '[{"input": {"root": [1, 2, 3]}, "output": 6, "explanation": "The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6."}, {"input": {"root": [-10, 9, 20, null, null, 15, 7]}, "output": 42, "explanation": "The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42."}]',
 '["tree", "depth-first-search", "dynamic-programming", "binary-tree"]',
-'["LeetCode URL: https://leetcode.com/problems/binary-tree-maximum-path-sum/"]');
+'["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "This is a challenging problem. Break it down into smaller parts.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/binary-tree-maximum-path-sum/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (46,
 'class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
@@ -3391,6 +3803,7 @@ public:
     }
 };',
 '[{"input": [[1, 2, 3]], "expectedOutput": 6}, {"input": [[-10, 9, 20, null, null, 15, 7]], "expectedOutput": 42}]',
+'[]',
 'O(n)',
 'O(h)',
 '# Solution for Binary Tree Maximum Path Sum
@@ -3434,9 +3847,9 @@ Design an algorithm to serialize and deserialize a binary tree. There is no rest
 '["The number of nodes in the tree is in the range [0, 10^4]", "-1000 <= Node.val <= 1000"]',
 '[{"input": {"root": [1, 2, 3, null, null, 4, 5]}, "output": [1, 2, 3, null, null, 4, 5], "explanation": "Serialize then deserialize the tree."}]',
 '["string", "tree", "depth-first-search", "breadth-first-search", "design", "binary-tree"]',
-'["LeetCode URL: https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"]');
+'["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (47,
 'class Codec:
     def serialize(self, root: Optional[TreeNode]) -> str:
@@ -3464,6 +3877,7 @@ public:
     }
 };',
 '[{"input": [[1, 2, 3, null, null, 4, 5]], "expectedOutput": [1, 2, 3, null, null, 4, 5]}, {"input": [[]], "expectedOutput": []}]',
+'[]',
 'O(n)',
 'O(n)',
 '# Solution for Serialize and Deserialize Binary Tree
@@ -3510,9 +3924,9 @@ The matching should cover the entire input string (not partial).',
 '["1 <= s.length <= 20", "1 <= p.length <= 20", "s contains only lowercase English letters", "p contains only lowercase English letters, ''.'', and ''*''"]',
 '[{"input": {"s": "aa", "p": "a"}, "output": false, "explanation": "a does not match the entire string aa."}, {"input": {"s": "aa", "p": "a*"}, "output": true, "explanation": "* means zero or more of the preceding element, a. Therefore, by repeating a once, it becomes aa."}]',
 '["string", "dynamic-programming", "recursion"]',
-'["LeetCode URL: https://leetcode.com/problems/regular-expression-matching/"]');
+'["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/regular-expression-matching/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (48,
 'class Solution:
     def isMatch(self, s: str, p: str) -> bool:
@@ -3529,6 +3943,7 @@ public:
     }
 };',
 '[{"input": ["aa", "a"], "expectedOutput": false}, {"input": ["aa", "a*"], "expectedOutput": true}, {"input": ["ab", ".*"], "expectedOutput": true}]',
+'[]',
 'O(m*n)',
 'O(m*n)',
 '# Solution for Regular Expression Matching
@@ -3575,9 +3990,9 @@ You have the following three operations permitted on a word:
 '["0 <= word1.length, word2.length <= 500", "word1 and word2 consist of lowercase English letters"]',
 '[{"input": {"word1": "horse", "word2": "ros"}, "output": 3, "explanation": "horse -> rorse (replace ''h'' with ''r'') -> rose (remove ''r'') -> ros (remove ''e'')"}, {"input": {"word1": "intention", "word2": "execution"}, "output": 5, "explanation": "intention -> inention (remove ''t'') -> enention (replace ''i'' with ''e'') -> exention (replace ''n'' with ''x'') -> exection (replace ''n'' with ''c'') -> execution (insert ''u'')"}]',
 '["string", "dynamic-programming"]',
-'["LeetCode URL: https://leetcode.com/problems/edit-distance/"]');
+'["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/edit-distance/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (49,
 'class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
@@ -3594,6 +4009,7 @@ public:
     }
 };',
 '[{"input": ["horse", "ros"], "expectedOutput": 3}, {"input": ["intention", "execution"], "expectedOutput": 5}]',
+'[]',
 'O(m*n)',
 'O(m*n)',
 '# Solution for Edit Distance
@@ -3640,9 +4056,9 @@ Given two words, beginWord and endWord, and a dictionary wordList, return the nu
 '["1 <= beginWord.length <= 10", "endWord.length == beginWord.length", "1 <= wordList.length <= 5000", "wordList[i].length == beginWord.length", "All strings consist of lowercase English letters", "beginWord != endWord", "All the words in wordList are unique"]',
 '[{"input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot", "dot", "dog", "lot", "log", "cog"]}, "output": 5, "explanation": "One shortest transformation sequence is ''hit'' -> ''hot'' -> ''dot'' -> ''dog'' -> ''cog'', which is 5 words long."}, {"input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot", "dot", "dog", "lot", "log"]}, "output": 0, "explanation": "The endWord ''cog'' is not in wordList, therefore there is no valid transformation sequence."}]',
 '["hash-table", "string", "breadth-first-search"]',
-'["LeetCode URL: https://leetcode.com/problems/word-ladder/"]');
+'["Consider using a hash map or dictionary to store and look up values efficiently.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/word-ladder/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (50,
 'class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
@@ -3659,6 +4075,7 @@ public:
     }
 };',
 '[{"input": ["hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]], "expectedOutput": 5}, {"input": ["hit", "cog", ["hot", "dot", "dog", "lot", "log"]], "expectedOutput": 0}]',
+'[]',
 'O(M^2 * N)',
 'O(M^2 * N)',
 '# Solution for Word Ladder
@@ -3702,9 +4119,9 @@ Merge all the linked-lists into one sorted linked-list and return it.',
 '["k == lists.length", "0 <= k <= 10^4", "0 <= lists[i].length <= 500", "-10^4 <= lists[i][j] <= 10^4", "lists[i] is sorted in ascending order", "The sum of lists[i].length will not exceed 10^4"]',
 '[{"input": {"lists": [[1, 4, 5], [1, 3, 4], [2, 6]]}, "output": [1, 1, 2, 3, 4, 4, 5, 6], "explanation": "Merging all lists: [1,4,5], [1,3,4], and [2,6] into one sorted list."}, {"input": {"lists": []}, "output": [], "explanation": "Empty input."}, {"input": {"lists": [[]]}, "output": [], "explanation": "Single empty list."}]',
 '["linked-list", "divide-and-conquer", "heap", "merge-sort"]',
-'["LeetCode URL: https://leetcode.com/problems/merge-k-sorted-lists/"]');
+'["This is a challenging problem. Break it down into smaller parts.", "Think about how to combine two sorted sequences efficiently.", "LeetCode URL: https://leetcode.com/problems/merge-k-sorted-lists/"]');
 
-INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
+INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (51,
 'class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
@@ -3721,6 +4138,7 @@ public:
     }
 };',
 '[{"input": [[[1, 4, 5], [1, 3, 4], [2, 6]]], "expectedOutput": [1, 1, 2, 3, 4, 4, 5, 6]}, {"input": [[]], "expectedOutput": []}, {"input": [[[]]], "expectedOutput": []}]',
+'[]',
 'O(N log k) where N is total number of nodes',
 'O(k) for heap or O(log k) for divide-and-conquer',
 '# Solution for Merge k Sorted Lists
