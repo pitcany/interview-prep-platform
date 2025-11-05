@@ -192,7 +192,7 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             expected = test_case['expectedOutput']
 
             # Handle tree-based inputs (convert list to TreeNode)
-            if 'Tree' in title and test_input and isinstance(test_input[0], list):
+            if ('Tree' in title or 'BST' in title) and test_input and isinstance(test_input[0], list):
                 root = build_tree_from_list(test_input[0])
                 test_input = [root] + test_input[1:]
 
@@ -335,7 +335,8 @@ def main():
         'Set Matrix Zeroes',
         'Remove Nth Node From End of List',
         'Reverse Linked List II',
-        'Swap Nodes in Pairs'
+        'Swap Nodes in Pairs',
+        'Kth Smallest Element in a BST'
     ]
 
     print("=" * 60)

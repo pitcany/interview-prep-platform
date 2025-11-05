@@ -2777,7 +2777,44 @@ class Solution:
         "python_sig": 'class Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        pass',
         "java_sig": 'class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        \n    }\n}',
         "cpp_sig": 'class Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        \n    }\n};',
-        "solution_python": '# Solution for Kth Smallest Element in a BST\n# Implement the optimal algorithm here\nclass Solution:\n    def solve(self, input):\n        # TODO: Implement solution\n        pass',
+        "solution_python": '''# Solution for Kth Smallest Element in a BST
+from typing import Optional
+
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        """
+        Find kth smallest element in BST.
+
+        Approach:
+        - In-order traversal of BST yields sorted sequence
+        - Use counter to track position
+        - Return when counter reaches k
+
+        Time: O(n) worst case, O(k) average
+        Space: O(h) for recursion stack
+        """
+        self.count = 0
+        self.result = None
+
+        def inorder(node):
+            if not node or self.result is not None:
+                return
+
+            # Traverse left subtree
+            inorder(node.left)
+
+            # Process current node
+            self.count += 1
+            if self.count == k:
+                self.result = node.val
+                return
+
+            # Traverse right subtree
+            inorder(node.right)
+
+        inorder(root)
+        return self.result
+''',
         "solution_java": '// Solution for Kth Smallest Element in a BST\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
         "solution_cpp": '// Solution for Kth Smallest Element in a BST\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
         "solution_explanation": '## Solution for Kth Smallest Element in a BST\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)'
