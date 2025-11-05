@@ -53,6 +53,40 @@ class Node:
         self.neighbors = neighbors if neighbors is not None else []
 
 
+# Linked list node definition for linked list problems
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def build_list_from_array(values: List[int]) -> Optional[ListNode]:
+    """Build linked list from array representation."""
+    if not values:
+        return None
+
+    head = ListNode(values[0])
+    current = head
+
+    for val in values[1:]:
+        current.next = ListNode(val)
+        current = current.next
+
+    return head
+
+
+def list_to_array(head: Optional[ListNode]) -> List[int]:
+    """Convert linked list to array for comparison."""
+    result = []
+    current = head
+
+    while current:
+        result.append(current.val)
+        current = current.next
+
+    return result
+
+
 def build_graph_from_adjacency_list(adj_list: List[List[int]]) -> Optional[Node]:
     """Build graph from adjacency list representation."""
     if not adj_list:
@@ -137,7 +171,7 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
         method_name = extract_method_name(python_sig)
 
         # Execute solution code in isolated namespace with typing imports, TreeNode, and Node
-        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'Node': Node, 'deque': deque}
+        namespace = {'List': List, 'Optional': Optional, 'Any': Any, 'TreeNode': TreeNode, 'Node': Node, 'ListNode': ListNode, 'deque': deque}
         exec(solution_code, namespace)
 
         # Create instance from isolated namespace
@@ -160,6 +194,11 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             if 'Graph' in title and test_input and isinstance(test_input[0], list):
                 test_input = [build_graph_from_adjacency_list(test_input[0])]
 
+            # Handle linked list inputs (convert array to ListNode)
+            if 'List' in title and 'Linked' in title and test_input and isinstance(test_input[0], list):
+                # Convert first array to linked list
+                test_input = [build_list_from_array(test_input[0])] + test_input[1:]
+
             # Call the method with unpacked inputs
             method = getattr(solution, method_name)
             actual = method(*test_input)
@@ -167,6 +206,10 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
             # Handle graph output (convert back to adjacency list)
             if 'Graph' in title:
                 actual = graph_to_adjacency_list(actual)
+
+            # Handle linked list output (convert ListNode to array)
+            if 'List' in title and 'Linked' in title and actual is not None and isinstance(actual, ListNode):
+                actual = list_to_array(actual)
 
             # Compare results
             if actual != expected:
