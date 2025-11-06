@@ -255,36 +255,66 @@ ipcMain.handle('mock:addQuestion', async (_, mockId, questionId, orderIndex) => 
 
 // Feedback Generation
 ipcMain.handle('feedback:generate', async (_, feedbackData) => {
+  console.log('🔍 [FEEDBACK] Generation requested:', feedbackData);
   const { userId, submissionId, submissionType, mockInterviewId } = feedbackData;
-  
+
+  // Check if LLM service is available
+  if (!llmService) {
+    const error = new Error('LLM service is not initialized. Please configure LLM_BASE_URL, CLAUDE_API_KEY, or OPENAI_API_KEY in .env');
+    console.error('❌ [FEEDBACK]', error.message);
+    throw error;
+  }
+
+  console.log('✓ [FEEDBACK] LLM service is available');
+
   // Get submission details
   let submission: any;
   let question: any;
 
-  if (submissionType === 'code') {
-    submission = await dbService.getCodeSubmission(submissionId);
-    question = await dbService.getLeetCodeQuestionDetails(submission.questionId);
-  } else {
-    submission = await dbService.getDesignSubmission(submissionId);
-    question = await dbService.getMLDesignQuestionDetails(submission.questionId);
+  try {
+    if (submissionType === 'code') {
+      console.log('📝 [FEEDBACK] Fetching code submission:', submissionId);
+      submission = await dbService.getCodeSubmission(submissionId);
+      console.log('📝 [FEEDBACK] Fetching leetcode question:', submission.questionId);
+      question = await dbService.getLeetCodeQuestionDetails(submission.questionId);
+    } else {
+      console.log('📝 [FEEDBACK] Fetching design submission:', submissionId);
+      submission = await dbService.getDesignSubmission(submissionId);
+      console.log('📝 [FEEDBACK] Fetching ML design question:', submission.questionId);
+      question = await dbService.getMLDesignQuestionDetails(submission.questionId);
+    }
+    console.log('✓ [FEEDBACK] Retrieved submission and question data');
+  } catch (error: any) {
+    console.error('❌ [FEEDBACK] Error retrieving submission/question:', error.message);
+    throw error;
   }
 
   // Generate feedback using Local LLM
-  const feedback = await llmService.generateFeedback(submission, question, submissionType);
+  try {
+    console.log('🤖 [FEEDBACK] Generating feedback with LLM...');
+    const feedback = await llmService.generateFeedback(submission, question, submissionType);
+    console.log('✓ [FEEDBACK] Feedback generated successfully');
 
-  // Save feedback
-  const savedFeedback = await dbService.createFeedback({
-    userId,
-    submissionId,
-    submissionType,
-    mockInterviewId,
-    feedbackText: feedback.text,
-    scores: JSON.stringify(feedback.scores),
-    strengths: JSON.stringify(feedback.strengths),
-    improvements: JSON.stringify(feedback.improvements),
-  });
+    // Save feedback
+    console.log('💾 [FEEDBACK] Saving feedback to database...');
+    const savedFeedback = await dbService.createFeedback({
+      userId,
+      submissionId,
+      submissionType,
+      mockInterviewId,
+      feedbackText: feedback.text,
+      scores: JSON.stringify(feedback.scores),
+      strengths: JSON.stringify(feedback.strengths),
+      improvements: JSON.stringify(feedback.improvements),
+    });
+    console.log('✓ [FEEDBACK] Feedback saved successfully, ID:', savedFeedback.id);
 
-  return savedFeedback;
+    return savedFeedback;
+  } catch (error: any) {
+    console.error('❌ [FEEDBACK] Error during feedback generation or saving:', error.message);
+    console.error('Stack:', error.stack);
+    throw error;
+  }
 });
 
 // Progress & Analytics
