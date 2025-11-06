@@ -157,6 +157,43 @@ MAX_MEMORY=512  # MB
 - **Ollama (Recommended)**: Free, private, offline-capable - See [OLLAMA_SETUP.md](OLLAMA_SETUP.md)
 - **Cloud APIs**: OpenAI, Anthropic, etc. - See [LLM_COMPARISON.md](LLM_COMPARISON.md)
 
+## Troubleshooting
+
+### `npm start` fails with "Module version mismatch"
+
+If you see an error like:
+```
+Error: The module 'better-sqlite3' was compiled against a different Node.js version
+```
+
+**Fix:**
+```bash
+# Rebuild native modules for Electron
+npx electron-rebuild
+```
+
+This typically happens:
+- After cloning the repo
+- After using git worktrees
+- After updating Node.js or Electron
+
+The `postinstall` script should handle this automatically, but may need manual rebuild in some cases.
+
+### Port 5173 already in use
+
+```bash
+# Kill the process using the port
+lsof -ti:5173 | xargs kill -9
+```
+
+### Database not initialized
+
+```bash
+# Initialize database and import questions
+npm run db:init
+sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+```
+
 ## Usage
 
 ### Practice Mode

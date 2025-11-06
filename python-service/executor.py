@@ -85,19 +85,215 @@ def _execution_error_result(message: str) -> Dict[str, Any]:
     return result
 
 
+def _list_to_linked_list(values):
+    """Convert a Python list to a ListNode linked list."""
+    if not values:
+        return None
+
+    # Get ListNode class from the code's namespace (will be set by caller)
+    ListNode = _list_to_linked_list.ListNode
+    if ListNode is None:
+        raise ValueError("ListNode class not found in code")
+
+    head = ListNode(values[0])
+    current = head
+    for val in values[1:]:
+        current.next = ListNode(val)
+        current = current.next
+    return head
+
+# Storage for ListNode class reference
+_list_to_linked_list.ListNode = None
+
+
+def _linked_list_to_list(node):
+    """Convert a ListNode linked list to a Python list."""
+    result = []
+    while node is not None:
+        result.append(node.val)
+        node = node.next
+    return result
+
+
+def _list_to_tree(values, TreeNode):
+    """Convert a Python list to a TreeNode binary tree (level-order)."""
+    if not values or values[0] is None:
+        return None
+
+    root = TreeNode(values[0])
+    queue = [root]
+    i = 1
+
+    while queue and i < len(values):
+        node = queue.pop(0)
+
+        # Left child
+        if i < len(values) and values[i] is not None:
+            node.left = TreeNode(values[i])
+            queue.append(node.left)
+        i += 1
+
+        # Right child
+        if i < len(values) and values[i] is not None:
+            node.right = TreeNode(values[i])
+            queue.append(node.right)
+        i += 1
+
+    return root
+
+
+# Storage for TreeNode class reference
+_list_to_tree.TreeNode = None
+
+
+def _tree_to_list(node):
+    """Convert a TreeNode binary tree to a Python list (level-order)."""
+    if not node:
+        return []
+
+    result = []
+    queue = [node]
+
+    while queue:
+        current = queue.pop(0)
+        if current:
+            result.append(current.val)
+            queue.append(current.left)
+            queue.append(current.right)
+        else:
+            result.append(None)
+
+    # Remove trailing None values
+    while result and result[-1] is None:
+        result.pop()
+
+    return result
+
+
 def _execute_user_code(code: str, test_input: Any) -> Dict[str, Any]:
     stdout_capture = StringIO()
     stderr_capture = StringIO()
     result = _initialize_result()
 
+    # Debug logging to stderr (won't interfere with JSON output)
+    print(f"[DEBUG] _execute_user_code called", file=sys.stderr)
+    print(f"[DEBUG] Code length: {len(code)}", file=sys.stderr)
+    print(f"[DEBUG] Test input: {test_input}", file=sys.stderr)
+    print(f"[DEBUG] Code contains 'ListNode': {'ListNode' in code}", file=sys.stderr)
+
     try:
+        # Import typing classes needed by solutions
+        from typing import List, Optional, Dict as TDict, Set, Tuple
+
+        # Define common data structures used in LeetCode problems
+        class ListNode:
+            def __init__(self, val=0, next=None):
+                self.val = val
+                self.next = next
+
+        class TreeNode:
+            def __init__(self, val=0, left=None, right=None):
+                self.val = val
+                self.left = left
+                self.right = right
+
+        class Node:
+            def __init__(self, val=0, neighbors=None):
+                self.val = val
+                self.neighbors = neighbors if neighbors is not None else []
+
+        def _build_graph_from_adjacency_list(adj_list, NodeClass):
+            """Build a graph from adjacency list representation."""
+            if not adj_list:
+                return None
+
+            # Create all nodes first
+            nodes = {}
+            for i in range(len(adj_list)):
+                nodes[i + 1] = NodeClass(i + 1)
+
+            # Connect neighbors
+            for i, neighbors_list in enumerate(adj_list):
+                node_val = i + 1
+                for neighbor_val in neighbors_list:
+                    nodes[node_val].neighbors.append(nodes[neighbor_val])
+
+            return nodes[1] if 1 in nodes else None
+
+        def _graph_to_adjacency_list(node):
+            """Convert a graph to adjacency list representation."""
+            if not node:
+                return []
+
+            # BFS to build node value -> position mapping
+            visited = {}
+            queue = [node]
+            visited[node.val] = node
+            nodes_in_order = [node]
+
+            while queue:
+                current = queue.pop(0)
+                for neighbor in current.neighbors:
+                    if neighbor.val not in visited:
+                        visited[neighbor.val] = neighbor
+                        nodes_in_order.append(neighbor)
+                        queue.append(neighbor)
+
+            # Build adjacency list
+            adj_list = []
+            for n in nodes_in_order:
+                neighbors = [neighbor.val for neighbor in n.neighbors]
+                adj_list.append(neighbors)
+
+            return adj_list
+
         exec_globals = {
             '__builtins__': __builtins__,
-            'input_value': test_input
+            'input_value': test_input,
+            # Typing imports
+            'List': List,
+            'Optional': Optional,
+            'Dict': TDict,
+            'Set': Set,
+            'Tuple': Tuple,
+            # Data structures
+            'ListNode': ListNode,
+            'TreeNode': TreeNode,
+            'Node': Node,
         }
+
+        # Store the pre-defined classes so we can detect if user overrides them
+        predefined_ListNode = exec_globals['ListNode']
+        predefined_TreeNode = exec_globals['TreeNode']
+        predefined_Node = exec_globals['Node']
 
         with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
             exec(code, exec_globals)
+
+            # Special handling for Codec class (serialize/deserialize problems)
+            codec_class = exec_globals.get('Codec')
+            if codec_class and 'serialize' in code and 'deserialize' in code:
+                # This is a serialize/deserialize problem
+                # Need to: convert input to tree, serialize, deserialize, convert back to list
+                codec = codec_class()
+
+                # Input is a tree structure - convert to TreeNode
+                tree_input = test_input[0] if isinstance(test_input, list) and len(test_input) == 1 else test_input
+                if isinstance(tree_input, list):
+                    root = _list_to_tree(tree_input, TreeNode)
+                else:
+                    root = tree_input
+
+                # Serialize then deserialize
+                serialized = codec.serialize(root)
+                deserialized = codec.deserialize(serialized)
+
+                # Convert back to list for comparison
+                output = _tree_to_list(deserialized) if deserialized else []
+
+                result['success'] = True
+                result['output'] = output
+                return result
 
             # First, check if there's a Solution class (LeetCode style)
             solution_class = exec_globals.get('Solution')
@@ -217,12 +413,176 @@ def _execute_user_code(code: str, test_input: Any) -> Dict[str, Any]:
                 else:
                     raise ValueError("No callable function or Solution class method found in code")
 
-            if isinstance(test_input, dict):
-                output = solution_func(**test_input)
-            elif isinstance(test_input, (list, tuple)):
-                output = solution_func(*test_input)
+            # Check if this is a linked list problem
+            # Two cases: 1) user redefined ListNode, 2) code references ListNode in the source
+            ListNode = exec_globals.get('ListNode')
+            user_redefined_listnode = ListNode is not None and ListNode is not predefined_ListNode
+            code_uses_listnode = 'ListNode' in code
+            uses_linked_list = user_redefined_listnode or code_uses_listnode
+
+            # Check if this is a tree problem
+            TreeNode = exec_globals.get('TreeNode')
+            user_redefined_treenode = TreeNode is not None and TreeNode is not predefined_TreeNode
+            code_uses_treenode = 'TreeNode' in code
+            uses_tree = user_redefined_treenode or code_uses_treenode
+
+            # Check if this is a graph problem (Clone Graph)
+            code_uses_node = 'Node' in code and 'cloneGraph' in code
+
+            # Prepare input - convert lists to ListNodes/TreeNodes/Nodes if needed
+            processed_input = test_input
+            if code_uses_node and isinstance(test_input, (list, tuple)):
+                # Special handling for cloneGraph - input is adjacency list
+                if len(test_input) == 1 and isinstance(test_input[0], list):
+                    adj_list = test_input[0]
+                    graph_node = _build_graph_from_adjacency_list(adj_list, Node)
+                    processed_input = [graph_node]
+                else:
+                    processed_input = test_input
+            elif uses_linked_list and isinstance(test_input, (list, tuple)):
+                # Set the ListNode class for our conversion functions
+                _list_to_linked_list.ListNode = ListNode
+
+                # Special handling for hasCycle - input format is [list_values, pos]
+                # where pos indicates where tail connects to create cycle
+                if 'hasCycle' in code and len(test_input) == 2 and isinstance(test_input[0], list) and isinstance(test_input[1], int):
+                    head = _list_to_linked_list(test_input[0])
+                    pos = test_input[1]
+
+                    # Create cycle if pos >= 0
+                    if pos >= 0 and head:
+                        # Find the node at position pos
+                        cycle_node = head
+                        for _ in range(pos):
+                            if cycle_node:
+                                cycle_node = cycle_node.next
+
+                        # Find the tail and connect it to cycle_node
+                        tail = head
+                        while tail.next:
+                            tail = tail.next
+                        tail.next = cycle_node
+
+                    processed_input = [head]
+                else:
+                    # Check if this is mergeKLists (list of lists)
+                    is_merge_k = 'mergeKLists' in code
+
+                    # Convert each list in the input to a ListNode
+                    processed_input = []
+                    for item in test_input:
+                        if isinstance(item, list):
+                            if is_merge_k:
+                                # mergeKLists: convert list of lists to list of ListNodes
+                                converted_lists = []
+                                for inner_list in item:
+                                    if inner_list:
+                                        converted_lists.append(_list_to_linked_list(inner_list))
+                                    else:
+                                        converted_lists.append(None)
+                                processed_input.append(converted_lists)
+                            else:
+                                # Regular linked list problem
+                                processed_input.append(_list_to_linked_list(item))
+                        else:
+                            # Keep non-list items as-is (e.g., integers for position)
+                            processed_input.append(item)
+            elif uses_tree and isinstance(test_input, (list, tuple)):
+                # Set the TreeNode class for our conversion functions
+                _list_to_tree.TreeNode = TreeNode
+
+                # Special handling for lowestCommonAncestor - input format is [tree, p_val, q_val]
+                # Need to find actual nodes with those values
+                if 'lowestCommonAncestor' in code and len(test_input) == 3 and isinstance(test_input[0], list):
+                    root = _list_to_tree(test_input[0], TreeNode)
+                    p_val = test_input[1]
+                    q_val = test_input[2]
+
+                    # Find nodes with values p_val and q_val
+                    def find_node(node, val):
+                        if not node:
+                            return None
+                        if node.val == val:
+                            return node
+                        left = find_node(node.left, val)
+                        if left:
+                            return left
+                        return find_node(node.right, val)
+
+                    p_node = find_node(root, p_val)
+                    q_node = find_node(root, q_val)
+
+                    processed_input = [root, p_node, q_node]
+                else:
+                    # Convert each list in the input to a TreeNode
+                    # BUT: only convert if the list represents a tree (contains None or is the first input and looks like tree data)
+                    # Don't convert if it's a list of integers meant to be processed as-is (like preorder/inorder traversals)
+                    processed_input = []
+                    for idx, item in enumerate(test_input):
+                        if isinstance(item, list):
+                            # Check if this looks like a tree representation
+                            looks_like_tree = any(x is None for x in item) if item else True
+
+                            # If it's the first input and we have multiple inputs, it's likely the tree
+                            if idx == 0 and len(test_input) > 1:
+                                looks_like_tree = True
+
+                            # Special case: if there's only one list input, it's definitely a tree
+                            if len(test_input) == 1:
+                                looks_like_tree = True
+
+                            # Exception: if we have exactly 2 list inputs, they're likely preorder/inorder (buildTree)
+                            if len(test_input) == 2 and isinstance(test_input[0], list) and isinstance(test_input[1], list):
+                                looks_like_tree = False
+
+                            if looks_like_tree:
+                                processed_input.append(_list_to_tree(item, TreeNode))
+                            else:
+                                # Keep as regular list (e.g., for buildTree(preorder, inorder))
+                                processed_input.append(item)
+                        else:
+                            # Keep non-list items as-is (e.g., integers for target values)
+                            processed_input.append(item)
+
+            # Debug: show what function we're calling
+            print(f"[DEBUG] Calling solution function: {solution_func}", file=sys.stderr)
+            print(f"[DEBUG] Processed input: {processed_input}", file=sys.stderr)
+
+            # Call the solution function with processed input
+            if isinstance(processed_input, dict):
+                output = solution_func(**processed_input)
+            elif isinstance(processed_input, (list, tuple)):
+                output = solution_func(*processed_input)
             else:
-                output = solution_func(test_input)
+                output = solution_func(processed_input)
+
+            print(f"[DEBUG] Raw output from function: {output}", file=sys.stderr)
+            print(f"[DEBUG] Output type: {type(output)}", file=sys.stderr)
+
+            # Convert ListNode output back to list if needed
+            if uses_linked_list:
+                if output is None:
+                    output = []
+                elif hasattr(output, 'val') and hasattr(output, 'next'):
+                    output = _linked_list_to_list(output)
+
+            # Convert TreeNode output back to list if needed
+            if uses_tree:
+                if hasattr(output, 'val') and hasattr(output, 'left'):
+                    # Special case: lowestCommonAncestor returns a node, but test expects just the value
+                    if 'lowestCommonAncestor' in code:
+                        output = output.val if output else None
+                    else:
+                        output = _tree_to_list(output)
+
+            # Convert Node (graph) output back to adjacency list if needed
+            if code_uses_node:
+                if output is None:
+                    output = []
+                elif hasattr(output, 'val') and hasattr(output, 'neighbors'):
+                    output = _graph_to_adjacency_list(output)
+
+            print(f"[DEBUG] Final output after conversions: {output}", file=sys.stderr)
 
             result['success'] = True
             result['output'] = output

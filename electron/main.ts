@@ -275,17 +275,34 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
     if (submissionType === 'code') {
       console.log('📝 [FEEDBACK] Fetching code submission:', submissionId);
       submission = await dbService.getCodeSubmission(submissionId);
+      console.log('📝 [FEEDBACK] Submission data:', JSON.stringify(submission, null, 2));
       console.log('📝 [FEEDBACK] Fetching leetcode question:', submission.question_id);
       question = await dbService.getLeetCodeQuestionDetails(submission.question_id);
+      console.log('📝 [FEEDBACK] Question data:', question ? 'Retrieved' : 'NULL');
+      if (!question) {
+        console.error('❌ [FEEDBACK] Question not found for question_id:', submission.question_id);
+      }
     } else {
       console.log('📝 [FEEDBACK] Fetching design submission:', submissionId);
       submission = await dbService.getDesignSubmission(submissionId);
+      console.log('📝 [FEEDBACK] Submission data:', JSON.stringify(submission, null, 2));
       console.log('📝 [FEEDBACK] Fetching ML design question:', submission.question_id);
       question = await dbService.getMLDesignQuestionDetails(submission.question_id);
+      console.log('📝 [FEEDBACK] Question data:', question ? 'Retrieved' : 'NULL');
+      if (!question) {
+        console.error('❌ [FEEDBACK] Question not found for question_id:', submission.question_id);
+      }
     }
     console.log('✓ [FEEDBACK] Retrieved submission and question data');
   } catch (error: any) {
     console.error('❌ [FEEDBACK] Error retrieving submission/question:', error.message);
+    throw error;
+  }
+
+  // Validate that we have the required data
+  if (!question) {
+    const error = new Error(`Question not found for question_id: ${submission.question_id}. The question may not exist in the database.`);
+    console.error('❌ [FEEDBACK]', error.message);
     throw error;
   }
 
