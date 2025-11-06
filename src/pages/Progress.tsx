@@ -483,13 +483,14 @@ export default function Progress() {
         onConfirm={handleResetProgress}
         title="Reset Progress"
         message="Are you sure you want to reset all your progress? This will delete all your:
-        
+
 • Progress data (attempts, solved status)
 • Code submissions
 • Design submissions
+• AI feedback
 • Mock interviews
 
-This action cannot be undone. Your feedback will be preserved."
+This action cannot be undone."
         confirmText={isResetting ? "Resetting..." : "Reset Progress"}
         cancelText="Cancel"
         variant="danger"

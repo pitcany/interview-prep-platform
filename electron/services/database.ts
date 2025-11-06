@@ -429,8 +429,8 @@ export class DatabaseService {
       // Delete all design submissions
       this.db.prepare('DELETE FROM design_submissions WHERE user_id = ?').run(userId);
       
-      // Delete all feedback (optional - you might want to keep feedback)
-      // this.db.prepare('DELETE FROM feedback WHERE user_id = ?').run(userId);
+      // Delete all feedback
+      this.db.prepare('DELETE FROM feedback WHERE user_id = ?').run(userId);
       
       // Delete mock interviews
       this.db.prepare('DELETE FROM mock_interviews WHERE user_id = ?').run(userId);
