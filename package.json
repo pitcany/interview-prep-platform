@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "postinstall": "electron-rebuild",
+    "postinstall": "echo skip electron-rebuild in CI",
     "start": "npm run dev",
     "dev": "concurrently \"npm run dev:react\" \"npm run dev:electron:build\" \"npm run dev:electron\"",
     "dev:react": "vite",
