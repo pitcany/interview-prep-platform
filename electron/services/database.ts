@@ -139,9 +139,14 @@ export class DatabaseService {
 
   getLeetCodeQuestionDetails(questionId: number) {
     const result: any = this.db.prepare(`
-      SELECT 
+      SELECT
         lq.*,
-        q.hints
+        q.title,
+        q.description,
+        q.difficulty,
+        q.hints,
+        q.examples,
+        q.tags
       FROM leetcode_questions lq
       JOIN questions q ON lq.question_id = q.id
       WHERE lq.question_id = ?

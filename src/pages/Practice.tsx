@@ -123,7 +123,28 @@ export default function Practice() {
   };
 
   const handleSubmit = async () => {
-    if (!currentUser || !selectedQuestion || !questionDetails) return;
+    // Diagnostic logging
+    console.log('handleSubmit called', {
+      currentUser: !!currentUser,
+      selectedQuestion: !!selectedQuestion,
+      questionDetails: !!questionDetails,
+    });
+
+    if (!currentUser) {
+      console.error('Submit failed: No current user');
+      showToast('Please log in first', 'error');
+      return;
+    }
+    if (!selectedQuestion) {
+      console.error('Submit failed: No question selected');
+      showToast('Please select a question first', 'error');
+      return;
+    }
+    if (!questionDetails) {
+      console.error('Submit failed: Question details not loaded');
+      showToast('Question details are still loading. Please wait and try again.', 'error');
+      return;
+    }
 
     setIsSubmitting(true);
     try {
