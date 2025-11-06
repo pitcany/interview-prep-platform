@@ -129,7 +129,32 @@ npm install
 - If `node_modules` was copied from another location
 
 **Prevention:**
-The `postinstall` script in package.json automatically runs `electron-rebuild` after `npm install`, but manual rebuild may be needed in worktrees or when dependencies are cached.
+The `postinstall` script in package.json automatically runs `electron-rebuild` and copies database files after `npm install`, but manual rebuild may be needed in worktrees or when dependencies are cached.
+
+### Setting up a new git worktree
+
+**When this happens:**
+- After creating a new git worktree
+- When `node_modules` is empty or incomplete
+- When `dist/` directory doesn't exist
+
+**Complete Setup Process:**
+```bash
+# 1. Install all dependencies (also runs electron-rebuild and copies database files)
+npm install
+
+# 2. Build Electron TypeScript code
+npm run build:electron
+
+# 3. Start the application
+npm start
+```
+
+**Note:** The `postinstall` script automatically:
+- Rebuilds native modules for Electron (`electron-rebuild`)
+- Copies database SQL files to `dist/database/` (`npm run copy:database`)
+
+This ensures worktrees are ready to run immediately after `npm install` and `npm run build:electron`.
 
 ### Port 5173 already in use
 
