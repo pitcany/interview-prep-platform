@@ -130,8 +130,12 @@ export class CodeExecutorService {
       });
       console.log('Spawning Python process with input data length:', inputData.length);
 
-      const pythonProcess = spawn('python3', [testRunnerPath, inputData]);
+      const pythonProcess = spawn('python3', [testRunnerPath]);
       console.log('Python process spawned with PID:', pythonProcess.pid);
+
+      // Write input data to stdin instead of command line args to avoid size limits
+      pythonProcess.stdin.write(inputData);
+      pythonProcess.stdin.end();
 
       let stdout = '';
       let stderr = '';

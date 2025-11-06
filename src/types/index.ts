@@ -210,18 +210,94 @@ export interface TimerState {
 export interface AppStore {
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
-  
+
   preferences: UserPreferences;
   updatePreferences: (prefs: Partial<UserPreferences>) => void;
-  
+
   currentQuestion: Question | null;
   setCurrentQuestion: (question: Question | null) => void;
-  
+
   mockInterview: MockInterview | null;
   setMockInterview: (interview: MockInterview | null) => void;
-  
+
   timerState: TimerState;
   startTimer: (duration: number) => void;
   pauseTimer: () => void;
   resetTimer: () => void;
+}
+
+// Electron API interface (exposed via preload script)
+export interface ElectronAPI {
+  // User Management
+  createUser: (userData: {
+    username: string;
+    email: string;
+    preferredLanguage?: string;
+  }) => Promise<User>;
+  loginUser: (username: string) => Promise<User>;
+  getAllUsers: () => Promise<User[]>;
+  deleteUser: (userId: number) => Promise<{ success: boolean; deletedId: number }>;
+  updateUserPreferences: (userId: number, preferences: UserPreferences) => Promise<void>;
+
+  // Questions
+  getQuestions: (category?: string, difficulty?: string) => Promise<Question[]>;
+  getQuestionById: (questionId: number) => Promise<Question>;
+  getLeetCodeDetails: (questionId: number) => Promise<LeetCodeQuestion>;
+  getMLDesignDetails: (questionId: number) => Promise<MLDesignQuestion>;
+  getQuestionHints: (questionId: number) => Promise<string[]>;
+
+  // Code Execution
+  executeCode: (executionData: {
+    code: string;
+    language: string;
+    testCases: TestCase[];
+    questionId: number;
+  }) => Promise<ExecutionResult>;
+  submitCode: (submissionData: {
+    userId: number;
+    questionId: number;
+    code: string;
+    language: string;
+    customTestCases: TestCase[];
+  }) => Promise<{ submission: CodeSubmission; executionResult: ExecutionResult }>;
+
+  // Design Submissions
+  submitDesign: (submissionData: {
+    userId: number;
+    questionId: number;
+    diagramData: any;
+    writtenExplanation: string;
+    timeSpent: number;
+  }) => Promise<DesignSubmission>;
+
+  // Mock Interviews
+  startMockInterview: (mockData: {
+    userId: number;
+    interviewType: string;
+  }) => Promise<MockInterview>;
+  completeMockInterview: (mockId: number) => Promise<MockInterview>;
+  getMockInterviewQuestions: (mockId: number) => Promise<MockInterviewQuestion[]>;
+  addQuestionToMock: (mockId: number, questionId: number, orderIndex: number) => Promise<void>;
+
+  // Feedback
+  generateFeedback: (feedbackData: {
+    userId: number;
+    submissionId: number;
+    submissionType: 'code' | 'design';
+    mockInterviewId?: number;
+  }) => Promise<Feedback>;
+
+  // Progress & Analytics
+  getUserProgress: (userId: number) => Promise<UserProgress[]>;
+  getUserStats: (userId: number) => Promise<UserStats>;
+  getSubmissionHistory: (userId: number, limit?: number) => Promise<(CodeSubmission | DesignSubmission)[]>;
+  getUserFeedback: (userId: number, limit?: number) => Promise<Feedback[]>;
+  resetUserProgress: (userId: number) => Promise<{ success: boolean }>;
+}
+
+// Global type augmentation for window.electronAPI
+declare global {
+  interface Window {
+    electronAPI: ElectronAPI;
+  }
 }

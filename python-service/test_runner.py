@@ -152,13 +152,18 @@ class TestRunner:
 
 def main():
     """CLI interface for test runner."""
-    if len(sys.argv) < 2:
-        print("Usage: test_runner.py <input_json>")
-        sys.exit(1)
-
     try:
-        # Parse input
-        input_data = json.loads(sys.argv[1])
+        # Parse input from stdin (avoids command line arg size limits)
+        input_json = sys.stdin.read()
+        if not input_json:
+            print(json.dumps({
+                'status': 'error',
+                'error_message': 'No input provided on stdin',
+                'test_results': []
+            }))
+            sys.exit(1)
+
+        input_data = json.loads(input_json)
         code = input_data.get('code', '')
         test_cases = input_data.get('testCases', [])
         language = input_data.get('language', 'python')
