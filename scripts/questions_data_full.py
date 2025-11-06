@@ -1428,7 +1428,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                      '\n'
                      '        # Step 2: Reverse each row\n'
                      '        for row in matrix:\n'
-                     '            row.reverse()\n',
+                     '            row.reverse()\n'
+                     '\n'
+                     '        return matrix\n',
   'space_complexity': 'O(1)',
   'tags': ['array', 'matrix'],
   'test_cases': [{'expectedOutput': [[7, 4, 1], [8, 5, 2], [9, 6, 3]], 'input': [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]]},
@@ -1499,7 +1501,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                      '        # Handle first row second (will overwrite matrix[0][0] if needed)\n'
                      '        if first_row_has_zero:\n'
                      '            for j in range(n):\n'
-                     '                matrix[0][j] = 0\n',
+                     '                matrix[0][j] = 0\n'
+                     '\n'
+                     '        return matrix\n',
   'space_complexity': 'O(1)',
   'tags': ['array', 'matrix', 'hash-table'],
   'test_cases': [{'expectedOutput': [[1, 0, 1], [0, 0, 0], [1, 0, 1]], 'input': [[[1, 1, 1], [1, 0, 1], [1, 1, 1]]]},

@@ -32,6 +32,12 @@ class TestRunner:
         Returns:
             Complete test results with pass/fail status
         """
+        # Debug logging
+        print(f"[DEBUG] test_runner.run_tests called", file=sys.stderr)
+        print(f"[DEBUG] Code length: {len(code)} chars", file=sys.stderr)
+        print(f"[DEBUG] First 200 chars of code: {code[:200]}", file=sys.stderr)
+        print(f"[DEBUG] Number of test cases: {len(test_cases)}", file=sys.stderr)
+
         results = {
             'status': 'passed',
             'test_results': [],

@@ -1761,6 +1761,8 @@ class Solution:
         # Step 2: Reverse each row
         for row in matrix:
             row.reverse()
+
+        return matrix
 ',
 '// Solution for Rotate Image
 class Solution {
@@ -1864,6 +1866,8 @@ class Solution:
         if first_row_has_zero:
             for j in range(n):
                 matrix[0][j] = 0
+
+        return matrix
 ',
 '// Solution for Set Matrix Zeroes
 class Solution {

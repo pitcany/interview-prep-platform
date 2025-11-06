@@ -354,6 +354,43 @@ export class CodeExecutorService {
         return `
 import json
 import sys
+from typing import List, Optional, Dict, Set, Tuple
+
+# Define common data structures used in LeetCode problems
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Node:
+    def __init__(self, val=0, neighbors=None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+
+def _list_to_linked_list(values):
+    """Convert a Python list to a ListNode linked list."""
+    if not values:
+        return None
+    head = ListNode(values[0])
+    current = head
+    for val in values[1:]:
+        current.next = ListNode(val)
+        current = current.next
+    return head
+
+def _linked_list_to_list(node):
+    """Convert a ListNode linked list to a Python list."""
+    result = []
+    while node is not None:
+        result.append(node.val)
+        node = node.next
+    return result
 
 ${code}
 
@@ -363,30 +400,51 @@ test_input = json.loads('${inputStr.replace(/'/g, "\\'")}')
 # Execute the solution
 try:
     sol = Solution()
-    
+
     # First, get all available methods from Solution class
     all_methods = [m for m in dir(sol) if not m.startswith('_') and callable(getattr(sol, m))]
-    
+
     if not all_methods:
         raise AttributeError("Solution class has no callable methods")
-    
+
     # Try to use extracted method name if it exists and is available
     method_name = None
     extracted_method = '${methodName}'
     if extracted_method and extracted_method != '' and extracted_method != 'solve' and extracted_method in all_methods:
         method_name = extracted_method
-    
+
     # If extracted method doesn't exist or is 'solve', use the first available method
     if not method_name:
         method_name = all_methods[0]
-    
+
+    # Check if this is a linked list problem
+    code_uses_listnode = 'ListNode' in """${code.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"""
+
+    # Prepare input - convert lists to ListNodes if needed
+    processed_input = test_input
+    if code_uses_listnode and isinstance(test_input, list):
+        # Convert each list in the input to a ListNode
+        processed_input = []
+        for item in test_input:
+            if isinstance(item, list):
+                processed_input.append(_list_to_linked_list(item))
+            else:
+                processed_input.append(item)
+
     # Call the method
     method = getattr(sol, method_name)
-    if isinstance(test_input, list) and len(test_input) > 0:
-        result = method(*test_input)
+    if isinstance(processed_input, list) and len(processed_input) > 0:
+        result = method(*processed_input)
     else:
-        result = method(test_input)
-    
+        result = method(processed_input)
+
+    # Convert ListNode output back to list if needed
+    if code_uses_listnode:
+        if result is None:
+            result = []
+        elif hasattr(result, 'val') and hasattr(result, 'next'):
+            result = _linked_list_to_list(result)
+
     print(json.dumps(result))
 except AttributeError as e:
     error_msg = str(e)
