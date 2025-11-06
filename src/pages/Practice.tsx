@@ -586,6 +586,17 @@ export default function Practice() {
                   </div>
 
                   <div className="h-80 border-t border-gray-700 bg-gray-900 flex flex-col">
+                  {/* ML SD Coverage Panel */}
+                  {mlDesignDetails && (
+                    <div className="border-t border-gray-700">
+                      {/* @ts-ignore - lightweight panel */}
+                      <CoveragePanel
+                        expectedComponents={mlDesignDetails.key_components || []}
+                        diagram={{ nodes: diagramData.nodes as any, edges: diagramData.edges as any }}
+                      />
+                    </div>
+                  )}
+
                     <div className="px-4 py-2 bg-gray-800 border-b border-gray-700 flex items-center gap-2">
                       <FileText size={18} className="text-gray-400" />
                       <span className="text-sm font-medium text-white">Written Explanation</span>
