@@ -24,6 +24,17 @@ export default {
         'slide-in': 'slide-in 0.3s ease-out',
       },
     },
+  safelist: [
+    // Ensure dynamic and custom classes are preserved
+    'bg-gray-750',
+    'hover:bg-gray-750',
+    'text-blue-500', 'bg-blue-500/10', 'bg-blue-600/20', 'text-blue-400',
+    'text-purple-500', 'bg-purple-600', 'hover:bg-purple-700',
+    'text-green-500', 'bg-green-500/20',
+    'text-yellow-500', 'bg-yellow-500/20', 'bg-yellow-600', 'hover:bg-yellow-700',
+    'text-red-500', 'bg-red-500/20', 'bg-red-600', 'hover:bg-red-700'
+  ],
+
   },
   plugins: [],
   darkMode: 'class',
