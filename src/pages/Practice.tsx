@@ -11,6 +11,8 @@ import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
 import { Play, Send, Sparkles, Loader2, ChevronLeft, FileText, Lightbulb } from 'lucide-react';
 import type { Question, LeetCodeQuestion, MLDesignQuestion, TestCase, ExecutionResult, DiagramData } from '../types';
+import { CoveragePanel } from '../components/MLEvaluator/CoveragePanel';
+import { RubricPanel } from '../components/MLEvaluator/RubricPanel';
 
 export default function Practice() {
   const { category = 'leetcode' } = useParams<{ category?: 'leetcode' | 'ml_system_design' }>();
@@ -123,63 +125,40 @@ export default function Practice() {
   };
 
   const handleSubmit = async () => {
-    // Diagnostic logging
-    console.log('handleSubmit called', {
-      currentUser: !!currentUser,
-      selectedQuestion: !!selectedQuestion,
-      questionDetails: !!questionDetails,
-    });
-
     if (!currentUser) {
-      console.error('Submit failed: No current user');
       showToast('Please log in first', 'error');
       return;
     }
     if (!selectedQuestion) {
-      console.error('Submit failed: No question selected');
       showToast('Please select a question first', 'error');
       return;
     }
     if (!questionDetails) {
-      console.error('Submit failed: Question details not loaded');
       showToast('Question details are still loading. Please wait and try again.', 'error');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      // Always use test cases from question details for submission
-      // This ensures we always have the official test cases even if state is empty
       let visibleTestCases: TestCase[] = [];
-      
       if (questionDetails.test_cases) {
         try {
           visibleTestCases = JSON.parse(questionDetails.test_cases);
         } catch (e) {
-          console.error('Failed to parse test cases from question:', e);
-          // Fallback to state test cases if parsing fails
           visibleTestCases = testCases;
         }
       } else {
-        // Fallback to state test cases if question doesn't have test cases
         visibleTestCases = testCases;
       }
 
-      // Parse hidden test cases if available
       let hiddenTestCases: TestCase[] = [];
       if (questionDetails.hidden_test_cases) {
         try {
           hiddenTestCases = JSON.parse(questionDetails.hidden_test_cases);
-        } catch (e) {
-          console.error('Failed to parse hidden test cases from question:', e);
-        }
+        } catch (e) {}
       }
 
-      // Combine visible and hidden test cases for submission
-      // Hidden test cases are run but results are only shown as pass/fail
       const allTestCases = [...visibleTestCases, ...hiddenTestCases];
-
-      // Ensure we have test cases to run
       if (allTestCases.length === 0) {
         throw new Error('No test cases available for this question');
       }
@@ -194,25 +173,19 @@ export default function Practice() {
 
       setResults(result.executionResult);
 
-      // Generate feedback if all tests passed
       if (result.executionResult.status === 'passed') {
         try {
-          console.log('[PRACTICE] Requesting AI feedback for submission:', result.submission.id);
           await api.generateFeedback({
             userId: currentUser.id,
             submissionId: result.submission.id,
             submissionType: 'code',
           });
-          console.log('[PRACTICE] AI feedback generated successfully');
           showToast('AI feedback generated! Check the Progress page to view it.', 'success');
         } catch (feedbackError: any) {
-          console.error('[PRACTICE] Feedback generation failed:', feedbackError);
           showToast(`AI feedback unavailable: ${feedbackError.message || 'Unknown error'}`, 'warning');
-          // Don't fail the submission even if feedback fails
         }
       }
     } catch (error: any) {
-      console.error('Failed to submit code:', error);
       setResults({
         status: 'error',
         testResults: [],
@@ -249,7 +222,6 @@ export default function Practice() {
         timeSpent,
       });
 
-      // Generate AI feedback
       await api.generateFeedback({
         userId: currentUser.id,
         submissionId: submission.id,
@@ -257,13 +229,10 @@ export default function Practice() {
       });
 
       showToast('Design submitted successfully! Check the Progress page for feedback.', 'success');
-      
-      // Delay navigation to allow toast to be visible
       setTimeout(() => {
         navigate('/progress');
       }, 1500);
     } catch (error: any) {
-      console.error('Failed to submit design:', error);
       showToast('Failed to submit design: ' + error.message, 'error');
     } finally {
       setIsSubmitting(false);
@@ -286,29 +255,6 @@ export default function Practice() {
     if (confirm('Are you sure you want to reset your code to the template?')) {
       setCode(originalCode);
       setResults(null);
-    }
-  };
-
-  const handleGetHint = async () => {
-    if (!selectedQuestion) return;
-
-    // If no hints are available, show a message
-    if (hintsLoaded && hints.length === 0) {
-      showToast('No hints available for this question', 'info');
-      return;
-    }
-
-    // If we haven't loaded hints yet, try to get them from question details
-    if (!hintsLoaded && questionDetails?.hints) {
-      setHints(questionDetails.hints);
-      setHintsLoaded(true);
-    }
-
-    // Reveal the next hint
-    if (revealedHints < hints.length) {
-      setRevealedHints(revealedHints + 1);
-    } else if (hints.length > 0) {
-      showToast('All hints have been revealed', 'info');
     }
   };
 
@@ -391,7 +337,9 @@ export default function Practice() {
             <div className="flex items-center gap-3">
               {selectedQuestion && (category === 'leetcode' || category === 'ml_system_design') && (
                 <button
-                  onClick={handleGetHint}
+                  onClick={() => {
+                    setRevealedHints(Math.min(revealedHints + 1, hints.length));
+                  }}
                   disabled={hintsLoaded && (hints.length === 0 || revealedHints >= hints.length)}
                   className="px-3 py-1.5 text-sm bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center gap-2"
                   title={
@@ -600,6 +548,22 @@ export default function Practice() {
                       className="flex-1 bg-gray-900 text-gray-300 px-4 py-3 resize-none focus:outline-none font-mono text-sm"
                     />
                   </div>
+
+                  {/* ML SD Coverage Panel */}
+                  {mlDesignDetails && (
+                    <div className="border-t border-gray-700">
+                      <CoveragePanel
+                        expectedComponents={mlDesignDetails.key_components || []}
+                        diagram={{ nodes: diagramData.nodes as any, edges: diagramData.edges as any }}
+                      />
+                      <RubricPanel
+                        expectedComponents={mlDesignDetails.key_components || []}
+                        requirements={mlDesignDetails.requirements || []}
+                        diagram={{ nodes: diagramData.nodes as any, edges: diagramData.edges as any }}
+                        explanation={explanation}
+                      />
+                    </div>
+                  )}
 
                   {/* Solution Viewer for ML Design */}
                   <SolutionViewer

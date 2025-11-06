@@ -144,6 +144,7 @@ export default function DiagramEditor({
   );
 
   const addNode = (type: string) => {
+    const labelText = nodeTypes[type as keyof typeof nodeTypes] || 'Component';
     const newNode: Node = {
       id: `node_${nodeCounter}`,
       type: 'default',
@@ -155,9 +156,11 @@ export default function DiagramEditor({
         label: (
           <div>
             <NodeIcon type={type} />
-            {nodeTypes[type as keyof typeof nodeTypes]}
+            {labelText}
           </div>
         ),
+        typeKey: type,
+        labelText,
       },
       style: getNodeStyle(type),
     };
@@ -277,6 +280,7 @@ export default function DiagramEditor({
           nodesDraggable={!readOnly}
           nodesConnectable={!readOnly}
           elementsSelectable={!readOnly}
+          data-testid="ml-diagram-canvas"
         >
           <Background variant={BackgroundVariant.Dots} gap={16} size={1} color="#374151" />
           <Controls />

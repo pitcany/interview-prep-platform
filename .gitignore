@@ -70,3 +70,7 @@ Desktop.ini
 
 # Electron
 *.asar
+-e 
+# Environment files
+*.env
+*.env.*

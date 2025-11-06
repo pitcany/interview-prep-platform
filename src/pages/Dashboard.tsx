@@ -135,7 +135,7 @@ export default function Dashboard() {
               <button
                 key={action.path}
                 onClick={() => navigate(action.path)}
-                className="bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-lg p-6 text-left transition-colors"
+                className="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg p-6 text-left transition-colors"
               >
                 <div
                   className={`w-12 h-12 rounded-lg bg-${action.color}-500/10 flex items-center justify-center mb-4`}
