@@ -5,2042 +5,4415 @@ Distribution: 8 Easy, 35 Medium, 8 Hard LeetCode questions (51 total, filter to 
 """
 
 # 40 LeetCode Questions - Real problems with complete details
-LEETCODE_QUESTIONS = [
-    # ============ EASY (8 questions) ============
-    {
-        "title": "Two Sum",
-        "leetcode_url": "https://leetcode.com/problems/two-sum/",
-        "difficulty": "easy",
-        "description": """Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
-
-You can return the answer in any order.""",
-        "constraints": ["2 <= nums.length <= 10^4", "-10^9 <= nums[i] <= 10^9", "-10^9 <= target <= 10^9", "Only one valid answer exists"],
-        "examples": [
-            {"input": {"nums": [2,7,11,15], "target": 9}, "output": [0,1], "explanation": "Because nums[0] + nums[1] == 9, we return [0, 1]."},
-            {"input": {"nums": [3,2,4], "target": 6}, "output": [1,2], "explanation": "Because nums[1] + nums[2] == 6, we return [1, 2]."}
-        ],
-        "tags": ["array", "hash-table"],
-        "test_cases": [
-            {"input": [[2,7,11,15], 9], "expectedOutput": [0,1]},
-            {"input": [[3,2,4], 6], "expectedOutput": [1,2]},
-            {"input": [[3,3], 6], "expectedOutput": [0,1]}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        pass",
-        "java_sig": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};"
-    },
-    {
-        "title": "Valid Parentheses",
-        "leetcode_url": "https://leetcode.com/problems/valid-parentheses/",
-        "difficulty": "easy",
-        "description": """Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
-
-An input string is valid if:
-1. Open brackets must be closed by the same type of brackets.
-2. Open brackets must be closed in the correct order.
-3. Every close bracket has a corresponding open bracket of the same type.""",
-        "constraints": ["1 <= s.length <= 10^4", "s consists of parentheses only '()[]{}'"],
-        "examples": [
-            {"input": {"s": "()"}, "output": True, "explanation": "The string is valid."},
-            {"input": {"s": "()[]{}"}, "output": True, "explanation": "All brackets are properly closed."},
-            {"input": {"s": "(]"}, "output": False, "explanation": "Mismatched brackets."}
-        ],
-        "tags": ["string", "stack"],
-        "test_cases": [
-            {"input": ["()"], "expectedOutput": True},
-            {"input": ["()[]{}"], "expectedOutput": True},
-            {"input": ["(]"], "expectedOutput": False},
-            {"input": ["([)]"], "expectedOutput": False}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def isValid(self, s: str) -> bool:\n        pass",
-        "java_sig": "class Solution {\n    public boolean isValid(String s) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    bool isValid(string s) {\n        \n    }\n};"
-    },
-    {
-        "title": "Merge Two Sorted Lists",
-        "leetcode_url": "https://leetcode.com/problems/merge-two-sorted-lists/",
-        "difficulty": "easy",
-        "description": """You are given the heads of two sorted linked lists list1 and list2.
-
-Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
-
-Return the head of the merged linked list.""",
-        "constraints": ["The number of nodes in both lists is in the range [0, 50]", "-100 <= Node.val <= 100", "Both list1 and list2 are sorted in non-decreasing order"],
-        "examples": [
-            {"input": {"list1": [1,2,4], "list2": [1,3,4]}, "output": [1,1,2,3,4,4], "explanation": "Merge both sorted lists."},
-            {"input": {"list1": [], "list2": []}, "output": [], "explanation": "Both lists are empty."}
-        ],
-        "tags": ["linked-list", "recursion"],
-        "test_cases": [
-            {"input": [[1,2,4], [1,3,4]], "expectedOutput": [1,1,2,3,4,4]},
-            {"input": [[], []], "expectedOutput": []},
-            {"input": [[], [0]], "expectedOutput": [0]}
-        ],
-        "time_complexity": "O(n+m)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:\n        pass",
-        "java_sig": "class Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n        \n    }\n};"
-    },
-    {
-        "title": "Best Time to Buy and Sell Stock",
-        "leetcode_url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
-        "difficulty": "easy",
-        "description": """You are given an array prices where prices[i] is the price of a given stock on the ith day.
-
-You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
-
-Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.""",
-        "constraints": ["1 <= prices.length <= 10^5", "0 <= prices[i] <= 10^4"],
-        "examples": [
-            {"input": {"prices": [7,1,5,3,6,4]}, "output": 5, "explanation": "Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5."},
-            {"input": {"prices": [7,6,4,3,1]}, "output": 0, "explanation": "In this case, no transactions are done and the max profit = 0."}
-        ],
-        "tags": ["array", "dynamic-programming"],
-        "test_cases": [
-            {"input": [[7,1,5,3,6,4]], "expectedOutput": 5},
-            {"input": [[7,6,4,3,1]], "expectedOutput": 0}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int maxProfit(int[] prices) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        \n    }\n};"
-    },
-    {
-        "title": "Valid Palindrome",
-        "leetcode_url": "https://leetcode.com/problems/valid-palindrome/",
-        "difficulty": "easy",
-        "description": """A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
-
-Given a string s, return true if it is a palindrome, or false otherwise.""",
-        "constraints": ["1 <= s.length <= 2 * 10^5", "s consists only of printable ASCII characters"],
-        "examples": [
-            {"input": {"s": "A man, a plan, a canal: Panama"}, "output": True, "explanation": "After cleaning: amanaplanacanalpanama which is a palindrome."},
-            {"input": {"s": "race a car"}, "output": False, "explanation": "After cleaning: raceacar which is not a palindrome."}
-        ],
-        "tags": ["two-pointers", "string"],
-        "test_cases": [
-            {"input": ["A man, a plan, a canal: Panama"], "expectedOutput": True},
-            {"input": ["race a car"], "expectedOutput": False},
-            {"input": [" "], "expectedOutput": True}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        pass",
-        "java_sig": "class Solution {\n    public boolean isPalindrome(String s) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    bool isPalindrome(string s) {\n        \n    }\n};"
-    },
-    {
-        "title": "Climbing Stairs",
-        "leetcode_url": "https://leetcode.com/problems/climbing-stairs/",
-        "difficulty": "easy",
-        "description": """You are climbing a staircase. It takes n steps to reach the top.
-
-Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?""",
-        "constraints": ["1 <= n <= 45"],
-        "examples": [
-            {"input": {"n": 2}, "output": 2, "explanation": "There are two ways: 1. 1 step + 1 step, 2. 2 steps"},
-            {"input": {"n": 3}, "output": 3, "explanation": "There are three ways: 1. 1+1+1, 2. 1+2, 3. 2+1"}
-        ],
-        "tags": ["dynamic-programming", "math"],
-        "test_cases": [
-            {"input": [2], "expectedOutput": 2},
-            {"input": [3], "expectedOutput": 3},
-            {"input": [4], "expectedOutput": 5}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def climbStairs(self, n: int) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int climbStairs(int n) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int climbStairs(int n) {\n        \n    }\n};"
-    },
-    {
-        "title": "Binary Tree Inorder Traversal",
-        "leetcode_url": "https://leetcode.com/problems/binary-tree-inorder-traversal/",
-        "difficulty": "easy",
-        "description": """Given the root of a binary tree, return the inorder traversal of its nodes' values.
-
-Inorder traversal: Left -> Root -> Right""",
-        "constraints": ["The number of nodes in the tree is in the range [0, 100]", "-100 <= Node.val <= 100"],
-        "examples": [
-            {"input": {"root": [1,None,2,3]}, "output": [1,3,2], "explanation": "Inorder traversal of the tree."},
-            {"input": {"root": []}, "output": [], "explanation": "Empty tree."}
-        ],
-        "tags": ["tree", "depth-first-search", "stack"],
-        "test_cases": [
-            {"input": [[1,None,2,3]], "expectedOutput": [1,3,2]},
-            {"input": [[]], "expectedOutput": []},
-            {"input": [[1]], "expectedOutput": [1]}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        pass",
-        "java_sig": "class Solution {\n    public List<Integer> inorderTraversal(TreeNode root) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<int> inorderTraversal(TreeNode* root) {\n        \n    }\n};"
-    },
-    {
-        "title": "Linked List Cycle",
-        "leetcode_url": "https://leetcode.com/problems/linked-list-cycle/",
-        "difficulty": "easy",
-        "description": """Given head, the head of a linked list, determine if the linked list has a cycle in it.
-
-There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer.""",
-        "constraints": ["The number of the nodes in the list is in the range [0, 10^4]", "-10^5 <= Node.val <= 10^5", "pos is -1 or a valid index in the linked-list"],
-        "examples": [
-            {"input": {"head": [3,2,0,-4], "pos": 1}, "output": True, "explanation": "There is a cycle where the tail connects to the 1st node."},
-            {"input": {"head": [1], "pos": -1}, "output": False, "explanation": "There is no cycle in the linked list."}
-        ],
-        "tags": ["linked-list", "two-pointers", "hash-table"],
-        "test_cases": [
-            {"input": [[3,2,0,-4], 1], "expectedOutput": True},
-            {"input": [[1,2], 0], "expectedOutput": True},
-            {"input": [[1], -1], "expectedOutput": False}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        pass",
-        "java_sig": "class Solution {\n    public boolean hasCycle(ListNode head) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        \n    }\n};"
-    },
-    
-    # ============ MEDIUM (25 questions) ============
-    {
-        "title": "Longest Substring Without Repeating Characters",
-        "leetcode_url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
-        "difficulty": "medium",
-        "description": """Given a string s, find the length of the longest substring without repeating characters.""",
-        "constraints": ["0 <= s.length <= 5 * 10^4", "s consists of English letters, digits, symbols and spaces"],
-        "examples": [
-            {"input": {"s": "abcabcbb"}, "output": 3, "explanation": "The answer is 'abc', with the length of 3."},
-            {"input": {"s": "bbbbb"}, "output": 1, "explanation": "The answer is 'b', with the length of 1."}
-        ],
-        "tags": ["string", "sliding-window", "hash-table"],
-        "test_cases": [
-            {"input": ["abcabcbb"], "expectedOutput": 3},
-            {"input": ["bbbbb"], "expectedOutput": 1},
-            {"input": ["pwwkew"], "expectedOutput": 3}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(min(m,n))",
-        "python_sig": "class Solution:\n    def lengthOfLongestSubstring(self, s: str) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int lengthOfLongestSubstring(String s) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int lengthOfLongestSubstring(string s) {\n        \n    }\n};"
-    },
-    {
-        "title": "Add Two Numbers",
-        "leetcode_url": "https://leetcode.com/problems/add-two-numbers/",
-        "difficulty": "medium",
-        "description": """You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
-
-You may assume the two numbers do not contain any leading zero, except the number 0 itself.""",
-        "constraints": ["The number of nodes in each linked list is in the range [1, 100]", "0 <= Node.val <= 9", "It is guaranteed that the list represents a number that does not have leading zeros"],
-        "examples": [
-            {"input": {"l1": [2,4,3], "l2": [5,6,4]}, "output": [7,0,8], "explanation": "342 + 465 = 807."},
-            {"input": {"l1": [0], "l2": [0]}, "output": [0], "explanation": "0 + 0 = 0."}
-        ],
-        "tags": ["linked-list", "math", "recursion"],
-        "test_cases": [
-            {"input": [[2,4,3], [5,6,4]], "expectedOutput": [7,0,8]},
-            {"input": [[0], [0]], "expectedOutput": [0]},
-            {"input": [[9,9,9], [9,9,9,9]], "expectedOutput": [8,9,9,0,1]}
-        ],
-        "time_complexity": "O(max(m,n))",
-        "space_complexity": "O(max(m,n))",
-        "python_sig": "class Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        pass",
-        "java_sig": "class Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        \n    }\n};"
-    },
-    {
-        "title": "Container With Most Water",
-        "leetcode_url": "https://leetcode.com/problems/container-with-most-water/",
-        "difficulty": "medium",
-        "description": """You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
-
-Find two lines that together with the x-axis form a container, such that the container contains the most water.
-
-Return the maximum amount of water a container can store.""",
-        "constraints": ["n == height.length", "2 <= n <= 10^5", "0 <= height[i] <= 10^4"],
-        "examples": [
-            {"input": {"height": [1,8,6,2,5,4,8,3,7]}, "output": 49, "explanation": "The max area is between index 1 (height 8) and index 8 (height 7)."}
-        ],
-        "tags": ["array", "two-pointers", "greedy"],
-        "test_cases": [
-            {"input": [[1,8,6,2,5,4,8,3,7]], "expectedOutput": 49},
-            {"input": [[1,1]], "expectedOutput": 1},
-            {"input": [[4,3,2,1,4]], "expectedOutput": 16}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def maxArea(self, height: List[int]) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int maxArea(int[] height) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int maxArea(vector<int>& height) {\n        \n    }\n};"
-    },
-    {
-        "title": "3Sum",
-        "leetcode_url": "https://leetcode.com/problems/3sum/",
-        "difficulty": "medium",
-        "description": """Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
-
-Notice that the solution set must not contain duplicate triplets.""",
-        "constraints": ["3 <= nums.length <= 3000", "-10^5 <= nums[i] <= 10^5"],
-        "examples": [
-            {"input": {"nums": [-1,0,1,2,-1,-4]}, "output": [[-1,-1,2],[-1,0,1]], "explanation": "The distinct triplets are [-1,0,1] and [-1,-1,2]."},
-            {"input": {"nums": [0,1,1]}, "output": [], "explanation": "The only possible triplet does not sum up to 0."}
-        ],
-        "tags": ["array", "two-pointers", "sorting"],
-        "test_cases": [
-            {"input": [[-1,0,1,2,-1,-4]], "expectedOutput": [[-1,-1,2],[-1,0,1]]},
-            {"input": [[0,1,1]], "expectedOutput": []},
-            {"input": [[0,0,0]], "expectedOutput": [[0,0,0]]}
-        ],
-        "time_complexity": "O(n^2)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        pass",
-        "java_sig": "class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<vector<int>> threeSum(vector<int>& nums) {\n        \n    }\n};"
-    },
-    {
-        "title": "Group Anagrams",
-        "leetcode_url": "https://leetcode.com/problems/group-anagrams/",
-        "difficulty": "medium",
-        "description": """Given an array of strings strs, group the anagrams together. You can return the answer in any order.
-
-An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.""",
-        "constraints": ["1 <= strs.length <= 10^4", "0 <= strs[i].length <= 100", "strs[i] consists of lowercase English letters"],
-        "examples": [
-            {"input": {"strs": ["eat","tea","tan","ate","nat","bat"]}, "output": [["bat"],["nat","tan"],["ate","eat","tea"]], "explanation": "Group words that are anagrams."}
-        ],
-        "tags": ["array", "hash-table", "string", "sorting"],
-        "test_cases": [
-            {"input": [["eat","tea","tan","ate","nat","bat"]], "expectedOutput": [["bat"],["nat","tan"],["ate","eat","tea"]]},
-            {"input": [[""]], "expectedOutput": [[""]]},
-            {"input": [["a"]], "expectedOutput": [["a"]]}
-        ],
-        "time_complexity": "O(n*k)",
-        "space_complexity": "O(n*k)",
-        "python_sig": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        pass",
-        "java_sig": "class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        \n    }\n};"
-    },
-    {
-        "title": "Longest Palindromic Substring",
-        "leetcode_url": "https://leetcode.com/problems/longest-palindromic-substring/",
-        "difficulty": "medium",
-        "description": """Given a string s, return the longest palindromic substring in s.""",
-        "constraints": ["1 <= s.length <= 1000", "s consist of only digits and English letters"],
-        "examples": [
-            {"input": {"s": "babad"}, "output": "bab", "explanation": "Note: 'aba' is also a valid answer."},
-            {"input": {"s": "cbbd"}, "output": "bb", "explanation": "The longest palindrome is 'bb'."}
-        ],
-        "tags": ["string", "dynamic-programming"],
-        "test_cases": [
-            {"input": ["babad"], "expectedOutput": "bab"},
-            {"input": ["cbbd"], "expectedOutput": "bb"},
-            {"input": ["a"], "expectedOutput": "a"}
-        ],
-        "time_complexity": "O(n^2)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        pass",
-        "java_sig": "class Solution {\n    public String longestPalindrome(String s) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    string longestPalindrome(string s) {\n        \n    }\n};"
-    },
-    {
-        "title": "Product of Array Except Self",
-        "leetcode_url": "https://leetcode.com/problems/product-of-array-except-self/",
-        "difficulty": "medium",
-        "description": """Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
-
-You must write an algorithm that runs in O(n) time and without using the division operation.""",
-        "constraints": ["2 <= nums.length <= 10^5", "-30 <= nums[i] <= 30", "The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer"],
-        "examples": [
-            {"input": {"nums": [1,2,3,4]}, "output": [24,12,8,6], "explanation": "answer[0] = 2*3*4 = 24, answer[1] = 1*3*4 = 12, etc."}
-        ],
-        "tags": ["array", "prefix-sum"],
-        "test_cases": [
-            {"input": [[1,2,3,4]], "expectedOutput": [24,12,8,6]},
-            {"input": [[-1,1,0,-3,3]], "expectedOutput": [0,0,9,0,0]}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        pass",
-        "java_sig": "class Solution {\n    public int[] productExceptSelf(int[] nums) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<int> productExceptSelf(vector<int>& nums) {\n        \n    }\n};"
-    },
-    {
-        "title": "Spiral Matrix",
-        "leetcode_url": "https://leetcode.com/problems/spiral-matrix/",
-        "difficulty": "medium",
-        "description": """Given an m x n matrix, return all elements of the matrix in spiral order.""",
-        "constraints": ["m == matrix.length", "n == matrix[i].length", "1 <= m, n <= 10", "-100 <= matrix[i][j] <= 100"],
-        "examples": [
-            {"input": {"matrix": [[1,2,3],[4,5,6],[7,8,9]]}, "output": [1,2,3,6,9,8,7,4,5], "explanation": "Traverse the matrix in spiral order."}
-        ],
-        "tags": ["array", "matrix", "simulation"],
-        "test_cases": [
-            {"input": [[[1,2,3],[4,5,6],[7,8,9]]], "expectedOutput": [1,2,3,6,9,8,7,4,5]},
-            {"input": [[[1,2,3,4],[5,6,7,8],[9,10,11,12]]], "expectedOutput": [1,2,3,4,8,12,11,10,9,5,6,7]}
-        ],
-        "time_complexity": "O(m*n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        pass",
-        "java_sig": "class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        \n    }\n};"
-    },
-    {
-        "title": "Rotate Image",
-        "leetcode_url": "https://leetcode.com/problems/rotate-image/",
-        "difficulty": "medium",
-        "description": """You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
-
-You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.""",
-        "constraints": ["n == matrix.length == matrix[i].length", "1 <= n <= 20", "-1000 <= matrix[i][j] <= 1000"],
-        "examples": [
-            {"input": {"matrix": [[1,2,3],[4,5,6],[7,8,9]]}, "output": [[7,4,1],[8,5,2],[9,6,3]], "explanation": "Rotate 90 degrees clockwise."}
-        ],
-        "tags": ["array", "matrix"],
-        "test_cases": [
-            {"input": [[[1,2,3],[4,5,6],[7,8,9]]], "expectedOutput": [[7,4,1],[8,5,2],[9,6,3]]},
-            {"input": [[[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]], "expectedOutput": [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]}
-        ],
-        "time_complexity": "O(n^2)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def rotate(self, matrix: List[List[int]]) -> None:\n        pass",
-        "java_sig": "class Solution {\n    public void rotate(int[][] matrix) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        \n    }\n};"
-    },
-    {
-        "title": "Set Matrix Zeroes",
-        "leetcode_url": "https://leetcode.com/problems/set-matrix-zeroes/",
-        "difficulty": "medium",
-        "description": """Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
-
-You must do it in place.""",
-        "constraints": ["m == matrix.length", "n == matrix[0].length", "1 <= m, n <= 200", "-2^31 <= matrix[i][j] <= 2^31 - 1"],
-        "examples": [
-            {"input": {"matrix": [[1,1,1],[1,0,1],[1,1,1]]}, "output": [[1,0,1],[0,0,0],[1,0,1]], "explanation": "Mark row and column of 0s."}
-        ],
-        "tags": ["array", "matrix", "hash-table"],
-        "test_cases": [
-            {"input": [[[1,1,1],[1,0,1],[1,1,1]]], "expectedOutput": [[1,0,1],[0,0,0],[1,0,1]]},
-            {"input": [[[0,1,2,0],[3,4,5,2],[1,3,1,5]]], "expectedOutput": [[0,0,0,0],[0,4,5,0],[0,3,1,0]]}
-        ],
-        "time_complexity": "O(m*n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def setZeroes(self, matrix: List[List[int]]) -> None:\n        pass",
-        "java_sig": "class Solution {\n    public void setZeroes(int[][] matrix) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        \n    }\n};"
-    },
-    {
-        "title": "Subarray Sum Equals K",
-        "leetcode_url": "https://leetcode.com/problems/subarray-sum-equals-k/",
-        "difficulty": "medium",
-        "description": """Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
-
-A subarray is a contiguous non-empty sequence of elements within an array.""",
-        "constraints": ["1 <= nums.length <= 2 * 10^4", "-1000 <= nums[i] <= 1000", "-10^7 <= k <= 10^7"],
-        "examples": [
-            {"input": {"nums": [1,1,1], "k": 2}, "output": 2, "explanation": "Subarrays [1,1] and [1,1] sum to 2."},
-            {"input": {"nums": [1,2,3], "k": 3}, "output": 2, "explanation": "Subarrays [1,2] and [3] sum to 3."}
-        ],
-        "tags": ["array", "hash-table", "prefix-sum"],
-        "test_cases": [
-            {"input": [[1,1,1], 2], "expectedOutput": 2},
-            {"input": [[1,2,3], 3], "expectedOutput": 2}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def subarraySum(self, nums: List[int], k: int) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int subarraySum(int[] nums, int k) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int subarraySum(vector<int>& nums, int k) {\n        \n    }\n};"
-    },
-    {
-        "title": "Maximum Subarray",
-        "leetcode_url": "https://leetcode.com/problems/maximum-subarray/",
-        "difficulty": "medium",
-        "description": """Given an integer array nums, find the subarray with the largest sum, and return its sum.""",
-        "constraints": ["1 <= nums.length <= 10^5", "-10^4 <= nums[i] <= 10^4"],
-        "examples": [
-            {"input": {"nums": [-2,1,-3,4,-1,2,1,-5,4]}, "output": 6, "explanation": "The subarray [4,-1,2,1] has the largest sum 6."},
-            {"input": {"nums": [1]}, "output": 1, "explanation": "The subarray [1] has the largest sum 1."}
-        ],
-        "tags": ["array", "divide-and-conquer", "dynamic-programming"],
-        "test_cases": [
-            {"input": [[-2,1,-3,4,-1,2,1,-5,4]], "expectedOutput": 6},
-            {"input": [[1]], "expectedOutput": 1},
-            {"input": [[5,4,-1,7,8]], "expectedOutput": 23}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int maxSubArray(int[] nums) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        \n    }\n};"
-    },
-    {
-        "title": "Remove Nth Node From End of List",
-        "leetcode_url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
-        "difficulty": "medium",
-        "description": """Given the head of a linked list, remove the nth node from the end of the list and return its head.""",
-        "constraints": ["The number of nodes in the list is sz", "1 <= sz <= 30", "0 <= Node.val <= 100", "1 <= n <= sz"],
-        "examples": [
-            {"input": {"head": [1,2,3,4,5], "n": 2}, "output": [1,2,3,5], "explanation": "Remove 2nd node from end."}
-        ],
-        "tags": ["linked-list", "two-pointers"],
-        "test_cases": [
-            {"input": [[1,2,3,4,5], 2], "expectedOutput": [1,2,3,5]},
-            {"input": [[1], 1], "expectedOutput": []},
-            {"input": [[1,2], 1], "expectedOutput": [1]}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        pass",
-        "java_sig": "class Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        \n    }\n};"
-    },
-    {
-        "title": "Reverse Linked List II",
-        "leetcode_url": "https://leetcode.com/problems/reverse-linked-list-ii/",
-        "difficulty": "medium",
-        "description": """Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.""",
-        "constraints": ["The number of nodes in the list is n", "1 <= n <= 500", "-500 <= Node.val <= 500", "1 <= left <= right <= n"],
-        "examples": [
-            {"input": {"head": [1,2,3,4,5], "left": 2, "right": 4}, "output": [1,4,3,2,5], "explanation": "Reverse nodes from position 2 to 4."}
-        ],
-        "tags": ["linked-list"],
-        "test_cases": [
-            {"input": [[1,2,3,4,5], 2, 4], "expectedOutput": [1,4,3,2,5]},
-            {"input": [[5], 1, 1], "expectedOutput": [5]}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        pass",
-        "java_sig": "class Solution {\n    public ListNode reverseBetween(ListNode head, int left, int right) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    ListNode* reverseBetween(ListNode* head, int left, int right) {\n        \n    }\n};"
-    },
-    {
-        "title": "Swap Nodes in Pairs",
-        "leetcode_url": "https://leetcode.com/problems/swap-nodes-in-pairs/",
-        "difficulty": "medium",
-        "description": """Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes.""",
-        "constraints": ["The number of nodes in the list is in the range [0, 100]", "0 <= Node.val <= 100"],
-        "examples": [
-            {"input": {"head": [1,2,3,4]}, "output": [2,1,4,3], "explanation": "Swap adjacent pairs."}
-        ],
-        "tags": ["linked-list", "recursion"],
-        "test_cases": [
-            {"input": [[1,2,3,4]], "expectedOutput": [2,1,4,3]},
-            {"input": [[]], "expectedOutput": []},
-            {"input": [[1]], "expectedOutput": [1]}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        pass",
-        "java_sig": "class Solution {\n    public ListNode swapPairs(ListNode head) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    ListNode* swapPairs(ListNode* head) {\n        \n    }\n};"
-    },
-    {
-        "title": "Binary Tree Level Order Traversal",
-        "leetcode_url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
-        "difficulty": "medium",
-        "description": """Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).""",
-        "constraints": ["The number of nodes in the tree is in the range [0, 2000]", "-1000 <= Node.val <= 1000"],
-        "examples": [
-            {"input": {"root": [3,9,20,None,None,15,7]}, "output": [[3],[9,20],[15,7]], "explanation": "Level by level traversal."}
-        ],
-        "tags": ["tree", "breadth-first-search"],
-        "test_cases": [
-            {"input": [[3,9,20,None,None,15,7]], "expectedOutput": [[3],[9,20],[15,7]]},
-            {"input": [[1]], "expectedOutput": [[1]]},
-            {"input": [[]], "expectedOutput": []}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        pass",
-        "java_sig": "class Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        \n    }\n};"
-    },
-    {
-        "title": "Validate Binary Search Tree",
-        "leetcode_url": "https://leetcode.com/problems/validate-binary-search-tree/",
-        "difficulty": "medium",
-        "description": """Given the root of a binary tree, determine if it is a valid binary search tree (BST).
-
-A valid BST is defined as follows:
-- The left subtree of a node contains only nodes with keys less than the node's key.
-- The right subtree of a node contains only nodes with keys greater than the node's key.
-- Both the left and right subtrees must also be binary search trees.""",
-        "constraints": ["The number of nodes in the tree is in the range [1, 10^4]", "-2^31 <= Node.val <= 2^31 - 1"],
-        "examples": [
-            {"input": {"root": [2,1,3]}, "output": True, "explanation": "Valid BST."},
-            {"input": {"root": [5,1,4,None,None,3,6]}, "output": False, "explanation": "Node 4 in right subtree of 5 violates BST property."}
-        ],
-        "tags": ["tree", "depth-first-search", "binary-search-tree"],
-        "test_cases": [
-            {"input": [[2,1,3]], "expectedOutput": True},
-            {"input": [[5,1,4,None,None,3,6]], "expectedOutput": False}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        pass",
-        "java_sig": "class Solution {\n    public boolean isValidBST(TreeNode root) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        \n    }\n};"
-    },
-    {
-        "title": "Kth Smallest Element in a BST",
-        "leetcode_url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
-        "difficulty": "medium",
-        "description": """Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.""",
-        "constraints": ["The number of nodes in the tree is n", "1 <= k <= n <= 10^4", "0 <= Node.val <= 10^4"],
-        "examples": [
-            {"input": {"root": [3,1,4,None,2], "k": 1}, "output": 1, "explanation": "The smallest element is 1."},
-            {"input": {"root": [5,3,6,2,4,None,None,1], "k": 3}, "output": 3, "explanation": "The 3rd smallest is 3."}
-        ],
-        "tags": ["tree", "depth-first-search", "binary-search-tree"],
-        "test_cases": [
-            {"input": [[3,1,4,None,2], 1], "expectedOutput": 1},
-            {"input": [[5,3,6,2,4,None,None,1], 3], "expectedOutput": 3}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        \n    }\n};"
-    },
-    {
-        "title": "Binary Tree Right Side View",
-        "leetcode_url": "https://leetcode.com/problems/binary-tree-right-side-view/",
-        "difficulty": "medium",
-        "description": """Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.""",
-        "constraints": ["The number of nodes in the tree is in the range [0, 100]", "-100 <= Node.val <= 100"],
-        "examples": [
-            {"input": {"root": [1,2,3,None,5,None,4]}, "output": [1,3,4], "explanation": "Right side view shows nodes 1, 3, 4."}
-        ],
-        "tags": ["tree", "depth-first-search", "breadth-first-search"],
-        "test_cases": [
-            {"input": [[1,2,3,None,5,None,4]], "expectedOutput": [1,3,4]},
-            {"input": [[1,None,3]], "expectedOutput": [1,3]},
-            {"input": [[]], "expectedOutput": []}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n        pass",
-        "java_sig": "class Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        \n    }\n};"
-    },
-    {
-        "title": "Path Sum II",
-        "leetcode_url": "https://leetcode.com/problems/path-sum-ii/",
-        "difficulty": "medium",
-        "description": """Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
-
-A root-to-leaf path is a path starting from the root and ending at any leaf node.""",
-        "constraints": ["The number of nodes in the tree is in the range [0, 5000]", "-1000 <= Node.val <= 1000", "-1000 <= targetSum <= 1000"],
-        "examples": [
-            {"input": {"root": [5,4,8,11,None,13,4,7,2,None,None,5,1], "targetSum": 22}, "output": [[5,4,11,2],[5,8,4,5]], "explanation": "Two paths sum to 22."}
-        ],
-        "tags": ["tree", "backtracking", "depth-first-search"],
-        "test_cases": [
-            {"input": [[5,4,8,11,None,13,4,7,2,None,None,5,1], 22], "expectedOutput": [[5,4,11,2],[5,8,4,5]]},
-            {"input": [[1,2,3], 5], "expectedOutput": []},
-            {"input": [[1,2], 0], "expectedOutput": []}
-        ],
-        "time_complexity": "O(n^2)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n        pass",
-        "java_sig": "class Solution {\n    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {\n        \n    }\n};"
-    },
-    {
-        "title": "Construct Binary Tree from Preorder and Inorder Traversal",
-        "leetcode_url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/",
-        "difficulty": "medium",
-        "description": """Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.""",
-        "constraints": ["1 <= preorder.length <= 3000", "inorder.length == preorder.length", "-3000 <= preorder[i], inorder[i] <= 3000", "preorder and inorder consist of unique values"],
-        "examples": [
-            {"input": {"preorder": [3,9,20,15,7], "inorder": [9,3,15,20,7]}, "output": [3,9,20,None,None,15,7], "explanation": "Construct tree from traversals."}
-        ],
-        "tags": ["tree", "array", "hash-table", "divide-and-conquer"],
-        "test_cases": [
-            {"input": [[3,9,20,15,7], [9,3,15,20,7]], "expectedOutput": [3,9,20,None,None,15,7]},
-            {"input": [[-1], [-1]], "expectedOutput": [-1]}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        pass",
-        "java_sig": "class Solution {\n    public TreeNode buildTree(int[] preorder, int[] inorder) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {\n        \n    }\n};"
-    },
-    {
-        "title": "Lowest Common Ancestor of a Binary Tree",
-        "leetcode_url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/",
-        "difficulty": "medium",
-        "description": """Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
-
-The lowest common ancestor is defined as the lowest node in the tree that has both p and q as descendants (where we allow a node to be a descendant of itself).""",
-        "constraints": ["The number of nodes in the tree is in the range [2, 10^5]", "-10^9 <= Node.val <= 10^9", "All Node.val are unique", "p != q", "p and q exist in the tree"],
-        "examples": [
-            {"input": {"root": [3,5,1,6,2,0,8,None,None,7,4], "p": 5, "q": 1}, "output": 3, "explanation": "The LCA of nodes 5 and 1 is 3."}
-        ],
-        "tags": ["tree", "depth-first-search", "binary-tree"],
-        "test_cases": [
-            {"input": [[3,5,1,6,2,0,8,None,None,7,4], 5, 1], "expectedOutput": 3},
-            {"input": [[3,5,1,6,2,0,8,None,None,7,4], 5, 4], "expectedOutput": 5}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n        pass",
-        "java_sig": "class Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        \n    }\n};"
-    },
-    {
-        "title": "Number of Islands",
-        "leetcode_url": "https://leetcode.com/problems/number-of-islands/",
-        "difficulty": "medium",
-        "description": """Given an m x n 2D binary grid which represents a map of '1's (land) and '0's (water), return the number of islands.
-
-An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.""",
-        "constraints": ["m == grid.length", "n == grid[i].length", "1 <= m, n <= 300", "grid[i][j] is '0' or '1'"],
-        "examples": [
-            {"input": {"grid": [["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]]}, "output": 1, "explanation": "One connected island."}
-        ],
-        "tags": ["array", "depth-first-search", "breadth-first-search", "union-find", "matrix"],
-        "test_cases": [
-            {"input": [[["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]]], "expectedOutput": 1},
-            {"input": [[["1","1","0","0","0"],["1","1","0","0","0"],["0","0","1","0","0"],["0","0","0","1","1"]]], "expectedOutput": 3}
-        ],
-        "time_complexity": "O(m*n)",
-        "space_complexity": "O(m*n)",
-        "python_sig": "class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int numIslands(char[][] grid) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n        \n    }\n};"
-    },
-    {
-        "title": "Course Schedule",
-        "leetcode_url": "https://leetcode.com/problems/course-schedule/",
-        "difficulty": "medium",
-        "description": """There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
-
-Return true if you can finish all courses. Otherwise, return false.""",
-        "constraints": ["1 <= numCourses <= 2000", "0 <= prerequisites.length <= 5000", "prerequisites[i].length == 2", "0 <= ai, bi < numCourses", "All the pairs prerequisites[i] are unique"],
-        "examples": [
-            {"input": {"numCourses": 2, "prerequisites": [[1,0]]}, "output": True, "explanation": "Take course 0 first, then course 1."},
-            {"input": {"numCourses": 2, "prerequisites": [[1,0],[0,1]]}, "output": False, "explanation": "Circular dependency."}
-        ],
-        "tags": ["graph", "topological-sort", "depth-first-search", "breadth-first-search"],
-        "test_cases": [
-            {"input": [2, [[1,0]]], "expectedOutput": True},
-            {"input": [2, [[1,0],[0,1]]], "expectedOutput": False}
-        ],
-        "time_complexity": "O(V+E)",
-        "space_complexity": "O(V+E)",
-        "python_sig": "class Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        pass",
-        "java_sig": "class Solution {\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        \n    }\n};"
-    },
-    {
-        "title": "Clone Graph",
-        "leetcode_url": "https://leetcode.com/problems/clone-graph/",
-        "difficulty": "medium",
-        "description": """Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph.
-
-Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.""",
-        "constraints": ["The number of nodes in the graph is in the range [0, 100]", "1 <= Node.val <= 100", "Node.val is unique for each node", "There are no repeated edges and no self-loops"],
-        "examples": [
-            {"input": {"adjList": [[2,4],[1,3],[2,4],[1,3]]}, "output": [[2,4],[1,3],[2,4],[1,3]], "explanation": "Clone the graph."}
-        ],
-        "tags": ["hash-table", "depth-first-search", "breadth-first-search", "graph"],
-        "test_cases": [
-            {"input": [[[2,4],[1,3],[2,4],[1,3]]], "expectedOutput": [[2,4],[1,3],[2,4],[1,3]]},
-            {"input": [[[]]], "expectedOutput": [[]]},
-            {"input": [[]], "expectedOutput": []}
-        ],
-        "time_complexity": "O(N+M)",
-        "space_complexity": "O(N)",
-        "python_sig": "class Solution:\n    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:\n        pass",
-        "java_sig": "class Solution {\n    public Node cloneGraph(Node node) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    Node* cloneGraph(Node* node) {\n        \n    }\n};"
-    },
-    {
-        "title": "Word Search",
-        "leetcode_url": "https://leetcode.com/problems/word-search/",
-        "difficulty": "medium",
-        "description": """Given an m x n grid of characters board and a string word, return true if word exists in the grid.
-
-The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring.""",
-        "constraints": ["m == board.length", "n = board[i].length", "1 <= m, n <= 6", "1 <= word.length <= 15", "board and word consists of only lowercase and uppercase English letters"],
-        "examples": [
-            {"input": {"board": [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "word": "ABCCED"}, "output": True, "explanation": "Word found in board."}
-        ],
-        "tags": ["array", "backtracking", "matrix"],
-        "test_cases": [
-            {"input": [[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "ABCCED"], "expectedOutput": True},
-            {"input": [[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "SEE"], "expectedOutput": True},
-            {"input": [[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "ABCB"], "expectedOutput": False}
-        ],
-        "time_complexity": "O(m*n*4^L)",
-        "space_complexity": "O(L)",
-        "python_sig": "class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        pass",
-        "java_sig": "class Solution {\n    public boolean exist(char[][] board, String word) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        \n    }\n};"
-    },
-    {
-        "title": "Coin Change",
-        "leetcode_url": "https://leetcode.com/problems/coin-change/",
-        "difficulty": "medium",
-        "description": """You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
-
-Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.""",
-        "constraints": ["1 <= coins.length <= 12", "1 <= coins[i] <= 2^31 - 1", "0 <= amount <= 10^4"],
-        "examples": [
-            {"input": {"coins": [1,2,5], "amount": 11}, "output": 3, "explanation": "11 = 5 + 5 + 1"},
-            {"input": {"coins": [2], "amount": 3}, "output": -1, "explanation": "Cannot make amount 3."}
-        ],
-        "tags": ["array", "dynamic-programming", "breadth-first-search"],
-        "test_cases": [
-            {"input": [[1,2,5], 11], "expectedOutput": 3},
-            {"input": [[2], 3], "expectedOutput": -1},
-            {"input": [[1], 0], "expectedOutput": 0}
-        ],
-        "time_complexity": "O(amount * n)",
-        "space_complexity": "O(amount)",
-        "python_sig": "class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int coinChange(int[] coins, int amount) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        \n    }\n};"
-    },
-    {
-        "title": "Longest Increasing Subsequence",
-        "leetcode_url": "https://leetcode.com/problems/longest-increasing-subsequence/",
-        "difficulty": "medium",
-        "description": """Given an integer array nums, return the length of the longest strictly increasing subsequence.""",
-        "constraints": ["1 <= nums.length <= 2500", "-10^4 <= nums[i] <= 10^4"],
-        "examples": [
-            {"input": {"nums": [10,9,2,5,3,7,101,18]}, "output": 4, "explanation": "The longest increasing subsequence is [2,3,7,101]."},
-            {"input": {"nums": [0,1,0,3,2,3]}, "output": 4, "explanation": "The longest increasing subsequence is [0,1,2,3]."}
-        ],
-        "tags": ["array", "binary-search", "dynamic-programming"],
-        "test_cases": [
-            {"input": [[10,9,2,5,3,7,101,18]], "expectedOutput": 4},
-            {"input": [[0,1,0,3,2,3]], "expectedOutput": 4},
-            {"input": [[7,7,7,7,7,7,7]], "expectedOutput": 1}
-        ],
-        "time_complexity": "O(n^2)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int lengthOfLIS(int[] nums) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        \n    }\n};"
-    },
-    {
-        "title": "Unique Paths",
-        "leetcode_url": "https://leetcode.com/problems/unique-paths/",
-        "difficulty": "medium",
-        "description": """There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.
-
-Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.""",
-        "constraints": ["1 <= m, n <= 100"],
-        "examples": [
-            {"input": {"m": 3, "n": 7}, "output": 28, "explanation": "There are 28 unique paths."},
-            {"input": {"m": 3, "n": 2}, "output": 3, "explanation": "From top-left: right->down->down, down->down->right, down->right->down"}
-        ],
-        "tags": ["math", "dynamic-programming", "combinatorics"],
-        "test_cases": [
-            {"input": [3, 7], "expectedOutput": 28},
-            {"input": [3, 2], "expectedOutput": 3}
-        ],
-        "time_complexity": "O(m*n)",
-        "space_complexity": "O(m*n)",
-        "python_sig": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int uniquePaths(int m, int n) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        \n    }\n};"
-    },
-    {
-        "title": "Word Break",
-        "leetcode_url": "https://leetcode.com/problems/word-break/",
-        "difficulty": "medium",
-        "description": """Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
-
-Note that the same word in the dictionary may be reused multiple times in the segmentation.""",
-        "constraints": ["1 <= s.length <= 300", "1 <= wordDict.length <= 1000", "1 <= wordDict[i].length <= 20", "s and wordDict[i] consist of only lowercase English letters", "All strings in wordDict are unique"],
-        "examples": [
-            {"input": {"s": "leetcode", "wordDict": ["leet","code"]}, "output": True, "explanation": "'leetcode' can be segmented as 'leet code'."},
-            {"input": {"s": "applepenapple", "wordDict": ["apple","pen"]}, "output": True, "explanation": "'applepenapple' can be segmented as 'apple pen apple'."}
-        ],
-        "tags": ["hash-table", "string", "dynamic-programming", "trie", "memoization"],
-        "test_cases": [
-            {"input": ["leetcode", ["leet","code"]], "expectedOutput": True},
-            {"input": ["applepenapple", ["apple","pen"]], "expectedOutput": True},
-            {"input": ["catsandog", ["cats","dog","sand","and","cat"]], "expectedOutput": False}
-        ],
-        "time_complexity": "O(n^2)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        pass",
-        "java_sig": "class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        \n    }\n};"
-    },
-    {
-        "title": "House Robber II",
-        "leetcode_url": "https://leetcode.com/problems/house-robber-ii/",
-        "difficulty": "medium",
-        "description": """You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have a security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
-
-Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.""",
-        "constraints": ["1 <= nums.length <= 100", "0 <= nums[i] <= 1000"],
-        "examples": [
-            {"input": {"nums": [2,3,2]}, "output": 3, "explanation": "You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent."},
-            {"input": {"nums": [1,2,3,1]}, "output": 4, "explanation": "Rob house 1 (money = 1) and then rob house 3 (money = 3). Total = 1 + 3 = 4."}
-        ],
-        "tags": ["array", "dynamic-programming"],
-        "test_cases": [
-            {"input": [[2,3,2]], "expectedOutput": 3},
-            {"input": [[1,2,3,1]], "expectedOutput": 4},
-            {"input": [[1,2,3]], "expectedOutput": 3}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def rob(self, nums: List[int]) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int rob(int[] nums) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        \n    }\n};"
-    },
-    {
-        "title": "Decode Ways",
-        "leetcode_url": "https://leetcode.com/problems/decode-ways/",
-        "difficulty": "medium",
-        "description": """A message containing letters from A-Z can be encoded into numbers using the following mapping:
-'A' -> "1", 'B' -> "2", ..., 'Z' -> "26"
-
-To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above. Given a string s containing only digits, return the number of ways to decode it.""",
-        "constraints": ["1 <= s.length <= 100", "s contains only digits and may contain leading zero(s)"],
-        "examples": [
-            {"input": {"s": "12"}, "output": 2, "explanation": "It could be decoded as 'AB' (1 2) or 'L' (12)."},
-            {"input": {"s": "226"}, "output": 3, "explanation": "It could be decoded as 'BZ' (2 26), 'VF' (22 6), or 'BBF' (2 2 6)."}
-        ],
-        "tags": ["string", "dynamic-programming"],
-        "test_cases": [
-            {"input": ["12"], "expectedOutput": 2},
-            {"input": ["226"], "expectedOutput": 3},
-            {"input": ["06"], "expectedOutput": 0}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def numDecodings(self, s: str) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int numDecodings(String s) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int numDecodings(string s) {\n        \n    }\n};"
-    },
-    {
-        "title": "Letter Combinations of a Phone Number",
-        "leetcode_url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
-        "difficulty": "medium",
-        "description": """Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
-
-A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
-
-2: abc, 3: def, 4: ghi, 5: jkl, 6: mno, 7: pqrs, 8: tuv, 9: wxyz""",
-        "constraints": ["0 <= digits.length <= 4", "digits[i] is a digit in the range ['2', '9']"],
-        "examples": [
-            {"input": {"digits": "23"}, "output": ["ad","ae","af","bd","be","bf","cd","ce","cf"], "explanation": "All possible combinations."},
-            {"input": {"digits": ""}, "output": [], "explanation": "Empty input."}
-        ],
-        "tags": ["hash-table", "string", "backtracking"],
-        "test_cases": [
-            {"input": ["23"], "expectedOutput": ["ad","ae","af","bd","be","bf","cd","ce","cf"]},
-            {"input": [""], "expectedOutput": []},
-            {"input": ["2"], "expectedOutput": ["a","b","c"]}
-        ],
-        "time_complexity": "O(4^n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        pass",
-        "java_sig": "class Solution {\n    public List<String> letterCombinations(String digits) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<string> letterCombinations(string digits) {\n        \n    }\n};"
-    },
-    {
-        "title": "Generate Parentheses",
-        "leetcode_url": "https://leetcode.com/problems/generate-parentheses/",
-        "difficulty": "medium",
-        "description": """Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.""",
-        "constraints": ["1 <= n <= 8"],
-        "examples": [
-            {"input": {"n": 3}, "output": ["((()))","(()())","(())()","()(())","()()()"], "explanation": "All valid combinations of 3 pairs."},
-            {"input": {"n": 1}, "output": ["()"], "explanation": "Only one combination."}
-        ],
-        "tags": ["string", "dynamic-programming", "backtracking"],
-        "test_cases": [
-            {"input": [3], "expectedOutput": ["((()))","(()())","(())()","()(())","()()()"]},
-            {"input": [1], "expectedOutput": ["()"]}
-        ],
-        "time_complexity": "O(4^n/sqrt(n))",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        pass",
-        "java_sig": "class Solution {\n    public List<String> generateParenthesis(int n) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        \n    }\n};"
-    },
-    {
-        "title": "Permutations",
-        "leetcode_url": "https://leetcode.com/problems/permutations/",
-        "difficulty": "medium",
-        "description": """Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.""",
-        "constraints": ["1 <= nums.length <= 6", "-10 <= nums[i] <= 10", "All the integers of nums are unique"],
-        "examples": [
-            {"input": {"nums": [1,2,3]}, "output": [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]], "explanation": "All permutations."},
-            {"input": {"nums": [0,1]}, "output": [[0,1],[1,0]], "explanation": "Two permutations."}
-        ],
-        "tags": ["array", "backtracking"],
-        "test_cases": [
-            {"input": [[1,2,3]], "expectedOutput": [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]},
-            {"input": [[0,1]], "expectedOutput": [[0,1],[1,0]]},
-            {"input": [[1]], "expectedOutput": [[1]]}
-        ],
-        "time_complexity": "O(n!)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        pass",
-        "java_sig": "class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        \n    }\n};"
-    },
-    
-    # ============ HARD (7 questions) ============
-    {
-        "title": "Trapping Rain Water",
-        "leetcode_url": "https://leetcode.com/problems/trapping-rain-water/",
-        "difficulty": "hard",
-        "description": """Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.""",
-        "constraints": ["n == height.length", "1 <= n <= 2 * 10^4", "0 <= height[i] <= 10^5"],
-        "examples": [
-            {"input": {"height": [0,1,0,2,1,0,1,3,2,1,2,1]}, "output": 6, "explanation": "The elevation map can trap 6 units of rain water."}
-        ],
-        "tags": ["array", "two-pointers", "dynamic-programming", "stack", "monotonic-stack"],
-        "test_cases": [
-            {"input": [[0,1,0,2,1,0,1,3,2,1,2,1]], "expectedOutput": 6},
-            {"input": [[4,2,0,3,2,5]], "expectedOutput": 9}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def trap(self, height: List[int]) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int trap(int[] height) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int trap(vector<int>& height) {\n        \n    }\n};"
-    },
-    {
-        "title": "Median of Two Sorted Arrays",
-        "leetcode_url": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
-        "difficulty": "hard",
-        "description": """Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
-
-The overall run time complexity should be O(log (m+n)).""",
-        "constraints": ["nums1.length == m", "nums2.length == n", "0 <= m <= 1000", "0 <= n <= 1000", "1 <= m + n <= 2000", "-10^6 <= nums1[i], nums2[i] <= 10^6"],
-        "examples": [
-            {"input": {"nums1": [1,3], "nums2": [2]}, "output": 2.0, "explanation": "Merged array = [1,2,3], median = 2."},
-            {"input": {"nums1": [1,2], "nums2": [3,4]}, "output": 2.5, "explanation": "Merged array = [1,2,3,4], median = (2+3)/2 = 2.5."}
-        ],
-        "tags": ["array", "binary-search", "divide-and-conquer"],
-        "test_cases": [
-            {"input": [[1,3], [2]], "expectedOutput": 2.0},
-            {"input": [[1,2], [3,4]], "expectedOutput": 2.5}
-        ],
-        "time_complexity": "O(log(min(m,n)))",
-        "space_complexity": "O(1)",
-        "python_sig": "class Solution:\n    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:\n        pass",
-        "java_sig": "class Solution {\n    public double findMedianSortedArrays(int[] nums1, int[] nums2) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {\n        \n    }\n};"
-    },
-    {
-        "title": "Binary Tree Maximum Path Sum",
-        "leetcode_url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
-        "difficulty": "hard",
-        "description": """A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.
-
-The path sum of a path is the sum of the node's values in the path.
-
-Given the root of a binary tree, return the maximum path sum of any non-empty path.""",
-        "constraints": ["The number of nodes in the tree is in the range [1, 3 * 10^4]", "-1000 <= Node.val <= 1000"],
-        "examples": [
-            {"input": {"root": [1,2,3]}, "output": 6, "explanation": "The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6."},
-            {"input": {"root": [-10,9,20,None,None,15,7]}, "output": 42, "explanation": "The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42."}
-        ],
-        "tags": ["tree", "depth-first-search", "dynamic-programming", "binary-tree"],
-        "test_cases": [
-            {"input": [[1,2,3]], "expectedOutput": 6},
-            {"input": [[-10,9,20,None,None,15,7]], "expectedOutput": 42}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(h)",
-        "python_sig": "class Solution:\n    def maxPathSum(self, root: Optional[TreeNode]) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int maxPathSum(TreeNode root) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int maxPathSum(TreeNode* root) {\n        \n    }\n};"
-    },
-    {
-        "title": "Serialize and Deserialize Binary Tree",
-        "leetcode_url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
-        "difficulty": "hard",
-        "description": """Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
-
-Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work.""",
-        "constraints": ["The number of nodes in the tree is in the range [0, 10^4]", "-1000 <= Node.val <= 1000"],
-        "examples": [
-            {"input": {"root": [1,2,3,None,None,4,5]}, "output": [1,2,3,None,None,4,5], "explanation": "Serialize then deserialize the tree."}
-        ],
-        "tags": ["string", "tree", "depth-first-search", "breadth-first-search", "design", "binary-tree"],
-        "test_cases": [
-            {"input": [[1,2,3,None,None,4,5]], "expectedOutput": [1,2,3,None,None,4,5]},
-            {"input": [[]], "expectedOutput": []}
-        ],
-        "time_complexity": "O(n)",
-        "space_complexity": "O(n)",
-        "python_sig": "class Codec:\n    def serialize(self, root: Optional[TreeNode]) -> str:\n        pass\n    \n    def deserialize(self, data: str) -> Optional[TreeNode]:\n        pass",
-        "java_sig": "public class Codec {\n    public String serialize(TreeNode root) {\n        \n    }\n    \n    public TreeNode deserialize(String data) {\n        \n    }\n}",
-        "cpp_sig": "class Codec {\npublic:\n    string serialize(TreeNode* root) {\n        \n    }\n    \n    TreeNode* deserialize(string data) {\n        \n    }\n};"
-    },
-    {
-        "title": "Regular Expression Matching",
-        "leetcode_url": "https://leetcode.com/problems/regular-expression-matching/",
-        "difficulty": "hard",
-        "description": """Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
-
-'.' Matches any single character.
-'*' Matches zero or more of the preceding element.
-
-The matching should cover the entire input string (not partial).""",
-        "constraints": ["1 <= s.length <= 20", "1 <= p.length <= 20", "s contains only lowercase English letters", "p contains only lowercase English letters, '.', and '*'"],
-        "examples": [
-            {"input": {"s": "aa", "p": "a"}, "output": False, "explanation": "a does not match the entire string aa."},
-            {"input": {"s": "aa", "p": "a*"}, "output": True, "explanation": "* means zero or more of the preceding element, a. Therefore, by repeating a once, it becomes aa."}
-        ],
-        "tags": ["string", "dynamic-programming", "recursion"],
-        "test_cases": [
-            {"input": ["aa", "a"], "expectedOutput": False},
-            {"input": ["aa", "a*"], "expectedOutput": True},
-            {"input": ["ab", ".*"], "expectedOutput": True}
-        ],
-        "time_complexity": "O(m*n)",
-        "space_complexity": "O(m*n)",
-        "python_sig": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        pass",
-        "java_sig": "class Solution {\n    public boolean isMatch(String s, String p) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    bool isMatch(string s, string p) {\n        \n    }\n};"
-    },
-    {
-        "title": "Edit Distance",
-        "leetcode_url": "https://leetcode.com/problems/edit-distance/",
-        "difficulty": "hard",
-        "description": """Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
-
-You have the following three operations permitted on a word:
-- Insert a character
-- Delete a character
-- Replace a character""",
-        "constraints": ["0 <= word1.length, word2.length <= 500", "word1 and word2 consist of lowercase English letters"],
-        "examples": [
-            {"input": {"word1": "horse", "word2": "ros"}, "output": 3, "explanation": "horse -> rorse (replace 'h' with 'r') -> rose (remove 'r') -> ros (remove 'e')"},
-            {"input": {"word1": "intention", "word2": "execution"}, "output": 5, "explanation": "intention -> inention (remove 't') -> enention (replace 'i' with 'e') -> exention (replace 'n' with 'x') -> exection (replace 'n' with 'c') -> execution (insert 'u')"}
-        ],
-        "tags": ["string", "dynamic-programming"],
-        "test_cases": [
-            {"input": ["horse", "ros"], "expectedOutput": 3},
-            {"input": ["intention", "execution"], "expectedOutput": 5}
-        ],
-        "time_complexity": "O(m*n)",
-        "space_complexity": "O(m*n)",
-        "python_sig": "class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int minDistance(String word1, String word2) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        \n    }\n};"
-    },
-    {
-        "title": "Word Ladder",
-        "leetcode_url": "https://leetcode.com/problems/word-ladder/",
-        "difficulty": "hard",
-        "description": """A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
-- Every adjacent pair of words differs by a single letter.
-- Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.
-- sk == endWord
-
-Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.""",
-        "constraints": ["1 <= beginWord.length <= 10", "endWord.length == beginWord.length", "1 <= wordList.length <= 5000", "wordList[i].length == beginWord.length", "All strings consist of lowercase English letters", "beginWord != endWord", "All the words in wordList are unique"],
-        "examples": [
-            {"input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot","dot","dog","lot","log","cog"]}, "output": 5, "explanation": "One shortest transformation sequence is 'hit' -> 'hot' -> 'dot' -> 'dog' -> 'cog', which is 5 words long."},
-            {"input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot","dot","dog","lot","log"]}, "output": 0, "explanation": "The endWord 'cog' is not in wordList, therefore there is no valid transformation sequence."}
-        ],
-        "tags": ["hash-table", "string", "breadth-first-search"],
-        "test_cases": [
-            {"input": ["hit", "cog", ["hot","dot","dog","lot","log","cog"]], "expectedOutput": 5},
-            {"input": ["hit", "cog", ["hot","dot","dog","lot","log"]], "expectedOutput": 0}
-        ],
-        "time_complexity": "O(M^2 * N)",
-        "space_complexity": "O(M^2 * N)",
-        "python_sig": "class Solution:\n    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n        pass",
-        "java_sig": "class Solution {\n    public int ladderLength(String beginWord, String endWord, List<String> wordList) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {\n        \n    }\n};",
-        "solution_python": """from typing import List
-
-class Solution:
-    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        \"\"\"
-        BIDIRECTIONAL BFS APPROACH FOR WORD LADDER
-        ===========================================
-        
-        WHY BIDIRECTIONAL BFS?
-        ----------------------
-        Standard BFS explores level by level from source to target: O(b^d) where b=branching factor, d=depth
-        Bidirectional BFS searches from BOTH ends simultaneously: O(b^(d/2)) + O(b^(d/2)) = O(2*b^(d/2))
-        
-        Example: If branching factor = 10 and depth = 6:
-        - Unidirectional BFS: 10^6 = 1,000,000 nodes
-        - Bidirectional BFS: 2 * 10^3 = 2,000 nodes (500x faster!)
-        
-        The two search frontiers meet in the middle, dramatically reducing search space.
-        
-        ALGORITHM OVERVIEW:
-        -------------------
-        1. Start BFS from beginWord (forward direction)
-        2. Start BFS from endWord (backward direction)  
-        3. At each step, expand the SMALLER frontier (optimization)
-        4. When a word appears in the opposite visited set, paths have met
-        5. Return total transformation length
-        
-        EDGE CASES:
-        -----------
-        - endWord not in wordList -> return 0
-        - beginWord == endWord -> return 1 (though constraints say they differ)
-        - No valid transformation path -> return 0
-        
-        Time Complexity: O(n * m^2) where n = wordList size, m = word length
-        - For each word (n), we try m positions with 26 letters, creating m transformations
-        - Each transformation requires O(m) to build the string
-        
-        Space Complexity: O(n) for visited sets and frontier sets
-        \"\"\"
-        
-        # EDGE CASE: endWord must exist in wordList
-        # Without this check, we can't reach endWord even if transformations exist
-        word_set = set(wordList)
-        if endWord not in word_set:
-            return 0
-        
-        # INITIALIZATION: Two visited sets track words reached from each direction
-        # visited_begin: words reached from beginWord (forward search)
-        # visited_end: words reached from endWord (backward search)
-        visited_begin = {beginWord}
-        visited_end = {endWord}
-        
-        # FRONTIERS: Current layer of words being explored in each direction
-        # We use sets (not queues) because we only need current level words
-        # The level itself is tracked separately
-        frontier_begin = {beginWord}
-        frontier_end = {endWord}
-        
-        # STEP COUNTERS: Track depth from each direction
-        # When paths meet, total length = steps_begin + steps_end
-        steps_begin = 1  # beginWord counts as step 1
-        steps_end = 1    # endWord counts as step 1
-        
-        # MAIN BIDIRECTIONAL BFS LOOP
-        # Continue until one frontier becomes empty (no path exists)
-        while frontier_begin and frontier_end:
-            
-            # OPTIMIZATION: Always expand the smaller frontier
-            # This keeps both searches balanced and minimizes total work
-            # If one frontier has 10 words and other has 100, expand the 10
-            if len(frontier_begin) > len(frontier_end):
-                # Swap to always work with the smaller frontier
-                frontier_begin, frontier_end = frontier_end, frontier_begin
-                visited_begin, visited_end = visited_end, visited_begin
-                steps_begin, steps_end = steps_end, steps_begin
-            
-            # EXPLORE NEXT LEVEL: Generate all neighbors of current frontier
-            next_frontier = set()
-            
-            for word in frontier_begin:
-                # GENERATE ONE-LETTER TRANSFORMATIONS
-                # For each position in the word, try all 26 possible letters
-                # This is more efficient than comparing against all wordList words
-                word_list = list(word)  # Convert to list for mutation
-                
-                for i in range(len(word_list)):
-                    original_char = word_list[i]
-                    
-                    # Try all 26 lowercase letters
-                    for c in 'abcdefghijklmnopqrstuvwxyz':
-                        if c == original_char:
-                            continue  # Skip if same as original (no change)
-                        
-                        # CREATE TRANSFORMATION
-                        word_list[i] = c
-                        new_word = ''.join(word_list)
-                        
-                        # CHECK IF PATHS MEET: Is this word reached from opposite direction?
-                        # This is the key to bidirectional BFS - detecting intersection
-                        if new_word in visited_end:
-                            # SUCCESS! The two searches have met
-                            # Total length = steps from begin + steps from end
-                            # Example: "hit" -> (2 steps) -> "hot" <- (3 steps) <- "cog"
-                            # Total = 2 + 3 = 5 words in sequence
-                            return steps_begin + steps_end
-                        
-                        # CHECK IF VALID AND UNVISITED
-                        # Word must be in dictionary and not yet visited from this direction
-                        if new_word in word_set and new_word not in visited_begin:
-                            next_frontier.add(new_word)
-                            visited_begin.add(new_word)
-                    
-                    # RESTORE ORIGINAL CHARACTER before trying next position
-                    word_list[i] = original_char
-            
-            # ADVANCE TO NEXT LEVEL
-            # Move to the next layer of exploration
-            frontier_begin = next_frontier
-            steps_begin += 1
-        
-        # NO PATH EXISTS: One frontier became empty without finding intersection
-        # This means there's no valid transformation sequence
-        return 0""",
-        "solution_java": """import java.util.*;
-
-class Solution {
-    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        /*
-         * BIDIRECTIONAL BFS APPROACH
-         * ==========================
-         * Search from both beginWord and endWord simultaneously.
-         * Meets in the middle for optimal performance: O(b^(d/2)) vs O(b^d)
-         */
-        
-        // Convert wordList to HashSet for O(1) lookup
-        Set<String> wordSet = new HashSet<>(wordList);
-        if (!wordSet.contains(endWord)) {
-            return 0;  // endWord must be in dictionary
-        }
-        
-        // Visited sets track words reached from each direction
-        Set<String> visitedBegin = new HashSet<>();
-        Set<String> visitedEnd = new HashSet<>();
-        visitedBegin.add(beginWord);
-        visitedEnd.add(endWord);
-        
-        // Current frontiers being explored
-        Set<String> frontierBegin = new HashSet<>();
-        Set<String> frontierEnd = new HashSet<>();
-        frontierBegin.add(beginWord);
-        frontierEnd.add(endWord);
-        
-        int stepsBegin = 1;
-        int stepsEnd = 1;
-        
-        while (!frontierBegin.isEmpty() && !frontierEnd.isEmpty()) {
-            // Always expand smaller frontier (optimization)
-            if (frontierBegin.size() > frontierEnd.size()) {
-                Set<String> temp = frontierBegin;
-                frontierBegin = frontierEnd;
-                frontierEnd = temp;
-                
-                temp = visitedBegin;
-                visitedBegin = visitedEnd;
-                visitedEnd = temp;
-                
-                int tempSteps = stepsBegin;
-                stepsBegin = stepsEnd;
-                stepsEnd = tempSteps;
-            }
-            
-            Set<String> nextFrontier = new HashSet<>();
-            
-            for (String word : frontierBegin) {
-                char[] chars = word.toCharArray();
-                
-                // Try all one-letter transformations
-                for (int i = 0; i < chars.length; i++) {
-                    char originalChar = chars[i];
-                    
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        if (c == originalChar) continue;
-                        
-                        chars[i] = c;
-                        String newWord = new String(chars);
-                        
-                        // Check if paths meet
-                        if (visitedEnd.contains(newWord)) {
-                            return stepsBegin + stepsEnd;
-                        }
-                        
-                        // Add to next frontier if valid
-                        if (wordSet.contains(newWord) && !visitedBegin.contains(newWord)) {
-                            nextFrontier.add(newWord);
-                            visitedBegin.add(newWord);
-                        }
-                    }
-                    
-                    chars[i] = originalChar;  // Restore
-                }
-            }
-            
-            frontierBegin = nextFrontier;
-            stepsBegin++;
-        }
-        
-        return 0;  // No path found
-    }
-}""",
-        "solution_cpp": """#include <string>
-#include <vector>
-#include <unordered_set>
-
-class Solution {
-public:
-    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        /*
-         * BIDIRECTIONAL BFS APPROACH
-         * ==========================
-         * Searches from both ends simultaneously for optimal performance.
-         * Time: O(n * m^2), Space: O(n)
-         */
-        
-        // Convert wordList to unordered_set for O(1) lookup
-        unordered_set<string> wordSet(wordList.begin(), wordList.end());
-        if (wordSet.find(endWord) == wordSet.end()) {
-            return 0;  // endWord must be in dictionary
-        }
-        
-        // Visited sets and frontiers for both directions
-        unordered_set<string> visitedBegin = {beginWord};
-        unordered_set<string> visitedEnd = {endWord};
-        unordered_set<string> frontierBegin = {beginWord};
-        unordered_set<string> frontierEnd = {endWord};
-        
-        int stepsBegin = 1;
-        int stepsEnd = 1;
-        
-        while (!frontierBegin.empty() && !frontierEnd.empty()) {
-            // Always expand smaller frontier
-            if (frontierBegin.size() > frontierEnd.size()) {
-                swap(frontierBegin, frontierEnd);
-                swap(visitedBegin, visitedEnd);
-                swap(stepsBegin, stepsEnd);
-            }
-            
-            unordered_set<string> nextFrontier;
-            
-            for (const string& word : frontierBegin) {
-                string newWord = word;
-                
-                // Try all one-letter transformations
-                for (int i = 0; i < newWord.length(); i++) {
-                    char originalChar = newWord[i];
-                    
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        if (c == originalChar) continue;
-                        
-                        newWord[i] = c;
-                        
-                        // Check if paths meet
-                        if (visitedEnd.count(newWord)) {
-                            return stepsBegin + stepsEnd;
-                        }
-                        
-                        // Add to next frontier if valid
-                        if (wordSet.count(newWord) && !visitedBegin.count(newWord)) {
-                            nextFrontier.insert(newWord);
-                            visitedBegin.insert(newWord);
-                        }
-                    }
-                    
-                    newWord[i] = originalChar;  // Restore
-                }
-            }
-            
-            frontierBegin = nextFrontier;
-            stepsBegin++;
-        }
-        
-        return 0;  // No path found
-    }
-};""",
-        "solution_explanation": """## Approach: Bidirectional BFS
-
-### Why Bidirectional BFS?
-
-Standard BFS explores from source to target with complexity O(b^d) where:
-- b = branching factor (average neighbors per node)
-- d = depth (shortest path length)
-
-Bidirectional BFS searches from **both ends simultaneously**, meeting in the middle:
-- Complexity: O(b^(d/2)) + O(b^(d/2)) ≈ O(2 × b^(d/2))
-
-**Dramatic improvement**: For b=10, d=6:
-- Unidirectional: 10^6 = 1,000,000 nodes explored
-- Bidirectional: 2 × 10^3 = 2,000 nodes explored (500× faster!)
-
-### Algorithm Steps
-
-1. **Initialize two searches**:
-   - Forward: Start from `beginWord` with visited set and frontier
-   - Backward: Start from `endWord` with visited set and frontier
-
-2. **Optimization**: Always expand the **smaller frontier**
-   - Keeps searches balanced
-   - Minimizes total work
-
-3. **Generate transformations**:
-   - For each word in current frontier
-   - Try changing each position to all 26 letters
-   - Check if transformation is valid (in wordList)
-
-4. **Detect intersection**:
-   - If new word exists in opposite visited set → **paths meet!**
-   - Return: `steps_forward + steps_backward`
-
-5. **Advance level**:
-   - Move to next frontier
-   - Increment step counter
-
-6. **No path**: If any frontier becomes empty, no transformation exists
-
-### Key Implementation Details
-
-**Why use sets instead of queues?**
-- We only need current level's words, not order within level
-- Sets provide O(1) membership testing
-- Efficient for checking intersection
-
-**Word transformation generation**:
-```python
-for i in range(len(word)):
-    for c in 'abcdefghijklmnopqrstuvwxyz':
-        new_word = word[:i] + c + word[i+1:]
-        # Check if valid and not visited
-```
-
-**Length calculation when paths meet**:
-- Each search tracks steps from its starting word
-- When word appears in opposite visited set: `total = steps_begin + steps_end`
-- Example: "hit" →(2 steps)→ "hot" ←(3 steps)← "cog" = 5 words total
-
-### Edge Cases
-
-1. **endWord not in wordList**: Return 0 (impossible to reach)
-2. **No transformation path exists**: One frontier becomes empty → return 0
-3. **beginWord == endWord**: Return 1 (though constraints guarantee they differ)
-
-### Complexity Analysis
-
-**Time Complexity: O(n × m²)**
-- n = number of words in wordList
-- m = length of each word
-- For each word, we try m positions × 26 letters = 26m transformations
-- Each transformation takes O(m) to create the string
-- Total: O(n × m × 26 × m) = O(26nm²) = O(nm²)
-
-**Space Complexity: O(n)**
-- Two visited sets: O(n) each
-- Two frontier sets: O(n) worst case
-- Word set: O(n)
-- Total: O(n)
-
-### Visualization
-
-```
-Example: beginWord="hit", endWord="cog", wordList=["hot","dot","dog","lot","log","cog"]
-
-Level 0:  [hit] ← forward          [cog] → backward
-          
-Level 1:  [hot] ← forward          [dog, log] → backward
-          
-Level 2:  [dot, lot] ← forward    [dot, lot] → backward
-          
-INTERSECTION at Level 2: "dot" found in both!
-Total steps = 2 (forward) + 2 (backward) = 5 words in sequence
-Sequence: hit → hot → dot → dog → cog (5 words)
-```
-
-### Why This Beats Unidirectional BFS
-
-1. **Exponential reduction**: O(b^(d/2)) vs O(b^d)
-2. **Balanced exploration**: Both searches grow at similar rates
-3. **Early termination**: Meet in middle, no need to fully explore to target
-4. **Smaller memory**: Each frontier stays smaller throughout
-
-This is the optimal solution for word ladder problems!""",
-    },
-    {
-        "title": "Merge k Sorted Lists",
-        "leetcode_url": "https://leetcode.com/problems/merge-k-sorted-lists/",
-        "difficulty": "hard",
-        "description": """You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
-
-Merge all the linked-lists into one sorted linked-list and return it.""",
-        "constraints": ["k == lists.length", "0 <= k <= 10^4", "0 <= lists[i].length <= 500", "-10^4 <= lists[i][j] <= 10^4", "lists[i] is sorted in ascending order", "The sum of lists[i].length will not exceed 10^4"],
-        "examples": [
-            {"input": {"lists": [[1,4,5],[1,3,4],[2,6]]}, "output": [1,1,2,3,4,4,5,6], "explanation": "Merging all lists: [1,4,5], [1,3,4], and [2,6] into one sorted list."},
-            {"input": {"lists": []}, "output": [], "explanation": "Empty input."},
-            {"input": {"lists": [[]]}, "output": [], "explanation": "Single empty list."}
-        ],
-        "tags": ["linked-list", "divide-and-conquer", "heap", "merge-sort"],
-        "test_cases": [
-            {"input": [[[1,4,5],[1,3,4],[2,6]]], "expectedOutput": [1,1,2,3,4,4,5,6]},
-            {"input": [[]], "expectedOutput": []},
-            {"input": [[[]]], "expectedOutput": []}
-        ],
-        "time_complexity": "O(N log k) where N is total number of nodes",
-        "space_complexity": "O(k) for heap or O(log k) for divide-and-conquer",
-        "python_sig": "class Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        pass",
-        "java_sig": "class Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        \n    }\n}",
-        "cpp_sig": "class Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        \n    }\n};"
-    }
-]
-
-# 10 ML System Design Questions
-ML_QUESTIONS = [
-    {
-        "title": "Design Netflix Movie Recommendation System",
-        "difficulty": "medium",
-        "description": "Design a personalized movie/TV show recommendation system for Netflix with 200M+ subscribers. The system should provide real-time, personalized content recommendations while handling cold start problems for new users and content.",
-        "scenario": """Netflix wants to improve user engagement and content discovery by building a sophisticated recommendation system. The platform has:
-- 200M+ active subscribers globally
-- 10,000+ movies and TV shows
-- User interactions: watch history, ratings, search queries, browsing behavior
-- Content metadata: genre, cast, director, release year, language
-- Real-time viewing patterns and completion rates
-
-The system must balance personalization with content diversity, handle the cold start problem for new users/content, and provide explainable recommendations.""",
-        "requirements": [
-            "Handle 200M+ active users with real-time recommendations",
-            "Provide personalized recommendations based on viewing history and preferences",
-            "Handle cold start problem for new users and new content",
-            "Support multiple recommendation strategies (collaborative filtering, content-based, hybrid)",
-            "Implement A/B testing framework for new recommendation algorithms",
-            "Provide explainability for recommendations",
-            "Scale to handle peak traffic during new content releases",
-            "Optimize for user engagement metrics (watch time, completion rate)"
-        ],
-        "evaluation_criteria": {
-            "problem_understanding": "Clarified requirements, success metrics, and constraints",
-            "data_pipeline": "Comprehensive feature engineering and data processing approach",
-            "model_design": "Appropriate model architecture for recommendations (collaborative filtering, neural networks, etc.)",
-            "scalability": "System handles 200M users efficiently with low latency",
-            "evaluation_metrics": "Clear offline (RMSE, precision@k) and online (CTR, watch time) metrics",
-            "cold_start_strategy": "Effective approach for new users/items",
-            "explainability": "Method to explain why content was recommended"
-        },
-        "key_components": [
-            "Data Collection & Feature Engineering",
-            "Candidate Generation (retrieve top-k items)",
-            "Ranking Model (score and rank candidates)",
-            "Serving Infrastructure (low-latency API)",
-            "Offline & Online Evaluation Metrics",
-            "A/B Testing Framework",
-            "Cold Start Strategy",
-            "Explainability Module"
-        ],
-        "tags": ["recommendation", "ranking", "collaborative-filtering", "cold-start", "scalability"]
-    },
-    {
-        "title": "Design YouTube Video Recommendation Engine",
-        "difficulty": "medium",
-        "description": "Design a recommendation system for YouTube that suggests relevant videos to users based on their viewing history, preferences, and real-time context.",
-        "scenario": """YouTube serves 2B+ users who watch billions of videos daily. The recommendation system must:
-- Handle massive scale (billions of videos, billions of users)
-- Provide real-time recommendations considering current session context
-- Balance between relevance, freshness, and diversity
-- Handle different user contexts (logged-in vs anonymous, mobile vs desktop)
-- Optimize for multiple objectives (watch time, user satisfaction, ad revenue)
-
-The system receives signals from watch history, likes/dislikes, subscriptions, search queries, and contextual information (time of day, device type).""",
-        "requirements": [
-            "Scale to 2B+ users and billions of videos",
-            "Real-time recommendations with <100ms latency",
-            "Multi-objective optimization (watch time, satisfaction, diversity)",
-            "Handle cold start for new videos and users",
-            "Consider contextual signals (time, device, location)",
-            "Balance freshness vs relevance",
-            "Support different recommendation surfaces (homepage, watch next, search)",
-            "Implement feedback loops to improve over time"
-        ],
-        "evaluation_criteria": {
-            "scale_handling": "Architecture handles billions of users and videos",
-            "model_architecture": "Two-stage approach (candidate generation + ranking)",
-            "feature_engineering": "Rich features from user behavior and video metadata",
-            "real_time_processing": "Low-latency serving infrastructure",
-            "multi_objective": "Balances multiple business objectives",
-            "freshness": "Strategy to promote new/trending content",
-            "evaluation": "Comprehensive offline and online metrics"
-        },
-        "key_components": [
-            "User & Video Feature Engineering",
-            "Candidate Generation (Deep Neural Networks)",
-            "Ranking Model (Gradient Boosted Trees or DNN)",
-            "Real-time Serving Infrastructure",
-            "Context Understanding (time, device, session)",
-            "Freshness & Diversity Injection",
-            "Multi-objective Optimization",
-            "A/B Testing & Monitoring"
-        ],
-        "tags": ["recommendation", "deep-learning", "real-time", "scalability", "multi-objective"]
-    },
-    {
-        "title": "Design E-commerce Product Recommendation System",
-        "difficulty": "medium",
-        "description": "Design a product recommendation system for an e-commerce platform like Amazon that personalizes product suggestions across various touchpoints.",
-        "scenario": """An e-commerce platform with 100M+ products and 500M+ users needs a recommendation system for:
-- Homepage personalized recommendations
-- Product detail page (frequently bought together, similar items)
-- Shopping cart recommendations
-- Email campaigns
-- Search result ranking
-
-The system must handle diverse product catalog, seasonal trends, inventory constraints, and optimize for conversion rate and revenue.""",
-        "requirements": [
-            "Handle 100M+ products and 500M+ users",
-            "Multiple recommendation types (similar items, complementary products, personalized)",
-            "Real-time recommendations based on current session",
-            "Consider inventory levels and business rules",
-            "Optimize for conversion rate and revenue",
-            "Handle seasonal trends and promotional events",
-            "Support different channels (web, mobile, email)",
-            "Cold start for new products and users"
-        ],
-        "evaluation_criteria": {
-            "business_understanding": "Optimization for revenue and conversion",
-            "recommendation_types": "Multiple recommendation strategies",
-            "real_time_capability": "Session-based recommendations",
-            "inventory_awareness": "Integration with inventory system",
-            "personalization": "User-specific recommendations",
-            "scalability": "Handles large product catalog efficiently",
-            "evaluation_metrics": "CTR, conversion rate, revenue per user"
-        },
-        "key_components": [
-            "User Behavior Tracking",
-            "Product Catalog Feature Engineering",
-            "Session-based Recommendations",
-            "Collaborative Filtering Models",
-            "Content-based Filtering",
-            "Business Rules Engine (inventory, promotions)",
-            "Multi-arm Bandit for Exploration",
-            "Real-time Serving Layer",
-            "A/B Testing & Revenue Attribution"
-        ],
-        "tags": ["recommendation", "e-commerce", "personalization", "real-time", "conversion-optimization"]
-    },
-    {
-        "title": "Design Google Search Ranking System",
-        "difficulty": "hard",
-        "description": "Design the machine learning system behind Google Search that ranks web pages for a given search query.",
-        "scenario": """Google Search processes billions of queries daily and must rank billions of web pages. The system needs to:
-- Understand user intent from short queries
-- Rank pages based on relevance, authority, freshness, and user experience
-- Handle different query types (informational, navigational, transactional)
-- Provide personalized results based on user context
-- Combat spam and low-quality content
-- Serve results with <200ms latency
-
-The system uses signals from page content, link structure, user behavior, and contextual factors.""",
-        "requirements": [
-            "Process billions of queries with <200ms latency",
-            "Rank billions of web pages for relevance",
-            "Understand query intent and context",
-            "Personalization based on user history and location",
-            "Quality signals to combat spam",
-            "Handle different query types and domains",
-            "Real-time indexing of new content",
-            "Multi-language and multi-region support"
-        ],
-        "evaluation_criteria": {
-            "query_understanding": "NLP techniques for intent classification",
-            "ranking_model": "Learning-to-rank approach with hundreds of features",
-            "scalability": "Distributed architecture for billions of pages",
-            "latency": "Sub-200ms response time",
-            "relevance_signals": "Page content, links, user behavior signals",
-            "quality_filtering": "Spam detection and quality assessment",
-            "personalization": "Context-aware ranking adjustments",
-            "evaluation": "NDCG, MRR, and online metrics (CTR, long clicks)"
-        },
-        "key_components": [
-            "Query Understanding (NLP, Intent Classification)",
-            "Document Indexing & Retrieval",
-            "Feature Engineering (500+ ranking signals)",
-            "Learning-to-Rank Model (GBDT or Neural)",
-            "Quality & Spam Detection",
-            "Personalization Layer",
-            "Distributed Serving Infrastructure",
-            "Online Learning & Feedback Loops",
-            "A/B Testing Framework"
-        ],
-        "tags": ["search", "ranking", "nlp", "learning-to-rank", "scalability"]
-    },
-    {
-        "title": "Design E-commerce Search with ML",
-        "difficulty": "medium",
-        "description": "Design a machine learning-powered search system for an e-commerce platform that understands product queries and returns relevant results.",
-        "scenario": """An e-commerce platform needs an intelligent search system that:
-- Handles natural language queries ('red dress for wedding')
-- Understands product attributes and variants
-- Ranks products based on relevance, popularity, and personalization
-- Handles misspellings and synonyms
-- Optimizes for conversion (not just clicks)
-- Provides faceted search and filters
-
-The system processes millions of queries daily across a catalog of 10M+ products.""",
-        "requirements": [
-            "Handle 10M+ products and millions of daily queries",
-            "Natural language understanding for product queries",
-            "Semantic search (understand intent beyond keywords)",
-            "Ranking based on relevance, popularity, conversion probability",
-            "Handle query variations (misspellings, synonyms)",
-            "Personalization based on user history",
-            "Real-time inventory awareness",
-            "Faceted search and filtering",
-            "Optimize for conversion and revenue"
-        ],
-        "evaluation_criteria": {
-            "query_understanding": "NLP for query parsing and entity extraction",
-            "semantic_search": "Embedding-based retrieval",
-            "ranking_model": "Multi-factor ranking (relevance + business metrics)",
-            "personalization": "User context integration",
-            "query_handling": "Spell correction, synonym expansion",
-            "business_optimization": "Conversion-focused ranking",
-            "evaluation_metrics": "Search success rate, CTR, conversion rate"
-        },
-        "key_components": [
-            "Query Understanding & Parsing",
-            "Product Indexing (Elasticsearch/Solr)",
-            "Semantic Embedding Models",
-            "Ranking Model (Relevance + Business Signals)",
-            "Personalization Engine",
-            "Query Rewriting (spell check, synonyms)",
-            "Faceted Search & Filtering",
-            "A/B Testing for Ranking Changes",
-            "Conversion Tracking & Attribution"
-        ],
-        "tags": ["search", "nlp", "e-commerce", "ranking", "semantic-search"]
-    },
-    {
-        "title": "Design News Feed Ranking (Facebook/Instagram)",
-        "difficulty": "medium",
-        "description": "Design the machine learning system that ranks posts in social media news feeds to maximize user engagement.",
-        "scenario": """A social media platform with 2B+ users needs to rank posts in personalized news feeds. The system must:
-- Rank posts from friends, pages, and groups
-- Predict user engagement (likes, comments, shares, watch time)
-- Balance different content types (text, image, video, links)
-- Consider recency and virality
-- Optimize for meaningful interactions (not just clicks)
-- Handle diverse user preferences and contexts
-
-The system processes millions of candidate posts per user and must serve feeds with low latency.""",
-        "requirements": [
-            "Rank feeds for 2B+ users in real-time",
-            "Predict multiple engagement types (likes, comments, shares)",
-            "Multi-objective optimization (engagement vs quality)",
-            "Handle different content types with different engagement patterns",
-            "Consider recency, virality, and social connections",
-            "Personalization based on user preferences and history",
-            "Low-latency serving (<500ms)",
-            "Combat clickbait and low-quality content"
-        ],
-        "evaluation_criteria": {
-            "prediction_model": "Multi-task learning for different engagement types",
-            "feature_engineering": "User, post, and social graph features",
-            "ranking_strategy": "Multi-objective optimization approach",
-            "scalability": "Efficient candidate retrieval and ranking",
-            "quality_control": "Mechanisms to reduce low-quality content",
-            "evaluation_metrics": "Time spent, meaningful interactions, user satisfaction"
-        },
-        "key_components": [
-            "Candidate Generation (retrieve relevant posts)",
-            "Feature Engineering (user, post, context)",
-            "Multi-task Prediction Model (engagement types)",
-            "Ranking with Multi-objective Optimization",
-            "Quality Scoring & Clickbait Detection",
-            "Real-time Feature Computation",
-            "Distributed Serving Infrastructure",
-            "Online Learning & Feedback Loops",
-            "A/B Testing Framework"
-        ],
-        "tags": ["ranking", "social-media", "multi-task-learning", "personalization", "engagement"]
-    },
-    {
-        "title": "Design Face Recognition System",
-        "difficulty": "medium",
-        "description": "Design a scalable face recognition system for authentication or identification in applications like security, photo tagging, or access control.",
-        "scenario": """Build a face recognition system that:
-- Enrolls users by capturing and storing face embeddings
-- Authenticates users in real-time from camera input
-- Handles variations in lighting, pose, and aging
-- Works across different devices and camera qualities
-- Maintains privacy and security of biometric data
-- Scales to millions of enrolled users
-
-The system is used for authentication (1:1 matching) and identification (1:N search).""",
-        "requirements": [
-            "High accuracy (>99% verification accuracy)",
-            "Low false positive rate for security",
-            "Real-time processing (<1 second per verification)",
-            "Handle variations (lighting, pose, expressions, aging)",
-            "Scale to millions of enrolled users",
-            "Privacy-preserving (store embeddings, not raw images)",
-            "Work with different camera qualities",
-            "Support both 1:1 verification and 1:N identification",
-            "Anti-spoofing (detect fake faces, photos)"
-        ],
-        "evaluation_criteria": {
-            "model_architecture": "Deep learning model for face embedding",
-            "accuracy_metrics": "FAR, FRR, verification accuracy",
-            "robustness": "Handle real-world variations",
-            "scalability": "Efficient 1:N search in large databases",
-            "privacy": "Secure storage and processing of biometric data",
-            "anti_spoofing": "Liveness detection techniques",
-            "deployment": "Edge vs cloud deployment considerations"
-        },
-        "key_components": [
-            "Face Detection & Alignment",
-            "Face Embedding Model (ResNet, FaceNet, ArcFace)",
-            "Embedding Storage & Indexing (Vector DB)",
-            "Similarity Matching (Cosine Distance)",
-            "Liveness Detection (Anti-spoofing)",
-            "Enrollment Pipeline",
-            "Real-time Verification API",
-            "Model Retraining with New Data",
-            "Privacy & Security Measures"
-        ],
-        "tags": ["computer-vision", "face-recognition", "biometrics", "deep-learning", "security"]
-    },
-    {
-        "title": "Design Object Detection System for Autonomous Vehicles",
-        "difficulty": "hard",
-        "description": "Design a real-time object detection system for autonomous vehicles that identifies and tracks pedestrians, vehicles, traffic signs, and obstacles.",
-        "scenario": """An autonomous vehicle system needs real-time object detection that:
-- Detects multiple object types (cars, pedestrians, cyclists, signs)
-- Runs in real-time (30+ FPS) on vehicle hardware
-- Provides accurate bounding boxes and classifications
-- Handles various weather and lighting conditions
-- Maintains high recall (cannot miss critical objects)
-- Integrates with sensor fusion (cameras, LiDAR, radar)
-- Provides distance estimation and tracking
-
-Safety is critical - false negatives can be catastrophic.""",
-        "requirements": [
-            "Real-time processing (30+ FPS) with low latency (<50ms)",
-            "High recall (>99% for critical objects like pedestrians)",
-            "Detect multiple object classes simultaneously",
-            "Handle challenging conditions (night, rain, fog)",
-            "3D bounding boxes with distance estimation",
-            "Object tracking across frames",
-            "Sensor fusion (camera + LiDAR + radar)",
-            "Run on edge hardware (GPUs in vehicle)",
-            "Safety validation and redundancy"
-        ],
-        "evaluation_criteria": {
-            "model_architecture": "Efficient real-time detection model (YOLO, SSD, etc.)",
-            "accuracy_metrics": "mAP, recall for safety-critical classes",
-            "real_time_performance": "Latency and throughput on edge hardware",
-            "robustness": "Performance in adverse conditions",
-            "sensor_fusion": "Integration of multiple sensor modalities",
-            "tracking": "Multi-object tracking accuracy",
-            "safety": "Fail-safe mechanisms and redundancy"
-        },
-        "key_components": [
-            "Multi-sensor Data Collection (Camera, LiDAR, Radar)",
-            "Real-time Object Detection Model (YOLO, Faster R-CNN)",
-            "3D Bounding Box Estimation",
-            "Sensor Fusion Algorithm",
-            "Multi-object Tracking (Kalman Filter, DeepSORT)",
-            "Edge Deployment (TensorRT, ONNX optimization)",
-            "Safety Validation & Testing",
-            "Continuous Learning from Fleet Data",
-            "Redundancy & Fail-safe Mechanisms"
-        ],
-        "tags": ["computer-vision", "object-detection", "autonomous-vehicles", "real-time", "safety-critical"]
-    },
-    {
-        "title": "Design Machine Translation System",
-        "difficulty": "hard",
-        "description": "Design a neural machine translation system like Google Translate that translates text between multiple languages with high quality.",
-        "scenario": """Build a machine translation system that:
-- Supports 100+ language pairs
-- Provides high-quality, fluent translations
-- Handles domain-specific terminology
-- Maintains context across sentences
-- Works in real-time for web and mobile apps
-- Handles informal language, slang, and idioms
-- Preserves formatting and special characters
-
-The system serves millions of translation requests per day across diverse domains.""",
-        "requirements": [
-            "Support 100+ languages (10,000+ language pairs)",
-            "High translation quality (BLEU score >30 for major pairs)",
-            "Real-time translation (<1 second for typical sentences)",
-            "Context-aware (consider previous sentences)",
-            "Handle domain-specific terminology",
-            "Low-resource language support",
-            "Preserve formatting, punctuation, numbers",
-            "API for high-throughput batch translation",
-            "Continuous improvement from user feedback"
-        ],
-        "evaluation_criteria": {
-            "model_architecture": "Transformer-based seq2seq model",
-            "training_data": "Parallel corpus collection and preprocessing",
-            "multilingual_strategy": "Multilingual vs bilingual models",
-            "quality_metrics": "BLEU, METEOR, human evaluation",
-            "contextual_understanding": "Document-level translation",
-            "domain_adaptation": "Fine-tuning for specific domains",
-            "serving_infrastructure": "Low-latency, high-throughput API",
-            "feedback_loop": "Learning from user corrections"
-        },
-        "key_components": [
-            "Parallel Corpus Collection & Cleaning",
-            "Tokenization & Subword Segmentation (BPE, SentencePiece)",
-            "Transformer Model (Encoder-Decoder)",
-            "Multilingual Training Strategy",
-            "Beam Search Decoding",
-            "Domain Adaptation Fine-tuning",
-            "Quality Estimation Model",
-            "Real-time Serving Infrastructure",
-            "Human Feedback Integration",
-            "Model Distillation for Efficiency"
-        ],
-        "tags": ["nlp", "machine-translation", "transformers", "multilingual", "seq2seq"]
-    },
-    {
-        "title": "Design Credit Card Fraud Detection System",
-        "difficulty": "medium",
-        "description": "Design a real-time fraud detection system for credit card transactions that identifies fraudulent activities while minimizing false positives.",
-        "scenario": """A payment processor handles millions of credit card transactions daily and needs a fraud detection system that:
-- Analyzes transactions in real-time (<100ms)
-- Detects various fraud patterns (stolen cards, account takeover, synthetic fraud)
-- Minimizes false positives (legitimate transactions blocked)
-- Adapts to new fraud tactics quickly
-- Provides explainability for blocked transactions
-- Handles imbalanced data (fraud rate <1%)
-
-The system must balance security with user experience.""",
-        "requirements": [
-            "Real-time scoring (<100ms per transaction)",
-            "High fraud detection rate (>90% recall)",
-            "Low false positive rate (<2%)",
-            "Handle class imbalance (fraud <1% of transactions)",
-            "Detect emerging fraud patterns quickly",
-            "Explainable predictions for compliance",
-            "Scale to millions of transactions per day",
-            "Support multiple fraud types",
-            "Feedback loop from fraud investigations"
-        ],
-        "evaluation_criteria": {
-            "model_design": "Appropriate models for imbalanced classification",
-            "feature_engineering": "Transaction, user, and behavioral features",
-            "real_time_processing": "Streaming architecture for low latency",
-            "handling_imbalance": "Sampling, weighting, or specialized algorithms",
-            "adaptability": "Online learning or frequent retraining",
-            "explainability": "SHAP values or rule-based explanations",
-            "evaluation_metrics": "Precision, recall, F1, ROC-AUC for imbalanced data"
-        },
-        "key_components": [
-            "Real-time Transaction Feature Engineering",
-            "Behavioral Analytics (velocity, patterns)",
-            "Fraud Detection Model (Gradient Boosting, Neural Networks)",
-            "Handling Class Imbalance (SMOTE, class weighting)",
-            "Rule-based Detection for Known Patterns",
-            "Anomaly Detection for Novel Fraud",
-            "Real-time Scoring Infrastructure",
-            "Explainability Module (SHAP, LIME)",
-            "Feedback Loop from Fraud Investigations",
-            "Model Monitoring & Retraining"
-        ],
-        "tags": ["fraud-detection", "classification", "real-time", "imbalanced-data", "anomaly-detection"]
-    }
-]
+LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= nums[i] <= 10^9', '-10^9 <= target <= 10^9', 'Only one valid answer exists'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};',
+  'description': 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n'
+                 '\n'
+                 'You may assume that each input would have exactly one solution, and you may not use the same element twice.\n'
+                 '\n'
+                 'You can return the answer in any order.',
+  'difficulty': 'easy',
+  'examples': [{'explanation': 'Because nums[0] + nums[1] == 9, we return [0, 1].', 'input': {'nums': [2, 7, 11, 15], 'target': 9}, 'output': [0, 1]},
+               {'explanation': 'Because nums[1] + nums[2] == 6, we return [1, 2].', 'input': {'nums': [3, 2, 4], 'target': 6}, 'output': [1, 2]}],
+  'java_sig': 'class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/two-sum/',
+  'python_sig': 'class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    vector<int> twoSum(vector<int>& nums, int target) {\n'
+                  '        unordered_map<int, int> numMap;\n'
+                  '\n'
+                  '        for (int i = 0; i < nums.size(); i++) {\n'
+                  '            int complement = target - nums[i];\n'
+                  '            if (numMap.find(complement) != numMap.end()) {\n'
+                  '                return {numMap[complement], i};\n'
+                  '            }\n'
+                  '            numMap[nums[i]] = i;\n'
+                  '        }\n'
+                  '\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Hash Table\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Create a hash map to store values and indices\n'
+                          '2. For each number, calculate its complement (target - num)\n'
+                          '3. Check if complement exists in hash map\n'
+                          '4. If found, return indices; otherwise add current number to map\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n) - Single pass through the array\n'
+                          '- **Space Complexity**: O(n) - Hash map storage',
+  'solution_java': 'class Solution {\n'
+                   '    public int[] twoSum(int[] nums, int target) {\n'
+                   '        Map<Integer, Integer> map = new HashMap<>();\n'
+                   '\n'
+                   '        for (int i = 0; i < nums.length; i++) {\n'
+                   '            int complement = target - nums[i];\n'
+                   '            if (map.containsKey(complement)) {\n'
+                   '                return new int[] { map.get(complement), i };\n'
+                   '            }\n'
+                   '            map.put(nums[i], i);\n'
+                   '        }\n'
+                   '\n'
+                   '        return new int[] {};\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def twoSum(self, nums: List[int], target: int) -> List[int]:\n'
+                     '        # Hash map approach for O(n) time complexity\n'
+                     '        num_map = {}\n'
+                     '\n'
+                     '        for i, num in enumerate(nums):\n'
+                     '            complement = target - num\n'
+                     '            if complement in num_map:\n'
+                     '                return [num_map[complement], i]\n'
+                     '            num_map[num] = i\n'
+                     '\n'
+                     '        return []',
+  'space_complexity': 'O(n)',
+  'tags': ['array', 'hash-table'],
+  'test_cases': [{'expectedOutput': [0, 1], 'input': [[2, 7, 11, 15], 9]}, {'expectedOutput': [1, 2], 'input': [[3, 2, 4], 6]}, {'expectedOutput': [0, 1], 'input': [[3, 3], 6]}],
+  'time_complexity': 'O(n)',
+  'title': 'Two Sum'},
+ {'constraints': ['1 <= s.length <= 10^4', "s consists of parentheses only '()[]{}'"],
+  'cpp_sig': 'class Solution {\npublic:\n    bool isValid(string s) {\n        \n    }\n};',
+  'description': "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.\n"
+                 '\n'
+                 'An input string is valid if:\n'
+                 '1. Open brackets must be closed by the same type of brackets.\n'
+                 '2. Open brackets must be closed in the correct order.\n'
+                 '3. Every close bracket has a corresponding open bracket of the same type.',
+  'difficulty': 'easy',
+  'examples': [{'explanation': 'The string is valid.', 'input': {'s': '()'}, 'output': True},
+               {'explanation': 'All brackets are properly closed.', 'input': {'s': '()[]{}'}, 'output': True},
+               {'explanation': 'Mismatched brackets.', 'input': {'s': '(]'}, 'output': False}],
+  'java_sig': 'class Solution {\n    public boolean isValid(String s) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/valid-parentheses/',
+  'python_sig': 'class Solution:\n    def isValid(self, s: str) -> bool:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    bool isValid(string s) {\n'
+                  '        stack<char> st;\n'
+                  '        unordered_map<char, char> mapping = {\n'
+                  "            {')', '('},\n"
+                  "            {'}', '{'},\n"
+                  "            {']', '['}\n"
+                  '        };\n'
+                  '\n'
+                  '        for (char c : s) {\n'
+                  '            if (mapping.count(c)) {\n'
+                  '                if (st.empty() || st.top() != mapping[c]) {\n'
+                  '                    return False;\n'
+                  '                }\n'
+                  '                st.pop();\n'
+                  '            } else {\n'
+                  '                st.push(c);\n'
+                  '            }\n'
+                  '        }\n'
+                  '\n'
+                  '        return st.empty();\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Stack\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Use a stack to track opening brackets\n'
+                          '2. For closing brackets, check if they match the most recent opening bracket\n'
+                          '3. Valid if all brackets are matched (stack is empty)\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n)\n'
+                          '- **Space Complexity**: O(n)',
+  'solution_java': 'class Solution {\n'
+                   '    public boolean isValid(String s) {\n'
+                   '        Stack<Character> stack = new Stack<>();\n'
+                   '        Map<Character, Character> map = new HashMap<>();\n'
+                   "        map.put(')', '(');\n"
+                   "        map.put('}', '{');\n"
+                   "        map.put(']', '[');\n"
+                   '\n'
+                   '        for (char c : s.toCharArray()) {\n'
+                   '            if (map.containsKey(c)) {\n'
+                   '                if (stack.isEmpty() || stack.peek() != map.get(c)) {\n'
+                   '                    return False;\n'
+                   '                }\n'
+                   '                stack.pop();\n'
+                   '            } else {\n'
+                   '                stack.push(c);\n'
+                   '            }\n'
+                   '        }\n'
+                   '\n'
+                   '        return stack.isEmpty();\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def isValid(self, s: str) -> bool:\n'
+                     '        stack = []\n'
+                     "        mapping = {')': '(', '}': '{', ']': '['}\n"
+                     '\n'
+                     '        for char in s:\n'
+                     '            if char in mapping:\n'
+                     '                if not stack or stack[-1] != mapping[char]:\n'
+                     '                    return False\n'
+                     '                stack.pop()\n'
+                     '            else:\n'
+                     '                stack.append(char)\n'
+                     '\n'
+                     '        return len(stack) == 0',
+  'space_complexity': 'O(n)',
+  'tags': ['string', 'stack'],
+  'test_cases': [{'expectedOutput': True, 'input': ['()']}, {'expectedOutput': True, 'input': ['()[]{}']}, {'expectedOutput': False, 'input': ['(]']}, {'expectedOutput': False, 'input': ['([)]']}],
+  'time_complexity': 'O(n)',
+  'title': 'Valid Parentheses'},
+ {'constraints': ['The number of nodes in both lists is in the range [0, 50]', '-100 <= Node.val <= 100', 'Both list1 and list2 are sorted in non-decreasing order'],
+  'cpp_sig': 'class Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n        \n    }\n};',
+  'description': 'You are given the heads of two sorted linked lists list1 and list2.\n'
+                 '\n'
+                 'Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.\n'
+                 '\n'
+                 'Return the head of the merged linked list.',
+  'difficulty': 'easy',
+  'examples': [{'explanation': 'Merge both sorted lists.', 'input': {'list1': [1, 2, 4], 'list2': [1, 3, 4]}, 'output': [1, 1, 2, 3, 4, 4]},
+               {'explanation': 'Both lists are empty.', 'input': {'list1': [], 'list2': []}, 'output': []}],
+  'java_sig': 'class Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/merge-two-sorted-lists/',
+  'python_sig': 'class Solution:\n    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n'
+                  '        ListNode dummy(0);\n'
+                  '        ListNode* current = &dummy;\n'
+                  '\n'
+                  '        while (list1 && list2) {\n'
+                  '            if (list1->val <= list2->val) {\n'
+                  '                current->next = list1;\n'
+                  '                list1 = list1->next;\n'
+                  '            } else {\n'
+                  '                current->next = list2;\n'
+                  '                list2 = list2->next;\n'
+                  '            }\n'
+                  '            current = current->next;\n'
+                  '        }\n'
+                  '\n'
+                  '        current->next = list1 ? list1 : list2;\n'
+                  '        return dummy.next;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Iterative Merge\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Use dummy node to simplify edge cases\n'
+                          '2. Compare nodes and attach smaller one\n'
+                          '3. Attach remaining list when one is exhausted\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n + m)\n'
+                          '- **Space Complexity**: O(1)',
+  'solution_java': 'class Solution {\n'
+                   '    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n'
+                   '        ListNode dummy = new ListNode(0);\n'
+                   '        ListNode current = dummy;\n'
+                   '\n'
+                   '        while (list1 != None && list2 != None) {\n'
+                   '            if (list1.val <= list2.val) {\n'
+                   '                current.next = list1;\n'
+                   '                list1 = list1.next;\n'
+                   '            } else {\n'
+                   '                current.next = list2;\n'
+                   '                list2 = list2.next;\n'
+                   '            }\n'
+                   '            current = current.next;\n'
+                   '        }\n'
+                   '\n'
+                   '        current.next = (list1 != None) ? list1 : list2;\n'
+                   '        return dummy.next;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:\n'
+                     '        dummy = ListNode(0)\n'
+                     '        current = dummy\n'
+                     '\n'
+                     '        while list1 and list2:\n'
+                     '            if list1.val <= list2.val:\n'
+                     '                current.next = list1\n'
+                     '                list1 = list1.next\n'
+                     '            else:\n'
+                     '                current.next = list2\n'
+                     '                list2 = list2.next\n'
+                     '            current = current.next\n'
+                     '\n'
+                     '        current.next = list1 if list1 else list2\n'
+                     '        return dummy.next',
+  'space_complexity': 'O(1)',
+  'tags': ['linked-list', 'recursion'],
+  'test_cases': [{'expectedOutput': [1, 1, 2, 3, 4, 4], 'input': [[1, 2, 4], [1, 3, 4]]}, {'expectedOutput': [], 'input': [[], []]}, {'expectedOutput': [0], 'input': [[], [0]]}],
+  'time_complexity': 'O(n+m)',
+  'title': 'Merge Two Sorted Lists'},
+ {'constraints': ['1 <= prices.length <= 10^5', '0 <= prices[i] <= 10^4'],
+  'cpp_sig': 'class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        \n    }\n};',
+  'description': 'You are given an array prices where prices[i] is the price of a given stock on the ith day.\n'
+                 '\n'
+                 'You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.\n'
+                 '\n'
+                 'Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.',
+  'difficulty': 'easy',
+  'examples': [{'explanation': 'Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.', 'input': {'prices': [7, 1, 5, 3, 6, 4]}, 'output': 5},
+               {'explanation': 'In this case, no transactions are done and the max profit = 0.', 'input': {'prices': [7, 6, 4, 3, 1]}, 'output': 0}],
+  'java_sig': 'class Solution {\n    public int maxProfit(int[] prices) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/best-time-to-buy-and-sell-stock/',
+  'python_sig': 'class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    int maxProfit(vector<int>& prices) {\n'
+                  '        int minPrice = INT_MAX;\n'
+                  '        int maxProfit = 0;\n'
+                  '\n'
+                  '        for (int price : prices) {\n'
+                  '            minPrice = min(minPrice, price);\n'
+                  '            maxProfit = max(maxProfit, price - minPrice);\n'
+                  '        }\n'
+                  '\n'
+                  '        return maxProfit;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Dynamic Programming\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Track minimum price seen so far\n'
+                          '2. Calculate profit at each day\n'
+                          '3. Keep maximum profit\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n)\n'
+                          '- **Space Complexity**: O(1)',
+  'solution_java': 'class Solution {\n'
+                   '    public int maxProfit(int[] prices) {\n'
+                   '        int minPrice = Integer.MAX_VALUE;\n'
+                   '        int maxProfit = 0;\n'
+                   '\n'
+                   '        for (int price : prices) {\n'
+                   '            minPrice = Math.min(minPrice, price);\n'
+                   '            maxProfit = Math.max(maxProfit, price - minPrice);\n'
+                   '        }\n'
+                   '\n'
+                   '        return maxProfit;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def maxProfit(self, prices: List[int]) -> int:\n'
+                     "        min_price = float('inf')\n"
+                     '        max_profit = 0\n'
+                     '\n'
+                     '        for price in prices:\n'
+                     '            min_price = min(min_price, price)\n'
+                     '            max_profit = max(max_profit, price - min_price)\n'
+                     '\n'
+                     '        return max_profit',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'dynamic-programming'],
+  'test_cases': [{'expectedOutput': 5, 'input': [[7, 1, 5, 3, 6, 4]]}, {'expectedOutput': 0, 'input': [[7, 6, 4, 3, 1]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Best Time to Buy and Sell Stock'},
+ {'constraints': ['1 <= s.length <= 2 * 10^5', 's consists only of printable ASCII characters'],
+  'cpp_sig': 'class Solution {\npublic:\n    bool isPalindrome(string s) {\n        \n    }\n};',
+  'description': 'A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. '
+                 'Alphanumeric characters include letters and numbers.\n'
+                 '\n'
+                 'Given a string s, return True if it is a palindrome, or False otherwise.',
+  'difficulty': 'easy',
+  'examples': [{'explanation': 'After cleaning: amanaplanacanalpanama which is a palindrome.', 'input': {'s': 'A man, a plan, a canal: Panama'}, 'output': True},
+               {'explanation': 'After cleaning: raceacar which is not a palindrome.', 'input': {'s': 'race a car'}, 'output': False}],
+  'java_sig': 'class Solution {\n    public boolean isPalindrome(String s) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/valid-palindrome/',
+  'python_sig': 'class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    bool isPalindrome(string s) {\n'
+                  '        int left = 0, right = s.length() - 1;\n'
+                  '\n'
+                  '        while (left < right) {\n'
+                  '            while (left < right && !isalnum(s[left])) {\n'
+                  '                left++;\n'
+                  '            }\n'
+                  '            while (left < right && !isalnum(s[right])) {\n'
+                  '                right--;\n'
+                  '            }\n'
+                  '\n'
+                  '            if (tolower(s[left]) != tolower(s[right])) {\n'
+                  '                return False;\n'
+                  '            }\n'
+                  '\n'
+                  '            left++;\n'
+                  '            right--;\n'
+                  '        }\n'
+                  '\n'
+                  '        return True;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Two Pointers\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Use two pointers from start and end\n'
+                          '2. Skip non-alphanumeric characters\n'
+                          '3. Compare characters (case-insensitive)\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n)\n'
+                          '- **Space Complexity**: O(1)',
+  'solution_java': 'class Solution {\n'
+                   '    public boolean isPalindrome(String s) {\n'
+                   '        int left = 0, right = s.length() - 1;\n'
+                   '\n'
+                   '        while (left < right) {\n'
+                   '            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {\n'
+                   '                left++;\n'
+                   '            }\n'
+                   '            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {\n'
+                   '                right--;\n'
+                   '            }\n'
+                   '\n'
+                   '            if (Character.toLowerCase(s.charAt(left)) !=\n'
+                   '                Character.toLowerCase(s.charAt(right))) {\n'
+                   '                return False;\n'
+                   '            }\n'
+                   '\n'
+                   '            left++;\n'
+                   '            right--;\n'
+                   '        }\n'
+                   '\n'
+                   '        return True;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def isPalindrome(self, s: str) -> bool:\n'
+                     '        left, right = 0, len(s) - 1\n'
+                     '\n'
+                     '        while left < right:\n'
+                     '            while left < right and not s[left].isalnum():\n'
+                     '                left += 1\n'
+                     '            while left < right and not s[right].isalnum():\n'
+                     '                right -= 1\n'
+                     '\n'
+                     '            if s[left].lower() != s[right].lower():\n'
+                     '                return False\n'
+                     '\n'
+                     '            left += 1\n'
+                     '            right -= 1\n'
+                     '\n'
+                     '        return True',
+  'space_complexity': 'O(1)',
+  'tags': ['two-pointers', 'string'],
+  'test_cases': [{'expectedOutput': True, 'input': ['A man, a plan, a canal: Panama']}, {'expectedOutput': False, 'input': ['race a car']}, {'expectedOutput': True, 'input': [' ']}],
+  'time_complexity': 'O(n)',
+  'title': 'Valid Palindrome'},
+ {'constraints': ['1 <= n <= 45'],
+  'cpp_sig': 'class Solution {\npublic:\n    int climbStairs(int n) {\n        \n    }\n};',
+  'description': 'You are climbing a staircase. It takes n steps to reach the top.\n\nEach time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?',
+  'difficulty': 'easy',
+  'examples': [{'explanation': 'There are two ways: 1. 1 step + 1 step, 2. 2 steps', 'input': {'n': 2}, 'output': 2},
+               {'explanation': 'There are three ways: 1. 1+1+1, 2. 1+2, 3. 2+1', 'input': {'n': 3}, 'output': 3}],
+  'java_sig': 'class Solution {\n    public int climbStairs(int n) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/climbing-stairs/',
+  'python_sig': 'class Solution:\n    def climbStairs(self, n: int) -> int:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    int climbStairs(int n) {\n'
+                  '        if (n <= 2) return n;\n'
+                  '\n'
+                  '        int prev2 = 1, prev1 = 2;\n'
+                  '\n'
+                  '        for (int i = 3; i <= n; i++) {\n'
+                  '            int current = prev1 + prev2;\n'
+                  '            prev2 = prev1;\n'
+                  '            prev1 = current;\n'
+                  '        }\n'
+                  '\n'
+                  '        return prev1;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Dynamic Programming (Fibonacci)\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Base cases: 1 step = 1 way, 2 steps = 2 ways\n'
+                          '2. For n steps: ways(n) = ways(n-1) + ways(n-2)\n'
+                          '3. Use two variables to track previous values\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n)\n'
+                          '- **Space Complexity**: O(1)',
+  'solution_java': 'class Solution {\n'
+                   '    public int climbStairs(int n) {\n'
+                   '        if (n <= 2) return n;\n'
+                   '\n'
+                   '        int prev2 = 1, prev1 = 2;\n'
+                   '\n'
+                   '        for (int i = 3; i <= n; i++) {\n'
+                   '            int current = prev1 + prev2;\n'
+                   '            prev2 = prev1;\n'
+                   '            prev1 = current;\n'
+                   '        }\n'
+                   '\n'
+                   '        return prev1;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def climbStairs(self, n: int) -> int:\n'
+                     '        if n <= 2:\n'
+                     '            return n\n'
+                     '\n'
+                     '        # Dynamic programming - Fibonacci sequence\n'
+                     '        prev2, prev1 = 1, 2\n'
+                     '\n'
+                     '        for i in range(3, n + 1):\n'
+                     '            current = prev1 + prev2\n'
+                     '            prev2 = prev1\n'
+                     '            prev1 = current\n'
+                     '\n'
+                     '        return prev1',
+  'space_complexity': 'O(1)',
+  'tags': ['dynamic-programming', 'math'],
+  'test_cases': [{'expectedOutput': 2, 'input': [2]}, {'expectedOutput': 3, 'input': [3]}, {'expectedOutput': 5, 'input': [4]}],
+  'time_complexity': 'O(n)',
+  'title': 'Climbing Stairs'},
+ {'constraints': ['The number of nodes in the tree is in the range [0, 100]', '-100 <= Node.val <= 100'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<int> inorderTraversal(TreeNode* root) {\n        \n    }\n};',
+  'description': "Given the root of a binary tree, return the inorder traversal of its nodes' values.\n\nInorder traversal: Left -> Root -> Right",
+  'difficulty': 'easy',
+  'examples': [{'explanation': 'Inorder traversal of the tree.', 'input': {'root': [1, None, 2, 3]}, 'output': [1, 3, 2]}, {'explanation': 'Empty tree.', 'input': {'root': []}, 'output': []}],
+  'java_sig': 'class Solution {\n    public List<Integer> inorderTraversal(TreeNode root) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/binary-tree-inorder-traversal/',
+  'python_sig': 'class Solution:\n    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    vector<int> inorderTraversal(TreeNode* root) {\n'
+                  '        vector<int> result;\n'
+                  '        stack<TreeNode*> st;\n'
+                  '        TreeNode* current = root;\n'
+                  '\n'
+                  '        while (current || !st.empty()) {\n'
+                  '            while (current) {\n'
+                  '                st.push(current);\n'
+                  '                current = current->left;\n'
+                  '            }\n'
+                  '\n'
+                  '            current = st.top();\n'
+                  '            st.pop();\n'
+                  '            result.push_back(current->val);\n'
+                  '            current = current->right;\n'
+                  '        }\n'
+                  '\n'
+                  '        return result;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Iterative using Stack\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Use stack to simulate recursion\n'
+                          '2. Go left as far as possible\n'
+                          '3. Process node and go right\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n)\n'
+                          '- **Space Complexity**: O(n)',
+  'solution_java': 'class Solution {\n'
+                   '    public List<Integer> inorderTraversal(TreeNode root) {\n'
+                   '        List<Integer> result = new ArrayList<>();\n'
+                   '        Stack<TreeNode> stack = new Stack<>();\n'
+                   '        TreeNode current = root;\n'
+                   '\n'
+                   '        while (current != None || !stack.isEmpty()) {\n'
+                   '            while (current != None) {\n'
+                   '                stack.push(current);\n'
+                   '                current = current.left;\n'
+                   '            }\n'
+                   '\n'
+                   '            current = stack.pop();\n'
+                   '            result.add(current.val);\n'
+                   '            current = current.right;\n'
+                   '        }\n'
+                   '\n'
+                   '        return result;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n'
+                     '        result = []\n'
+                     '        stack = []\n'
+                     '        current = root\n'
+                     '\n'
+                     '        while current or stack:\n'
+                     '            # Go to the leftmost node\n'
+                     '            while current:\n'
+                     '                stack.append(current)\n'
+                     '                current = current.left\n'
+                     '\n'
+                     '            # Current is None, so process the node on top of stack\n'
+                     '            current = stack.pop()\n'
+                     '            result.append(current.val)\n'
+                     '\n'
+                     '            # Visit right subtree\n'
+                     '            current = current.right\n'
+                     '\n'
+                     '        return result',
+  'space_complexity': 'O(n)',
+  'tags': ['tree', 'depth-first-search', 'stack'],
+  'test_cases': [{'expectedOutput': [1, 3, 2], 'input': [[1, None, 2, 3]]}, {'expectedOutput': [], 'input': [[]]}, {'expectedOutput': [1], 'input': [[1]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Binary Tree Inorder Traversal'},
+ {'constraints': ['The number of the nodes in the list is in the range [0, 10^4]', '-10^5 <= Node.val <= 10^5', 'pos is -1 or a valid index in the linked-list'],
+  'cpp_sig': 'class Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        \n    }\n};',
+  'description': 'Given head, the head of a linked list, determine if the linked list has a cycle in it.\n'
+                 '\n'
+                 'There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer.',
+  'difficulty': 'easy',
+  'examples': [{'explanation': 'There is a cycle where the tail connects to the 1st node.', 'input': {'head': [3, 2, 0, -4], 'pos': 1}, 'output': True},
+               {'explanation': 'There is no cycle in the linked list.', 'input': {'head': [1], 'pos': -1}, 'output': False}],
+  'java_sig': 'class Solution {\n    public boolean hasCycle(ListNode head) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/linked-list-cycle/',
+  'python_sig': 'class Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    bool hasCycle(ListNode *head) {\n'
+                  '        if (!head || !head->next) return False;\n'
+                  '\n'
+                  '        ListNode* slow = head;\n'
+                  '        ListNode* fast = head->next;\n'
+                  '\n'
+                  '        while (slow != fast) {\n'
+                  '            if (!fast || !fast->next) return False;\n'
+                  '            slow = slow->next;\n'
+                  '            fast = fast->next->next;\n'
+                  '        }\n'
+                  '\n'
+                  '        return True;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': "## Approach: Floyd's Cycle Detection (Two Pointers)\n"
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Use slow and fast pointers\n'
+                          '2. Slow moves 1 step, fast moves 2 steps\n'
+                          "3. If they meet, there's a cycle\n"
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n)\n'
+                          '- **Space Complexity**: O(1)',
+  'solution_java': 'public class Solution {\n'
+                   '    public boolean hasCycle(ListNode head) {\n'
+                   '        if (head == None || head.next == None) {\n'
+                   '            return False;\n'
+                   '        }\n'
+                   '\n'
+                   '        ListNode slow = head;\n'
+                   '        ListNode fast = head.next;\n'
+                   '\n'
+                   '        while (slow != fast) {\n'
+                   '            if (fast == None || fast.next == None) {\n'
+                   '                return False;\n'
+                   '            }\n'
+                   '            slow = slow.next;\n'
+                   '            fast = fast.next.next;\n'
+                   '        }\n'
+                   '\n'
+                   '        return True;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def hasCycle(self, head: Optional[ListNode]) -> bool:\n'
+                     '        if not head or not head.next:\n'
+                     '            return False\n'
+                     '\n'
+                     '        slow = head\n'
+                     '        fast = head.next\n'
+                     '\n'
+                     '        while slow != fast:\n'
+                     '            if not fast or not fast.next:\n'
+                     '                return False\n'
+                     '            slow = slow.next\n'
+                     '            fast = fast.next.next\n'
+                     '\n'
+                     '        return True',
+  'space_complexity': 'O(1)',
+  'tags': ['linked-list', 'two-pointers', 'hash-table'],
+  'test_cases': [{'expectedOutput': True, 'input': [[3, 2, 0, -4], 1]}, {'expectedOutput': True, 'input': [[1, 2], 0]}, {'expectedOutput': False, 'input': [[1], -1]}],
+  'time_complexity': 'O(n)',
+  'title': 'Linked List Cycle'},
+ {'constraints': ['0 <= s.length <= 5 * 10^4', 's consists of English letters, digits, symbols and spaces'],
+  'cpp_sig': 'class Solution {\npublic:\n    int lengthOfLongestSubstring(string s) {\n        \n    }\n};',
+  'description': 'Given a string s, find the length of the longest substring without repeating characters.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': "The answer is 'abc', with the length of 3.", 'input': {'s': 'abcabcbb'}, 'output': 3},
+               {'explanation': "The answer is 'b', with the length of 1.", 'input': {'s': 'bbbbb'}, 'output': 1}],
+  'java_sig': 'class Solution {\n    public int lengthOfLongestSubstring(String s) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/longest-substring-without-repeating-characters/',
+  'python_sig': 'class Solution:\n    def lengthOfLongestSubstring(self, s: str) -> int:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    int lengthOfLongestSubstring(string s) {\n'
+                  '        unordered_set<char> charSet;\n'
+                  '        int left = 0, maxLength = 0;\n'
+                  '\n'
+                  '        for (int right = 0; right < s.length(); right++) {\n'
+                  '            while (charSet.count(s[right])) {\n'
+                  '                charSet.erase(s[left]);\n'
+                  '                left++;\n'
+                  '            }\n'
+                  '\n'
+                  '            charSet.insert(s[right]);\n'
+                  '            maxLength = max(maxLength, right - left + 1);\n'
+                  '        }\n'
+                  '\n'
+                  '        return maxLength;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Sliding Window with Hash Set\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Use two pointers for sliding window\n'
+                          '2. Expand window by moving right pointer\n'
+                          '3. Contract window when duplicate found\n'
+                          '4. Track maximum window size\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n)\n'
+                          '- **Space Complexity**: O(min(n, m)) where m is charset size',
+  'solution_java': 'class Solution {\n'
+                   '    public int lengthOfLongestSubstring(String s) {\n'
+                   '        Set<Character> charSet = new HashSet<>();\n'
+                   '        int left = 0, maxLength = 0;\n'
+                   '\n'
+                   '        for (int right = 0; right < s.length(); right++) {\n'
+                   '            while (charSet.contains(s.charAt(right))) {\n'
+                   '                charSet.remove(s.charAt(left));\n'
+                   '                left++;\n'
+                   '            }\n'
+                   '\n'
+                   '            charSet.add(s.charAt(right));\n'
+                   '            maxLength = Math.max(maxLength, right - left + 1);\n'
+                   '        }\n'
+                   '\n'
+                   '        return maxLength;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def lengthOfLongestSubstring(self, s: str) -> int:\n'
+                     '        char_set = set()\n'
+                     '        left = 0\n'
+                     '        max_length = 0\n'
+                     '\n'
+                     '        for right in range(len(s)):\n'
+                     '            while s[right] in char_set:\n'
+                     '                char_set.remove(s[left])\n'
+                     '                left += 1\n'
+                     '\n'
+                     '            char_set.add(s[right])\n'
+                     '            max_length = max(max_length, right - left + 1)\n'
+                     '\n'
+                     '        return max_length',
+  'space_complexity': 'O(min(m,n))',
+  'tags': ['string', 'sliding-window', 'hash-table'],
+  'test_cases': [{'expectedOutput': 3, 'input': ['abcabcbb']}, {'expectedOutput': 1, 'input': ['bbbbb']}, {'expectedOutput': 3, 'input': ['pwwkew']}],
+  'time_complexity': 'O(n)',
+  'title': 'Longest Substring Without Repeating Characters'},
+ {'constraints': ['The number of nodes in each linked list is in the range [1, 100]', '0 <= Node.val <= 9', 'It is guaranteed that the list represents a number that does not have leading zeros'],
+  'cpp_sig': 'class Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        \n    }\n};',
+  'description': 'You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the '
+                 'two numbers and return the sum as a linked list.\n'
+                 '\n'
+                 'You may assume the two numbers do not contain any leading zero, except the number 0 itself.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': '342 + 465 = 807.', 'input': {'l1': [2, 4, 3], 'l2': [5, 6, 4]}, 'output': [7, 0, 8]}, {'explanation': '0 + 0 = 0.', 'input': {'l1': [0], 'l2': [0]}, 'output': [0]}],
+  'java_sig': 'class Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/add-two-numbers/',
+  'python_sig': 'class Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n'
+                  '        ListNode dummy(0);\n'
+                  '        ListNode* current = &dummy;\n'
+                  '        int carry = 0;\n'
+                  '\n'
+                  '        while (l1 || l2 || carry) {\n'
+                  '            int val1 = l1 ? l1->val : 0;\n'
+                  '            int val2 = l2 ? l2->val : 0;\n'
+                  '\n'
+                  '            int total = val1 + val2 + carry;\n'
+                  '            carry = total / 10;\n'
+                  '\n'
+                  '            current->next = new ListNode(total % 10);\n'
+                  '            current = current->next;\n'
+                  '\n'
+                  '            l1 = l1 ? l1->next : Noneptr;\n'
+                  '            l2 = l2 ? l2->next : Noneptr;\n'
+                  '        }\n'
+                  '\n'
+                  '        return dummy.next;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Elementary Math with Carry\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Add digits and carry from right to left\n'
+                          '2. Handle carry for next position\n'
+                          '3. Continue until both lists exhausted and no carry\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(max(m, n))\n'
+                          '- **Space Complexity**: O(max(m, n))',
+  'solution_java': 'class Solution {\n'
+                   '    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n'
+                   '        ListNode dummy = new ListNode(0);\n'
+                   '        ListNode current = dummy;\n'
+                   '        int carry = 0;\n'
+                   '\n'
+                   '        while (l1 != None || l2 != None || carry != 0) {\n'
+                   '            int val1 = (l1 != None) ? l1.val : 0;\n'
+                   '            int val2 = (l2 != None) ? l2.val : 0;\n'
+                   '\n'
+                   '            int total = val1 + val2 + carry;\n'
+                   '            carry = total / 10;\n'
+                   '\n'
+                   '            current.next = new ListNode(total % 10);\n'
+                   '            current = current.next;\n'
+                   '\n'
+                   '            l1 = (l1 != None) ? l1.next : None;\n'
+                   '            l2 = (l2 != None) ? l2.next : None;\n'
+                   '        }\n'
+                   '\n'
+                   '        return dummy.next;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n'
+                     '        dummy = ListNode(0)\n'
+                     '        current = dummy\n'
+                     '        carry = 0\n'
+                     '\n'
+                     '        while l1 or l2 or carry:\n'
+                     '            val1 = l1.val if l1 else 0\n'
+                     '            val2 = l2.val if l2 else 0\n'
+                     '\n'
+                     '            total = val1 + val2 + carry\n'
+                     '            carry = total // 10\n'
+                     '\n'
+                     '            current.next = ListNode(total % 10)\n'
+                     '            current = current.next\n'
+                     '\n'
+                     '            l1 = l1.next if l1 else None\n'
+                     '            l2 = l2.next if l2 else None\n'
+                     '\n'
+                     '        return dummy.next',
+  'space_complexity': 'O(max(m,n))',
+  'tags': ['linked-list', 'math', 'recursion'],
+  'test_cases': [{'expectedOutput': [7, 0, 8], 'input': [[2, 4, 3], [5, 6, 4]]}, {'expectedOutput': [0], 'input': [[0], [0]]}, {'expectedOutput': [8, 9, 9, 0, 1], 'input': [[9, 9, 9], [9, 9, 9, 9]]}],
+  'time_complexity': 'O(max(m,n))',
+  'title': 'Add Two Numbers'},
+ {'constraints': ['n == height.length', '2 <= n <= 10^5', '0 <= height[i] <= 10^4'],
+  'cpp_sig': 'class Solution {\npublic:\n    int maxArea(vector<int>& height) {\n        \n    }\n};',
+  'description': 'You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).\n'
+                 '\n'
+                 'Find two lines that together with the x-axis form a container, such that the container contains the most water.\n'
+                 '\n'
+                 'Return the maximum amount of water a container can store.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'The max area is between index 1 (height 8) and index 8 (height 7).', 'input': {'height': [1, 8, 6, 2, 5, 4, 8, 3, 7]}, 'output': 49}],
+  'java_sig': 'class Solution {\n    public int maxArea(int[] height) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/container-with-most-water/',
+  'python_sig': 'class Solution:\n    def maxArea(self, height: List[int]) -> int:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    int maxArea(vector<int>& height) {\n'
+                  '        int left = 0, right = height.size() - 1;\n'
+                  '        int maxArea = 0;\n'
+                  '\n'
+                  '        while (left < right) {\n'
+                  '            int width = right - left;\n'
+                  '            int currentArea = min(height[left], height[right]) * width;\n'
+                  '            maxArea = max(maxArea, currentArea);\n'
+                  '\n'
+                  '            if (height[left] < height[right]) {\n'
+                  '                left++;\n'
+                  '            } else {\n'
+                  '                right--;\n'
+                  '            }\n'
+                  '        }\n'
+                  '\n'
+                  '        return maxArea;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Two Pointers\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Start with widest container\n'
+                          '2. Move pointer with smaller height inward\n'
+                          '3. Track maximum area\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n)\n'
+                          '- **Space Complexity**: O(1)',
+  'solution_java': 'class Solution {\n'
+                   '    public int maxArea(int[] height) {\n'
+                   '        int left = 0, right = height.length - 1;\n'
+                   '        int maxArea = 0;\n'
+                   '\n'
+                   '        while (left < right) {\n'
+                   '            int width = right - left;\n'
+                   '            int currentArea = Math.min(height[left], height[right]) * width;\n'
+                   '            maxArea = Math.max(maxArea, currentArea);\n'
+                   '\n'
+                   '            if (height[left] < height[right]) {\n'
+                   '                left++;\n'
+                   '            } else {\n'
+                   '                right--;\n'
+                   '            }\n'
+                   '        }\n'
+                   '\n'
+                   '        return maxArea;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def maxArea(self, height: List[int]) -> int:\n'
+                     '        left, right = 0, len(height) - 1\n'
+                     '        max_area = 0\n'
+                     '\n'
+                     '        while left < right:\n'
+                     '            width = right - left\n'
+                     '            current_area = min(height[left], height[right]) * width\n'
+                     '            max_area = max(max_area, current_area)\n'
+                     '\n'
+                     '            # Move the pointer with smaller height\n'
+                     '            if height[left] < height[right]:\n'
+                     '                left += 1\n'
+                     '            else:\n'
+                     '                right -= 1\n'
+                     '\n'
+                     '        return max_area',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'two-pointers', 'greedy'],
+  'test_cases': [{'expectedOutput': 49, 'input': [[1, 8, 6, 2, 5, 4, 8, 3, 7]]}, {'expectedOutput': 1, 'input': [[1, 1]]}, {'expectedOutput': 16, 'input': [[4, 3, 2, 1, 4]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Container With Most Water'},
+ {'constraints': ['3 <= nums.length <= 3000', '-10^5 <= nums[i] <= 10^5'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<vector<int>> threeSum(vector<int>& nums) {\n        \n    }\n};',
+  'description': 'Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.\n'
+                 '\n'
+                 'Notice that the solution set must not contain duplicate triplets.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'The distinct triplets are [-1,0,1] and [-1,-1,2].', 'input': {'nums': [-1, 0, 1, 2, -1, -4]}, 'output': [[-1, -1, 2], [-1, 0, 1]]},
+               {'explanation': 'The only possible triplet does not sum up to 0.', 'input': {'nums': [0, 1, 1]}, 'output': []}],
+  'java_sig': 'class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/3sum/',
+  'python_sig': 'class Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    vector<vector<int>> threeSum(vector<int>& nums) {\n'
+                  '        sort(nums.begin(), nums.end());\n'
+                  '        vector<vector<int>> result;\n'
+                  '\n'
+                  '        for (int i = 0; i < nums.size() - 2; i++) {\n'
+                  '            if (i > 0 && nums[i] == nums[i - 1]) continue;\n'
+                  '\n'
+                  '            int left = i + 1, right = nums.size() - 1;\n'
+                  '\n'
+                  '            while (left < right) {\n'
+                  '                int sum = nums[i] + nums[left] + nums[right];\n'
+                  '\n'
+                  '                if (sum == 0) {\n'
+                  '                    result.push_back({nums[i], nums[left], nums[right]});\n'
+                  '\n'
+                  '                    while (left < right && nums[left] == nums[left + 1]) left++;\n'
+                  '                    while (left < right && nums[right] == nums[right - 1]) right--;\n'
+                  '\n'
+                  '                    left++;\n'
+                  '                    right--;\n'
+                  '                } else if (sum < 0) {\n'
+                  '                    left++;\n'
+                  '                } else {\n'
+                  '                    right--;\n'
+                  '                }\n'
+                  '            }\n'
+                  '        }\n'
+                  '\n'
+                  '        return result;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Sort + Two Pointers\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Sort the array\n'
+                          '2. Fix one element and find two others using two pointers\n'
+                          '3. Skip duplicates to avoid duplicate triplets\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n²)\n'
+                          '- **Space Complexity**: O(1)',
+  'solution_java': 'class Solution {\n'
+                   '    public List<List<Integer>> threeSum(int[] nums) {\n'
+                   '        Arrays.sort(nums);\n'
+                   '        List<List<Integer>> result = new ArrayList<>();\n'
+                   '\n'
+                   '        for (int i = 0; i < nums.length - 2; i++) {\n'
+                   '            if (i > 0 && nums[i] == nums[i - 1]) continue;\n'
+                   '\n'
+                   '            int left = i + 1, right = nums.length - 1;\n'
+                   '\n'
+                   '            while (left < right) {\n'
+                   '                int sum = nums[i] + nums[left] + nums[right];\n'
+                   '\n'
+                   '                if (sum == 0) {\n'
+                   '                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));\n'
+                   '\n'
+                   '                    while (left < right && nums[left] == nums[left + 1]) left++;\n'
+                   '                    while (left < right && nums[right] == nums[right - 1]) right--;\n'
+                   '\n'
+                   '                    left++;\n'
+                   '                    right--;\n'
+                   '                } else if (sum < 0) {\n'
+                   '                    left++;\n'
+                   '                } else {\n'
+                   '                    right--;\n'
+                   '                }\n'
+                   '            }\n'
+                   '        }\n'
+                   '\n'
+                   '        return result;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def threeSum(self, nums: List[int]) -> List[List[int]]:\n'
+                     '        nums.sort()\n'
+                     '        result = []\n'
+                     '\n'
+                     '        for i in range(len(nums) - 2):\n'
+                     '            # Skip duplicates\n'
+                     '            if i > 0 and nums[i] == nums[i - 1]:\n'
+                     '                continue\n'
+                     '\n'
+                     '            left, right = i + 1, len(nums) - 1\n'
+                     '\n'
+                     '            while left < right:\n'
+                     '                total = nums[i] + nums[left] + nums[right]\n'
+                     '\n'
+                     '                if total == 0:\n'
+                     '                    result.append([nums[i], nums[left], nums[right]])\n'
+                     '\n'
+                     '                    # Skip duplicates\n'
+                     '                    while left < right and nums[left] == nums[left + 1]:\n'
+                     '                        left += 1\n'
+                     '                    while left < right and nums[right] == nums[right - 1]:\n'
+                     '                        right -= 1\n'
+                     '\n'
+                     '                    left += 1\n'
+                     '                    right -= 1\n'
+                     '                elif total < 0:\n'
+                     '                    left += 1\n'
+                     '                else:\n'
+                     '                    right -= 1\n'
+                     '\n'
+                     '        return result',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'two-pointers', 'sorting'],
+  'test_cases': [{'expectedOutput': [[-1, -1, 2], [-1, 0, 1]], 'input': [[-1, 0, 1, 2, -1, -4]]}, {'expectedOutput': [], 'input': [[0, 1, 1]]}, {'expectedOutput': [[0, 0, 0]], 'input': [[0, 0, 0]]}],
+  'time_complexity': 'O(n^2)',
+  'title': '3Sum'},
+ {'constraints': ['1 <= strs.length <= 10^4', '0 <= strs[i].length <= 100', 'strs[i] consists of lowercase English letters'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        \n    }\n};',
+  'description': 'Given an array of strings strs, group the anagrams together. You can return the answer in any order.\n'
+                 '\n'
+                 'An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Group words that are anagrams.', 'input': {'strs': ['eat', 'tea', 'tan', 'ate', 'nat', 'bat']}, 'output': [['bat'], ['nat', 'tan'], ['ate', 'eat', 'tea']]}],
+  'java_sig': 'class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/group-anagrams/',
+  'python_sig': 'class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n'
+                  '        unordered_map<string, vector<string>> map;\n'
+                  '\n'
+                  '        for (string& s : strs) {\n'
+                  '            string key = s;\n'
+                  '            sort(key.begin(), key.end());\n'
+                  '            map[key].push_back(s);\n'
+                  '        }\n'
+                  '\n'
+                  '        vector<vector<string>> result;\n'
+                  '        for (auto& pair : map) {\n'
+                  '            result.push_back(pair.second);\n'
+                  '        }\n'
+                  '\n'
+                  '        return result;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Hash Map with Sorted String Key\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. Sort each string to create a key\n'
+                          '2. Group strings with the same sorted key\n'
+                          '3. Return all groups\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n * k log k) where k is max string length\n'
+                          '- **Space Complexity**: O(n * k)',
+  'solution_java': 'class Solution {\n'
+                   '    public List<List<String>> groupAnagrams(String[] strs) {\n'
+                   '        Map<String, List<String>> map = new HashMap<>();\n'
+                   '\n'
+                   '        for (String s : strs) {\n'
+                   '            char[] chars = s.toCharArray();\n'
+                   '            Arrays.sort(chars);\n'
+                   '            String key = String.valueOf(chars);\n'
+                   '\n'
+                   '            if (!map.containsKey(key)) {\n'
+                   '                map.put(key, new ArrayList<>());\n'
+                   '            }\n'
+                   '            map.get(key).add(s);\n'
+                   '        }\n'
+                   '\n'
+                   '        return new ArrayList<>(map.values());\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n'
+                     '        anagram_map = {}\n'
+                     '\n'
+                     '        for s in strs:\n'
+                     '            # Sort the string to create a key\n'
+                     "            key = ''.join(sorted(s))\n"
+                     '            if key not in anagram_map:\n'
+                     '                anagram_map[key] = []\n'
+                     '            anagram_map[key].append(s)\n'
+                     '\n'
+                     '        return list(anagram_map.values())',
+  'space_complexity': 'O(n*k)',
+  'tags': ['array', 'hash-table', 'string', 'sorting'],
+  'test_cases': [{'expectedOutput': [['bat'], ['nat', 'tan'], ['ate', 'eat', 'tea']], 'input': [['eat', 'tea', 'tan', 'ate', 'nat', 'bat']]},
+                 {'expectedOutput': [['']], 'input': [['']]},
+                 {'expectedOutput': [['a']], 'input': [['a']]}],
+  'time_complexity': 'O(n*k)',
+  'title': 'Group Anagrams'},
+ {'constraints': ['1 <= s.length <= 1000', 's consist of only digits and English letters'],
+  'cpp_sig': 'class Solution {\npublic:\n    string longestPalindrome(string s) {\n        \n    }\n};',
+  'description': 'Given a string s, return the longest palindromic substring in s.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': "Note: 'aba' is also a valid answer.", 'input': {'s': 'babad'}, 'output': 'bab'},
+               {'explanation': "The longest palindrome is 'bb'.", 'input': {'s': 'cbbd'}, 'output': 'bb'}],
+  'java_sig': 'class Solution {\n    public String longestPalindrome(String s) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/longest-palindromic-substring/',
+  'python_sig': 'class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        pass',
+  'solution_cpp': 'class Solution {\n'
+                  'public:\n'
+                  '    string longestPalindrome(string s) {\n'
+                  '        if (s.empty()) return "";\n'
+                  '\n'
+                  '        int start = 0, maxLen = 0;\n'
+                  '\n'
+                  '        for (int i = 0; i < s.length(); i++) {\n'
+                  '            int len1 = expandAroundCenter(s, i, i);\n'
+                  '            int len2 = expandAroundCenter(s, i, i + 1);\n'
+                  '            int len = max(len1, len2);\n'
+                  '\n'
+                  '            if (len > maxLen) {\n'
+                  '                maxLen = len;\n'
+                  '                start = i - (len - 1) / 2;\n'
+                  '            }\n'
+                  '        }\n'
+                  '\n'
+                  '        return s.substr(start, maxLen);\n'
+                  '    }\n'
+                  '\n'
+                  'private:\n'
+                  '    int expandAroundCenter(string& s, int left, int right) {\n'
+                  '        while (left >= 0 && right < s.length() && s[left] == s[right]) {\n'
+                  '            left--;\n'
+                  '            right++;\n'
+                  '        }\n'
+                  '        return right - left - 1;\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Expand Around Centers\n'
+                          '\n'
+                          '### Algorithm\n'
+                          '1. For each position, consider it as center\n'
+                          '2. Expand outward while characters match\n'
+                          '3. Handle both odd and even length palindromes\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(n²)\n'
+                          '- **Space Complexity**: O(1)',
+  'solution_java': 'class Solution {\n'
+                   '    public String longestPalindrome(String s) {\n'
+                   '        if (s == None || s.length() == 0) return "";\n'
+                   '\n'
+                   '        int start = 0, maxLen = 0;\n'
+                   '\n'
+                   '        for (int i = 0; i < s.length(); i++) {\n'
+                   '            int len1 = expandAroundCenter(s, i, i);\n'
+                   '            int len2 = expandAroundCenter(s, i, i + 1);\n'
+                   '            int len = Math.max(len1, len2);\n'
+                   '\n'
+                   '            if (len > maxLen) {\n'
+                   '                maxLen = len;\n'
+                   '                start = i - (len - 1) / 2;\n'
+                   '            }\n'
+                   '        }\n'
+                   '\n'
+                   '        return s.substring(start, start + maxLen);\n'
+                   '    }\n'
+                   '\n'
+                   '    private int expandAroundCenter(String s, int left, int right) {\n'
+                   '        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {\n'
+                   '            left--;\n'
+                   '            right++;\n'
+                   '        }\n'
+                   '        return right - left - 1;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def longestPalindrome(self, s: str) -> str:\n'
+                     '        if not s:\n'
+                     '            return ""\n'
+                     '\n'
+                     '        def expandAroundCenter(left: int, right: int) -> int:\n'
+                     '            while left >= 0 and right < len(s) and s[left] == s[right]:\n'
+                     '                left -= 1\n'
+                     '                right += 1\n'
+                     '            return right - left - 1\n'
+                     '\n'
+                     '        start = 0\n'
+                     '        max_len = 0\n'
+                     '\n'
+                     '        for i in range(len(s)):\n'
+                     '            # Odd length palindromes\n'
+                     '            len1 = expandAroundCenter(i, i)\n'
+                     '            # Even length palindromes\n'
+                     '            len2 = expandAroundCenter(i, i + 1)\n'
+                     '\n'
+                     '            current_len = max(len1, len2)\n'
+                     '\n'
+                     '            if current_len > max_len:\n'
+                     '                max_len = current_len\n'
+                     '                start = i - (current_len - 1) // 2\n'
+                     '\n'
+                     '        return s[start:start + max_len]',
+  'space_complexity': 'O(1)',
+  'tags': ['string', 'dynamic-programming'],
+  'test_cases': [{'expectedOutput': 'bab', 'input': ['babad']}, {'expectedOutput': 'bb', 'input': ['cbbd']}, {'expectedOutput': 'a', 'input': ['a']}],
+  'time_complexity': 'O(n^2)',
+  'title': 'Longest Palindromic Substring'},
+ {'constraints': ['2 <= nums.length <= 10^5', '-30 <= nums[i] <= 30', 'The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<int> productExceptSelf(vector<int>& nums) {\n        \n    }\n};',
+  'description': 'Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].\n'
+                 '\n'
+                 'You must write an algorithm that runs in O(n) time and without using the division operation.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'answer[0] = 2*3*4 = 24, answer[1] = 1*3*4 = 12, etc.', 'input': {'nums': [1, 2, 3, 4]}, 'output': [24, 12, 8, 6]}],
+  'java_sig': 'class Solution {\n    public int[] productExceptSelf(int[] nums) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/product-of-array-except-self/',
+  'python_sig': 'class Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        pass',
+  'solution_cpp': '// Solution for Product of Array Except Self\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Product of Array Except Self\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Product of Array Except Self\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def productExceptSelf(self, nums: List[int]) -> List[int]:\n'
+                     '        """\n'
+                     '        Two-pass approach using prefix and suffix products.\n'
+                     '        Builds result array where result[i] = product of all elements except nums[i].\n'
+                     '        Avoids division operator and runs in O(n) time.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. First pass: Calculate prefix products (product of all elements before i)\n'
+                     '        2. Second pass: Multiply by suffix products (product of all elements after i)\n'
+                     '\n'
+                     '        Time Complexity: O(n) - two passes through array\n'
+                     '        Space Complexity: O(1) - excluding output array (no extra space used)\n'
+                     '        """\n'
+                     '        n = len(nums)\n'
+                     '        result = [1] * n\n'
+                     '\n'
+                     '        # First pass: Calculate prefix products\n'
+                     '        # result[i] = product of all elements before index i\n'
+                     '        prefix = 1\n'
+                     '        for i in range(n):\n'
+                     '            result[i] = prefix\n'
+                     '            prefix *= nums[i]\n'
+                     '\n'
+                     '        # Second pass: Multiply by suffix products\n'
+                     '        # result[i] *= product of all elements after index i\n'
+                     '        suffix = 1\n'
+                     '        for i in range(n - 1, -1, -1):\n'
+                     '            result[i] *= suffix\n'
+                     '            suffix *= nums[i]\n'
+                     '\n'
+                     '        return result\n',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'prefix-sum'],
+  'test_cases': [{'expectedOutput': [24, 12, 8, 6], 'input': [[1, 2, 3, 4]]}, {'expectedOutput': [0, 0, 9, 0, 0], 'input': [[-1, 1, 0, -3, 3]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Product of Array Except Self'},
+ {'constraints': ['m == matrix.length', 'n == matrix[i].length', '1 <= m, n <= 10', '-100 <= matrix[i][j] <= 100'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        \n    }\n};',
+  'description': 'Given an m x n matrix, return all elements of the matrix in spiral order.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Traverse the matrix in spiral order.', 'input': {'matrix': [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, 'output': [1, 2, 3, 6, 9, 8, 7, 4, 5]}],
+  'java_sig': 'class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/spiral-matrix/',
+  'python_sig': 'class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        pass',
+  'solution_cpp': '// Solution for Spiral Matrix\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Spiral Matrix\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Spiral Matrix\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Solution for Spiral Matrix\n'
+                     'from typing import List\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n'
+                     '        """\n'
+                     '        Return elements of matrix in spiral order.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        - Track four boundaries: top, bottom, left, right\n'
+                     '        - Traverse right → down → left → up\n'
+                     '        - Shrink boundaries after each direction\n'
+                     '        - Stop when boundaries cross\n'
+                     '\n'
+                     '        Time: O(m*n) - visit each element once\n'
+                     '        Space: O(1) - excluding output array\n'
+                     '        """\n'
+                     '        if not matrix or not matrix[0]:\n'
+                     '            return []\n'
+                     '\n'
+                     '        result = []\n'
+                     '        top, bottom = 0, len(matrix) - 1\n'
+                     '        left, right = 0, len(matrix[0]) - 1\n'
+                     '\n'
+                     '        while top <= bottom and left <= right:\n'
+                     '            # Traverse right along top row\n'
+                     '            for col in range(left, right + 1):\n'
+                     '                result.append(matrix[top][col])\n'
+                     '            top += 1\n'
+                     '\n'
+                     '            # Traverse down along right column\n'
+                     '            for row in range(top, bottom + 1):\n'
+                     '                result.append(matrix[row][right])\n'
+                     '            right -= 1\n'
+                     '\n'
+                     '            # Traverse left along bottom row (if row exists)\n'
+                     '            if top <= bottom:\n'
+                     '                for col in range(right, left - 1, -1):\n'
+                     '                    result.append(matrix[bottom][col])\n'
+                     '                bottom -= 1\n'
+                     '\n'
+                     '            # Traverse up along left column (if column exists)\n'
+                     '            if left <= right:\n'
+                     '                for row in range(bottom, top - 1, -1):\n'
+                     '                    result.append(matrix[row][left])\n'
+                     '                left += 1\n'
+                     '\n'
+                     '        return result\n',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'matrix', 'simulation'],
+  'test_cases': [{'expectedOutput': [1, 2, 3, 6, 9, 8, 7, 4, 5], 'input': [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]]},
+                 {'expectedOutput': [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7], 'input': [[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]]}],
+  'time_complexity': 'O(m*n)',
+  'title': 'Spiral Matrix'},
+ {'constraints': ['n == matrix.length == matrix[i].length', '1 <= n <= 20', '-1000 <= matrix[i][j] <= 1000'],
+  'cpp_sig': 'class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        \n    }\n};',
+  'description': 'You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).\n'
+                 '\n'
+                 'You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Rotate 90 degrees clockwise.', 'input': {'matrix': [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, 'output': [[7, 4, 1], [8, 5, 2], [9, 6, 3]]}],
+  'java_sig': 'class Solution {\n    public void rotate(int[][] matrix) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/rotate-image/',
+  'python_sig': 'class Solution:\n    def rotate(self, matrix: List[List[int]]) -> None:\n        pass',
+  'solution_cpp': '// Solution for Rotate Image\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Rotate Image\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Rotate Image\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Solution for Rotate Image\n'
+                     'from typing import List\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def rotate(self, matrix: List[List[int]]) -> None:\n'
+                     '        """\n'
+                     '        Rotate matrix 90 degrees clockwise in-place.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        1. Transpose matrix (swap matrix[i][j] with matrix[j][i])\n'
+                     '        2. Reverse each row\n'
+                     '        Result: 90° clockwise rotation\n'
+                     '\n'
+                     '        Time: O(n²) - process each element twice\n'
+                     '        Space: O(1) - in-place modification\n'
+                     '        """\n'
+                     '        n = len(matrix)\n'
+                     '\n'
+                     '        # Step 1: Transpose matrix\n'
+                     '        for i in range(n):\n'
+                     '            for j in range(i + 1, n):\n'
+                     '                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]\n'
+                     '\n'
+                     '        # Step 2: Reverse each row\n'
+                     '        for row in matrix:\n'
+                     '            row.reverse()\n',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'matrix'],
+  'test_cases': [{'expectedOutput': [[7, 4, 1], [8, 5, 2], [9, 6, 3]], 'input': [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]]},
+                 {'expectedOutput': [[15, 13, 2, 5], [14, 3, 4, 1], [12, 6, 8, 9], [16, 7, 10, 11]], 'input': [[[5, 1, 9, 11], [2, 4, 8, 10], [13, 3, 6, 7], [15, 14, 12, 16]]]}],
+  'time_complexity': 'O(n^2)',
+  'title': 'Rotate Image'},
+ {'constraints': ['m == matrix.length', 'n == matrix[0].length', '1 <= m, n <= 200', '-2^31 <= matrix[i][j] <= 2^31 - 1'],
+  'cpp_sig': 'class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        \n    }\n};',
+  'description': "Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.\n\nYou must do it in place.",
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Mark row and column of 0s.', 'input': {'matrix': [[1, 1, 1], [1, 0, 1], [1, 1, 1]]}, 'output': [[1, 0, 1], [0, 0, 0], [1, 0, 1]]}],
+  'java_sig': 'class Solution {\n    public void setZeroes(int[][] matrix) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/set-matrix-zeroes/',
+  'python_sig': 'class Solution:\n    def setZeroes(self, matrix: List[List[int]]) -> None:\n        pass',
+  'solution_cpp': '// Solution for Set Matrix Zeroes\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Set Matrix Zeroes\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Set Matrix Zeroes\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Solution for Set Matrix Zeroes\n'
+                     'from typing import List\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def setZeroes(self, matrix: List[List[int]]) -> None:\n'
+                     '        """\n'
+                     '        Set entire row and column to zero if element is zero.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        - Use first row and first column as markers\n'
+                     '        - Track separately if first column has zeros\n'
+                     '        - Mark zeros in first row/col\n'
+                     '        - Apply zeros using markers\n'
+                     '        - Handle first row/col last\n'
+                     '\n'
+                     '        Time: O(m*n)\n'
+                     '        Space: O(1) - reuse matrix for markers\n'
+                     '        """\n'
+                     '        m, n = len(matrix), len(matrix[0])\n'
+                     '        first_row_has_zero = any(matrix[0][j] == 0 for j in range(n))\n'
+                     '        first_col_has_zero = any(matrix[i][0] == 0 for i in range(m))\n'
+                     '\n'
+                     '        # Use first row and column as markers (skip row 0, col 0)\n'
+                     '        for i in range(1, m):\n'
+                     '            for j in range(1, n):\n'
+                     '                if matrix[i][j] == 0:\n'
+                     '                    matrix[i][0] = 0  # Mark row\n'
+                     '                    matrix[0][j] = 0  # Mark column\n'
+                     '\n'
+                     '        # Set zeros based on markers (skip first row/col)\n'
+                     '        for i in range(1, m):\n'
+                     '            for j in range(1, n):\n'
+                     '                if matrix[i][0] == 0 or matrix[0][j] == 0:\n'
+                     '                    matrix[i][j] = 0\n'
+                     '\n'
+                     '        # Handle first column first (including row 0)\n'
+                     '        if first_col_has_zero:\n'
+                     '            for i in range(m):\n'
+                     '                matrix[i][0] = 0\n'
+                     '\n'
+                     '        # Handle first row second (will overwrite matrix[0][0] if needed)\n'
+                     '        if first_row_has_zero:\n'
+                     '            for j in range(n):\n'
+                     '                matrix[0][j] = 0\n',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'matrix', 'hash-table'],
+  'test_cases': [{'expectedOutput': [[1, 0, 1], [0, 0, 0], [1, 0, 1]], 'input': [[[1, 1, 1], [1, 0, 1], [1, 1, 1]]]},
+                 {'expectedOutput': [[0, 0, 0, 0], [0, 4, 5, 0], [0, 3, 1, 0]], 'input': [[[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]]]}],
+  'time_complexity': 'O(m*n)',
+  'title': 'Set Matrix Zeroes'},
+ {'constraints': ['1 <= nums.length <= 2 * 10^4', '-1000 <= nums[i] <= 1000', '-10^7 <= k <= 10^7'],
+  'cpp_sig': 'class Solution {\npublic:\n    int subarraySum(vector<int>& nums, int k) {\n        \n    }\n};',
+  'description': 'Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.\n'
+                 '\n'
+                 'A subarray is a contiguous non-empty sequence of elements within an array.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Subarrays [1,1] and [1,1] sum to 2.', 'input': {'k': 2, 'nums': [1, 1, 1]}, 'output': 2},
+               {'explanation': 'Subarrays [1,2] and [3] sum to 3.', 'input': {'k': 3, 'nums': [1, 2, 3]}, 'output': 2}],
+  'java_sig': 'class Solution {\n    public int subarraySum(int[] nums, int k) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/subarray-sum-equals-k/',
+  'python_sig': 'class Solution:\n    def subarraySum(self, nums: List[int], k: int) -> int:\n        pass',
+  'solution_cpp': '// Solution for Subarray Sum Equals K\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Subarray Sum Equals K\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Subarray Sum Equals K\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def subarraySum(self, nums: List[int], k: int) -> int:\n'
+                     '        """\n'
+                     '        Hash map with prefix sums to count subarrays summing to k.\n'
+                     '        Uses the insight: if prefix_sum[i] - prefix_sum[j] = k,\n'
+                     '        then subarray from j+1 to i sums to k.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Track running prefix sum\n'
+                     '        2. Store frequency of each prefix sum in hash map\n'
+                     '        3. For each position, check if (current_sum - k) exists\n'
+                     '        4. Count those occurrences (number of valid subarrays ending here)\n'
+                     '\n'
+                     '        Time Complexity: O(n) - single pass through array\n'
+                     '        Space Complexity: O(n) - hash map storage\n'
+                     '        """\n'
+                     '        # Map: prefix_sum -> frequency\n'
+                     '        prefix_sums = {0: 1}  # Base case: empty prefix sum\n'
+                     '        current_sum = 0\n'
+                     '        count = 0\n'
+                     '\n'
+                     '        for num in nums:\n'
+                     '            # Update running prefix sum\n'
+                     '            current_sum += num\n'
+                     '\n'
+                     '            # Check if (current_sum - k) exists\n'
+                     '            # If yes, we found subarrays ending at current position\n'
+                     '            if current_sum - k in prefix_sums:\n'
+                     '                count += prefix_sums[current_sum - k]\n'
+                     '\n'
+                     '            # Record current prefix sum\n'
+                     '            prefix_sums[current_sum] = prefix_sums.get(current_sum, 0) + 1\n'
+                     '\n'
+                     '        return count\n',
+  'space_complexity': 'O(n)',
+  'tags': ['array', 'hash-table', 'prefix-sum'],
+  'test_cases': [{'expectedOutput': 2, 'input': [[1, 1, 1], 2]}, {'expectedOutput': 2, 'input': [[1, 2, 3], 3]}],
+  'time_complexity': 'O(n)',
+  'title': 'Subarray Sum Equals K'},
+ {'constraints': ['1 <= nums.length <= 10^5', '-10^4 <= nums[i] <= 10^4'],
+  'cpp_sig': 'class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        \n    }\n};',
+  'description': 'Given an integer array nums, find the subarray with the largest sum, and return its sum.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'The subarray [4,-1,2,1] has the largest sum 6.', 'input': {'nums': [-2, 1, -3, 4, -1, 2, 1, -5, 4]}, 'output': 6},
+               {'explanation': 'The subarray [1] has the largest sum 1.', 'input': {'nums': [1]}, 'output': 1}],
+  'java_sig': 'class Solution {\n    public int maxSubArray(int[] nums) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/maximum-subarray/',
+  'python_sig': 'class Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        pass',
+  'solution_cpp': '// Solution for Maximum Subarray\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Maximum Subarray\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Maximum Subarray\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def maxSubArray(self, nums: List[int]) -> int:\n'
+                     '        """\n'
+                     "        Kadane's Algorithm - Classic dynamic programming approach.\n"
+                     '        Finds contiguous subarray with the largest sum.\n'
+                     '\n'
+                     '        Key insight: At each position, we decide whether to:\n'
+                     '        - Extend the current subarray (add current element)\n'
+                     '        - Start a new subarray (current element alone is better)\n'
+                     '\n'
+                     '        Time Complexity: O(n) - single pass through array\n'
+                     '        Space Complexity: O(1) - only tracking two variables\n'
+                     '        """\n'
+                     '        # Track the maximum sum ending at current position\n'
+                     '        current_sum = nums[0]\n'
+                     '        # Track the overall maximum sum seen so far\n'
+                     '        max_sum = nums[0]\n'
+                     '\n'
+                     '        # Iterate through array starting from second element\n'
+                     '        for i in range(1, len(nums)):\n'
+                     '            # Decide: extend current subarray or start fresh\n'
+                     '            # If current_sum is negative, starting fresh is better\n'
+                     '            current_sum = max(nums[i], current_sum + nums[i])\n'
+                     '\n'
+                     '            # Update global maximum\n'
+                     '            max_sum = max(max_sum, current_sum)\n'
+                     '\n'
+                     '        return max_sum\n',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'divide-and-conquer', 'dynamic-programming'],
+  'test_cases': [{'expectedOutput': 6, 'input': [[-2, 1, -3, 4, -1, 2, 1, -5, 4]]}, {'expectedOutput': 1, 'input': [[1]]}, {'expectedOutput': 23, 'input': [[5, 4, -1, 7, 8]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Maximum Subarray'},
+ {'constraints': ['The number of nodes in the list is sz', '1 <= sz <= 30', '0 <= Node.val <= 100', '1 <= n <= sz'],
+  'cpp_sig': 'class Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        \n    }\n};',
+  'description': 'Given the head of a linked list, remove the nth node from the end of the list and return its head.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Remove 2nd node from end.', 'input': {'head': [1, 2, 3, 4, 5], 'n': 2}, 'output': [1, 2, 3, 5]}],
+  'java_sig': 'class Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/remove-nth-node-from-end-of-list/',
+  'python_sig': 'class Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        pass',
+  'solution_cpp': '// Solution for Remove Nth Node From End of List\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Remove Nth Node From End of List\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Remove Nth Node From End of List\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': '# Solution for Remove Nth Node From End of List\n'
+                     'from typing import Optional\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n'
+                     '        """\n'
+                     '        Remove nth node from end of linked list in one pass.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        - Use dummy head to handle edge cases\n'
+                     '        - Two pointers: fast moves n steps ahead\n'
+                     '        - Move both until fast reaches end\n'
+                     '        - slow.next is the node to remove\n'
+                     '\n'
+                     '        Time: O(L) where L is list length\n'
+                     '        Space: O(1)\n'
+                     '        """\n'
+                     '        dummy = ListNode(0)\n'
+                     '        dummy.next = head\n'
+                     '        fast = slow = dummy\n'
+                     '\n'
+                     '        # Move fast n steps ahead\n'
+                     '        for _ in range(n):\n'
+                     '            fast = fast.next\n'
+                     '\n'
+                     '        # Move both until fast reaches end\n'
+                     '        while fast.next:\n'
+                     '            fast = fast.next\n'
+                     '            slow = slow.next\n'
+                     '\n'
+                     '        # Remove the nth node\n'
+                     '        slow.next = slow.next.next\n'
+                     '\n'
+                     '        return dummy.next\n',
+  'space_complexity': 'O(1)',
+  'tags': ['linked-list', 'two-pointers'],
+  'test_cases': [{'expectedOutput': [1, 2, 3, 5], 'input': [[1, 2, 3, 4, 5], 2]}, {'expectedOutput': [], 'input': [[1], 1]}, {'expectedOutput': [1], 'input': [[1, 2], 1]}],
+  'time_complexity': 'O(n)',
+  'title': 'Remove Nth Node From End of List'},
+ {'constraints': ['The number of nodes in the list is n', '1 <= n <= 500', '-500 <= Node.val <= 500', '1 <= left <= right <= n'],
+  'cpp_sig': 'class Solution {\npublic:\n    ListNode* reverseBetween(ListNode* head, int left, int right) {\n        \n    }\n};',
+  'description': 'Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the '
+                 'reversed list.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Reverse nodes from position 2 to 4.', 'input': {'head': [1, 2, 3, 4, 5], 'left': 2, 'right': 4}, 'output': [1, 4, 3, 2, 5]}],
+  'java_sig': 'class Solution {\n    public ListNode reverseBetween(ListNode head, int left, int right) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/reverse-linked-list-ii/',
+  'python_sig': 'class Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        pass',
+  'solution_cpp': '// Solution for Reverse Linked List II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Reverse Linked List II\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Reverse Linked List II\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Solution for Reverse Linked List II\n'
+                     'from typing import Optional\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n'
+                     '        """\n'
+                     '        Reverse linked list from position left to right.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        - Use dummy head for clean edge case handling\n'
+                     '        - Find node before left position\n'
+                     '        - Reverse sublist using standard three-pointer reversal\n'
+                     '        - Reconnect reversed portion\n'
+                     '\n'
+                     '        Time: O(n)\n'
+                     '        Space: O(1)\n'
+                     '        """\n'
+                     '        if not head or left == right:\n'
+                     '            return head\n'
+                     '\n'
+                     '        dummy = ListNode(0)\n'
+                     '        dummy.next = head\n'
+                     '        prev = dummy\n'
+                     '\n'
+                     '        # Move to node before left position\n'
+                     '        for _ in range(left - 1):\n'
+                     '            prev = prev.next\n'
+                     '\n'
+                     '        # Reverse from left to right\n'
+                     '        current = prev.next\n'
+                     '        for _ in range(right - left):\n'
+                     '            next_node = current.next\n'
+                     '            current.next = next_node.next\n'
+                     '            next_node.next = prev.next\n'
+                     '            prev.next = next_node\n'
+                     '\n'
+                     '        return dummy.next\n',
+  'space_complexity': 'O(1)',
+  'tags': ['linked-list'],
+  'test_cases': [{'expectedOutput': [1, 4, 3, 2, 5], 'input': [[1, 2, 3, 4, 5], 2, 4]}, {'expectedOutput': [5], 'input': [[5], 1, 1]}],
+  'time_complexity': 'O(n)',
+  'title': 'Reverse Linked List II'},
+ {'constraints': ['The number of nodes in the list is in the range [0, 100]', '0 <= Node.val <= 100'],
+  'cpp_sig': 'class Solution {\npublic:\n    ListNode* swapPairs(ListNode* head) {\n        \n    }\n};',
+  'description': "Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes.",
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Swap adjacent pairs.', 'input': {'head': [1, 2, 3, 4]}, 'output': [2, 1, 4, 3]}],
+  'java_sig': 'class Solution {\n    public ListNode swapPairs(ListNode head) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/swap-nodes-in-pairs/',
+  'python_sig': 'class Solution:\n    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
+  'solution_cpp': '// Solution for Swap Nodes in Pairs\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Swap Nodes in Pairs\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Swap Nodes in Pairs\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Solution for Swap Nodes in Pairs\n'
+                     'from typing import Optional\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:\n'
+                     '        """\n'
+                     '        Swap every two adjacent nodes in linked list.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        - Use dummy head for clean handling\n'
+                     '        - For each pair: adjust pointers to swap\n'
+                     '        - Move to next pair\n'
+                     '\n'
+                     '        Time: O(n)\n'
+                     '        Space: O(1)\n'
+                     '        """\n'
+                     '        dummy = ListNode(0)\n'
+                     '        dummy.next = head\n'
+                     '        prev = dummy\n'
+                     '\n'
+                     '        while prev.next and prev.next.next:\n'
+                     '            # Identify nodes to swap\n'
+                     '            first = prev.next\n'
+                     '            second = prev.next.next\n'
+                     '\n'
+                     '            # Perform swap\n'
+                     '            prev.next = second\n'
+                     '            first.next = second.next\n'
+                     '            second.next = first\n'
+                     '\n'
+                     '            # Move to next pair\n'
+                     '            prev = first\n'
+                     '\n'
+                     '        return dummy.next\n',
+  'space_complexity': 'O(1)',
+  'tags': ['linked-list', 'recursion'],
+  'test_cases': [{'expectedOutput': [2, 1, 4, 3], 'input': [[1, 2, 3, 4]]}, {'expectedOutput': [], 'input': [[]]}, {'expectedOutput': [1], 'input': [[1]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Swap Nodes in Pairs'},
+ {'constraints': ['The number of nodes in the tree is in the range [0, 2000]', '-1000 <= Node.val <= 1000'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        \n    }\n};',
+  'description': "Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).",
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Level by level traversal.', 'input': {'root': [3, 9, 20, None, None, 15, 7]}, 'output': [[3], [9, 20], [15, 7]]}],
+  'java_sig': 'class Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/binary-tree-level-order-traversal/',
+  'python_sig': 'class Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        pass',
+  'solution_cpp': '// Solution for Binary Tree Level Order Traversal\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Binary Tree Level Order Traversal\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Binary Tree Level Order Traversal\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': '# Definition for a binary tree node.\n'
+                     '# class TreeNode:\n'
+                     '#     def __init__(self, val=0, left=None, right=None):\n'
+                     '#         self.val = val\n'
+                     '#         self.left = left\n'
+                     '#         self.right = right\n'
+                     '\n'
+                     'from collections import deque\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n'
+                     '        """\n'
+                     '        Breadth-First Search (BFS) using a queue.\n'
+                     '        Traverses tree level by level, collecting nodes at each level.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Use queue to track nodes at current level\n'
+                     '        2. For each level, process all nodes and collect their values\n'
+                     '        3. Add children of current level to queue for next level\n'
+                     '\n'
+                     '        Time Complexity: O(n) - visit each node once\n'
+                     '        Space Complexity: O(w) - where w is maximum width of tree (queue size)\n'
+                     '        """\n'
+                     '        if not root:\n'
+                     '            return []\n'
+                     '\n'
+                     '        result = []\n'
+                     '        queue = deque([root])\n'
+                     '\n'
+                     '        while queue:\n'
+                     '            level_size = len(queue)\n'
+                     '            current_level = []\n'
+                     '\n'
+                     '            # Process all nodes at current level\n'
+                     '            for _ in range(level_size):\n'
+                     '                node = queue.popleft()\n'
+                     '                current_level.append(node.val)\n'
+                     '\n'
+                     '                # Add children to queue for next level\n'
+                     '                if node.left:\n'
+                     '                    queue.append(node.left)\n'
+                     '                if node.right:\n'
+                     '                    queue.append(node.right)\n'
+                     '\n'
+                     '            result.append(current_level)\n'
+                     '\n'
+                     '        return result\n',
+  'space_complexity': 'O(n)',
+  'tags': ['tree', 'breadth-first-search'],
+  'test_cases': [{'expectedOutput': [[3], [9, 20], [15, 7]], 'input': [[3, 9, 20, None, None, 15, 7]]}, {'expectedOutput': [[1]], 'input': [[1]]}, {'expectedOutput': [], 'input': [[]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Binary Tree Level Order Traversal'},
+ {'constraints': ['The number of nodes in the tree is in the range [1, 10^4]', '-2^31 <= Node.val <= 2^31 - 1'],
+  'cpp_sig': 'class Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        \n    }\n};',
+  'description': 'Given the root of a binary tree, determine if it is a valid binary search tree (BST).\n'
+                 '\n'
+                 'A valid BST is defined as follows:\n'
+                 "- The left subtree of a node contains only nodes with keys less than the node's key.\n"
+                 "- The right subtree of a node contains only nodes with keys greater than the node's key.\n"
+                 '- Both the left and right subtrees must also be binary search trees.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Valid BST.', 'input': {'root': [2, 1, 3]}, 'output': True},
+               {'explanation': 'Node 4 in right subtree of 5 violates BST property.', 'input': {'root': [5, 1, 4, None, None, 3, 6]}, 'output': False}],
+  'java_sig': 'class Solution {\n    public boolean isValidBST(TreeNode root) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/validate-binary-search-tree/',
+  'python_sig': 'class Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        pass',
+  'solution_cpp': '// Solution for Validate Binary Search Tree\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Validate Binary Search Tree\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Validate Binary Search Tree\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Definition for a binary tree node.\n'
+                     '# class TreeNode:\n'
+                     '#     def __init__(self, val=0, left=None, right=None):\n'
+                     '#         self.val = val\n'
+                     '#         self.left = left\n'
+                     '#         self.right = right\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n'
+                     '        """\n'
+                     '        Recursive validation with min/max bounds.\n'
+                     '        BST property: all nodes in left subtree < root < all nodes in right subtree\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        - Track valid range [min_val, max_val] for each node\n'
+                     '        - Left child must be < current node value\n'
+                     '        - Right child must be > current node value\n'
+                     '        - Recursively validate with updated bounds\n'
+                     '\n'
+                     '        Time Complexity: O(n) - visit each node once\n'
+                     '        Space Complexity: O(h) - recursion stack where h is tree height\n'
+                     '        """\n'
+                     '        def validate(node: Optional[TreeNode], min_val: float, max_val: float) -> bool:\n'
+                     '            # Empty tree is valid BST\n'
+                     '            if not node:\n'
+                     '                return True\n'
+                     '\n'
+                     '            # Check if current node violates BST property\n'
+                     '            if node.val <= min_val or node.val >= max_val:\n'
+                     '                return False\n'
+                     '\n'
+                     '            # Recursively validate left and right subtrees with updated bounds\n'
+                     '            # Left subtree: all values must be < node.val\n'
+                     '            # Right subtree: all values must be > node.val\n'
+                     '            return (validate(node.left, min_val, node.val) and\n'
+                     '                    validate(node.right, node.val, max_val))\n'
+                     '\n'
+                     '        # Start with infinite bounds\n'
+                     "        return validate(root, float('-inf'), float('inf'))\n",
+  'space_complexity': 'O(n)',
+  'tags': ['tree', 'depth-first-search', 'binary-search-tree'],
+  'test_cases': [{'expectedOutput': True, 'input': [[2, 1, 3]]}, {'expectedOutput': False, 'input': [[5, 1, 4, None, None, 3, 6]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Validate Binary Search Tree'},
+ {'constraints': ['The number of nodes in the tree is n', '1 <= k <= n <= 10^4', '0 <= Node.val <= 10^4'],
+  'cpp_sig': 'class Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        \n    }\n};',
+  'description': 'Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'The smallest element is 1.', 'input': {'k': 1, 'root': [3, 1, 4, None, 2]}, 'output': 1},
+               {'explanation': 'The 3rd smallest is 3.', 'input': {'k': 3, 'root': [5, 3, 6, 2, 4, None, None, 1]}, 'output': 3}],
+  'java_sig': 'class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/kth-smallest-element-in-a-bst/',
+  'python_sig': 'class Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        pass',
+  'solution_cpp': '// Solution for Kth Smallest Element in a BST\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Kth Smallest Element in a BST\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Kth Smallest Element in a BST\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': '# Solution for Kth Smallest Element in a BST\n'
+                     'from typing import Optional\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n'
+                     '        """\n'
+                     '        Find kth smallest element in BST.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        - In-order traversal of BST yields sorted sequence\n'
+                     '        - Use counter to track position\n'
+                     '        - Return when counter reaches k\n'
+                     '\n'
+                     '        Time: O(n) worst case, O(k) average\n'
+                     '        Space: O(h) for recursion stack\n'
+                     '        """\n'
+                     '        self.count = 0\n'
+                     '        self.result = None\n'
+                     '\n'
+                     '        def inorder(node):\n'
+                     '            if not node or self.result is not None:\n'
+                     '                return\n'
+                     '\n'
+                     '            # Traverse left subtree\n'
+                     '            inorder(node.left)\n'
+                     '\n'
+                     '            # Process current node\n'
+                     '            self.count += 1\n'
+                     '            if self.count == k:\n'
+                     '                self.result = node.val\n'
+                     '                return\n'
+                     '\n'
+                     '            # Traverse right subtree\n'
+                     '            inorder(node.right)\n'
+                     '\n'
+                     '        inorder(root)\n'
+                     '        return self.result\n',
+  'space_complexity': 'O(n)',
+  'tags': ['tree', 'depth-first-search', 'binary-search-tree'],
+  'test_cases': [{'expectedOutput': 1, 'input': [[3, 1, 4, None, 2], 1]}, {'expectedOutput': 3, 'input': [[5, 3, 6, 2, 4, None, None, 1], 3]}],
+  'time_complexity': 'O(n)',
+  'title': 'Kth Smallest Element in a BST'},
+ {'constraints': ['The number of nodes in the tree is in the range [0, 100]', '-100 <= Node.val <= 100'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        \n    }\n};',
+  'description': 'Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Right side view shows nodes 1, 3, 4.', 'input': {'root': [1, 2, 3, None, 5, None, 4]}, 'output': [1, 3, 4]}],
+  'java_sig': 'class Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/binary-tree-right-side-view/',
+  'python_sig': 'class Solution:\n    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n        pass',
+  'solution_cpp': '// Solution for Binary Tree Right Side View\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Binary Tree Right Side View\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Binary Tree Right Side View\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Solution for Binary Tree Right Side View\n'
+                     'from typing import Optional, List\n'
+                     'from collections import deque\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n'
+                     '        """\n'
+                     '        Return values of nodes visible from right side of tree.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        - Level-order traversal (BFS)\n'
+                     '        - Capture rightmost node at each level\n'
+                     '        - Rightmost = last node processed per level\n'
+                     '\n'
+                     '        Time: O(n) - visit each node once\n'
+                     '        Space: O(w) where w is max width of tree\n'
+                     '        """\n'
+                     '        if not root:\n'
+                     '            return []\n'
+                     '\n'
+                     '        result = []\n'
+                     '        queue = deque([root])\n'
+                     '\n'
+                     '        while queue:\n'
+                     '            level_size = len(queue)\n'
+                     '\n'
+                     '            for i in range(level_size):\n'
+                     '                node = queue.popleft()\n'
+                     '\n'
+                     '                # Last node in this level is rightmost\n'
+                     '                if i == level_size - 1:\n'
+                     '                    result.append(node.val)\n'
+                     '\n'
+                     '                # Add children for next level\n'
+                     '                if node.left:\n'
+                     '                    queue.append(node.left)\n'
+                     '                if node.right:\n'
+                     '                    queue.append(node.right)\n'
+                     '\n'
+                     '        return result\n',
+  'space_complexity': 'O(n)',
+  'tags': ['tree', 'depth-first-search', 'breadth-first-search'],
+  'test_cases': [{'expectedOutput': [1, 3, 4], 'input': [[1, 2, 3, None, 5, None, 4]]}, {'expectedOutput': [1, 3], 'input': [[1, None, 3]]}, {'expectedOutput': [], 'input': [[]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Binary Tree Right Side View'},
+ {'constraints': ['The number of nodes in the tree is in the range [0, 5000]', '-1000 <= Node.val <= 1000', '-1000 <= targetSum <= 1000'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {\n        \n    }\n};',
+  'description': 'Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned '
+                 'as a list of the node values, not node references.\n'
+                 '\n'
+                 'A root-to-leaf path is a path starting from the root and ending at any leaf node.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Two paths sum to 22.', 'input': {'root': [5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1], 'targetSum': 22}, 'output': [[5, 4, 11, 2], [5, 8, 4, 5]]}],
+  'java_sig': 'class Solution {\n    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/path-sum-ii/',
+  'python_sig': 'class Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n        pass',
+  'solution_cpp': '// Solution for Path Sum II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Path Sum II\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Path Sum II\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Solution for Path Sum II\n'
+                     'from typing import Optional, List\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n'
+                     '        """\n'
+                     '        Find all root-to-leaf paths that sum to target.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        - DFS backtracking\n'
+                     '        - Maintain current path\n'
+                     '        - At leaf, check if sum equals target\n'
+                     '        - IMPORTANT: Copy path before adding to result\n'
+                     '\n'
+                     '        Time: O(n) - visit each node once\n'
+                     '        Space: O(h) for recursion stack\n'
+                     '        """\n'
+                     '        result = []\n'
+                     '\n'
+                     '        def dfs(node, current_path, current_sum):\n'
+                     '            if not node:\n'
+                     '                return\n'
+                     '\n'
+                     '            # Add current node to path\n'
+                     '            current_path.append(node.val)\n'
+                     '            current_sum += node.val\n'
+                     '\n'
+                     '            # Check if leaf node with target sum\n'
+                     '            if not node.left and not node.right and current_sum == targetSum:\n'
+                     '                result.append(current_path[:])  # Must copy path\n'
+                     '\n'
+                     '            # Recurse on children\n'
+                     '            dfs(node.left, current_path, current_sum)\n'
+                     '            dfs(node.right, current_path, current_sum)\n'
+                     '\n'
+                     '            # Backtrack\n'
+                     '            current_path.pop()\n'
+                     '\n'
+                     '        dfs(root, [], 0)\n'
+                     '        return result\n',
+  'space_complexity': 'O(n)',
+  'tags': ['tree', 'backtracking', 'depth-first-search'],
+  'test_cases': [{'expectedOutput': [[5, 4, 11, 2], [5, 8, 4, 5]], 'input': [[5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1], 22]},
+                 {'expectedOutput': [], 'input': [[1, 2, 3], 5]},
+                 {'expectedOutput': [], 'input': [[1, 2], 0]}],
+  'time_complexity': 'O(n^2)',
+  'title': 'Path Sum II'},
+ {'constraints': ['1 <= preorder.length <= 3000', 'inorder.length == preorder.length', '-3000 <= preorder[i], inorder[i] <= 3000', 'preorder and inorder consist of unique values'],
+  'cpp_sig': 'class Solution {\npublic:\n    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {\n        \n    }\n};',
+  'description': 'Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return '
+                 'the binary tree.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Construct tree from traversals.', 'input': {'inorder': [9, 3, 15, 20, 7], 'preorder': [3, 9, 20, 15, 7]}, 'output': [3, 9, 20, None, None, 15, 7]}],
+  'java_sig': 'class Solution {\n    public TreeNode buildTree(int[] preorder, int[] inorder) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/',
+  'python_sig': 'class Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        pass',
+  'solution_cpp': '// Solution for Construct Binary Tree from Preorder and Inorder Traversal\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Construct Binary Tree from Preorder and Inorder Traversal\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Construct Binary Tree from Preorder and Inorder Traversal\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': '# Solution for Construct Binary Tree from Preorder and Inorder Traversal\n'
+                     'from typing import List, Optional\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n'
+                     '        """\n'
+                     '        Construct binary tree from preorder and inorder traversals.\n'
+                     '\n'
+                     '        Approach:\n'
+                     '        - Preorder: [root, left subtree, right subtree]\n'
+                     '        - Inorder: [left subtree, root, right subtree]\n'
+                     '        - Use first element of preorder as root\n'
+                     '        - Find root in inorder to split left/right subtrees\n'
+                     '        - Recursively build left and right subtrees\n'
+                     '\n'
+                     '        Optimization:\n'
+                     '        - Use hashmap for O(1) inorder index lookup (instead of O(n) search)\n'
+                     '        - Track global preorder index\n'
+                     '        - Pass inorder bounds to avoid array slicing\n'
+                     '\n'
+                     '        Time: O(n) - visit each node once\n'
+                     '        Space: O(n) - hashmap storage + O(h) recursion stack\n'
+                     '        """\n'
+                     '        if not preorder or not inorder:\n'
+                     '            return None\n'
+                     '\n'
+                     '        # Build hashmap: value -> index in inorder traversal\n'
+                     '        # This allows O(1) lookup to find root position\n'
+                     '        inorder_map = {val: idx for idx, val in enumerate(inorder)}\n'
+                     '\n'
+                     '        # Track current position in preorder traversal\n'
+                     '        self.preorder_idx = 0\n'
+                     '\n'
+                     '        def build(in_left: int, in_right: int) -> Optional[TreeNode]:\n'
+                     '            """\n'
+                     '            Build tree for inorder range [in_left, in_right].\n'
+                     '            Uses and advances self.preorder_idx.\n'
+                     '            """\n'
+                     '            # Base case: empty range\n'
+                     '            if in_left > in_right:\n'
+                     '                return None\n'
+                     '\n'
+                     '            # Get root value from preorder and advance index\n'
+                     '            root_val = preorder[self.preorder_idx]\n'
+                     '            self.preorder_idx += 1\n'
+                     '\n'
+                     '            # Create root node\n'
+                     '            root = TreeNode(root_val)\n'
+                     '\n'
+                     '            # Find root position in inorder (O(1) with hashmap)\n'
+                     '            in_root_idx = inorder_map[root_val]\n'
+                     '\n'
+                     '            # Build left subtree: inorder range [in_left, in_root_idx - 1]\n'
+                     '            # Must build left before right (preorder visits left first)\n'
+                     '            root.left = build(in_left, in_root_idx - 1)\n'
+                     '\n'
+                     '            # Build right subtree: inorder range [in_root_idx + 1, in_right]\n'
+                     '            root.right = build(in_root_idx + 1, in_right)\n'
+                     '\n'
+                     '            return root\n'
+                     '\n'
+                     '        # Build entire tree: inorder range [0, n-1]\n'
+                     '        return build(0, len(inorder) - 1)\n',
+  'space_complexity': 'O(n)',
+  'tags': ['tree', 'array', 'hash-table', 'divide-and-conquer'],
+  'test_cases': [{'expectedOutput': [3, 9, 20, None, None, 15, 7], 'input': [[3, 9, 20, 15, 7], [9, 3, 15, 20, 7]]}, {'expectedOutput': [-1], 'input': [[-1], [-1]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Construct Binary Tree from Preorder and Inorder Traversal'},
+ {'constraints': ['The number of nodes in the tree is in the range [2, 10^5]', '-10^9 <= Node.val <= 10^9', 'All Node.val are unique', 'p != q', 'p and q exist in the tree'],
+  'cpp_sig': 'class Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        \n    }\n};',
+  'description': 'Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.\n'
+                 '\n'
+                 'The lowest common ancestor is defined as the lowest node in the tree that has both p and q as descendants (where we allow a node to be a descendant of itself).',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'The LCA of nodes 5 and 1 is 3.', 'input': {'p': 5, 'q': 1, 'root': [3, 5, 1, 6, 2, 0, 8, None, None, 7, 4]}, 'output': 3}],
+  'java_sig': 'class Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/',
+  'python_sig': 'class Solution:\n    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n        pass',
+  'solution_cpp': '// Solution for Lowest Common Ancestor of a Binary Tree\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Lowest Common Ancestor of a Binary Tree\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Lowest Common Ancestor of a Binary Tree\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': '# Definition for a binary tree node.\n'
+                     '# class TreeNode:\n'
+                     '#     def __init__(self, x):\n'
+                     '#         self.val = x\n'
+                     '#         self.left = None\n'
+                     '#         self.right = None\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n'
+                     '        """\n'
+                     '        Recursive approach to find lowest common ancestor.\n'
+                     '        LCA is the deepest node that has both p and q as descendants.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. If current node is None or matches p or q, return it\n'
+                     '        2. Recursively search left and right subtrees\n'
+                     '        3. If both subtrees return non-null, current is LCA\n'
+                     '        4. Otherwise, return whichever subtree found a match\n'
+                     '\n'
+                     '        Time Complexity: O(n) - visit each node once\n'
+                     '        Space Complexity: O(h) - recursion stack height\n'
+                     '        """\n'
+                     '        # Base case: empty node or found target\n'
+                     '        if not root or root == p or root == q:\n'
+                     '            return root\n'
+                     '\n'
+                     '        # Search in left and right subtrees\n'
+                     '        left = self.lowestCommonAncestor(root.left, p, q)\n'
+                     '        right = self.lowestCommonAncestor(root.right, p, q)\n'
+                     '\n'
+                     '        # If both subtrees found a target, current node is LCA\n'
+                     '        if left and right:\n'
+                     '            return root\n'
+                     '\n'
+                     '        # Otherwise, return whichever subtree found a target\n'
+                     '        # (or None if neither found)\n'
+                     '        return left if left else right\n',
+  'space_complexity': 'O(n)',
+  'tags': ['tree', 'depth-first-search', 'binary-tree'],
+  'test_cases': [{'expectedOutput': 3, 'input': [[3, 5, 1, 6, 2, 0, 8, None, None, 7, 4], 5, 1]}, {'expectedOutput': 5, 'input': [[3, 5, 1, 6, 2, 0, 8, None, None, 7, 4], 5, 4]}],
+  'time_complexity': 'O(n)',
+  'title': 'Lowest Common Ancestor of a Binary Tree'},
+ {'constraints': ['m == grid.length', 'n == grid[i].length', '1 <= m, n <= 300', "grid[i][j] is '0' or '1'"],
+  'cpp_sig': 'class Solution {\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n        \n    }\n};',
+  'description': "Given an m x n 2D binary grid which represents a map of '1's (land) and '0's (water), return the number of islands.\n"
+                 '\n'
+                 'An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'One connected island.', 'input': {'grid': [['1', '1', '1', '1', '0'], ['1', '1', '0', '1', '0'], ['1', '1', '0', '0', '0'], ['0', '0', '0', '0', '0']]}, 'output': 1}],
+  'java_sig': 'class Solution {\n    public int numIslands(char[][] grid) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/number-of-islands/',
+  'python_sig': 'class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        pass',
+  'solution_cpp': '// Solution for Number of Islands\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Number of Islands\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Number of Islands\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def numIslands(self, grid: List[List[str]]) -> int:\n'
+                     '        """\n'
+                     '        Depth-First Search (DFS) to find connected components.\n'
+                     "        Each island is a connected component of '1's (land).\n"
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Iterate through each cell in grid\n'
+                     "        2. When we find unvisited land ('1'), it's a new island\n"
+                     '        3. DFS from that cell to mark all connected land as visited\n'
+                     '        4. Count total number of DFS calls (number of islands)\n'
+                     '\n'
+                     '        Time Complexity: O(m * n) - visit each cell at most twice\n'
+                     '        Space Complexity: O(m * n) - worst case recursion depth (all land)\n'
+                     '        """\n'
+                     '        if not grid or not grid[0]:\n'
+                     '            return 0\n'
+                     '\n'
+                     '        rows, cols = len(grid), len(grid[0])\n'
+                     '        num_islands = 0\n'
+                     '\n'
+                     '        def dfs(r: int, c: int) -> None:\n'
+                     '            """Mark all connected land cells as visited."""\n'
+                     '            # Base cases: out of bounds or water or already visited\n'
+                     '            if (r < 0 or r >= rows or c < 0 or c >= cols or\n'
+                     "                grid[r][c] != '1'):\n"
+                     '                return\n'
+                     '\n'
+                     "            # Mark current cell as visited by changing to '0'\n"
+                     "            grid[r][c] = '0'\n"
+                     '\n'
+                     '            # Explore all 4 directions (up, down, left, right)\n'
+                     '            dfs(r + 1, c)  # down\n'
+                     '            dfs(r - 1, c)  # up\n'
+                     '            dfs(r, c + 1)  # right\n'
+                     '            dfs(r, c - 1)  # left\n'
+                     '\n'
+                     '        # Scan entire grid\n'
+                     '        for r in range(rows):\n'
+                     '            for c in range(cols):\n'
+                     "                if grid[r][c] == '1':\n"
+                     '                    # Found new island\n'
+                     '                    num_islands += 1\n'
+                     '                    # Mark all connected land\n'
+                     '                    dfs(r, c)\n'
+                     '\n'
+                     '        return num_islands\n',
+  'space_complexity': 'O(m*n)',
+  'tags': ['array', 'depth-first-search', 'breadth-first-search', 'union-find', 'matrix'],
+  'test_cases': [{'expectedOutput': 1, 'input': [[['1', '1', '1', '1', '0'], ['1', '1', '0', '1', '0'], ['1', '1', '0', '0', '0'], ['0', '0', '0', '0', '0']]]},
+                 {'expectedOutput': 3, 'input': [[['1', '1', '0', '0', '0'], ['1', '1', '0', '0', '0'], ['0', '0', '1', '0', '0'], ['0', '0', '0', '1', '1']]]}],
+  'time_complexity': 'O(m*n)',
+  'title': 'Number of Islands'},
+ {'constraints': ['1 <= numCourses <= 2000', '0 <= prerequisites.length <= 5000', 'prerequisites[i].length == 2', '0 <= ai, bi < numCourses', 'All the pairs prerequisites[i] are unique'],
+  'cpp_sig': 'class Solution {\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        \n    }\n};',
+  'description': 'There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that '
+                 'you must take course bi first if you want to take course ai.\n'
+                 '\n'
+                 'Return True if you can finish all courses. Otherwise, return False.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Take course 0 first, then course 1.', 'input': {'numCourses': 2, 'prerequisites': [[1, 0]]}, 'output': True},
+               {'explanation': 'Circular dependency.', 'input': {'numCourses': 2, 'prerequisites': [[1, 0], [0, 1]]}, 'output': False}],
+  'java_sig': 'class Solution {\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/course-schedule/',
+  'python_sig': 'class Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        pass',
+  'solution_cpp': '// Solution for Course Schedule\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Course Schedule\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Course Schedule\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n'
+                     '        """\n'
+                     '        Topological Sort using DFS to detect cycles.\n'
+                     '        Check if course schedule is possible (no circular dependencies).\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Build adjacency list (prerequisite graph)\n'
+                     '        2. Use DFS with state tracking:\n'
+                     '           - UNVISITED (0): not processed\n'
+                     '           - VISITING (1): currently in DFS path (cycle if revisited)\n'
+                     '           - VISITED (2): fully processed\n'
+                     "        3. If we encounter VISITING node, there's a cycle\n"
+                     '\n'
+                     '        Time Complexity: O(V + E) - vertices (courses) + edges (prerequisites)\n'
+                     '        Space Complexity: O(V + E) - graph storage + recursion stack\n'
+                     '        """\n'
+                     '        from collections import defaultdict\n'
+                     '\n'
+                     '        # Build adjacency list: course -> list of courses that depend on it\n'
+                     '        graph = defaultdict(list)\n'
+                     '        for course, prereq in prerequisites:\n'
+                     '            graph[prereq].append(course)\n'
+                     '\n'
+                     '        # State: 0=unvisited, 1=visiting (in current DFS path), 2=visited\n'
+                     '        state = [0] * numCourses\n'
+                     '\n'
+                     '        def has_cycle(course: int) -> bool:\n'
+                     '            """DFS to detect cycle. Returns True if cycle found."""\n'
+                     '            if state[course] == 1:\n'
+                     '                # Currently visiting - found cycle\n'
+                     '                return True\n'
+                     '            if state[course] == 2:\n'
+                     '                # Already fully processed - no cycle through this path\n'
+                     '                return False\n'
+                     '\n'
+                     '            # Mark as visiting (in current DFS path)\n'
+                     '            state[course] = 1\n'
+                     '\n'
+                     '            # Check all courses that depend on this one\n'
+                     '            for next_course in graph[course]:\n'
+                     '                if has_cycle(next_course):\n'
+                     '                    return True\n'
+                     '\n'
+                     '            # Mark as visited (fully processed)\n'
+                     '            state[course] = 2\n'
+                     '            return False\n'
+                     '\n'
+                     '        # Check each course for cycles\n'
+                     '        for course in range(numCourses):\n'
+                     '            if state[course] == 0:  # Unvisited\n'
+                     '                if has_cycle(course):\n'
+                     '                    return False\n'
+                     '\n'
+                     '        return True\n',
+  'space_complexity': 'O(V+E)',
+  'tags': ['graph', 'topological-sort', 'depth-first-search', 'breadth-first-search'],
+  'test_cases': [{'expectedOutput': True, 'input': [2, [[1, 0]]]}, {'expectedOutput': False, 'input': [2, [[1, 0], [0, 1]]]}],
+  'time_complexity': 'O(V+E)',
+  'title': 'Course Schedule'},
+ {'constraints': ['The number of nodes in the graph is in the range [0, 100]', '1 <= Node.val <= 100', 'Node.val is unique for each node', 'There are no repeated edges and no self-loops'],
+  'cpp_sig': 'class Solution {\npublic:\n    Node* cloneGraph(Node* node) {\n        \n    }\n};',
+  'description': 'Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph.\n'
+                 '\n'
+                 'Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Clone the graph.', 'input': {'adjList': [[2, 4], [1, 3], [2, 4], [1, 3]]}, 'output': [[2, 4], [1, 3], [2, 4], [1, 3]]}],
+  'java_sig': 'class Solution {\n    public Node cloneGraph(Node node) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/clone-graph/',
+  'python_sig': "class Solution:\n    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:\n        pass",
+  'solution_cpp': '// Solution for Clone Graph\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Clone Graph\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Clone Graph\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '"""\n'
+                     '# Definition for a Node.\n'
+                     'class Node:\n'
+                     '    def __init__(self, val = 0, neighbors = None):\n'
+                     '        self.val = val\n'
+                     '        self.neighbors = neighbors if neighbors is not None else []\n'
+                     '"""\n'
+                     '\n'
+                     'class Solution:\n'
+                     "    def cloneGraph(self, node: 'Node') -> 'Node':\n"
+                     '        """\n'
+                     '        Deep copy graph using DFS with hash map.\n'
+                     '        Creates independent copy where no node is shared with original.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Use hash map to track original node -> cloned node mapping\n'
+                     '        2. DFS through graph:\n'
+                     '           - Clone current node if not already cloned\n'
+                     '           - Recursively clone all neighbors\n'
+                     '           - Connect cloned node to cloned neighbors\n'
+                     '\n'
+                     '        Time Complexity: O(V + E) - visit each vertex and edge once\n'
+                     '        Space Complexity: O(V) - hash map + recursion stack\n'
+                     '        """\n'
+                     '        if not node:\n'
+                     '            return None\n'
+                     '\n'
+                     '        # Map: original node -> cloned node\n'
+                     '        cloned = {}\n'
+                     '\n'
+                     "        def dfs(original: 'Node') -> 'Node':\n"
+                     '            """Recursively clone node and its neighbors."""\n'
+                     '            # If already cloned, return the clone\n'
+                     '            if original in cloned:\n'
+                     '                return cloned[original]\n'
+                     '\n'
+                     '            # Create clone of current node (without neighbors yet)\n'
+                     '            clone = Node(original.val)\n'
+                     '            cloned[original] = clone\n'
+                     '\n'
+                     '            # Recursively clone all neighbors and connect them\n'
+                     '            for neighbor in original.neighbors:\n'
+                     '                clone.neighbors.append(dfs(neighbor))\n'
+                     '\n'
+                     '            return clone\n'
+                     '\n'
+                     '        return dfs(node)\n',
+  'space_complexity': 'O(N)',
+  'tags': ['hash-table', 'depth-first-search', 'breadth-first-search', 'graph'],
+  'test_cases': [{'expectedOutput': [[2, 4], [1, 3], [2, 4], [1, 3]], 'input': [[[2, 4], [1, 3], [2, 4], [1, 3]]]}, {'expectedOutput': [[]], 'input': [[[]]]}, {'expectedOutput': [], 'input': [[]]}],
+  'time_complexity': 'O(N+M)',
+  'title': 'Clone Graph'},
+ {'constraints': ['m == board.length', 'n = board[i].length', '1 <= m, n <= 6', '1 <= word.length <= 15', 'board and word consists of only lowercase and uppercase English letters'],
+  'cpp_sig': 'class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        \n    }\n};',
+  'description': 'Given an m x n grid of characters board and a string word, return True if word exists in the grid.\n'
+                 '\n'
+                 'The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'Word found in board.', 'input': {'board': [['A', 'B', 'C', 'E'], ['S', 'F', 'C', 'S'], ['A', 'D', 'E', 'E']], 'word': 'ABCCED'}, 'output': True}],
+  'java_sig': 'class Solution {\n    public boolean exist(char[][] board, String word) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/word-search/',
+  'python_sig': 'class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        pass',
+  'solution_cpp': '// Solution for Word Search\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Word Search\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Word Search\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def exist(self, board: List[List[str]], word: str) -> bool:\n'
+                     '        """\n'
+                     '        Backtracking (DFS) on 2D grid to find word path.\n'
+                     '        Marks visited cells to avoid reuse in same path.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Try starting from each cell\n'
+                     '        2. DFS in 4 directions matching word characters\n'
+                     '        3. Mark visited cells, backtrack to unmark\n'
+                     '        4. Return true if complete word found\n'
+                     '\n'
+                     '        Time Complexity: O(m * n * 4^L) where L is word length\n'
+                     '        Space Complexity: O(L) - recursion depth\n'
+                     '        """\n'
+                     '        rows, cols = len(board), len(board[0])\n'
+                     '\n'
+                     '        def backtrack(r: int, c: int, index: int) -> bool:\n'
+                     '            """DFS to match word starting from position (r,c)."""\n'
+                     '            # Base case: matched entire word\n'
+                     '            if index == len(word):\n'
+                     '                return True\n'
+                     '\n'
+                     '            # Check bounds and cell match\n'
+                     '            if (r < 0 or r >= rows or c < 0 or c >= cols or\n'
+                     '                board[r][c] != word[index]):\n'
+                     '                return False\n'
+                     '\n'
+                     '            # Mark as visited\n'
+                     '            temp = board[r][c]\n'
+                     "            board[r][c] = '#'\n"
+                     '\n'
+                     '            # Explore all 4 directions\n'
+                     '            found = (backtrack(r + 1, c, index + 1) or\n'
+                     '                    backtrack(r - 1, c, index + 1) or\n'
+                     '                    backtrack(r, c + 1, index + 1) or\n'
+                     '                    backtrack(r, c - 1, index + 1))\n'
+                     '\n'
+                     '            # Backtrack: restore cell\n'
+                     '            board[r][c] = temp\n'
+                     '\n'
+                     '            return found\n'
+                     '\n'
+                     '        # Try starting from each cell\n'
+                     '        for r in range(rows):\n'
+                     '            for c in range(cols):\n'
+                     '                if backtrack(r, c, 0):\n'
+                     '                    return True\n'
+                     '\n'
+                     '        return False\n',
+  'space_complexity': 'O(L)',
+  'tags': ['array', 'backtracking', 'matrix'],
+  'test_cases': [{'expectedOutput': True, 'input': [[['A', 'B', 'C', 'E'], ['S', 'F', 'C', 'S'], ['A', 'D', 'E', 'E']], 'ABCCED']},
+                 {'expectedOutput': True, 'input': [[['A', 'B', 'C', 'E'], ['S', 'F', 'C', 'S'], ['A', 'D', 'E', 'E']], 'SEE']},
+                 {'expectedOutput': False, 'input': [[['A', 'B', 'C', 'E'], ['S', 'F', 'C', 'S'], ['A', 'D', 'E', 'E']], 'ABCB']}],
+  'time_complexity': 'O(m*n*4^L)',
+  'title': 'Word Search'},
+ {'constraints': ['1 <= coins.length <= 12', '1 <= coins[i] <= 2^31 - 1', '0 <= amount <= 10^4'],
+  'cpp_sig': 'class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        \n    }\n};',
+  'description': 'You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.\n'
+                 '\n'
+                 'Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': '11 = 5 + 5 + 1', 'input': {'amount': 11, 'coins': [1, 2, 5]}, 'output': 3},
+               {'explanation': 'Cannot make amount 3.', 'input': {'amount': 3, 'coins': [2]}, 'output': -1}],
+  'java_sig': 'class Solution {\n    public int coinChange(int[] coins, int amount) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/coin-change/',
+  'python_sig': 'class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        pass',
+  'solution_cpp': '// Solution for Coin Change\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Coin Change\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Coin Change\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def coinChange(self, coins: List[int], amount: int) -> int:\n'
+                     '        """\n'
+                     '        Bottom-up Dynamic Programming approach.\n'
+                     '        Find minimum number of coins needed to make up the target amount.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Create DP array where dp[i] = min coins needed for amount i\n'
+                     '        2. Initialize dp[0] = 0 (zero coins for amount 0)\n'
+                     '        3. For each amount from 1 to target:\n'
+                     '           - Try each coin denomination\n'
+                     '           - Take minimum of all valid options\n'
+                     '\n'
+                     '        Time Complexity: O(amount * len(coins))\n'
+                     '        Space Complexity: O(amount) - DP array\n'
+                     '        """\n'
+                     '        # Initialize DP array with infinity (impossible to make)\n'
+                     '        # dp[i] represents min coins needed to make amount i\n'
+                     "        dp = [float('inf')] * (amount + 1)\n"
+                     '        dp[0] = 0  # Base case: 0 coins for amount 0\n'
+                     '\n'
+                     '        # Build up solution for each amount from 1 to target\n'
+                     '        for current_amount in range(1, amount + 1):\n'
+                     '            # Try each coin denomination\n'
+                     '            for coin in coins:\n'
+                     '                if coin <= current_amount:\n'
+                     '                    # If we can use this coin, check if it gives better solution\n'
+                     '                    # dp[current_amount - coin] + 1 means:\n'
+                     '                    # "min coins for (current_amount - coin)" + this coin\n'
+                     '                    dp[current_amount] = min(\n'
+                     '                        dp[current_amount],\n'
+                     '                        dp[current_amount - coin] + 1\n'
+                     '                    )\n'
+                     '\n'
+                     '        # If dp[amount] is still infinity, amount cannot be made\n'
+                     "        return dp[amount] if dp[amount] != float('inf') else -1\n",
+  'space_complexity': 'O(amount)',
+  'tags': ['array', 'dynamic-programming', 'breadth-first-search'],
+  'test_cases': [{'expectedOutput': 3, 'input': [[1, 2, 5], 11]}, {'expectedOutput': -1, 'input': [[2], 3]}, {'expectedOutput': 0, 'input': [[1], 0]}],
+  'time_complexity': 'O(amount * n)',
+  'title': 'Coin Change'},
+ {'constraints': ['1 <= nums.length <= 2500', '-10^4 <= nums[i] <= 10^4'],
+  'cpp_sig': 'class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        \n    }\n};',
+  'description': 'Given an integer array nums, return the length of the longest strictly increasing subsequence.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'The longest increasing subsequence is [2,3,7,101].', 'input': {'nums': [10, 9, 2, 5, 3, 7, 101, 18]}, 'output': 4},
+               {'explanation': 'The longest increasing subsequence is [0,1,2,3].', 'input': {'nums': [0, 1, 0, 3, 2, 3]}, 'output': 4}],
+  'java_sig': 'class Solution {\n    public int lengthOfLIS(int[] nums) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/longest-increasing-subsequence/',
+  'python_sig': 'class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        pass',
+  'solution_cpp': '// Solution for Longest Increasing Subsequence\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Longest Increasing Subsequence\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Longest Increasing Subsequence\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def lengthOfLIS(self, nums: List[int]) -> int:\n'
+                     '        """\n'
+                     '        Dynamic Programming with Binary Search optimization.\n'
+                     '        Finds length of longest strictly increasing subsequence.\n'
+                     '\n'
+                     '        Algorithm (Patience Sort approach):\n'
+                     "        1. Maintain array 'sub' of smallest tail values for increasing subsequences\n"
+                     "        2. For each number, binary search for position in 'sub'\n"
+                     '        3. If larger than all elements, extend subsequence\n'
+                     '        4. Otherwise, replace first element >= current number\n'
+                     '\n'
+                     "        Why this works: We're maintaining optimal tails for all subsequence lengths.\n"
+                     '\n'
+                     '        Time Complexity: O(n log n) - binary search for each element\n'
+                     '        Space Complexity: O(n) - sub array\n'
+                     '        """\n'
+                     '        if not nums:\n'
+                     '            return 0\n'
+                     '\n'
+                     '        # sub[i] = smallest tail element for increasing subsequence of length i+1\n'
+                     '        sub = []\n'
+                     '\n'
+                     '        for num in nums:\n'
+                     '            # Binary search for position to insert/replace\n'
+                     '            left, right = 0, len(sub)\n'
+                     '\n'
+                     '            while left < right:\n'
+                     '                mid = (left + right) // 2\n'
+                     '                if sub[mid] < num:\n'
+                     '                    left = mid + 1\n'
+                     '                else:\n'
+                     '                    right = mid\n'
+                     '\n'
+                     '            # If num is larger than all elements in sub, extend subsequence\n'
+                     '            if left == len(sub):\n'
+                     '                sub.append(num)\n'
+                     '            else:\n'
+                     '                # Replace first element >= num to keep smallest possible tail\n'
+                     '                sub[left] = num\n'
+                     '\n'
+                     '        return len(sub)\n',
+  'space_complexity': 'O(n)',
+  'tags': ['array', 'binary-search', 'dynamic-programming'],
+  'test_cases': [{'expectedOutput': 4, 'input': [[10, 9, 2, 5, 3, 7, 101, 18]]}, {'expectedOutput': 4, 'input': [[0, 1, 0, 3, 2, 3]]}, {'expectedOutput': 1, 'input': [[7, 7, 7, 7, 7, 7, 7]]}],
+  'time_complexity': 'O(n^2)',
+  'title': 'Longest Increasing Subsequence'},
+ {'constraints': ['1 <= m, n <= 100'],
+  'cpp_sig': 'class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        \n    }\n};',
+  'description': 'There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n '
+                 '- 1]). The robot can only move either down or right at any point in time.\n'
+                 '\n'
+                 'Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'There are 28 unique paths.', 'input': {'m': 3, 'n': 7}, 'output': 28},
+               {'explanation': 'From top-left: right->down->down, down->down->right, down->right->down', 'input': {'m': 3, 'n': 2}, 'output': 3}],
+  'java_sig': 'class Solution {\n    public int uniquePaths(int m, int n) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/unique-paths/',
+  'python_sig': 'class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        pass',
+  'solution_cpp': '// Solution for Unique Paths\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Unique Paths\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Unique Paths\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Solution for Unique Paths\n'
+                     'class Solution:\n'
+                     '    def uniquePaths(self, m: int, n: int) -> int:\n'
+                     '        """\n'
+                     '        2D Dynamic Programming with Space Optimization\n'
+                     '\n'
+                     '        Problem: Count unique paths in m x n grid from top-left to bottom-right\n'
+                     '        Constraint: Can only move right or down\n'
+                     '\n'
+                     '        Key Insight:\n'
+                     '        - dp[i][j] = number of ways to reach cell (i, j)\n'
+                     '        - Recurrence: dp[i][j] = dp[i-1][j] + dp[i][j-1]\n'
+                     '          (paths from above + paths from left)\n'
+                     '        - Base case: All cells in first row/column have exactly 1 path\n'
+                     '\n'
+                     '        Space Optimization:\n'
+                     '        - Full 2D DP would use O(m*n) space\n'
+                     '        - We only need previous row to compute current row\n'
+                     '        - Use single 1D array of size n, update in-place\n'
+                     '\n'
+                     '        Time: O(m*n) - visit each cell once\n'
+                     '        Space: O(n) - only store one row\n'
+                     '        """\n'
+                     '        # Initialize dp array representing one row\n'
+                     '        # All positions in first row have 1 path (move right only)\n'
+                     '        dp = [1] * n\n'
+                     '\n'
+                     '        # Process each row starting from row 1\n'
+                     '        for i in range(1, m):\n'
+                     '            # For each column in current row\n'
+                     '            for j in range(1, n):\n'
+                     '                # dp[j] currently holds value from previous row (paths from above)\n'
+                     '                # dp[j-1] holds value from current row (paths from left)\n'
+                     '                # Sum them to get total paths to current cell\n'
+                     '                dp[j] += dp[j - 1]\n'
+                     '\n'
+                     '            # Note: dp[0] stays 1 (first column always has 1 path - move down only)\n'
+                     '\n'
+                     '        # Bottom-right corner value is stored at dp[n-1]\n'
+                     '        return dp[n - 1]\n',
+  'space_complexity': 'O(n)',
+  'tags': ['math', 'dynamic-programming', 'combinatorics'],
+  'test_cases': [{'expectedOutput': 28, 'input': [3, 7]}, {'expectedOutput': 3, 'input': [3, 2]}],
+  'time_complexity': 'O(m*n)',
+  'title': 'Unique Paths'},
+ {'constraints': ['1 <= s.length <= 300',
+                  '1 <= wordDict.length <= 1000',
+                  '1 <= wordDict[i].length <= 20',
+                  's and wordDict[i] consist of only lowercase English letters',
+                  'All strings in wordDict are unique'],
+  'cpp_sig': 'class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        \n    }\n};',
+  'description': 'Given a string s and a dictionary of strings wordDict, return True if s can be segmented into a space-separated sequence of one or more dictionary words.\n'
+                 '\n'
+                 'Note that the same word in the dictionary may be reused multiple times in the segmentation.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': "'leetcode' can be segmented as 'leet code'.", 'input': {'s': 'leetcode', 'wordDict': ['leet', 'code']}, 'output': True},
+               {'explanation': "'applepenapple' can be segmented as 'apple pen apple'.", 'input': {'s': 'applepenapple', 'wordDict': ['apple', 'pen']}, 'output': True}],
+  'java_sig': 'class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/word-break/',
+  'python_sig': 'class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        pass',
+  'solution_cpp': '// Solution for Word Break\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Word Break\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Word Break\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n'
+                     '        """\n'
+                     '        Dynamic Programming to check if string can be segmented.\n'
+                     '        Uses DP array where dp[i] = can segment s[0:i].\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. dp[0] = True (empty string is valid)\n'
+                     '        2. For each position i, check all words\n'
+                     '        3. If word fits and previous portion is valid, mark dp[i] = True\n'
+                     '        4. Return dp[len(s)]\n'
+                     '\n'
+                     '        Time Complexity: O(n^2 * m) where n=string length, m=avg word length\n'
+                     '        Space Complexity: O(n) - DP array\n'
+                     '        """\n'
+                     '        n = len(s)\n'
+                     '        # dp[i] = True if s[0:i] can be segmented\n'
+                     '        dp = [False] * (n + 1)\n'
+                     '        dp[0] = True  # Base case: empty string\n'
+                     '\n'
+                     '        # Convert to set for O(1) lookup\n'
+                     '        word_set = set(wordDict)\n'
+                     '\n'
+                     '        # Build up solution for each position\n'
+                     '        for i in range(1, n + 1):\n'
+                     '            # Check if any word ends at position i\n'
+                     '            for j in range(i):\n'
+                     '                # If s[0:j] is valid and s[j:i] is a word\n'
+                     '                if dp[j] and s[j:i] in word_set:\n'
+                     '                    dp[i] = True\n'
+                     '                    break  # Found valid segmentation to position i\n'
+                     '\n'
+                     '        return dp[n]\n',
+  'space_complexity': 'O(n)',
+  'tags': ['hash-table', 'string', 'dynamic-programming', 'trie', 'memoization'],
+  'test_cases': [{'expectedOutput': True, 'input': ['leetcode', ['leet', 'code']]},
+                 {'expectedOutput': True, 'input': ['applepenapple', ['apple', 'pen']]},
+                 {'expectedOutput': False, 'input': ['catsandog', ['cats', 'dog', 'sand', 'and', 'cat']]}],
+  'time_complexity': 'O(n^2)',
+  'title': 'Word Break'},
+ {'constraints': ['1 <= nums.length <= 100', '0 <= nums[i] <= 1000'],
+  'cpp_sig': 'class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        \n    }\n};',
+  'description': 'You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle. That means '
+                 'the first house is the neighbor of the last one. Meanwhile, adjacent houses have a security system connected and it will automatically contact the police if two adjacent houses '
+                 'were broken into on the same night.\n'
+                 '\n'
+                 'Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent.', 'input': {'nums': [2, 3, 2]}, 'output': 3},
+               {'explanation': 'Rob house 1 (money = 1) and then rob house 3 (money = 3). Total = 1 + 3 = 4.', 'input': {'nums': [1, 2, 3, 1]}, 'output': 4}],
+  'java_sig': 'class Solution {\n    public int rob(int[] nums) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/house-robber-ii/',
+  'python_sig': 'class Solution:\n    def rob(self, nums: List[int]) -> int:\n        pass',
+  'solution_cpp': '// Solution for House Robber II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for House Robber II\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for House Robber II\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def rob(self, nums: List[int]) -> int:\n'
+                     '        """\n'
+                     '        House Robber II - Houses arranged in a circle\n'
+                     '\n'
+                     '        Key Insight: The circular constraint means we cannot rob both\n'
+                     '        the first AND last house. This reduces the problem to:\n'
+                     '        max(rob houses 0 to n-2, rob houses 1 to n-1)\n'
+                     '\n'
+                     '        Each subproblem is solved using House Robber I logic (linear DP).\n'
+                     '\n'
+                     '        Time Complexity: O(n) - two linear passes\n'
+                     '        Space Complexity: O(1) - only track prev1 and prev2\n'
+                     '        """\n'
+                     '        n = len(nums)\n'
+                     '\n'
+                     '        # Edge case: only one house - rob it\n'
+                     '        if n == 1:\n'
+                     '            return nums[0]\n'
+                     '\n'
+                     '        # Edge case: two houses - rob the one with more money\n'
+                     '        if n == 2:\n'
+                     '            return max(nums[0], nums[1])\n'
+                     '\n'
+                     '        # Helper function: House Robber I for a range [start, end)\n'
+                     '        def rob_linear(start: int, end: int) -> int:\n'
+                     '            """\n'
+                     '            Rob houses from index start to end-1 (linear street).\n'
+                     '\n'
+                     '            DP recurrence: dp[i] = max(dp[i-1], dp[i-2] + nums[i])\n'
+                     '            - dp[i-1]: skip current house, take max up to previous\n'
+                     '            - dp[i-2] + nums[i]: rob current house, add to max from 2 houses back\n'
+                     '\n'
+                     '            Space optimization: only need prev1 (dp[i-1]) and prev2 (dp[i-2])\n'
+                     '            """\n'
+                     '            prev2 = 0  # dp[i-2]: max money 2 houses back\n'
+                     '            prev1 = 0  # dp[i-1]: max money 1 house back\n'
+                     '\n'
+                     '            for i in range(start, end):\n'
+                     '                # Current choice: skip (prev1) or rob (prev2 + nums[i])\n'
+                     '                current = max(prev1, prev2 + nums[i])\n'
+                     '\n'
+                     '                # Shift variables for next iteration\n'
+                     '                prev2 = prev1\n'
+                     '                prev1 = current\n'
+                     '\n'
+                     '            return prev1\n'
+                     '\n'
+                     '        # Case 1: Rob houses 0 to n-2 (exclude last house)\n'
+                     '        # This allows us to rob the first house if beneficial\n'
+                     '        case1 = rob_linear(0, n - 1)\n'
+                     '\n'
+                     '        # Case 2: Rob houses 1 to n-1 (exclude first house)\n'
+                     '        # This allows us to rob the last house if beneficial\n'
+                     '        case2 = rob_linear(1, n)\n'
+                     '\n'
+                     '        # Return the maximum of both strategies\n'
+                     '        return max(case1, case2)\n'
+                     '\n'
+                     '    def solve(self, input):\n'
+                     '        """Wrapper for test framework"""\n'
+                     '        nums = input[0]\n'
+                     '        return self.rob(nums)',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'dynamic-programming'],
+  'test_cases': [{'expectedOutput': 3, 'input': [[2, 3, 2]]}, {'expectedOutput': 4, 'input': [[1, 2, 3, 1]]}, {'expectedOutput': 3, 'input': [[1, 2, 3]]}],
+  'time_complexity': 'O(n)',
+  'title': 'House Robber II'},
+ {'constraints': ['1 <= s.length <= 100', 's contains only digits and may contain leading zero(s)'],
+  'cpp_sig': 'class Solution {\npublic:\n    int numDecodings(string s) {\n        \n    }\n};',
+  'description': 'A message containing letters from A-Z can be encoded into numbers using the following mapping:\n'
+                 '\'A\' -> "1", \'B\' -> "2", ..., \'Z\' -> "26"\n'
+                 '\n'
+                 'To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above. Given a string s containing only digits, return '
+                 'the number of ways to decode it.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': "It could be decoded as 'AB' (1 2) or 'L' (12).", 'input': {'s': '12'}, 'output': 2},
+               {'explanation': "It could be decoded as 'BZ' (2 26), 'VF' (22 6), or 'BBF' (2 2 6).", 'input': {'s': '226'}, 'output': 3}],
+  'java_sig': 'class Solution {\n    public int numDecodings(String s) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/decode-ways/',
+  'python_sig': 'class Solution:\n    def numDecodings(self, s: str) -> int:\n        pass',
+  'solution_cpp': '// Solution for Decode Ways\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Decode Ways\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Decode Ways\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Solution for Decode Ways\n'
+                     '# Optimal Algorithm: Bottom-up DP with space optimization\n'
+                     '# Time: O(n), Space: O(1)\n'
+                     'class Solution:\n'
+                     '    def numDecodings(self, s: str) -> int:\n'
+                     '        """\n'
+                     '        Count the number of ways to decode a digit string.\n'
+                     '\n'
+                     '        Key Insight: Similar to climbing stairs, but with validation constraints.\n'
+                     '        - Each position can contribute to 1-digit decode (if valid)\n'
+                     '        - Each position can contribute to 2-digit decode (if valid with previous)\n'
+                     '\n'
+                     '        DP Recurrence:\n'
+                     '        dp[i] = number of ways to decode s[0:i]\n'
+                     "        dp[i] = (dp[i-1] if s[i] is '1'-'9') + (dp[i-2] if s[i-1:i+1] is '10'-'26')\n"
+                     '\n'
+                     '        Base Cases:\n'
+                     '        - dp[0] = 1 (empty string has one way: decode nothing)\n'
+                     "        - dp[1] = 1 if s[0] != '0', else 0 (single digit must be valid)\n"
+                     '\n'
+                     '        Invalid Cases:\n'
+                     '        - Leading zeros: "06" -> 0 ways (can\'t decode \'0\' alone)\n'
+                     '        - Isolated zeros: "30" -> 0 ways (\'0\' must be paired with 1 or 2)\n'
+                     '        """\n'
+                     '        n = len(s)\n'
+                     '\n'
+                     "        # Edge case: empty string or starts with '0'\n"
+                     "        if n == 0 or s[0] == '0':\n"
+                     '            return 0\n'
+                     '\n'
+                     '        # Space optimization: only track dp[i-2] and dp[i-1]\n'
+                     '        # prev2 = dp[i-2]: ways to decode up to 2 positions back\n'
+                     '        # prev1 = dp[i-1]: ways to decode up to 1 position back\n'
+                     '        prev2 = 1  # dp[0]: empty string has 1 way\n'
+                     '        prev1 = 1  # dp[1]: first character is valid (checked above)\n'
+                     '\n'
+                     '        # Process each position starting from index 1\n'
+                     '        for i in range(1, n):\n'
+                     '            current = 0  # dp[i]: ways to decode up to position i\n'
+                     '\n'
+                     '            # Check 1-digit decode: s[i] alone\n'
+                     "            # Valid if s[i] is '1' through '9' (not '0')\n"
+                     '            one_digit = int(s[i])\n'
+                     '            if 1 <= one_digit <= 9:\n'
+                     '                current += prev1  # Add ways from dp[i-1]\n'
+                     '\n'
+                     '            # Check 2-digit decode: s[i-1:i+1] together\n'
+                     '            # Valid if value is between 10 and 26\n'
+                     '            two_digit = int(s[i-1:i+1])\n'
+                     '            if 10 <= two_digit <= 26:\n'
+                     '                current += prev2  # Add ways from dp[i-2]\n'
+                     '\n'
+                     '            # Shift variables for next iteration\n'
+                     '            prev2 = prev1\n'
+                     '            prev1 = current\n'
+                     '\n'
+                     '        return prev1\n'
+                     '\n'
+                     '    def solve(self, input):\n'
+                     '        """Wrapper for test framework"""\n'
+                     '        s = input[0]\n'
+                     '        return self.numDecodings(s)',
+  'space_complexity': 'O(n)',
+  'tags': ['string', 'dynamic-programming'],
+  'test_cases': [{'expectedOutput': 2, 'input': ['12']}, {'expectedOutput': 3, 'input': ['226']}, {'expectedOutput': 0, 'input': ['06']}],
+  'time_complexity': 'O(n)',
+  'title': 'Decode Ways'},
+ {'constraints': ['0 <= digits.length <= 4', "digits[i] is a digit in the range ['2', '9']"],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<string> letterCombinations(string digits) {\n        \n    }\n};',
+  'description': 'Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.\n'
+                 '\n'
+                 'A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.\n'
+                 '\n'
+                 '2: abc, 3: def, 4: ghi, 5: jkl, 6: mno, 7: pqrs, 8: tuv, 9: wxyz',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'All possible combinations.', 'input': {'digits': '23'}, 'output': ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']},
+               {'explanation': 'Empty input.', 'input': {'digits': ''}, 'output': []}],
+  'java_sig': 'class Solution {\n    public List<String> letterCombinations(String digits) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/letter-combinations-of-a-phone-number/',
+  'python_sig': 'class Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        pass',
+  'solution_cpp': '// Solution for Letter Combinations of a Phone Number\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Letter Combinations of a Phone Number\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Letter Combinations of a Phone Number\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'class Solution:\n'
+                     '    def letterCombinations(self, digits: str) -> List[str]:\n'
+                     '        """\n'
+                     '        Backtracking to generate all possible letter combinations.\n'
+                     '        Maps each digit to its corresponding letters on phone keypad.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     "        1. Use digit-to-letters mapping (2='abc', 3='def', etc.)\n"
+                     '        2. Backtrack through each digit, trying all letter choices\n'
+                     '        3. When path length equals input length, add to result\n'
+                     '\n'
+                     '        Time Complexity: O(4^n) - worst case 4 letters per digit\n'
+                     '        Space Complexity: O(n) - recursion depth and current path\n'
+                     '        """\n'
+                     '        if not digits:\n'
+                     '            return []\n'
+                     '\n'
+                     '        # Phone keypad mapping\n'
+                     '        phone_map = {\n'
+                     "            '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',\n"
+                     "            '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'\n"
+                     '        }\n'
+                     '\n'
+                     '        result = []\n'
+                     '\n'
+                     '        def backtrack(index: int, path: str):\n'
+                     '            """Build combinations by trying each letter for current digit."""\n'
+                     '            # Base case: built complete combination\n'
+                     '            if index == len(digits):\n'
+                     '                result.append(path)\n'
+                     '                return\n'
+                     '\n'
+                     '            # Get letters for current digit\n'
+                     '            letters = phone_map[digits[index]]\n'
+                     '\n'
+                     '            # Try each letter\n'
+                     '            for letter in letters:\n'
+                     '                backtrack(index + 1, path + letter)\n'
+                     '\n'
+                     '        backtrack(0, "")\n'
+                     '        return result\n',
+  'space_complexity': 'O(n)',
+  'tags': ['hash-table', 'string', 'backtracking'],
+  'test_cases': [{'expectedOutput': ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf'], 'input': ['23']},
+                 {'expectedOutput': [], 'input': ['']},
+                 {'expectedOutput': ['a', 'b', 'c'], 'input': ['2']}],
+  'time_complexity': 'O(4^n)',
+  'title': 'Letter Combinations of a Phone Number'},
+ {'constraints': ['1 <= n <= 8'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        \n    }\n};',
+  'description': 'Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'All valid combinations of 3 pairs.', 'input': {'n': 3}, 'output': ['((()))', '(()())', '(())()', '()(())', '()()()']},
+               {'explanation': 'Only one combination.', 'input': {'n': 1}, 'output': ['()']}],
+  'java_sig': 'class Solution {\n    public List<String> generateParenthesis(int n) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/generate-parentheses/',
+  'python_sig': 'class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        pass',
+  'solution_cpp': '// Solution for Generate Parentheses\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Generate Parentheses\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Generate Parentheses\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def generateParenthesis(self, n: int) -> List[str]:\n'
+                     '        """\n'
+                     '        Backtracking with constraints to generate valid parentheses.\n'
+                     '        Ensures well-formed by tracking open/close counts.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     "        1. Backtrack, adding '(' when we have remaining opens\n"
+                     "        2. Add ')' only when closes < opens (ensures validity)\n"
+                     '        3. Complete when used all n pairs\n'
+                     '\n'
+                     '        Time Complexity: O(4^n / sqrt(n)) - Catalan number\n'
+                     '        Space Complexity: O(n) - recursion depth\n'
+                     '        """\n'
+                     '        result = []\n'
+                     '\n'
+                     '        def backtrack(current: str, open_count: int, close_count: int):\n'
+                     '            """Build valid combinations with open/close tracking."""\n'
+                     '            # Base case: used all n pairs\n'
+                     '            if len(current) == 2 * n:\n'
+                     '                result.append(current)\n'
+                     '                return\n'
+                     '\n'
+                     "            # Add '(' if we have remaining opens\n"
+                     '            if open_count < n:\n'
+                     "                backtrack(current + '(', open_count + 1, close_count)\n"
+                     '\n'
+                     "            # Add ')' only if it won't violate validity (closes < opens)\n"
+                     '            if close_count < open_count:\n'
+                     "                backtrack(current + ')', open_count, close_count + 1)\n"
+                     '\n'
+                     '        backtrack("", 0, 0)\n'
+                     '        return result\n',
+  'space_complexity': 'O(n)',
+  'tags': ['string', 'dynamic-programming', 'backtracking'],
+  'test_cases': [{'expectedOutput': ['((()))', '(()())', '(())()', '()(())', '()()()'], 'input': [3]}, {'expectedOutput': ['()'], 'input': [1]}],
+  'time_complexity': 'O(4^n/sqrt(n))',
+  'title': 'Generate Parentheses'},
+ {'constraints': ['1 <= nums.length <= 6', '-10 <= nums[i] <= 10', 'All the integers of nums are unique'],
+  'cpp_sig': 'class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        \n    }\n};',
+  'description': 'Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.',
+  'difficulty': 'medium',
+  'examples': [{'explanation': 'All permutations.', 'input': {'nums': [1, 2, 3]}, 'output': [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]},
+               {'explanation': 'Two permutations.', 'input': {'nums': [0, 1]}, 'output': [[0, 1], [1, 0]]}],
+  'java_sig': 'class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/permutations/',
+  'python_sig': 'class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        pass',
+  'solution_cpp': '// Solution for Permutations\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Permutations\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Permutations\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def permute(self, nums: List[int]) -> List[List[int]]:\n'
+                     '        """\n'
+                     '        Backtracking to generate all permutations.\n'
+                     '        Swaps elements to build each permutation in-place.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Use backtracking with index tracking\n'
+                     '        2. Swap current index with each remaining element\n'
+                     '        3. Recurse to next position\n'
+                     '        4. Backtrack by swapping back\n'
+                     '\n'
+                     '        Time Complexity: O(n! * n) - n! permutations, each takes O(n) to copy\n'
+                     '        Space Complexity: O(n) - recursion depth\n'
+                     '        """\n'
+                     '        result = []\n'
+                     '\n'
+                     '        def backtrack(start: int):\n'
+                     '            """Build permutations by swapping elements."""\n'
+                     '            # Base case: built complete permutation\n'
+                     '            if start == len(nums):\n'
+                     '                result.append(nums[:])  # Copy current permutation\n'
+                     '                return\n'
+                     '\n'
+                     '            # Try each element in remaining positions\n'
+                     '            for i in range(start, len(nums)):\n'
+                     '                # Swap to place element at current position\n'
+                     '                nums[start], nums[i] = nums[i], nums[start]\n'
+                     '\n'
+                     '                # Recurse to next position\n'
+                     '                backtrack(start + 1)\n'
+                     '\n'
+                     '                # Backtrack: restore original order\n'
+                     '                nums[start], nums[i] = nums[i], nums[start]\n'
+                     '\n'
+                     '        backtrack(0)\n'
+                     '        return sorted(result)\n',
+  'space_complexity': 'O(n)',
+  'tags': ['array', 'backtracking'],
+  'test_cases': [{'expectedOutput': [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]], 'input': [[1, 2, 3]]},
+                 {'expectedOutput': [[0, 1], [1, 0]], 'input': [[0, 1]]},
+                 {'expectedOutput': [[1]], 'input': [[1]]}],
+  'time_complexity': 'O(n!)',
+  'title': 'Permutations'},
+ {'constraints': ['n == height.length', '1 <= n <= 2 * 10^4', '0 <= height[i] <= 10^5'],
+  'cpp_sig': 'class Solution {\npublic:\n    int trap(vector<int>& height) {\n        \n    }\n};',
+  'description': 'Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.',
+  'difficulty': 'hard',
+  'examples': [{'explanation': 'The elevation map can trap 6 units of rain water.', 'input': {'height': [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]}, 'output': 6}],
+  'java_sig': 'class Solution {\n    public int trap(int[] height) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/trapping-rain-water/',
+  'python_sig': 'class Solution:\n    def trap(self, height: List[int]) -> int:\n        pass',
+  'solution_cpp': '// Solution for Trapping Rain Water\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Trapping Rain Water\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Trapping Rain Water\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def trap(self, height: List[int]) -> int:\n'
+                     '        """\n'
+                     '        Two-pointer technique to calculate trapped water.\n'
+                     '        Water level at position i = min(max_left[i], max_right[i]) - height[i]\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        Use two pointers moving inward, tracking max heights from both sides:\n'
+                     '        1. Start with left and right pointers at edges\n'
+                     '        2. Move pointer with smaller max height inward\n'
+                     '        3. Calculate water trapped based on current max heights\n'
+                     '        4. Key insight: water trapped depends on the SMALLER of left/right max\n'
+                     '\n'
+                     '        Time Complexity: O(n) - single pass with two pointers\n'
+                     '        Space Complexity: O(1) - only using pointers and max trackers\n'
+                     '        """\n'
+                     '        if not height:\n'
+                     '            return 0\n'
+                     '\n'
+                     '        left, right = 0, len(height) - 1\n'
+                     '        left_max, right_max = 0, 0\n'
+                     '        water = 0\n'
+                     '\n'
+                     '        while left < right:\n'
+                     '            if height[left] < height[right]:\n'
+                     '                # Process left side\n'
+                     '                if height[left] >= left_max:\n'
+                     '                    # Update left max\n'
+                     '                    left_max = height[left]\n'
+                     '                else:\n'
+                     '                    # Water trapped = left_max - current height\n'
+                     '                    water += left_max - height[left]\n'
+                     '                left += 1\n'
+                     '            else:\n'
+                     '                # Process right side\n'
+                     '                if height[right] >= right_max:\n'
+                     '                    # Update right max\n'
+                     '                    right_max = height[right]\n'
+                     '                else:\n'
+                     '                    # Water trapped = right_max - current height\n'
+                     '                    water += right_max - height[right]\n'
+                     '                right -= 1\n'
+                     '\n'
+                     '        return water\n',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'two-pointers', 'dynamic-programming', 'stack', 'monotonic-stack'],
+  'test_cases': [{'expectedOutput': 6, 'input': [[0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]]}, {'expectedOutput': 9, 'input': [[4, 2, 0, 3, 2, 5]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Trapping Rain Water'},
+ {'constraints': ['nums1.length == m', 'nums2.length == n', '0 <= m <= 1000', '0 <= n <= 1000', '1 <= m + n <= 2000', '-10^6 <= nums1[i], nums2[i] <= 10^6'],
+  'cpp_sig': 'class Solution {\npublic:\n    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {\n        \n    }\n};',
+  'description': 'Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.\n\nThe overall run time complexity should be O(log (m+n)).',
+  'difficulty': 'hard',
+  'examples': [{'explanation': 'Merged array = [1,2,3], median = 2.', 'input': {'nums1': [1, 3], 'nums2': [2]}, 'output': 2.0},
+               {'explanation': 'Merged array = [1,2,3,4], median = (2+3)/2 = 2.5.', 'input': {'nums1': [1, 2], 'nums2': [3, 4]}, 'output': 2.5}],
+  'java_sig': 'class Solution {\n    public double findMedianSortedArrays(int[] nums1, int[] nums2) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/median-of-two-sorted-arrays/',
+  'python_sig': 'class Solution:\n    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:\n        pass',
+  'solution_cpp': '// Solution for Median of Two Sorted Arrays\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Median of Two Sorted Arrays\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Median of Two Sorted Arrays\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:\n'
+                     '        """\n'
+                     '        Binary Search Solution for Median of Two Sorted Arrays\n'
+                     '        \n'
+                     '        PROBLEM STATEMENT:\n'
+                     '        Find the median of two sorted arrays in O(log(min(m,n))) time.\n'
+                     '        \n'
+                     '        KEY INSIGHT:\n'
+                     '        Instead of merging arrays, we can use binary search to find the correct "partition point"\n'
+                     '        that divides both arrays such that all elements on the left are <= all elements on the right.\n'
+                     '        \n'
+                     '        WHY BINARY SEARCH ON PARTITION POINTS WORKS:\n'
+                     '        1. A median divides a sorted array into two equal halves\n'
+                     '        2. For combined arrays, we need to partition both so that:\n'
+                     '           - Total elements on left = Total elements on right (or differ by 1)\n'
+                     '           - All left elements <= All right elements\n'
+                     '        3. If we choose partition i in nums1, partition j in nums2 is determined:\n'
+                     '           j = (m + n + 1) // 2 - i\n'
+                     '        4. We binary search for the correct i value\n'
+                     '        \n'
+                     '        PARTITION VISUALIZATION:\n'
+                     '        nums1: [1, 3, 8, 9, 15]  partition at i=2: [1, 3 | 8, 9, 15]\n'
+                     '        nums2: [7, 11, 18, 19, 21, 25]  partition at j=4: [7, 11, 18, 19 | 21, 25]\n'
+                     '        \n'
+                     '        Combined left half: [1, 3, 7, 11, 18, 19]  (6 elements)\n'
+                     '        Combined right half: [8, 9, 15, 21, 25]    (5 elements)\n'
+                     '        \n'
+                     '        Valid partition conditions:\n'
+                     "        - nums1[i-1] <= nums2[j]  (nums1's left <= nums2's right)\n"
+                     "        - nums2[j-1] <= nums1[i]  (nums2's left <= nums1's right)\n"
+                     '        \n'
+                     '        ALGORITHM STEPS:\n'
+                     '        1. Ensure nums1 is the smaller array (minimize search space)\n'
+                     "        2. Binary search on nums1's partition point (i)\n"
+                     '        3. Calculate corresponding partition in nums2 (j)\n'
+                     '        4. Check if partition is valid\n'
+                     '        5. If valid, calculate median from boundary elements\n'
+                     '        6. If invalid, adjust binary search range\n'
+                     '        \n'
+                     '        TIME COMPLEXITY: O(log(min(m,n))) - binary search on smaller array\n'
+                     '        SPACE COMPLEXITY: O(1) - only using variables\n'
+                     '        """\n'
+                     '        \n'
+                     '        # Step 1: Ensure nums1 is the smaller array for optimal binary search\n'
+                     '        # This minimizes our search space to log(min(m,n))\n'
+                     '        if len(nums1) > len(nums2):\n'
+                     '            nums1, nums2 = nums2, nums1\n'
+                     '        \n'
+                     '        m, n = len(nums1), len(nums2)\n'
+                     '        \n'
+                     "        # Step 2: Binary search on nums1's partition point\n"
+                     '        # We search for position i where:\n'
+                     '        # - i represents number of elements from nums1 in left partition\n'
+                     '        # - Range: [0, m] (we can take 0 to all elements from nums1)\n'
+                     '        left, right = 0, m\n'
+                     '        \n'
+                     '        while left <= right:\n'
+                     '            # Step 3: Choose partition point i in nums1\n'
+                     '            # This determines how many elements from nums1 go to left half\n'
+                     '            i = (left + right) // 2\n'
+                     '            \n'
+                     '            # Step 4: Calculate partition point j in nums2\n'
+                     '            # Total elements in left half should be (m+n+1)//2\n'
+                     '            # If we take i from nums1, we need j = (m+n+1)//2 - i from nums2\n'
+                     '            # The +1 handles both odd and even length cases correctly\n'
+                     '            j = (m + n + 1) // 2 - i\n'
+                     '            \n'
+                     '            # Step 5: Get boundary elements around partitions\n'
+                     '            # Use -infinity and +infinity for edge cases (partition at start/end)\n'
+                     '            \n'
+                     "            # Left side of nums1's partition (largest element in nums1's left half)\n"
+                     "            nums1_left = float('-inf') if i == 0 else nums1[i - 1]\n"
+                     '            \n'
+                     "            # Right side of nums1's partition (smallest element in nums1's right half)\n"
+                     "            nums1_right = float('inf') if i == m else nums1[i]\n"
+                     '            \n'
+                     "            # Left side of nums2's partition (largest element in nums2's left half)\n"
+                     "            nums2_left = float('-inf') if j == 0 else nums2[j - 1]\n"
+                     '            \n'
+                     "            # Right side of nums2's partition (smallest element in nums2's right half)\n"
+                     "            nums2_right = float('inf') if j == n else nums2[j]\n"
+                     '            \n'
+                     '            # Step 6: Check if this partition is valid\n'
+                     '            # Valid partition means: all left elements <= all right elements\n'
+                     '            if nums1_left <= nums2_right and nums2_left <= nums1_right:\n'
+                     '                # VALID PARTITION FOUND!\n'
+                     '                \n'
+                     '                # Step 7: Calculate median based on total length (odd vs even)\n'
+                     '                if (m + n) % 2 == 0:\n'
+                     '                    # Even total length: median = average of two middle elements\n'
+                     '                    # Left middle = max of left boundaries\n'
+                     '                    # Right middle = min of right boundaries\n'
+                     '                    return (max(nums1_left, nums2_left) + min(nums1_right, nums2_right)) / 2.0\n'
+                     '                else:\n'
+                     '                    # Odd total length: median = largest element in left half\n'
+                     '                    # This works because left half has one more element than right\n'
+                     '                    return float(max(nums1_left, nums2_left))\n'
+                     '            \n'
+                     '            # Step 8: Adjust binary search based on partition validity\n'
+                     '            elif nums1_left > nums2_right:\n'
+                     "                # nums1's left side is too large\n"
+                     '                # We have too many elements from nums1 in left partition\n'
+                     '                # Move partition i to the left (take fewer from nums1)\n'
+                     '                right = i - 1\n'
+                     '            else:\n'
+                     '                # nums2_left > nums1_right\n'
+                     "                # nums1's left side is too small\n"
+                     '                # We have too few elements from nums1 in left partition\n'
+                     '                # Move partition i to the right (take more from nums1)\n'
+                     '                left = i + 1\n'
+                     '        \n'
+                     '        # Should never reach here if inputs are valid sorted arrays\n'
+                     '        raise ValueError("Input arrays are not sorted or invalid")\n',
+  'space_complexity': 'O(1)',
+  'tags': ['array', 'binary-search', 'divide-and-conquer'],
+  'test_cases': [{'expectedOutput': 2.0, 'input': [[1, 3], [2]]}, {'expectedOutput': 2.5, 'input': [[1, 2], [3, 4]]}],
+  'time_complexity': 'O(log(min(m,n)))',
+  'title': 'Median of Two Sorted Arrays'},
+ {'constraints': ['The number of nodes in the tree is in the range [1, 3 * 10^4]', '-1000 <= Node.val <= 1000'],
+  'cpp_sig': 'class Solution {\npublic:\n    int maxPathSum(TreeNode* root) {\n        \n    }\n};',
+  'description': 'A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. '
+                 'Note that the path does not need to pass through the root.\n'
+                 '\n'
+                 "The path sum of a path is the sum of the node's values in the path.\n"
+                 '\n'
+                 'Given the root of a binary tree, return the maximum path sum of any non-empty path.',
+  'difficulty': 'hard',
+  'examples': [{'explanation': 'The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.', 'input': {'root': [1, 2, 3]}, 'output': 6},
+               {'explanation': 'The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.', 'input': {'root': [-10, 9, 20, None, None, 15, 7]}, 'output': 42}],
+  'java_sig': 'class Solution {\n    public int maxPathSum(TreeNode root) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/binary-tree-maximum-path-sum/',
+  'python_sig': 'class Solution:\n    def maxPathSum(self, root: Optional[TreeNode]) -> int:\n        pass',
+  'solution_cpp': '// Solution for Binary Tree Maximum Path Sum\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Binary Tree Maximum Path Sum\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Binary Tree Maximum Path Sum\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': '# Binary Tree Maximum Path Sum - Post-Order DFS Solution\n'
+                     '# Time Complexity: O(n) - visit each node exactly once\n'
+                     '# Space Complexity: O(h) - recursion stack depth equals tree height\n'
+                     '\n'
+                     '"""\n'
+                     'PROBLEM INTUITION:\n'
+                     'We need to find the maximum path sum in a binary tree where:\n'
+                     "1. A path is any sequence of connected nodes (doesn't need to go through root)\n"
+                     '2. Each node can appear at most once in the path\n'
+                     '3. The path can start and end at any node\n'
+                     '\n'
+                     'KEY INSIGHT: Post-Order Traversal is Essential\n'
+                     'We use post-order DFS because we need information from children BEFORE\n'
+                     'making decisions at the parent. This is a bottom-up dynamic programming approach.\n'
+                     '\n'
+                     'CRITICAL DISTINCTION (This is where most people get confused):\n'
+                     'For each node, we track TWO different values:\n'
+                     '1. "Path through this node" = node.val + left_sum + right_sum\n'
+                     '   - This uses BOTH children (forms an inverted V-shape: left->node->right)\n'
+                     '   - Can be a candidate for the global maximum\n'
+                     '   - CANNOT be returned to parent (already used both branches)\n'
+                     '\n'
+                     '2. "Path to parent" = node.val + max(left_sum, right_sum)\n'
+                     '   - Uses only ONE child (forms a single line that can extend upward)\n'
+                     '   - Can be extended by the parent node\n'
+                     '   - This is what we RETURN\n'
+                     '\n'
+                     'Example visualization:\n'
+                     '       10\n'
+                     '      /       2    10\n'
+                     '    / \\        20  1    -25\n'
+                     '              /               3    4\n'
+                     '\n'
+                     'At node 10 (root):\n'
+                     '- left_sum from left child = 20 (best path going up from left subtree)\n'
+                     '- right_sum from right child = 10 (best path going up from right subtree)\n'
+                     '- path_through_node = 10 + 20 + 10 = 40 (uses both children)\n'
+                     '- return to parent = 10 + max(20, 10) = 30 (uses only best child)\n'
+                     '\n'
+                     'HANDLING NEGATIVE VALUES:\n'
+                     'Use max(0, child_sum) to exclude negative paths. If a subtree has negative\n'
+                     "sum, it's better to NOT include it in our path. This is equivalent to\n"
+                     '"cutting off" the negative branch.\n'
+                     '\n'
+                     'Example with negative values:\n'
+                     '       -10\n'
+                     '       /        9   20\n'
+                     '         /          15   7\n'
+                     '\n'
+                     'At node 20:\n'
+                     '- left_sum = 15, right_sum = 7\n'
+                     '- path_through_node = 20 + 15 + 7 = 42 (this becomes our answer)\n'
+                     '- At root -10, we would exclude it since adding -10 makes things worse\n'
+                     '"""\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def maxPathSum(self, root: Optional[TreeNode]) -> int:\n'
+                     '        # Initialize global maximum to smallest possible value\n'
+                     '        # This handles the case where all values are negative (we must include at least one node)\n'
+                     "        self.max_sum = float('-inf')\n"
+                     '        \n'
+                     '        def dfs(node: Optional[TreeNode]) -> int:\n'
+                     '            """\n'
+                     '            Post-order DFS that returns the maximum path sum going UP from this node.\n'
+                     '            \n'
+                     '            Returns:\n'
+                     '                The maximum sum of a path that:\n'
+                     '                - Starts at this node\n'
+                     '                - Goes through AT MOST ONE of its children (can extend upward)\n'
+                     '                - Could be just the node itself if both children are negative\n'
+                     '            \n'
+                     '            Side Effect:\n'
+                     '                Updates self.max_sum with the maximum path sum that goes THROUGH this node\n'
+                     '                (which may use both children)\n'
+                     '            """\n'
+                     '            # Base case: null nodes contribute 0 to any path\n'
+                     '            if not node:\n'
+                     '                return 0\n'
+                     '            \n'
+                     '            # Recursively get maximum path sums from left and right subtrees\n'
+                     '            # Post-order: process children before parent\n'
+                     '            left_sum = dfs(node.left)\n'
+                     '            right_sum = dfs(node.right)\n'
+                     '            \n'
+                     '            # CRITICAL: Use max(0, sum) to exclude negative paths\n'
+                     '            # If a subtree has negative sum, better to not include it (equivalent to pruning)\n'
+                     '            # This handles cases like: node=10, left_sum=-5 -> we take 10+0 instead of 10+(-5)\n'
+                     '            left_sum = max(0, left_sum)\n'
+                     '            right_sum = max(0, right_sum)\n'
+                     '            \n'
+                     '            # Calculate the maximum path sum that goes THROUGH this node\n'
+                     '            # This path uses the node and potentially BOTH children (forms inverted V)\n'
+                     '            # Four possible paths through this node:\n'
+                     '            #   1. Just the node (both children excluded/negative)\n'
+                     '            #   2. Node + left_sum (right excluded/negative)\n'
+                     '            #   3. Node + right_sum (left excluded/negative)\n'
+                     '            #   4. Node + left_sum + right_sum (both children included)\n'
+                     '            # Because we already excluded negatives, we can safely add both\n'
+                     '            path_through_node = node.val + left_sum + right_sum\n'
+                     '            \n'
+                     "            # Update global maximum if this path is better than anything we've seen\n"
+                     '            # This is a CANDIDATE for the final answer\n'
+                     '            self.max_sum = max(self.max_sum, path_through_node)\n'
+                     '            \n'
+                     '            # Return the maximum path sum going UP from this node\n'
+                     '            # We can only use ONE child (left OR right) because the parent might\n'
+                     "            # want to extend this path upward (can't branch in multiple directions)\n"
+                     '            # Three possible return values:\n'
+                     '            #   1. Just the node (if both children are negative/excluded)\n'
+                     '            #   2. Node + left_sum (if left is better)\n'
+                     '            #   3. Node + right_sum (if right is better)\n'
+                     '            return node.val + max(left_sum, right_sum)\n'
+                     '        \n'
+                     '        # Start DFS from root\n'
+                     '        dfs(root)\n'
+                     '        \n'
+                     '        # Return the global maximum found\n'
+                     '        # This could be a path anywhere in the tree (not necessarily through root)\n'
+                     '        return self.max_sum\n'
+                     '    \n'
+                     '    def solve(self, input):\n'
+                     '        """\n'
+                     '        Wrapper method for validation framework.\n'
+                     '        Input format: List of tree nodes [root_array]\n'
+                     '        """\n'
+                     '        # Input is a list containing one element: the tree array\n'
+                     '        tree_array = input[0]\n'
+                     '        \n'
+                     '        # Build tree from array representation\n'
+                     '        root = self._build_tree(tree_array)\n'
+                     '        \n'
+                     '        # Solve and return result\n'
+                     '        return self.maxPathSum(root)\n'
+                     '    \n'
+                     '    def _build_tree(self, values):\n'
+                     '        """Build binary tree from level-order list representation."""\n'
+                     '        if not values:\n'
+                     '            return None\n'
+                     '        \n'
+                     '        from collections import deque\n'
+                     '        \n'
+                     '        root = TreeNode(values[0])\n'
+                     '        queue = deque([root])\n'
+                     '        i = 1\n'
+                     '        \n'
+                     '        while queue and i < len(values):\n'
+                     '            node = queue.popleft()\n'
+                     '            \n'
+                     '            # Left child\n'
+                     '            if i < len(values) and values[i] is not None:\n'
+                     '                node.left = TreeNode(values[i])\n'
+                     '                queue.append(node.left)\n'
+                     '            i += 1\n'
+                     '            \n'
+                     '            # Right child\n'
+                     '            if i < len(values) and values[i] is not None:\n'
+                     '                node.right = TreeNode(values[i])\n'
+                     '                queue.append(node.right)\n'
+                     '            i += 1\n'
+                     '        \n'
+                     '        return root\n'
+                     '\n'
+                     '\n'
+                     '"""\n'
+                     'COMPLEXITY ANALYSIS:\n'
+                     '\n'
+                     'Time Complexity: O(n)\n'
+                     '- We visit each node exactly once in the DFS traversal\n'
+                     '- At each node, we perform O(1) operations (comparisons and additions)\n'
+                     '- Therefore, total time is O(n) where n is the number of nodes\n'
+                     '\n'
+                     'Space Complexity: O(h)\n'
+                     '- The space is used by the recursion call stack\n'
+                     '- In the worst case (skewed tree), the height h = n, giving O(n) space\n'
+                     '- In the best case (balanced tree), the height h = log(n), giving O(log n) space\n'
+                     '- Average case for a balanced binary tree: O(log n)\n'
+                     '\n'
+                     'EDGE CASES HANDLED:\n'
+                     '1. Single node tree: Returns the node value\n'
+                     '2. All negative values: Returns the least negative value (must include at least one node)\n'
+                     '3. Skewed tree (like a linked list): Works correctly with O(n) space\n'
+                     "4. Path doesn't include root: Algorithm finds it correctly\n"
+                     '5. Optimal path uses both children of a node: Tracked in path_through_node\n'
+                     '6. Mixed positive and negative values: max(0, sum) excludes negative branches\n'
+                     '\n'
+                     'COMMON MISTAKES TO AVOID:\n'
+                     '1. Forgetting to use max(0, child_sum) to exclude negative paths\n'
+                     '2. Confusing "path through node" with "path to parent"\n'
+                     '3. Returning the wrong value (should return path extending upward, not max path)\n'
+                     '4. Not initializing max_sum to -infinity (fails when all values are negative)\n'
+                     '5. Trying to use both children in the return value (breaks the path constraint)\n'
+                     '\n'
+                     'INTERVIEW TIPS:\n'
+                     '1. Draw out the tree and trace through the algorithm\n'
+                     '2. Explain the difference between local max (through node) and return value (to parent)\n'
+                     '3. Explain why post-order traversal is necessary\n'
+                     '4. Discuss the negative value handling\n'
+                     '5. Mention the time/space complexity clearly\n'
+                     '"""',
+  'space_complexity': 'O(h)',
+  'tags': ['tree', 'depth-first-search', 'dynamic-programming', 'binary-tree'],
+  'test_cases': [{'expectedOutput': 6, 'input': [[1, 2, 3]]}, {'expectedOutput': 42, 'input': [[-10, 9, 20, None, None, 15, 7]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Binary Tree Maximum Path Sum'},
+ {'constraints': ['The number of nodes in the tree is in the range [0, 10^4]', '-1000 <= Node.val <= 1000'],
+  'cpp_sig': 'class Codec {\npublic:\n    string serialize(TreeNode* root) {\n        \n    }\n    \n    TreeNode* deserialize(string data) {\n        \n    }\n};',
+  'description': 'Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network '
+                 'connection link to be reconstructed later in the same or another computer environment.\n'
+                 '\n'
+                 'Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work.',
+  'difficulty': 'hard',
+  'examples': [{'explanation': 'Serialize then deserialize the tree.', 'input': {'root': [1, 2, 3, None, None, 4, 5]}, 'output': [1, 2, 3, None, None, 4, 5]}],
+  'java_sig': 'public class Codec {\n    public String serialize(TreeNode root) {\n        \n    }\n    \n    public TreeNode deserialize(String data) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/serialize-and-deserialize-binary-tree/',
+  'python_sig': 'class Codec:\n    def serialize(self, root: Optional[TreeNode]) -> str:\n        pass\n    \n    def deserialize(self, data: str) -> Optional[TreeNode]:\n        pass',
+  'solution_cpp': '// Solution for Serialize and Deserialize Binary Tree\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    returnType solve(inputType input) {\n'
+                  '        // TODO: Implement solution\n'
+                  '        return {};\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Solution for Serialize and Deserialize Binary Tree\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Serialize and Deserialize Binary Tree\n'
+                   'class Solution {\n'
+                   '    public returnType solve(inputType input) {\n'
+                   '        // TODO: Implement solution\n'
+                   '        return None;\n'
+                   '    }\n'
+                   '}',
+  'solution_python': '# Definition for a binary tree node.\n'
+                     '# class TreeNode:\n'
+                     '#     def __init__(self, x):\n'
+                     '#         self.val = x\n'
+                     '#         self.left = None\n'
+                     '#         self.right = None\n'
+                     '\n'
+                     'class Codec:\n'
+                     '    """\n'
+                     '    Serialize and deserialize binary tree using preorder traversal.\n'
+                     "    Uses '#' to represent null nodes, ',' as delimiter.\n"
+                     '\n'
+                     '    Time Complexity: O(n) for both serialize and deserialize\n'
+                     '    Space Complexity: O(n) for storing tree data\n'
+                     '    """\n'
+                     '\n'
+                     '    def serialize(self, root: TreeNode) -> str:\n'
+                     '        """\n'
+                     '        Encodes tree to string using preorder traversal.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Preorder traversal (root, left, right)\n'
+                     "        2. Use '#' for null nodes\n"
+                     '        3. Join with commas\n'
+                     '        """\n'
+                     '        def preorder(node):\n'
+                     '            if not node:\n'
+                     "                return '#'\n"
+                     '            # Preorder: root, left subtree, right subtree\n'
+                     '            return f"{node.val},{preorder(node.left)},{preorder(node.right)}"\n'
+                     '\n'
+                     '        return preorder(root)\n'
+                     '\n'
+                     '    def deserialize(self, data: str) -> TreeNode:\n'
+                     '        """\n'
+                     '        Decodes string to tree using preorder reconstruction.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Split string by commas\n'
+                     '        2. Use iterator to build tree in preorder\n'
+                     "        3. '#' creates None, numbers create nodes\n"
+                     '        """\n'
+                     '        def build():\n'
+                     '            val = next(values)\n'
+                     "            if val == '#':\n"
+                     '                return None\n'
+                     '\n'
+                     '            # Create node and recursively build subtrees\n'
+                     '            node = TreeNode(int(val))\n'
+                     '            node.left = build()\n'
+                     '            node.right = build()\n'
+                     '            return node\n'
+                     '\n'
+                     "        values = iter(data.split(','))\n"
+                     '        return build()\n'
+                     '\n'
+                     '# Your Codec object will be instantiated and called as such:\n'
+                     '# codec = Codec()\n'
+                     '# codec.deserialize(codec.serialize(root))\n',
+  'space_complexity': 'O(n)',
+  'tags': ['string', 'tree', 'depth-first-search', 'breadth-first-search', 'design', 'binary-tree'],
+  'test_cases': [{'expectedOutput': [1, 2, 3, None, None, 4, 5], 'input': [[1, 2, 3, None, None, 4, 5]]}, {'expectedOutput': [], 'input': [[]]}],
+  'time_complexity': 'O(n)',
+  'title': 'Serialize and Deserialize Binary Tree'},
+ {'constraints': ['1 <= s.length <= 20', '1 <= p.length <= 20', 's contains only lowercase English letters', "p contains only lowercase English letters, '.', and '*'"],
+  'cpp_sig': 'class Solution {\npublic:\n    bool isMatch(string s, string p) {\n        \n    }\n};',
+  'description': "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:\n"
+                 '\n'
+                 "'.' Matches any single character.\n"
+                 "'*' Matches zero or more of the preceding element.\n"
+                 '\n'
+                 'The matching should cover the entire input string (not partial).',
+  'difficulty': 'hard',
+  'examples': [{'explanation': 'a does not match the entire string aa.', 'input': {'p': 'a', 's': 'aa'}, 'output': False},
+               {'explanation': '* means zero or more of the preceding element, a. Therefore, by repeating a once, it becomes aa.', 'input': {'p': 'a*', 's': 'aa'}, 'output': True}],
+  'java_sig': 'class Solution {\n    public boolean isMatch(String s, String p) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/regular-expression-matching/',
+  'python_sig': 'class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        pass',
+  'solution_cpp': '// Solution for Regular Expression Matching\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Regular Expression Matching\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Regular Expression Matching\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def isMatch(self, s: str, p: str) -> bool:\n'
+                     '        """\n'
+                     '        2D Dynamic Programming for Regular Expression Matching.\n'
+                     "        Matches string 's' against pattern 'p' with '.' and '*' operators.\n"
+                     '        \n'
+                     '        WHY 2D DP?\n'
+                     '        - Subproblem structure: Match status of s[0:i] vs p[0:j] depends on\n'
+                     '          previous subproblems (smaller prefixes)\n'
+                     '        - Optimal substructure: dp[i][j] built from dp[i-1][j-1], dp[i-1][j], etc.\n'
+                     '        - Overlapping subproblems: Same prefixes checked multiple times\n'
+                     '        \n'
+                     '        KEY INSIGHTS:\n'
+                     "        1. '.' operator: Matches ANY single character (simple substitution)\n"
+                     "        2. '*' operator: Matches ZERO or MORE of the PRECEDING character\n"
+                     "           - Think of 'a*' as a UNIT (not separate 'a' and '*')\n"
+                     "           - p[j-2] is the char that '*' modifies (p[j-1] is the '*')\n"
+                     "        3. For '*', we have TWO choices:\n"
+                     "           a) Use ZERO occurrences: dp[i][j-2] (skip char + '*')\n"
+                     '           b) Use ONE+ occurrences: dp[i-1][j] IF chars match\n'
+                     '        \n'
+                     '        DP RECURRENCE RELATION:\n'
+                     '        - dp[i][j] = True if s[0:i] matches p[0:j]\n'
+                     '        - Base case: dp[0][0] = True (empty matches empty)\n'
+                     '        - Base case: dp[0][j] = handle patterns like "a*b*" (can match empty)\n'
+                     '        \n'
+                     '        Algorithm:\n'
+                     '        1. Create (m+1) x (n+1) DP table\n'
+                     '        2. Initialize base cases\n'
+                     '        3. For each cell dp[i][j]:\n'
+                     "           - If p[j-1] is '*': combine zero-occurrence OR one+-occurrence\n"
+                     '           - Else: match current chars and use dp[i-1][j-1]\n'
+                     '        \n'
+                     '        Time Complexity: O(m * n) where m = len(s), n = len(p)\n'
+                     '        Space Complexity: O(m * n) for DP table (can optimize to O(n))\n'
+                     '        """\n'
+                     '        m, n = len(s), len(p)\n'
+                     '        \n'
+                     '        # dp[i][j] = does s[0:i] match p[0:j]?\n'
+                     '        dp = [[False] * (n + 1) for _ in range(m + 1)]\n'
+                     '        \n'
+                     '        # Base case: empty string matches empty pattern\n'
+                     '        dp[0][0] = True\n'
+                     '        \n'
+                     '        # Base case: Handle patterns that can match empty string\n'
+                     '        # Pattern like "a*", "a*b*", "a*b*c*" can match empty string\n'
+                     "        # The '*' makes preceding character optional (zero occurrences)\n"
+                     '        for j in range(2, n + 1):\n'
+                     "            if p[j - 1] == '*':\n"
+                     "                # '*' can make preceding char disappear\n"
+                     '                dp[0][j] = dp[0][j - 2]\n'
+                     '        \n'
+                     '        # Helper function: check if two characters match\n'
+                     '        def matches(s_char: str, p_char: str) -> bool:\n'
+                     '            """Check if pattern character matches string character."""\n'
+                     "            return p_char == '.' or s_char == p_char\n"
+                     '        \n'
+                     '        # Fill DP table\n'
+                     '        for i in range(1, m + 1):\n'
+                     '            for j in range(1, n + 1):\n'
+                     "                if p[j - 1] == '*':\n"
+                     "                    # '*' operator: MODIFIES the PRECEDING character p[j-2]\n"
+                     '                    # Two choices:\n'
+                     '                    \n'
+                     '                    # Choice 1: Use ZERO occurrences of preceding char\n'
+                     "                    # Skip both the character and '*' in pattern\n"
+                     '                    # Example: "ab" matches "abc*" by ignoring "c*"\n'
+                     '                    dp[i][j] = dp[i][j - 2]\n'
+                     '                    \n'
+                     '                    # Choice 2: Use ONE or MORE occurrences\n'
+                     "                    # Check if current string char matches the char before '*'\n"
+                     '                    # If match, we can "consume" one char from string and\n'
+                     '                    # keep the "char*" pattern (for more matches)\n'
+                     '                    # Example: "aaa" matches "a*" by consuming each \'a\'\n'
+                     '                    if matches(s[i - 1], p[j - 2]):\n'
+                     '                        # dp[i-1][j] means: we matched one char from string,\n'
+                     '                        # but keep the "char*" pattern for potential more matches\n'
+                     '                        dp[i][j] = dp[i][j] or dp[i - 1][j]\n'
+                     '                \n'
+                     '                else:\n'
+                     "                    # Regular character or '.' operator\n"
+                     "                    # Must match current characters exactly (or '.' wildcard)\n"
+                     '                    if matches(s[i - 1], p[j - 1]):\n'
+                     '                        # Both chars match: inherit result from previous state\n'
+                     '                        dp[i][j] = dp[i - 1][j - 1]\n'
+                     '        \n'
+                     '        # Final answer: does full string match full pattern?\n'
+                     '        return dp[m][n]\n',
+  'space_complexity': 'O(m*n)',
+  'tags': ['string', 'dynamic-programming', 'recursion'],
+  'test_cases': [{'expectedOutput': False, 'input': ['aa', 'a']}, {'expectedOutput': True, 'input': ['aa', 'a*']}, {'expectedOutput': True, 'input': ['ab', '.*']}],
+  'time_complexity': 'O(m*n)',
+  'title': 'Regular Expression Matching'},
+ {'constraints': ['0 <= word1.length, word2.length <= 500', 'word1 and word2 consist of lowercase English letters'],
+  'cpp_sig': 'class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        \n    }\n};',
+  'description': 'Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.\n'
+                 '\n'
+                 'You have the following three operations permitted on a word:\n'
+                 '- Insert a character\n'
+                 '- Delete a character\n'
+                 '- Replace a character',
+  'difficulty': 'hard',
+  'examples': [{'explanation': "horse -> rorse (replace 'h' with 'r') -> rose (remove 'r') -> ros (remove 'e')", 'input': {'word1': 'horse', 'word2': 'ros'}, 'output': 3},
+               {'explanation': "intention -> inention (remove 't') -> enention (replace 'i' with 'e') -> exention (replace 'n' with 'x') -> exection (replace 'n' with 'c') -> execution (insert 'u')",
+                'input': {'word1': 'intention', 'word2': 'execution'},
+                'output': 5}],
+  'java_sig': 'class Solution {\n    public int minDistance(String word1, String word2) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/edit-distance/',
+  'python_sig': 'class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        pass',
+  'solution_cpp': '// Solution for Edit Distance\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Edit Distance\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Edit Distance\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': 'class Solution:\n'
+                     '    def minDistance(self, word1: str, word2: str) -> int:\n'
+                     '        """\n'
+                     '        Dynamic Programming (Levenshtein Distance).\n'
+                     '        Finds minimum edit operations to transform word1 to word2.\n'
+                     '\n'
+                     '        Operations: insert, delete, replace (each costs 1)\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Create DP table where dp[i][j] = min edits for word1[0:i] -> word2[0:j]\n'
+                     '        2. Base cases: empty string conversions\n'
+                     '        3. If characters match: dp[i][j] = dp[i-1][j-1]\n'
+                     '        4. If differ: take min of (insert, delete, replace) + 1\n'
+                     '\n'
+                     '        Time Complexity: O(m * n) where m, n are string lengths\n'
+                     '        Space Complexity: O(m * n) for DP table\n'
+                     '        """\n'
+                     '        m, n = len(word1), len(word2)\n'
+                     '\n'
+                     '        # dp[i][j] = min edits to transform word1[0:i] to word2[0:j]\n'
+                     '        dp = [[0] * (n + 1) for _ in range(m + 1)]\n'
+                     '\n'
+                     '        # Base cases: transforming from/to empty string\n'
+                     '        for i in range(m + 1):\n'
+                     '            dp[i][0] = i  # Delete all characters\n'
+                     '        for j in range(n + 1):\n'
+                     '            dp[0][j] = j  # Insert all characters\n'
+                     '\n'
+                     '        # Fill DP table\n'
+                     '        for i in range(1, m + 1):\n'
+                     '            for j in range(1, n + 1):\n'
+                     '                if word1[i - 1] == word2[j - 1]:\n'
+                     '                    # Characters match: no operation needed\n'
+                     '                    dp[i][j] = dp[i - 1][j - 1]\n'
+                     '                else:\n'
+                     '                    # Take minimum of:\n'
+                     '                    # - Replace: dp[i-1][j-1] + 1\n'
+                     '                    # - Insert: dp[i][j-1] + 1\n'
+                     '                    # - Delete: dp[i-1][j] + 1\n'
+                     '                    dp[i][j] = min(\n'
+                     '                        dp[i - 1][j - 1],  # Replace\n'
+                     '                        dp[i][j - 1],      # Insert\n'
+                     '                        dp[i - 1][j]       # Delete\n'
+                     '                    ) + 1\n'
+                     '\n'
+                     '        return dp[m][n]\n',
+  'space_complexity': 'O(m*n)',
+  'tags': ['string', 'dynamic-programming'],
+  'test_cases': [{'expectedOutput': 3, 'input': ['horse', 'ros']}, {'expectedOutput': 5, 'input': ['intention', 'execution']}],
+  'time_complexity': 'O(m*n)',
+  'title': 'Edit Distance'},
+ {'constraints': ['1 <= beginWord.length <= 10',
+                  'endWord.length == beginWord.length',
+                  '1 <= wordList.length <= 5000',
+                  'wordList[i].length == beginWord.length',
+                  'All strings consist of lowercase English letters',
+                  'beginWord != endWord',
+                  'All the words in wordList are unique'],
+  'cpp_sig': 'class Solution {\npublic:\n    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {\n        \n    }\n};',
+  'description': 'A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:\n'
+                 '- Every adjacent pair of words differs by a single letter.\n'
+                 '- Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.\n'
+                 '- sk == endWord\n'
+                 '\n'
+                 'Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such '
+                 'sequence exists.',
+  'difficulty': 'hard',
+  'examples': [{'explanation': "One shortest transformation sequence is 'hit' -> 'hot' -> 'dot' -> 'dog' -> 'cog', which is 5 words long.",
+                'input': {'beginWord': 'hit', 'endWord': 'cog', 'wordList': ['hot', 'dot', 'dog', 'lot', 'log', 'cog']},
+                'output': 5},
+               {'explanation': "The endWord 'cog' is not in wordList, therefore there is no valid transformation sequence.",
+                'input': {'beginWord': 'hit', 'endWord': 'cog', 'wordList': ['hot', 'dot', 'dog', 'lot', 'log']},
+                'output': 0}],
+  'java_sig': 'class Solution {\n    public int ladderLength(String beginWord, String endWord, List<String> wordList) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/word-ladder/',
+  'python_sig': 'class Solution:\n    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n        pass',
+  'solution_cpp': '#include <string>\n'
+                  '#include <vector>\n'
+                  '#include <unordered_set>\n'
+                  '\n'
+                  'class Solution {\n'
+                  'public:\n'
+                  '    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {\n'
+                  '        /*\n'
+                  '         * BIDIRECTIONAL BFS APPROACH\n'
+                  '         * ==========================\n'
+                  '         * Searches from both ends simultaneously for optimal performance.\n'
+                  '         * Time: O(n * m^2), Space: O(n)\n'
+                  '         */\n'
+                  '        \n'
+                  '        // Convert wordList to unordered_set for O(1) lookup\n'
+                  '        unordered_set<string> wordSet(wordList.begin(), wordList.end());\n'
+                  '        if (wordSet.find(endWord) == wordSet.end()) {\n'
+                  '            return 0;  // endWord must be in dictionary\n'
+                  '        }\n'
+                  '        \n'
+                  '        // Visited sets and frontiers for both directions\n'
+                  '        unordered_set<string> visitedBegin = {beginWord};\n'
+                  '        unordered_set<string> visitedEnd = {endWord};\n'
+                  '        unordered_set<string> frontierBegin = {beginWord};\n'
+                  '        unordered_set<string> frontierEnd = {endWord};\n'
+                  '        \n'
+                  '        int stepsBegin = 1;\n'
+                  '        int stepsEnd = 1;\n'
+                  '        \n'
+                  '        while (!frontierBegin.empty() && !frontierEnd.empty()) {\n'
+                  '            // Always expand smaller frontier\n'
+                  '            if (frontierBegin.size() > frontierEnd.size()) {\n'
+                  '                swap(frontierBegin, frontierEnd);\n'
+                  '                swap(visitedBegin, visitedEnd);\n'
+                  '                swap(stepsBegin, stepsEnd);\n'
+                  '            }\n'
+                  '            \n'
+                  '            unordered_set<string> nextFrontier;\n'
+                  '            \n'
+                  '            for (const string& word : frontierBegin) {\n'
+                  '                string newWord = word;\n'
+                  '                \n'
+                  '                // Try all one-letter transformations\n'
+                  '                for (int i = 0; i < newWord.length(); i++) {\n'
+                  '                    char originalChar = newWord[i];\n'
+                  '                    \n'
+                  "                    for (char c = 'a'; c <= 'z'; c++) {\n"
+                  '                        if (c == originalChar) continue;\n'
+                  '                        \n'
+                  '                        newWord[i] = c;\n'
+                  '                        \n'
+                  '                        // Check if paths meet\n'
+                  '                        if (visitedEnd.count(newWord)) {\n'
+                  '                            return stepsBegin + stepsEnd;\n'
+                  '                        }\n'
+                  '                        \n'
+                  '                        // Add to next frontier if valid\n'
+                  '                        if (wordSet.count(newWord) && !visitedBegin.count(newWord)) {\n'
+                  '                            nextFrontier.insert(newWord);\n'
+                  '                            visitedBegin.insert(newWord);\n'
+                  '                        }\n'
+                  '                    }\n'
+                  '                    \n'
+                  '                    newWord[i] = originalChar;  // Restore\n'
+                  '                }\n'
+                  '            }\n'
+                  '            \n'
+                  '            frontierBegin = nextFrontier;\n'
+                  '            stepsBegin++;\n'
+                  '        }\n'
+                  '        \n'
+                  '        return 0;  // No path found\n'
+                  '    }\n'
+                  '};',
+  'solution_explanation': '## Approach: Bidirectional BFS\n'
+                          '\n'
+                          '### Why Bidirectional BFS?\n'
+                          '\n'
+                          'Standard BFS explores from source to target with complexity O(b^d) where:\n'
+                          '- b = branching factor (average neighbors per node)\n'
+                          '- d = depth (shortest path length)\n'
+                          '\n'
+                          'Bidirectional BFS searches from **both ends simultaneously**, meeting in the middle:\n'
+                          '- Complexity: O(b^(d/2)) + O(b^(d/2)) ≈ O(2 × b^(d/2))\n'
+                          '\n'
+                          '**Dramatic improvement**: For b=10, d=6:\n'
+                          '- Unidirectional: 10^6 = 1,000,000 nodes explored\n'
+                          '- Bidirectional: 2 × 10^3 = 2,000 nodes explored (500× faster!)\n'
+                          '\n'
+                          '### Algorithm Steps\n'
+                          '\n'
+                          '1. **Initialize two searches**:\n'
+                          '   - Forward: Start from `beginWord` with visited set and frontier\n'
+                          '   - Backward: Start from `endWord` with visited set and frontier\n'
+                          '\n'
+                          '2. **Optimization**: Always expand the **smaller frontier**\n'
+                          '   - Keeps searches balanced\n'
+                          '   - Minimizes total work\n'
+                          '\n'
+                          '3. **Generate transformations**:\n'
+                          '   - For each word in current frontier\n'
+                          '   - Try changing each position to all 26 letters\n'
+                          '   - Check if transformation is valid (in wordList)\n'
+                          '\n'
+                          '4. **Detect intersection**:\n'
+                          '   - If new word exists in opposite visited set → **paths meet!**\n'
+                          '   - Return: `steps_forward + steps_backward`\n'
+                          '\n'
+                          '5. **Advance level**:\n'
+                          '   - Move to next frontier\n'
+                          '   - Increment step counter\n'
+                          '\n'
+                          '6. **No path**: If any frontier becomes empty, no transformation exists\n'
+                          '\n'
+                          '### Key Implementation Details\n'
+                          '\n'
+                          '**Why use sets instead of queues?**\n'
+                          "- We only need current level's words, not order within level\n"
+                          '- Sets provide O(1) membership testing\n'
+                          '- Efficient for checking intersection\n'
+                          '\n'
+                          '**Word transformation generation**:\n'
+                          '```python\n'
+                          'for i in range(len(word)):\n'
+                          "    for c in 'abcdefghijklmnopqrstuvwxyz':\n"
+                          '        new_word = word[:i] + c + word[i+1:]\n'
+                          '        # Check if valid and not visited\n'
+                          '```\n'
+                          '\n'
+                          '**Length calculation when paths meet**:\n'
+                          '- Each search tracks steps from its starting word\n'
+                          '- When word appears in opposite visited set: `total = steps_begin + steps_end`\n'
+                          '- Example: "hit" →(2 steps)→ "hot" ←(3 steps)← "cog" = 5 words total\n'
+                          '\n'
+                          '### Edge Cases\n'
+                          '\n'
+                          '1. **endWord not in wordList**: Return 0 (impossible to reach)\n'
+                          '2. **No transformation path exists**: One frontier becomes empty → return 0\n'
+                          '3. **beginWord == endWord**: Return 1 (though constraints guarantee they differ)\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '\n'
+                          '**Time Complexity: O(n × m²)**\n'
+                          '- n = number of words in wordList\n'
+                          '- m = length of each word\n'
+                          '- For each word, we try m positions × 26 letters = 26m transformations\n'
+                          '- Each transformation takes O(m) to create the string\n'
+                          '- Total: O(n × m × 26 × m) = O(26nm²) = O(nm²)\n'
+                          '\n'
+                          '**Space Complexity: O(n)**\n'
+                          '- Two visited sets: O(n) each\n'
+                          '- Two frontier sets: O(n) worst case\n'
+                          '- Word set: O(n)\n'
+                          '- Total: O(n)\n'
+                          '\n'
+                          '### Visualization\n'
+                          '\n'
+                          '```\n'
+                          'Example: beginWord="hit", endWord="cog", wordList=["hot","dot","dog","lot","log","cog"]\n'
+                          '\n'
+                          'Level 0:  [hit] ← forward          [cog] → backward\n'
+                          '          \n'
+                          'Level 1:  [hot] ← forward          [dog, log] → backward\n'
+                          '          \n'
+                          'Level 2:  [dot, lot] ← forward    [dot, lot] → backward\n'
+                          '          \n'
+                          'INTERSECTION at Level 2: "dot" found in both!\n'
+                          'Total steps = 2 (forward) + 2 (backward) = 5 words in sequence\n'
+                          'Sequence: hit → hot → dot → dog → cog (5 words)\n'
+                          '```\n'
+                          '\n'
+                          '### Why This Beats Unidirectional BFS\n'
+                          '\n'
+                          '1. **Exponential reduction**: O(b^(d/2)) vs O(b^d)\n'
+                          '2. **Balanced exploration**: Both searches grow at similar rates\n'
+                          '3. **Early termination**: Meet in middle, no need to fully explore to target\n'
+                          '4. **Smaller memory**: Each frontier stays smaller throughout\n'
+                          '\n'
+                          'This is the optimal solution for word ladder problems!',
+  'solution_java': 'import java.util.*;\n'
+                   '\n'
+                   'class Solution {\n'
+                   '    public int ladderLength(String beginWord, String endWord, List<String> wordList) {\n'
+                   '        /*\n'
+                   '         * BIDIRECTIONAL BFS APPROACH\n'
+                   '         * ==========================\n'
+                   '         * Search from both beginWord and endWord simultaneously.\n'
+                   '         * Meets in the middle for optimal performance: O(b^(d/2)) vs O(b^d)\n'
+                   '         */\n'
+                   '        \n'
+                   '        // Convert wordList to HashSet for O(1) lookup\n'
+                   '        Set<String> wordSet = new HashSet<>(wordList);\n'
+                   '        if (!wordSet.contains(endWord)) {\n'
+                   '            return 0;  // endWord must be in dictionary\n'
+                   '        }\n'
+                   '        \n'
+                   '        // Visited sets track words reached from each direction\n'
+                   '        Set<String> visitedBegin = new HashSet<>();\n'
+                   '        Set<String> visitedEnd = new HashSet<>();\n'
+                   '        visitedBegin.add(beginWord);\n'
+                   '        visitedEnd.add(endWord);\n'
+                   '        \n'
+                   '        // Current frontiers being explored\n'
+                   '        Set<String> frontierBegin = new HashSet<>();\n'
+                   '        Set<String> frontierEnd = new HashSet<>();\n'
+                   '        frontierBegin.add(beginWord);\n'
+                   '        frontierEnd.add(endWord);\n'
+                   '        \n'
+                   '        int stepsBegin = 1;\n'
+                   '        int stepsEnd = 1;\n'
+                   '        \n'
+                   '        while (!frontierBegin.isEmpty() && !frontierEnd.isEmpty()) {\n'
+                   '            // Always expand smaller frontier (optimization)\n'
+                   '            if (frontierBegin.size() > frontierEnd.size()) {\n'
+                   '                Set<String> temp = frontierBegin;\n'
+                   '                frontierBegin = frontierEnd;\n'
+                   '                frontierEnd = temp;\n'
+                   '                \n'
+                   '                temp = visitedBegin;\n'
+                   '                visitedBegin = visitedEnd;\n'
+                   '                visitedEnd = temp;\n'
+                   '                \n'
+                   '                int tempSteps = stepsBegin;\n'
+                   '                stepsBegin = stepsEnd;\n'
+                   '                stepsEnd = tempSteps;\n'
+                   '            }\n'
+                   '            \n'
+                   '            Set<String> nextFrontier = new HashSet<>();\n'
+                   '            \n'
+                   '            for (String word : frontierBegin) {\n'
+                   '                char[] chars = word.toCharArray();\n'
+                   '                \n'
+                   '                // Try all one-letter transformations\n'
+                   '                for (int i = 0; i < chars.length; i++) {\n'
+                   '                    char originalChar = chars[i];\n'
+                   '                    \n'
+                   "                    for (char c = 'a'; c <= 'z'; c++) {\n"
+                   '                        if (c == originalChar) continue;\n'
+                   '                        \n'
+                   '                        chars[i] = c;\n'
+                   '                        String newWord = new String(chars);\n'
+                   '                        \n'
+                   '                        // Check if paths meet\n'
+                   '                        if (visitedEnd.contains(newWord)) {\n'
+                   '                            return stepsBegin + stepsEnd;\n'
+                   '                        }\n'
+                   '                        \n'
+                   '                        // Add to next frontier if valid\n'
+                   '                        if (wordSet.contains(newWord) && !visitedBegin.contains(newWord)) {\n'
+                   '                            nextFrontier.add(newWord);\n'
+                   '                            visitedBegin.add(newWord);\n'
+                   '                        }\n'
+                   '                    }\n'
+                   '                    \n'
+                   '                    chars[i] = originalChar;  // Restore\n'
+                   '                }\n'
+                   '            }\n'
+                   '            \n'
+                   '            frontierBegin = nextFrontier;\n'
+                   '            stepsBegin++;\n'
+                   '        }\n'
+                   '        \n'
+                   '        return 0;  // No path found\n'
+                   '    }\n'
+                   '}',
+  'solution_python': 'from typing import List\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n'
+                     '        """\n'
+                     '        BIDIRECTIONAL BFS APPROACH FOR WORD LADDER\n'
+                     '        ===========================================\n'
+                     '        \n'
+                     '        WHY BIDIRECTIONAL BFS?\n'
+                     '        ----------------------\n'
+                     '        Standard BFS explores level by level from source to target: O(b^d) where b=branching factor, d=depth\n'
+                     '        Bidirectional BFS searches from BOTH ends simultaneously: O(b^(d/2)) + O(b^(d/2)) = O(2*b^(d/2))\n'
+                     '        \n'
+                     '        Example: If branching factor = 10 and depth = 6:\n'
+                     '        - Unidirectional BFS: 10^6 = 1,000,000 nodes\n'
+                     '        - Bidirectional BFS: 2 * 10^3 = 2,000 nodes (500x faster!)\n'
+                     '        \n'
+                     '        The two search frontiers meet in the middle, dramatically reducing search space.\n'
+                     '        \n'
+                     '        ALGORITHM OVERVIEW:\n'
+                     '        -------------------\n'
+                     '        1. Start BFS from beginWord (forward direction)\n'
+                     '        2. Start BFS from endWord (backward direction)  \n'
+                     '        3. At each step, expand the SMALLER frontier (optimization)\n'
+                     '        4. When a word appears in the opposite visited set, paths have met\n'
+                     '        5. Return total transformation length\n'
+                     '        \n'
+                     '        EDGE CASES:\n'
+                     '        -----------\n'
+                     '        - endWord not in wordList -> return 0\n'
+                     '        - beginWord == endWord -> return 1 (though constraints say they differ)\n'
+                     '        - No valid transformation path -> return 0\n'
+                     '        \n'
+                     '        Time Complexity: O(n * m^2) where n = wordList size, m = word length\n'
+                     '        - For each word (n), we try m positions with 26 letters, creating m transformations\n'
+                     '        - Each transformation requires O(m) to build the string\n'
+                     '        \n'
+                     '        Space Complexity: O(n) for visited sets and frontier sets\n'
+                     '        """\n'
+                     '        \n'
+                     '        # EDGE CASE: endWord must exist in wordList\n'
+                     "        # Without this check, we can't reach endWord even if transformations exist\n"
+                     '        word_set = set(wordList)\n'
+                     '        if endWord not in word_set:\n'
+                     '            return 0\n'
+                     '        \n'
+                     '        # INITIALIZATION: Two visited sets track words reached from each direction\n'
+                     '        # visited_begin: words reached from beginWord (forward search)\n'
+                     '        # visited_end: words reached from endWord (backward search)\n'
+                     '        visited_begin = {beginWord}\n'
+                     '        visited_end = {endWord}\n'
+                     '        \n'
+                     '        # FRONTIERS: Current layer of words being explored in each direction\n'
+                     '        # We use sets (not queues) because we only need current level words\n'
+                     '        # The level itself is tracked separately\n'
+                     '        frontier_begin = {beginWord}\n'
+                     '        frontier_end = {endWord}\n'
+                     '        \n'
+                     '        # STEP COUNTERS: Track depth from each direction\n'
+                     '        # When paths meet, total length = steps_begin + steps_end\n'
+                     '        steps_begin = 1  # beginWord counts as step 1\n'
+                     '        steps_end = 1    # endWord counts as step 1\n'
+                     '        \n'
+                     '        # MAIN BIDIRECTIONAL BFS LOOP\n'
+                     '        # Continue until one frontier becomes empty (no path exists)\n'
+                     '        while frontier_begin and frontier_end:\n'
+                     '            \n'
+                     '            # OPTIMIZATION: Always expand the smaller frontier\n'
+                     '            # This keeps both searches balanced and minimizes total work\n'
+                     '            # If one frontier has 10 words and other has 100, expand the 10\n'
+                     '            if len(frontier_begin) > len(frontier_end):\n'
+                     '                # Swap to always work with the smaller frontier\n'
+                     '                frontier_begin, frontier_end = frontier_end, frontier_begin\n'
+                     '                visited_begin, visited_end = visited_end, visited_begin\n'
+                     '                steps_begin, steps_end = steps_end, steps_begin\n'
+                     '            \n'
+                     '            # EXPLORE NEXT LEVEL: Generate all neighbors of current frontier\n'
+                     '            next_frontier = set()\n'
+                     '            \n'
+                     '            for word in frontier_begin:\n'
+                     '                # GENERATE ONE-LETTER TRANSFORMATIONS\n'
+                     '                # For each position in the word, try all 26 possible letters\n'
+                     '                # This is more efficient than comparing against all wordList words\n'
+                     '                word_list = list(word)  # Convert to list for mutation\n'
+                     '                \n'
+                     '                for i in range(len(word_list)):\n'
+                     '                    original_char = word_list[i]\n'
+                     '                    \n'
+                     '                    # Try all 26 lowercase letters\n'
+                     "                    for c in 'abcdefghijklmnopqrstuvwxyz':\n"
+                     '                        if c == original_char:\n'
+                     '                            continue  # Skip if same as original (no change)\n'
+                     '                        \n'
+                     '                        # CREATE TRANSFORMATION\n'
+                     '                        word_list[i] = c\n'
+                     "                        new_word = ''.join(word_list)\n"
+                     '                        \n'
+                     '                        # CHECK IF PATHS MEET: Is this word reached from opposite direction?\n'
+                     '                        # This is the key to bidirectional BFS - detecting intersection\n'
+                     '                        if new_word in visited_end:\n'
+                     '                            # SUCCESS! The two searches have met\n'
+                     '                            # Total length = steps from begin + steps from end\n'
+                     '                            # Example: "hit" -> (2 steps) -> "hot" <- (3 steps) <- "cog"\n'
+                     '                            # Total = 2 + 3 = 5 words in sequence\n'
+                     '                            return steps_begin + steps_end\n'
+                     '                        \n'
+                     '                        # CHECK IF VALID AND UNVISITED\n'
+                     '                        # Word must be in dictionary and not yet visited from this direction\n'
+                     '                        if new_word in word_set and new_word not in visited_begin:\n'
+                     '                            next_frontier.add(new_word)\n'
+                     '                            visited_begin.add(new_word)\n'
+                     '                    \n'
+                     '                    # RESTORE ORIGINAL CHARACTER before trying next position\n'
+                     '                    word_list[i] = original_char\n'
+                     '            \n'
+                     '            # ADVANCE TO NEXT LEVEL\n'
+                     '            # Move to the next layer of exploration\n'
+                     '            frontier_begin = next_frontier\n'
+                     '            steps_begin += 1\n'
+                     '        \n'
+                     '        # NO PATH EXISTS: One frontier became empty without finding intersection\n'
+                     "        # This means there's no valid transformation sequence\n"
+                     '        return 0',
+  'space_complexity': 'O(M^2 * N)',
+  'tags': ['hash-table', 'string', 'breadth-first-search'],
+  'test_cases': [{'expectedOutput': 5, 'input': ['hit', 'cog', ['hot', 'dot', 'dog', 'lot', 'log', 'cog']]}, {'expectedOutput': 0, 'input': ['hit', 'cog', ['hot', 'dot', 'dog', 'lot', 'log']]}],
+  'time_complexity': 'O(M^2 * N)',
+  'title': 'Word Ladder'},
+ {'constraints': ['k == lists.length',
+                  '0 <= k <= 10^4',
+                  '0 <= lists[i].length <= 500',
+                  '-10^4 <= lists[i][j] <= 10^4',
+                  'lists[i] is sorted in ascending order',
+                  'The sum of lists[i].length will not exceed 10^4'],
+  'cpp_sig': 'class Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        \n    }\n};',
+  'description': 'You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.\n\nMerge all the linked-lists into one sorted linked-list and return it.',
+  'difficulty': 'hard',
+  'examples': [{'explanation': 'Merging all lists: [1,4,5], [1,3,4], and [2,6] into one sorted list.', 'input': {'lists': [[1, 4, 5], [1, 3, 4], [2, 6]]}, 'output': [1, 1, 2, 3, 4, 4, 5, 6]},
+               {'explanation': 'Empty input.', 'input': {'lists': []}, 'output': []},
+               {'explanation': 'Single empty list.', 'input': {'lists': [[]]}, 'output': []}],
+  'java_sig': 'class Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        \n    }\n}',
+  'leetcode_url': 'https://leetcode.com/problems/merge-k-sorted-lists/',
+  'python_sig': 'class Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        pass',
+  'solution_cpp': '// Solution for Merge k Sorted Lists\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
+  'solution_explanation': '## Solution for Merge k Sorted Lists\n'
+                          '\n'
+                          '### Approach\n'
+                          'Optimal approach based on problem type\n'
+                          '\n'
+                          '### Complexity Analysis\n'
+                          '- **Time Complexity**: O(?)\n'
+                          '- **Space Complexity**: O(?)',
+  'solution_java': '// Solution for Merge k Sorted Lists\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
+  'solution_python': '# Definition for singly-linked list.\n'
+                     '# class ListNode:\n'
+                     '#     def __init__(self, val=0, next=None):\n'
+                     '#         self.val = val\n'
+                     '#         self.next = next\n'
+                     '\n'
+                     'import heapq\n'
+                     '\n'
+                     'class Solution:\n'
+                     '    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n'
+                     '        """\n'
+                     '        Min-heap to efficiently merge k sorted linked lists.\n'
+                     '        Heap maintains smallest element across all lists.\n'
+                     '\n'
+                     '        Algorithm:\n'
+                     '        1. Add first node from each non-empty list to min-heap\n'
+                     '        2. Repeatedly extract minimum and add to result\n'
+                     '        3. Add next node from that list to heap\n'
+                     '        4. Continue until heap is empty\n'
+                     '\n'
+                     '        Time Complexity: O(N log k) where N=total nodes, k=number of lists\n'
+                     '        Space Complexity: O(k) - heap size\n'
+                     '        """\n'
+                     '        # Min-heap: (value, list_index, node)\n'
+                     '        # Need list_index for tie-breaking (Python heapq requires comparable items)\n'
+                     '        heap = []\n'
+                     '\n'
+                     '        # Add first node from each list to heap\n'
+                     '        for i, head in enumerate(lists):\n'
+                     '            if head:\n'
+                     '                heapq.heappush(heap, (head.val, i, head))\n'
+                     '\n'
+                     '        # Dummy head for result list\n'
+                     '        dummy = ListNode(0)\n'
+                     '        current = dummy\n'
+                     '\n'
+                     '        # Build merged list\n'
+                     '        while heap:\n'
+                     '            val, list_idx, node = heapq.heappop(heap)\n'
+                     '\n'
+                     '            # Add node to result\n'
+                     '            current.next = node\n'
+                     '            current = current.next\n'
+                     '\n'
+                     '            # Add next node from same list to heap\n'
+                     '            if node.next:\n'
+                     '                heapq.heappush(heap, (node.next.val, list_idx, node.next))\n'
+                     '\n'
+                     '        return dummy.next\n',
+  'space_complexity': 'O(k) for heap or O(log k) for divide-and-conquer',
+  'tags': ['linked-list', 'divide-and-conquer', 'heap', 'merge-sort'],
+  'test_cases': [{'expectedOutput': [1, 1, 2, 3, 4, 4, 5, 6], 'input': [[[1, 4, 5], [1, 3, 4], [2, 6]]]}, {'expectedOutput': [], 'input': [[]]}, {'expectedOutput': [], 'input': [[[]]]}],
+  'time_complexity': 'O(N log k) where N is total number of nodes',
+  'title': 'Merge k Sorted Lists'}]

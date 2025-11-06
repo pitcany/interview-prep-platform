@@ -357,6 +357,7 @@ def main():
         # Batch 5
         'Median of Two Sorted Arrays',
         'Binary Tree Maximum Path Sum',
+        'Regular Expression Matching',
         'Word Ladder'
     ]
 
