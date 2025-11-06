@@ -85,6 +85,36 @@ def _execution_error_result(message: str) -> Dict[str, Any]:
     return result
 
 
+def _list_to_linked_list(values):
+    """Convert a Python list to a ListNode linked list."""
+    if not values:
+        return None
+
+    # Get ListNode class from the code's namespace (will be set by caller)
+    ListNode = _list_to_linked_list.ListNode
+    if ListNode is None:
+        raise ValueError("ListNode class not found in code")
+
+    head = ListNode(values[0])
+    current = head
+    for val in values[1:]:
+        current.next = ListNode(val)
+        current = current.next
+    return head
+
+# Storage for ListNode class reference
+_list_to_linked_list.ListNode = None
+
+
+def _linked_list_to_list(node):
+    """Convert a ListNode linked list to a Python list."""
+    result = []
+    while node is not None:
+        result.append(node.val)
+        node = node.next
+    return result
+
+
 def _execute_user_code(code: str, test_input: Any) -> Dict[str, Any]:
     stdout_capture = StringIO()
     stderr_capture = StringIO()
@@ -217,12 +247,39 @@ def _execute_user_code(code: str, test_input: Any) -> Dict[str, Any]:
                 else:
                     raise ValueError("No callable function or Solution class method found in code")
 
-            if isinstance(test_input, dict):
-                output = solution_func(**test_input)
-            elif isinstance(test_input, (list, tuple)):
-                output = solution_func(*test_input)
+            # Check if this is a linked list problem by detecting ListNode in the code
+            ListNode = exec_globals.get('ListNode')
+            uses_linked_list = ListNode is not None
+
+            # Prepare input - convert lists to ListNodes if needed
+            processed_input = test_input
+            if uses_linked_list and isinstance(test_input, (list, tuple)):
+                # Set the ListNode class for our conversion functions
+                _list_to_linked_list.ListNode = ListNode
+
+                # Convert each list in the input to a ListNode
+                processed_input = []
+                for item in test_input:
+                    if isinstance(item, list):
+                        processed_input.append(_list_to_linked_list(item))
+                    else:
+                        # Keep non-list items as-is (e.g., integers for position)
+                        processed_input.append(item)
+
+            # Call the solution function with processed input
+            if isinstance(processed_input, dict):
+                output = solution_func(**processed_input)
+            elif isinstance(processed_input, (list, tuple)):
+                output = solution_func(*processed_input)
             else:
-                output = solution_func(test_input)
+                output = solution_func(processed_input)
+
+            # Convert ListNode output back to list if needed
+            if uses_linked_list:
+                if output is None:
+                    output = []
+                elif hasattr(output, 'val'):
+                    output = _linked_list_to_list(output)
 
             result['success'] = True
             result['output'] = output

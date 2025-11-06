@@ -98,6 +98,70 @@ python3 scripts/generate_seed_sql.py
 sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
 ```
 
+## Troubleshooting
+
+### `npm start` fails with "Module version mismatch" error
+
+**Symptom:**
+```
+Error: The module '/path/to/better-sqlite3/build/Release/better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 127. This version of Node.js requires
+NODE_MODULE_VERSION 119.
+```
+
+**Root Cause:**
+Native modules (like better-sqlite3) were compiled for system Node.js instead of Electron's embedded Node.js version.
+
+**Solution:**
+```bash
+# Rebuild native modules for Electron
+npx electron-rebuild
+
+# Or reinstall dependencies (triggers postinstall hook)
+npm install
+```
+
+**When this happens:**
+- After cloning the repository
+- After switching to a git worktree
+- After updating Node.js or Electron versions
+- If `node_modules` was copied from another location
+
+**Prevention:**
+The `postinstall` script in package.json automatically runs `electron-rebuild` after `npm install`, but manual rebuild may be needed in worktrees or when dependencies are cached.
+
+### Port 5173 already in use
+
+**Symptom:**
+```
+Error: Port 5173 is already in use
+```
+
+**Solution:**
+```bash
+# Find and kill the process using port 5173
+lsof -ti:5173 | xargs kill -9
+
+# Or use a different port in vite.config.ts
+```
+
+### Database not found
+
+**Symptom:**
+```
+Error: SQLITE_CANTOPEN: unable to open database file
+```
+
+**Solution:**
+```bash
+# Initialize the database
+npm run db:init
+
+# Import questions
+sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+```
+
 ## Architecture
 
 ### Process Model
