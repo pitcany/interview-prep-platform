@@ -338,7 +338,7 @@ export default function Progress() {
                   </thead>
                   <tbody className="divide-y divide-gray-700">
                     {progress.map((item) => (
-                      <tr key={item.id} className="hover:bg-gray-750 transition-colors">
+                      <tr key={item.id} className="hover:bg-gray-700 transition-colors">
                         <td className="px-6 py-4 whitespace-nowrap">
                           {item.solved ? (
                             <CheckCircle2 className="text-green-500" size={20} />
