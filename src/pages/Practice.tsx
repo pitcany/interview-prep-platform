@@ -11,6 +11,8 @@ import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
 import { Play, Send, Sparkles, Loader2, ChevronLeft, FileText, Lightbulb } from 'lucide-react';
 import type { Question, LeetCodeQuestion, MLDesignQuestion, TestCase, ExecutionResult, DiagramData } from '../types';
+import { CoveragePanel } from '../components/MLEvaluator/CoveragePanel';
+
 
 export default function Practice() {
   const { category = 'leetcode' } = useParams<{ category?: 'leetcode' | 'ml_system_design' }>();
