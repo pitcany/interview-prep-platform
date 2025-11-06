@@ -275,13 +275,13 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
     if (submissionType === 'code') {
       console.log('📝 [FEEDBACK] Fetching code submission:', submissionId);
       submission = await dbService.getCodeSubmission(submissionId);
-      console.log('📝 [FEEDBACK] Fetching leetcode question:', submission.questionId);
-      question = await dbService.getLeetCodeQuestionDetails(submission.questionId);
+      console.log('📝 [FEEDBACK] Fetching leetcode question:', submission.question_id);
+      question = await dbService.getLeetCodeQuestionDetails(submission.question_id);
     } else {
       console.log('📝 [FEEDBACK] Fetching design submission:', submissionId);
       submission = await dbService.getDesignSubmission(submissionId);
-      console.log('📝 [FEEDBACK] Fetching ML design question:', submission.questionId);
-      question = await dbService.getMLDesignQuestionDetails(submission.questionId);
+      console.log('📝 [FEEDBACK] Fetching ML design question:', submission.question_id);
+      question = await dbService.getMLDesignQuestionDetails(submission.question_id);
     }
     console.log('✓ [FEEDBACK] Retrieved submission and question data');
   } catch (error: any) {
