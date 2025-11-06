@@ -356,7 +356,8 @@ def main():
         'Decode Ways',
         # Batch 5
         'Median of Two Sorted Arrays',
-        'Binary Tree Maximum Path Sum'
+        'Binary Tree Maximum Path Sum',
+        'Word Ladder'
     ]
 
     print("=" * 60)
