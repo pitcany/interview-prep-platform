@@ -2,6 +2,8 @@ const Database = require('better-sqlite3');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+require('dotenv').config();
+const fetch = require('node-fetch');
 
 function getDatabasePath() {
   const appName = 'interview-prep-platform';
@@ -14,11 +16,56 @@ function getDatabasePath() {
   }
 }
 
-/**
- * Populates ml_design_questions.sample_solution where empty using structured outlines.
- * If sample exists in SQL seed, leaves it intact.
- */
-function main() {
+async function generateWithLocalLLM(title, components, requirements) {
+  const baseUrl = process.env.LLM_BASE_URL;
+  const model = process.env.LLM_MODEL || 'gpt-oss-20b';
+  if (!baseUrl) return null;
+
+  const prompt = `Create a concise, senior-level ML system design sample solution outline for: ${title}\n\nRequirements:\n${requirements.map((r, i) => `${i+1}. ${r}`).join('\n')}\n\nKey Components:\n${components.map((c, i) => `${i+1}. ${c}`).join('\n')}\n\nReturn markdown with headings and bullet points. Include data pipeline, modeling, serving, scalability, and monitoring sections.`;
+
+  try {
+    const res = await fetch(`${baseUrl}/v1/chat/completions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: 'You are a senior ML systems architect.' },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.3,
+        max_tokens: 1200,
+      }),
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      console.warn('[ML-SAMPLES] LLM error:', res.status, t);
+      return null;
+    }
+    const data = await res.json();
+    const text = data.choices?.[0]?.message?.content || null;
+    return text;
+  } catch (e) {
+    console.warn('[ML-SAMPLES] LLM request failed:', e.message);
+    return null;
+  }
+}
+
+function buildFallbackOutline(title, components, requirements) {
+  const compList = components.length ? components.map((c, i) => `${i+1}. ${c}`).join('\n') : '- (not specified)';
+  const reqList = requirements.length ? requirements.map((r, i) => `${i+1}. ${r}`).join('\n') : '- (not specified)';
+  return `# ${title} — Reference Architecture Outline\n\n## Requirements\n${reqList}\n\n## Key Components\n${compList}\n\n## High-level Architecture\n- Data ingestion (batch + streaming)\n- Offline pipeline (feature engineering, training)\n- Online serving (feature store, low-latency inference)\n- Monitoring & evaluation\n`;
+}
+
+function safeArray(value) {
+  if (Array.isArray(value)) return value;
+  if (typeof value === 'string') {
+    try { const p = JSON.parse(value); return Array.isArray(p) ? p : []; } catch { return []; }
+  }
+  return [];
+}
+
+async function main() {
   const dbPath = getDatabasePath();
   console.log('[ML-SAMPLES] DB:', dbPath);
   const db = new Database(dbPath);
@@ -34,69 +81,23 @@ function main() {
   `);
 
   let filled = 0;
-  db.transaction(() => {
-    rows.forEach((row) => {
-      if (row.sample_solution && row.sample_solution.trim().length > 0) return;
-      const components = safeArray(row.key_components);
-      const requirements = safeArray(row.requirements);
-      const outline = buildOutline(row.title || 'ML System', components, requirements);
-      update.run(outline, row.question_id);
-      filled += 1;
-    });
-  })();
+  for (const row of rows) {
+    if (row.sample_solution && String(row.sample_solution).trim().length > 0) continue;
+    const components = safeArray(row.key_components);
+    const requirements = safeArray(row.requirements);
+
+    let outline = null;
+    outline = await generateWithLocalLLM(row.title || 'ML System', components, requirements);
+    if (!outline) outline = buildFallbackOutline(row.title || 'ML System', components, requirements);
+
+    update.run(outline, row.question_id);
+    filled += 1;
+  }
 
   console.log(`[ML-SAMPLES] Filled ${filled} missing sample_solution entries.`);
 }
 
-function safeArray(value) {
-  if (Array.isArray(value)) return value;
-  if (typeof value === 'string') {
-    try { const p = JSON.parse(value); return Array.isArray(p) ? p : []; } catch { return []; }
-  }
-  return [];
-}
-
-function buildOutline(title, components, requirements) {
-  const compList = components.length ? components.map((c, i) => `${i+1}. ${c}`).join('\n') : '- (not specified)';
-  const reqList = requirements.length ? requirements.map((r, i) => `${i+1}. ${r}`).join('\n') : '- (not specified)';
-  return `# ${title} — Reference Architecture Outline
-
-## Requirements
-${reqList}
-
-## Key Components
-${compList}
-
-## High-level Architecture
-- Data ingestion (batch + streaming via Kafka/Kinesis)
-- Offline pipeline (data lake, feature engineering, model training)
-- Online serving (feature store online, low-latency model inference)
-- Orchestration (Airflow/Argo)
-- Storage (object store, OLAP for analytics)
-- Monitoring & observability (data, model, system)
-
-## Data Pipeline
-- Schema management & validation (Great Expectations)
-- Backfills and reprocessing strategy
-- Feature computation (batch + streaming parity)
-- Feature store (offline/online consistency)
-
-## Modeling
-- Baselines and candidate models
-- Online vs offline inference considerations
-- Personalization/segmentation
-- Fairness and responsible AI considerations
-
-## Serving & Scaling
-- Latency SLOs, caching, canary rollouts
-- AB testing, guardrails, circuit breakers
-- Cost controls & efficiency
-
-## Monitoring & Evaluation
-- Online metrics and alerting (e.g., drift, CTR, conversion)
-- Shadow evaluation, replay tests
-- Incident response runbooks
-`;
-}
-
-main();
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
