@@ -15,9 +15,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'easy',
   'examples': [{'explanation': 'Because nums[0] + nums[1] == 9, we return [0, 1].', 'input': {'nums': [2, 7, 11, 15], 'target': 9}, 'output': [0, 1]},
                {'explanation': 'Because nums[1] + nums[2] == 6, we return [1, 2].', 'input': {'nums': [3, 2, 4], 'target': 6}, 'output': [1, 2]}],
+  'hints': ['Think about how to avoid checking every pair of numbers (which would be O(n²)). What data structure allows O(1) lookups?',
+            'For each number, you need to check if its complement (target - current number) exists in the array.',
+            "Use a hash map to store numbers you've seen so far, mapping each number to its index."],
   'java_sig': 'class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/two-sum/',
-  'python_sig': 'class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        pass',
   'solution_cpp': 'class Solution {\n'
                   'public:\n'
                   '    vector<int> twoSum(vector<int>& nums, int target) {\n'
@@ -89,6 +92,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'examples': [{'explanation': 'The string is valid.', 'input': {'s': '()'}, 'output': True},
                {'explanation': 'All brackets are properly closed.', 'input': {'s': '()[]{}'}, 'output': True},
                {'explanation': 'Mismatched brackets.', 'input': {'s': '(]'}, 'output': False}],
+  'hints': ['What data structure naturally handles matching pairs in reverse order?',
+            "When you encounter an opening bracket, you'll need to match it with a closing bracket later. Think Last-In-First-Out.",
+            'Use a stack: push opening brackets, pop and match when you see closing brackets.'],
   'java_sig': 'class Solution {\n    public boolean isValid(String s) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/valid-parentheses/',
   'python_sig': 'class Solution:\n    def isValid(self, s: str) -> bool:\n        pass',
@@ -177,9 +183,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'easy',
   'examples': [{'explanation': 'Merge both sorted lists.', 'input': {'list1': [1, 2, 4], 'list2': [1, 3, 4]}, 'output': [1, 1, 2, 3, 4, 4]},
                {'explanation': 'Both lists are empty.', 'input': {'list1': [], 'list2': []}, 'output': []}],
+  'hints': ['Since both lists are already sorted, you can merge them in one pass by comparing elements.',
+            "Use a dummy head node to simplify the logic - you won't need special cases for the first node.",
+            'Keep pointers to current positions in both lists, always choosing the smaller value.'],
   'java_sig': 'class Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/merge-two-sorted-lists/',
-  'python_sig': 'class Solution:\n    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\nclass Solution:\n    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
   'solution_cpp': 'class Solution {\n'
                   'public:\n'
                   '    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n'
@@ -262,9 +271,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'easy',
   'examples': [{'explanation': 'Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.', 'input': {'prices': [7, 1, 5, 3, 6, 4]}, 'output': 5},
                {'explanation': 'In this case, no transactions are done and the max profit = 0.', 'input': {'prices': [7, 6, 4, 3, 1]}, 'output': 0}],
+  'hints': ['You need to find the maximum difference between two numbers where the larger number comes after the smaller.',
+            'Track the minimum price seen so far as you iterate through the array.',
+            'For each price, calculate the profit if you sold today (current price - minimum seen). Keep track of the maximum profit.'],
   'java_sig': 'class Solution {\n    public int maxProfit(int[] prices) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/best-time-to-buy-and-sell-stock/',
-  'python_sig': 'class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        pass',
   'solution_cpp': 'class Solution {\n'
                   'public:\n'
                   '    int maxProfit(vector<int>& prices) {\n'
@@ -326,6 +338,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'easy',
   'examples': [{'explanation': 'After cleaning: amanaplanacanalpanama which is a palindrome.', 'input': {'s': 'A man, a plan, a canal: Panama'}, 'output': True},
                {'explanation': 'After cleaning: raceacar which is not a palindrome.', 'input': {'s': 'race a car'}, 'output': False}],
+  'hints': ['Use two pointers: one starting from the beginning, one from the end.',
+            'Remember to skip non-alphanumeric characters and compare case-insensitively.',
+            'Move pointers towards each other, comparing characters at each step.'],
   'java_sig': 'class Solution {\n    public boolean isPalindrome(String s) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/valid-palindrome/',
   'python_sig': 'class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        pass',
@@ -415,6 +430,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'easy',
   'examples': [{'explanation': 'There are two ways: 1. 1 step + 1 step, 2. 2 steps', 'input': {'n': 2}, 'output': 2},
                {'explanation': 'There are three ways: 1. 1+1+1, 2. 1+2, 3. 2+1', 'input': {'n': 3}, 'output': 3}],
+  'hints': ['This is similar to the Fibonacci sequence. Why? Think about how many ways you can reach step n.',
+            'To reach step n, you could have come from step n-1 (1 step) or step n-2 (2 steps).',
+            'Use dynamic programming: ways[n] = ways[n-1] + ways[n-2]. You only need to track the last two values.'],
   'java_sig': 'class Solution {\n    public int climbStairs(int n) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/climbing-stairs/',
   'python_sig': 'class Solution:\n    def climbStairs(self, n: int) -> int:\n        pass',
@@ -483,9 +501,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'description': "Given the root of a binary tree, return the inorder traversal of its nodes' values.\n\nInorder traversal: Left -> Root -> Right",
   'difficulty': 'easy',
   'examples': [{'explanation': 'Inorder traversal of the tree.', 'input': {'root': [1, None, 2, 3]}, 'output': [1, 3, 2]}, {'explanation': 'Empty tree.', 'input': {'root': []}, 'output': []}],
+  'hints': ['Inorder traversal visits nodes in order: left subtree → root → right subtree.',
+            'The recursive solution is straightforward, but can you implement it iteratively using a stack?',
+            'For iterative: go left as far as possible, then visit the node, then go right.'],
   'java_sig': 'class Solution {\n    public List<Integer> inorderTraversal(TreeNode root) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/binary-tree-inorder-traversal/',
-  'python_sig': 'class Solution:\n    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        pass',
+  'python_sig': 'from typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Solution:\n    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        pass',
   'solution_cpp': 'class Solution {\n'
                   'public:\n'
                   '    vector<int> inorderTraversal(TreeNode* root) {\n'
@@ -571,9 +592,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'easy',
   'examples': [{'explanation': 'There is a cycle where the tail connects to the 1st node.', 'input': {'head': [3, 2, 0, -4], 'pos': 1}, 'output': True},
                {'explanation': 'There is no cycle in the linked list.', 'input': {'head': [1], 'pos': -1}, 'output': False}],
+  'hints': ["Can you solve this in O(1) space? Think about the 'tortoise and hare' algorithm.",
+            "Use two pointers moving at different speeds. If there's a cycle, they will eventually meet.",
+            "Fast pointer moves 2 steps, slow pointer moves 1 step. If they meet, there's a cycle."],
   'java_sig': 'class Solution {\n    public boolean hasCycle(ListNode head) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/linked-list-cycle/',
-  'python_sig': 'class Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\nclass Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        pass',
   'solution_cpp': 'class Solution {\n'
                   'public:\n'
                   '    bool hasCycle(ListNode *head) {\n'
@@ -647,6 +671,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': "The answer is 'abc', with the length of 3.", 'input': {'s': 'abcabcbb'}, 'output': 3},
                {'explanation': "The answer is 'b', with the length of 1.", 'input': {'s': 'bbbbb'}, 'output': 1}],
+  'hints': ['Use a sliding window approach with two pointers to track the current substring.',
+            "Keep track of characters you've seen in a hash set or map.",
+            'When you find a duplicate, shrink the window from the left until the duplicate is removed.'],
   'java_sig': 'class Solution {\n    public int lengthOfLongestSubstring(String s) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/longest-substring-without-repeating-characters/',
   'python_sig': 'class Solution:\n    def lengthOfLongestSubstring(self, s: str) -> int:\n        pass',
@@ -726,9 +753,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'You may assume the two numbers do not contain any leading zero, except the number 0 itself.',
   'difficulty': 'medium',
   'examples': [{'explanation': '342 + 465 = 807.', 'input': {'l1': [2, 4, 3], 'l2': [5, 6, 4]}, 'output': [7, 0, 8]}, {'explanation': '0 + 0 = 0.', 'input': {'l1': [0], 'l2': [0]}, 'output': [0]}],
+  'hints': ['This is like adding two numbers digit by digit from right to left, but the digits are already in reverse order.',
+            "Don't forget to handle the carry when the sum of two digits is >= 10.",
+            'Continue even after one list ends - you still need to process the remaining list and any final carry.'],
   'java_sig': 'class Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/add-two-numbers/',
-  'python_sig': 'class Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\nclass Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
   'solution_cpp': 'class Solution {\n'
                   'public:\n'
                   '    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n'
@@ -820,9 +850,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'Return the maximum amount of water a container can store.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'The max area is between index 1 (height 8) and index 8 (height 7).', 'input': {'height': [1, 8, 6, 2, 5, 4, 8, 3, 7]}, 'output': 49}],
+  'hints': ['The area is determined by the distance between lines and the height of the shorter line.',
+            'Use two pointers at the start and end. The wider the container, the more water it can hold.',
+            "Move the pointer pointing to the shorter line inward - moving the taller line won't increase the area."],
   'java_sig': 'class Solution {\n    public int maxArea(int[] height) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/container-with-most-water/',
-  'python_sig': 'class Solution:\n    def maxArea(self, height: List[int]) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def maxArea(self, height: List[int]) -> int:\n        pass',
   'solution_cpp': 'class Solution {\n'
                   'public:\n'
                   '    int maxArea(vector<int>& height) {\n'
@@ -904,9 +937,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'The distinct triplets are [-1,0,1] and [-1,-1,2].', 'input': {'nums': [-1, 0, 1, 2, -1, -4]}, 'output': [[-1, -1, 2], [-1, 0, 1]]},
                {'explanation': 'The only possible triplet does not sum up to 0.', 'input': {'nums': [0, 1, 1]}, 'output': []}],
+  'hints': ['Start by sorting the array. This allows you to use two pointers and skip duplicates easily.',
+            'For each number, use the two-pointer technique to find pairs that sum to the negative of that number.',
+            'Remember to skip duplicate values to avoid duplicate triplets in your result.'],
   'java_sig': 'class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/3sum/',
-  'python_sig': 'class Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        pass',
   'solution_cpp': 'class Solution {\n'
                   'public:\n'
                   '    vector<vector<int>> threeSum(vector<int>& nums) {\n'
@@ -1026,9 +1062,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Group words that are anagrams.', 'input': {'strs': ['eat', 'tea', 'tan', 'ate', 'nat', 'bat']}, 'output': [['bat'], ['nat', 'tan'], ['ate', 'eat', 'tea']]}],
+  'hints': ['Anagrams have the same characters in different orders. How can you create a common key for all anagrams?',
+            'Sorting the characters of each word gives the same result for all anagrams.',
+            'Use a hash map where the key is the sorted string, and the value is a list of words with that sorted form.'],
   'java_sig': 'class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/group-anagrams/',
-  'python_sig': 'class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        pass',
   'solution_cpp': 'class Solution {\n'
                   'public:\n'
                   '    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n'
@@ -1101,6 +1140,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': "Note: 'aba' is also a valid answer.", 'input': {'s': 'babad'}, 'output': 'bab'},
                {'explanation': "The longest palindrome is 'bb'.", 'input': {'s': 'cbbd'}, 'output': 'bb'}],
+  'hints': ['Try expanding around each possible center of a palindrome.',
+            'Remember that palindromes can have odd length (one center) or even length (two center characters).',
+            'For each position, expand outward while characters match, tracking the longest palindrome found.'],
   'java_sig': 'class Solution {\n    public String longestPalindrome(String s) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/longest-palindromic-substring/',
   'python_sig': 'class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        pass',
@@ -1211,9 +1253,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'You must write an algorithm that runs in O(n) time and without using the division operation.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'answer[0] = 2*3*4 = 24, answer[1] = 1*3*4 = 12, etc.', 'input': {'nums': [1, 2, 3, 4]}, 'output': [24, 12, 8, 6]}],
+  'hints': ['Think about the product at position i as: (product of all elements to the left) × (product of all elements to the right).',
+            'You can build the result array in two passes: first calculate left products, then multiply with right products.',
+            'For O(1) extra space, calculate right products on the fly in the second pass.'],
   'java_sig': 'class Solution {\n    public int[] productExceptSelf(int[] nums) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/product-of-array-except-self/',
-  'python_sig': 'class Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        pass',
   'solution_cpp': '// Solution for Product of Array Except Self\n'
                   'class Solution {\n'
                   'public:\n'
@@ -1279,9 +1324,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'description': 'Given an m x n matrix, return all elements of the matrix in spiral order.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Traverse the matrix in spiral order.', 'input': {'matrix': [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, 'output': [1, 2, 3, 6, 9, 8, 7, 4, 5]}],
+  'hints': ['Process the matrix layer by layer, moving right → down → left → up.',
+            'Keep track of four boundaries: top, bottom, left, right. Shrink them after processing each direction.',
+            'Continue until all elements are visited. Check boundaries before each traversal direction.'],
   'java_sig': 'class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/spiral-matrix/',
-  'python_sig': 'class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        pass',
   'solution_cpp': '// Solution for Spiral Matrix\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Spiral Matrix\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
   'solution_java': '// Solution for Spiral Matrix\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
@@ -1346,9 +1394,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Rotate 90 degrees clockwise.', 'input': {'matrix': [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, 'output': [[7, 4, 1], [8, 5, 2], [9, 6, 3]]}],
+  'hints': ['A 90° clockwise rotation can be achieved in two steps: transpose the matrix, then reverse each row.',
+            'Transposing means swapping matrix[i][j] with matrix[j][i].',
+            'Can you also do it layer by layer, rotating 4 elements at a time?'],
   'java_sig': 'class Solution {\n    public void rotate(int[][] matrix) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/rotate-image/',
-  'python_sig': 'class Solution:\n    def rotate(self, matrix: List[List[int]]) -> None:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def rotate(self, matrix: List[List[int]]) -> None:\n        pass',
   'solution_cpp': '// Solution for Rotate Image\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Rotate Image\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
   'solution_java': '// Solution for Rotate Image\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
@@ -1389,9 +1440,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'description': "Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.\n\nYou must do it in place.",
   'difficulty': 'medium',
   'examples': [{'explanation': 'Mark row and column of 0s.', 'input': {'matrix': [[1, 1, 1], [1, 0, 1], [1, 1, 1]]}, 'output': [[1, 0, 1], [0, 0, 0], [1, 0, 1]]}],
+  'hints': ['To achieve O(1) space, use the first row and first column as markers for which rows/columns should be zeroed.',
+            'Process the matrix in multiple passes: first mark, then apply zeros.',
+            "Handle the first row and column specially since they're being used as markers."],
   'java_sig': 'class Solution {\n    public void setZeroes(int[][] matrix) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/set-matrix-zeroes/',
-  'python_sig': 'class Solution:\n    def setZeroes(self, matrix: List[List[int]]) -> None:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def setZeroes(self, matrix: List[List[int]]) -> None:\n        pass',
   'solution_cpp': '// Solution for Set Matrix Zeroes\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Set Matrix Zeroes\n'
                           '\n'
@@ -1460,9 +1514,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'Subarrays [1,1] and [1,1] sum to 2.', 'input': {'k': 2, 'nums': [1, 1, 1]}, 'output': 2},
                {'explanation': 'Subarrays [1,2] and [3] sum to 3.', 'input': {'k': 3, 'nums': [1, 2, 3]}, 'output': 2}],
+  'hints': ['Use a hash map to store prefix sums and their frequencies.',
+            'For each position, check if (current sum - k) exists in the map.',
+            'This works because if sum[0..j] - sum[0..i] = k, then sum[i+1..j] = k.'],
   'java_sig': 'class Solution {\n    public int subarraySum(int[] nums, int k) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/subarray-sum-equals-k/',
-  'python_sig': 'class Solution:\n    def subarraySum(self, nums: List[int], k: int) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def subarraySum(self, nums: List[int], k: int) -> int:\n        pass',
   'solution_cpp': '// Solution for Subarray Sum Equals K\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Subarray Sum Equals K\n'
                           '\n'
@@ -1518,9 +1575,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'The subarray [4,-1,2,1] has the largest sum 6.', 'input': {'nums': [-2, 1, -3, 4, -1, 2, 1, -5, 4]}, 'output': 6},
                {'explanation': 'The subarray [1] has the largest sum 1.', 'input': {'nums': [1]}, 'output': 1}],
+  'hints': ["This is a classic dynamic programming problem (Kadane's Algorithm).",
+            'At each position, decide: should I extend the current subarray or start a new one?',
+            'Keep track of the maximum sum ending at the current position. If it becomes negative, reset to 0.'],
   'java_sig': 'class Solution {\n    public int maxSubArray(int[] nums) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/maximum-subarray/',
-  'python_sig': 'class Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        pass',
   'solution_cpp': '// Solution for Maximum Subarray\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Maximum Subarray\n'
                           '\n'
@@ -1569,9 +1629,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'description': 'Given the head of a linked list, remove the nth node from the end of the list and return its head.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Remove 2nd node from end.', 'input': {'head': [1, 2, 3, 4, 5], 'n': 2}, 'output': [1, 2, 3, 5]}],
+  'hints': ['Use two pointers with a gap of n nodes between them.',
+            'Move the fast pointer n steps ahead, then move both pointers until fast reaches the end.',
+            'Use a dummy head node to simplify edge cases (like removing the first node).'],
   'java_sig': 'class Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/remove-nth-node-from-end-of-list/',
-  'python_sig': 'class Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\nclass Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        pass',
   'solution_cpp': '// Solution for Remove Nth Node From End of List\n'
                   'class Solution {\n'
                   'public:\n'
@@ -1640,9 +1703,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'reversed list.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Reverse nodes from position 2 to 4.', 'input': {'head': [1, 2, 3, 4, 5], 'left': 2, 'right': 4}, 'output': [1, 4, 3, 2, 5]}],
+  'hints': ['Find the node just before position left, then reverse the sublist from left to right.',
+            'Use the standard three-pointer reversal technique (prev, curr, next) for the sublist.',
+            'Reconnect the reversed portion: the node before left connects to the new head of reversed part.'],
   'java_sig': 'class Solution {\n    public ListNode reverseBetween(ListNode head, int left, int right) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/reverse-linked-list-ii/',
-  'python_sig': 'class Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\nclass Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        pass',
   'solution_cpp': '// Solution for Reverse Linked List II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Reverse Linked List II\n'
                           '\n'
@@ -1700,9 +1766,10 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'description': "Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes.",
   'difficulty': 'medium',
   'examples': [{'explanation': 'Swap adjacent pairs.', 'input': {'head': [1, 2, 3, 4]}, 'output': [2, 1, 4, 3]}],
+  'hints': ['Use a dummy head to simplify pointer manipulation.', 'For each pair, you need to adjust pointers for 3-4 nodes.', 'After swapping a pair, move to the next pair and repeat.'],
   'java_sig': 'class Solution {\n    public ListNode swapPairs(ListNode head) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/swap-nodes-in-pairs/',
-  'python_sig': 'class Solution:\n    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\nclass Solution:\n    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        pass',
   'solution_cpp': '// Solution for Swap Nodes in Pairs\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Swap Nodes in Pairs\n'
                           '\n'
@@ -1757,9 +1824,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'description': "Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).",
   'difficulty': 'medium',
   'examples': [{'explanation': 'Level by level traversal.', 'input': {'root': [3, 9, 20, None, None, 15, 7]}, 'output': [[3], [9, 20], [15, 7]]}],
+  'hints': ['Use a queue to process nodes level by level (BFS).',
+            "Track the size of each level so you know when you've finished processing all nodes at that level.",
+            'Add children to the queue as you process each node.'],
   'java_sig': 'class Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/binary-tree-level-order-traversal/',
-  'python_sig': 'class Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        pass',
+  'python_sig': 'from typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        pass',
   'solution_cpp': '// Solution for Binary Tree Level Order Traversal\n'
                   'class Solution {\n'
                   'public:\n'
@@ -1846,9 +1916,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'Valid BST.', 'input': {'root': [2, 1, 3]}, 'output': True},
                {'explanation': 'Node 4 in right subtree of 5 violates BST property.', 'input': {'root': [5, 1, 4, None, None, 3, 6]}, 'output': False}],
+  'hints': ["It's not enough to check if left < root < right. You need to check if ALL nodes in left subtree < root < ALL nodes in right subtree.",
+            'Pass down valid ranges (min, max) as you recurse.',
+            'Alternatively, perform an inorder traversal - it should be strictly increasing for a valid BST.'],
   'java_sig': 'class Solution {\n    public boolean isValidBST(TreeNode root) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/validate-binary-search-tree/',
-  'python_sig': 'class Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        pass',
   'solution_cpp': '// Solution for Validate Binary Search Tree\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Validate Binary Search Tree\n'
                           '\n'
@@ -1909,9 +1982,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'The smallest element is 1.', 'input': {'k': 1, 'root': [3, 1, 4, None, 2]}, 'output': 1},
                {'explanation': 'The 3rd smallest is 3.', 'input': {'k': 3, 'root': [5, 3, 6, 2, 4, None, None, 1]}, 'output': 3}],
+  'hints': ['Inorder traversal of a BST visits nodes in sorted order.',
+            'Perform inorder traversal and count nodes until you reach the kth element.',
+            'You can implement this iteratively with a stack or recursively with a counter.'],
   'java_sig': 'class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/kth-smallest-element-in-a-bst/',
-  'python_sig': 'class Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        pass',
   'solution_cpp': '// Solution for Kth Smallest Element in a BST\n'
                   'class Solution {\n'
                   'public:\n'
@@ -1982,9 +2058,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'description': 'Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Right side view shows nodes 1, 3, 4.', 'input': {'root': [1, 2, 3, None, 5, None, 4]}, 'output': [1, 3, 4]}],
+  'hints': ['The right side view contains the rightmost node at each level.',
+            'Use level-order traversal (BFS) and collect the last node at each level.',
+            'Alternatively, use DFS visiting right children first, adding nodes when visiting a new depth.'],
   'java_sig': 'class Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/binary-tree-right-side-view/',
-  'python_sig': 'class Solution:\n    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n        pass',
+  'python_sig': 'from typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Solution:\n    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n        pass',
   'solution_cpp': '// Solution for Binary Tree Right Side View\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Binary Tree Right Side View\n'
                           '\n'
@@ -2048,9 +2127,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'A root-to-leaf path is a path starting from the root and ending at any leaf node.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Two paths sum to 22.', 'input': {'root': [5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1], 'targetSum': 22}, 'output': [[5, 4, 11, 2], [5, 8, 4, 5]]}],
+  'hints': ['Use DFS backtracking, maintaining the current path.',
+            'When you reach a leaf, check if the sum equals the target.',
+            'Important: Make a copy of the path before adding it to results (the path list is reused).'],
   'java_sig': 'class Solution {\n    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/path-sum-ii/',
-  'python_sig': 'class Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n        pass',
+  'python_sig': 'from typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n        pass',
   'solution_cpp': '// Solution for Path Sum II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Path Sum II\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
   'solution_java': '// Solution for Path Sum II\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
@@ -2107,9 +2189,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'the binary tree.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Construct tree from traversals.', 'input': {'inorder': [9, 3, 15, 20, 7], 'preorder': [3, 9, 20, 15, 7]}, 'output': [3, 9, 20, None, None, 15, 7]}],
+  'hints': ["Preorder gives you the root (first element). Inorder tells you what's in left vs right subtrees.",
+            'Use a hash map for O(1) lookup of root positions in inorder array.',
+            'Recursively build left and right subtrees with appropriate index ranges.'],
   'java_sig': 'class Solution {\n    public TreeNode buildTree(int[] preorder, int[] inorder) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/',
-  'python_sig': 'class Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        pass',
+  'python_sig': 'from typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        pass',
   'solution_cpp': '// Solution for Construct Binary Tree from Preorder and Inorder Traversal\n'
                   'class Solution {\n'
                   'public:\n'
@@ -2208,9 +2293,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'The lowest common ancestor is defined as the lowest node in the tree that has both p and q as descendants (where we allow a node to be a descendant of itself).',
   'difficulty': 'medium',
   'examples': [{'explanation': 'The LCA of nodes 5 and 1 is 3.', 'input': {'p': 5, 'q': 1, 'root': [3, 5, 1, 6, 2, 0, 8, None, None, 7, 4]}, 'output': 3}],
+  'hints': ['If the current node is p or q, it could be the LCA (or an ancestor of the LCA).',
+            'Recursively search left and right subtrees. If both return non-null, current node is the LCA.',
+            'If only one subtree returns non-null, that result is either the LCA or contains both p and q.'],
   'java_sig': 'class Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/',
-  'python_sig': 'class Solution:\n    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n        pass',
+  'python_sig': '# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Solution:\n    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n        pass',
   'solution_cpp': '// Solution for Lowest Common Ancestor of a Binary Tree\n'
                   'class Solution {\n'
                   'public:\n'
@@ -2283,9 +2371,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'One connected island.', 'input': {'grid': [['1', '1', '1', '1', '0'], ['1', '1', '0', '1', '0'], ['1', '1', '0', '0', '0'], ['0', '0', '0', '0', '0']]}, 'output': 1}],
+  'hints': ["Each island is a connected component of '1's. Use DFS or BFS to explore each island.",
+            "When you find a '1', mark the entire island as visited and increment your count.",
+            "Mark cells as visited by changing them to '0' or using a separate visited set."],
   'java_sig': 'class Solution {\n    public int numIslands(char[][] grid) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/number-of-islands/',
-  'python_sig': 'class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        pass',
   'solution_cpp': '// Solution for Number of Islands\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Number of Islands\n'
                           '\n'
@@ -2358,9 +2449,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'Take course 0 first, then course 1.', 'input': {'numCourses': 2, 'prerequisites': [[1, 0]]}, 'output': True},
                {'explanation': 'Circular dependency.', 'input': {'numCourses': 2, 'prerequisites': [[1, 0], [0, 1]]}, 'output': False}],
+  'hints': ['Model this as a directed graph where courses are nodes and prerequisites are edges.',
+            "You're checking if the graph has a cycle. If there's a cycle, you can't finish all courses.",
+            "Use DFS with three states: unvisited, visiting, visited. If you encounter a 'visiting' node, there's a cycle."],
   'java_sig': 'class Solution {\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/course-schedule/',
-  'python_sig': 'class Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        pass',
   'solution_cpp': '// Solution for Course Schedule\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Course Schedule\n'
                           '\n'
@@ -2438,6 +2532,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Clone the graph.', 'input': {'adjList': [[2, 4], [1, 3], [2, 4], [1, 3]]}, 'output': [[2, 4], [1, 3], [2, 4], [1, 3]]}],
+  'hints': ['Use a hash map to track original nodes to their clones.',
+            'Perform DFS or BFS, creating clone nodes and connections as you go.',
+            "When you encounter a node you've already cloned, return its clone from the map."],
   'java_sig': 'class Solution {\n    public Node cloneGraph(Node node) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/clone-graph/',
   'python_sig': "class Solution:\n    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:\n        pass",
@@ -2503,9 +2600,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring.',
   'difficulty': 'medium',
   'examples': [{'explanation': 'Word found in board.', 'input': {'board': [['A', 'B', 'C', 'E'], ['S', 'F', 'C', 'S'], ['A', 'D', 'E', 'E']], 'word': 'ABCCED'}, 'output': True}],
+  'hints': ['Use backtracking DFS to explore paths in the grid.',
+            'Mark cells as visited during the current path (and unmark when backtracking).',
+            'Start DFS from each cell, checking if you can form the word.'],
   'java_sig': 'class Solution {\n    public boolean exist(char[][] board, String word) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/word-search/',
-  'python_sig': 'class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        pass',
   'solution_cpp': '// Solution for Word Search\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Word Search\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
   'solution_java': '// Solution for Word Search\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
@@ -2574,9 +2674,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': '11 = 5 + 5 + 1', 'input': {'amount': 11, 'coins': [1, 2, 5]}, 'output': 3},
                {'explanation': 'Cannot make amount 3.', 'input': {'amount': 3, 'coins': [2]}, 'output': -1}],
+  'hints': ['This is a classic dynamic programming problem. Think about the minimum coins needed for each amount from 0 to target.',
+            'For each amount, try using each coin and take the minimum.',
+            'dp[amount] = min(dp[amount - coin] + 1) for all coins.'],
   'java_sig': 'class Solution {\n    public int coinChange(int[] coins, int amount) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/coin-change/',
-  'python_sig': 'class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        pass',
   'solution_cpp': '// Solution for Coin Change\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Coin Change\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
   'solution_java': '// Solution for Coin Change\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
@@ -2627,9 +2730,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'The longest increasing subsequence is [2,3,7,101].', 'input': {'nums': [10, 9, 2, 5, 3, 7, 101, 18]}, 'output': 4},
                {'explanation': 'The longest increasing subsequence is [0,1,2,3].', 'input': {'nums': [0, 1, 0, 3, 2, 3]}, 'output': 4}],
+  'hints': ['The O(n²) DP solution is straightforward: dp[i] = max length of LIS ending at i.',
+            'Can you optimize to O(n log n)? Think about maintaining an array of smallest tail elements.',
+            'Use binary search to find where each element should be placed in the tails array.'],
   'java_sig': 'class Solution {\n    public int lengthOfLIS(int[] nums) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/longest-increasing-subsequence/',
-  'python_sig': 'class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        pass',
   'solution_cpp': '// Solution for Longest Increasing Subsequence\n'
                   'class Solution {\n'
                   'public:\n'
@@ -2709,6 +2815,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'There are 28 unique paths.', 'input': {'m': 3, 'n': 7}, 'output': 28},
                {'explanation': 'From top-left: right->down->down, down->down->right, down->right->down', 'input': {'m': 3, 'n': 2}, 'output': 3}],
+  'hints': ['This is a grid DP problem: dp[i][j] = paths to reach cell (i,j).',
+            'dp[i][j] = dp[i-1][j] + dp[i][j-1] (paths from above + paths from left).',
+            'Space optimization: You only need the previous row, so use a 1D array.'],
   'java_sig': 'class Solution {\n    public int uniquePaths(int m, int n) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/unique-paths/',
   'python_sig': 'class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        pass',
@@ -2772,9 +2881,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': "'leetcode' can be segmented as 'leet code'.", 'input': {'s': 'leetcode', 'wordDict': ['leet', 'code']}, 'output': True},
                {'explanation': "'applepenapple' can be segmented as 'apple pen apple'.", 'input': {'s': 'applepenapple', 'wordDict': ['apple', 'pen']}, 'output': True}],
+  'hints': ['Use dynamic programming: dp[i] = true if s[0..i] can be segmented.',
+            "For each position i, check if there's a word ending at i and dp[i - word.length] is true.",
+            'Convert wordDict to a set for O(1) lookups.'],
   'java_sig': 'class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/word-break/',
-  'python_sig': 'class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        pass',
   'solution_cpp': '// Solution for Word Break\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Word Break\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
   'solution_java': '// Solution for Word Break\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
@@ -2828,9 +2940,10 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent.', 'input': {'nums': [2, 3, 2]}, 'output': 3},
                {'explanation': 'Rob house 1 (money = 1) and then rob house 3 (money = 3). Total = 1 + 3 = 4.', 'input': {'nums': [1, 2, 3, 1]}, 'output': 4}],
+  'hints': ["Houses are in a circle, so you can't rob both first and last house.", 'Solution: max(rob houses 0..n-2, rob houses 1..n-1).', 'Each case is just the linear House Robber I problem.'],
   'java_sig': 'class Solution {\n    public int rob(int[] nums) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/house-robber-ii/',
-  'python_sig': 'class Solution:\n    def rob(self, nums: List[int]) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def rob(self, nums: List[int]) -> int:\n        pass',
   'solution_cpp': '// Solution for House Robber II\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for House Robber II\n'
                           '\n'
@@ -2919,6 +3032,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': "It could be decoded as 'AB' (1 2) or 'L' (12).", 'input': {'s': '12'}, 'output': 2},
                {'explanation': "It could be decoded as 'BZ' (2 26), 'VF' (22 6), or 'BBF' (2 2 6).", 'input': {'s': '226'}, 'output': 3}],
+  'hints': ['This is similar to climbing stairs but with validity constraints.',
+            'dp[i] = ways to decode s[0..i]. Add dp[i-1] if single digit is valid (1-9).',
+            'Add dp[i-2] if two digits form a valid code (10-26).'],
   'java_sig': 'class Solution {\n    public int numDecodings(String s) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/decode-ways/',
   'python_sig': 'class Solution:\n    def numDecodings(self, s: str) -> int:\n        pass',
@@ -3002,9 +3118,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'All possible combinations.', 'input': {'digits': '23'}, 'output': ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']},
                {'explanation': 'Empty input.', 'input': {'digits': ''}, 'output': []}],
+  'hints': ['This is a backtracking problem where you explore all possible combinations.',
+            'Build combinations character by character, trying each letter for the current digit.',
+            'Use recursion: for each digit, try each of its possible letters and recurse for the remaining digits.'],
   'java_sig': 'class Solution {\n    public List<String> letterCombinations(String digits) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/letter-combinations-of-a-phone-number/',
-  'python_sig': 'class Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        pass',
   'solution_cpp': '// Solution for Letter Combinations of a Phone Number\n'
                   'class Solution {\n'
                   'public:\n'
@@ -3082,9 +3201,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'All valid combinations of 3 pairs.', 'input': {'n': 3}, 'output': ['((()))', '(()())', '(())()', '()(())', '()()()']},
                {'explanation': 'Only one combination.', 'input': {'n': 1}, 'output': ['()']}],
+  'hints': ["Use backtracking, keeping track of how many opening and closing parentheses you've used.",
+            "You can add an opening parenthesis if you haven't used all n yet.",
+            "You can add a closing parenthesis only if it wouldn't exceed the number of opening parentheses."],
   'java_sig': 'class Solution {\n    public List<String> generateParenthesis(int n) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/generate-parentheses/',
-  'python_sig': 'class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        pass',
   'solution_cpp': '// Solution for Generate Parentheses\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Generate Parentheses\n'
                           '\n'
@@ -3139,9 +3261,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'medium',
   'examples': [{'explanation': 'All permutations.', 'input': {'nums': [1, 2, 3]}, 'output': [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]},
                {'explanation': 'Two permutations.', 'input': {'nums': [0, 1]}, 'output': [[0, 1], [1, 0]]}],
+  'hints': ['Use backtracking to generate all permutations.',
+            "Swap elements to generate different orderings, or use a 'used' array to track which elements are in the current permutation.",
+            'When the permutation is complete (length equals input length), add it to results.'],
   'java_sig': 'class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/permutations/',
-  'python_sig': 'class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        pass',
   'solution_cpp': '// Solution for Permutations\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Permutations\n\n### Approach\nOptimal approach based on problem type\n\n### Complexity Analysis\n- **Time Complexity**: O(?)\n- **Space Complexity**: O(?)',
   'solution_java': '// Solution for Permutations\nclass Solution {\n    public returnType solve(inputType input) {\n        // TODO: Implement solution\n        return None;\n    }\n}',
@@ -3194,9 +3319,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'description': 'Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.',
   'difficulty': 'hard',
   'examples': [{'explanation': 'The elevation map can trap 6 units of rain water.', 'input': {'height': [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]}, 'output': 6}],
+  'hints': ['Water at position i is trapped by the minimum of (max height to the left, max height to the right) minus height[i].',
+            'The two-pointer approach is elegant: use pointers from both ends, tracking left_max and right_max.',
+            'Move the pointer with the smaller max height inward, calculating trapped water as you go.'],
   'java_sig': 'class Solution {\n    public int trap(int[] height) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/trapping-rain-water/',
-  'python_sig': 'class Solution:\n    def trap(self, height: List[int]) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def trap(self, height: List[int]) -> int:\n        pass',
   'solution_cpp': '// Solution for Trapping Rain Water\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Trapping Rain Water\n'
                           '\n'
@@ -3262,9 +3390,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'hard',
   'examples': [{'explanation': 'Merged array = [1,2,3], median = 2.', 'input': {'nums1': [1, 3], 'nums2': [2]}, 'output': 2.0},
                {'explanation': 'Merged array = [1,2,3,4], median = (2+3)/2 = 2.5.', 'input': {'nums1': [1, 2], 'nums2': [3, 4]}, 'output': 2.5}],
+  'hints': ['Binary search on the partition point, not on the median itself.',
+            'Goal: partition both arrays so left half has same size as right half, and max(left) <= min(right).',
+            'Binary search on the smaller array to minimize search space.'],
   'java_sig': 'class Solution {\n    public double findMedianSortedArrays(int[] nums1, int[] nums2) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/median-of-two-sorted-arrays/',
-  'python_sig': 'class Solution:\n    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:\n        pass',
   'solution_cpp': '// Solution for Median of Two Sorted Arrays\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Median of Two Sorted Arrays\n'
                           '\n'
@@ -3405,9 +3536,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'hard',
   'examples': [{'explanation': 'The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.', 'input': {'root': [1, 2, 3]}, 'output': 6},
                {'explanation': 'The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.', 'input': {'root': [-10, 9, 20, None, None, 15, 7]}, 'output': 42}],
+  'hints': ['Use post-order DFS. You need child information before processing the parent.',
+            'Track two values: max path through current node (both children) vs max path to return to parent (one child).',
+            'Handle negative values by using max(0, child_sum) to exclude negative branches.'],
   'java_sig': 'class Solution {\n    public int maxPathSum(TreeNode root) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/binary-tree-maximum-path-sum/',
-  'python_sig': 'class Solution:\n    def maxPathSum(self, root: Optional[TreeNode]) -> int:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Solution:\n    def maxPathSum(self, root: Optional[TreeNode]) -> int:\n        pass',
   'solution_cpp': '// Solution for Binary Tree Maximum Path Sum\n'
                   'class Solution {\n'
                   'public:\n'
@@ -3643,9 +3777,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                  'Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work.',
   'difficulty': 'hard',
   'examples': [{'explanation': 'Serialize then deserialize the tree.', 'input': {'root': [1, 2, 3, None, None, 4, 5]}, 'output': [1, 2, 3, None, None, 4, 5]}],
+  'hints': ["Use preorder traversal for serialization. Represent null nodes with a special marker like '#'.",
+            'For deserialization, use the same traversal order. Parse tokens and reconstruct the tree.',
+            'Keep track of your position in the serialized string as you recursively build the tree.'],
   'java_sig': 'public class Codec {\n    public String serialize(TreeNode root) {\n        \n    }\n    \n    public TreeNode deserialize(String data) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/serialize-and-deserialize-binary-tree/',
-  'python_sig': 'class Codec:\n    def serialize(self, root: Optional[TreeNode]) -> str:\n        pass\n    \n    def deserialize(self, data: str) -> Optional[TreeNode]:\n        pass',
+  'python_sig': 'from typing import Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\nclass Codec:\n    def serialize(self, root: Optional[TreeNode]) -> str:\n        pass\n    \n    def deserialize(self, data: str) -> Optional[TreeNode]:\n        pass',
   'solution_cpp': '// Solution for Serialize and Deserialize Binary Tree\n'
                   'class Solution {\n'
                   'public:\n'
@@ -3744,6 +3881,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'difficulty': 'hard',
   'examples': [{'explanation': 'a does not match the entire string aa.', 'input': {'p': 'a', 's': 'aa'}, 'output': False},
                {'explanation': '* means zero or more of the preceding element, a. Therefore, by repeating a once, it becomes aa.', 'input': {'p': 'a*', 's': 'aa'}, 'output': True}],
+  'hints': ['Use 2D DP: dp[i][j] = does s[0..i] match p[0..j].',
+            "The '*' operator modifies the preceding character, handle 'char*' as a unit.",
+            "For '*': try zero occurrences (skip char*) or one+ occurrences (if chars match)."],
   'java_sig': 'class Solution {\n    public boolean isMatch(String s, String p) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/regular-expression-matching/',
   'python_sig': 'class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        pass',
@@ -3863,6 +4003,9 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                {'explanation': "intention -> inention (remove 't') -> enention (replace 'i' with 'e') -> exention (replace 'n' with 'x') -> exection (replace 'n' with 'c') -> execution (insert 'u')",
                 'input': {'word1': 'intention', 'word2': 'execution'},
                 'output': 5}],
+  'hints': ['This is a classic 2D dynamic programming problem.',
+            'dp[i][j] = minimum edits to transform word1[0..i] to word2[0..j].',
+            'For each cell, consider: insert, delete, replace operations (or match if characters are equal).'],
   'java_sig': 'class Solution {\n    public int minDistance(String word1, String word2) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/edit-distance/',
   'python_sig': 'class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        pass',
@@ -3942,9 +4085,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                {'explanation': "The endWord 'cog' is not in wordList, therefore there is no valid transformation sequence.",
                 'input': {'beginWord': 'hit', 'endWord': 'cog', 'wordList': ['hot', 'dot', 'dog', 'lot', 'log']},
                 'output': 0}],
+  'hints': ['This is a shortest path problem. Use BFS to find the shortest transformation.',
+            'Bidirectional BFS is more efficient: search from both start and end simultaneously.',
+            "For each word, generate all one-letter transformations and check if they're in the word list."],
   'java_sig': 'class Solution {\n    public int ladderLength(String beginWord, String endWord, List<String> wordList) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/word-ladder/',
-  'python_sig': 'class Solution:\n    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n        pass',
+  'python_sig': 'from typing import List\nclass Solution:\n    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n        pass',
   'solution_cpp': '#include <string>\n'
                   '#include <vector>\n'
                   '#include <unordered_set>\n'
@@ -4350,9 +4496,12 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'examples': [{'explanation': 'Merging all lists: [1,4,5], [1,3,4], and [2,6] into one sorted list.', 'input': {'lists': [[1, 4, 5], [1, 3, 4], [2, 6]]}, 'output': [1, 1, 2, 3, 4, 4, 5, 6]},
                {'explanation': 'Empty input.', 'input': {'lists': []}, 'output': []},
                {'explanation': 'Single empty list.', 'input': {'lists': [[]]}, 'output': []}],
+  'hints': ['Use a min heap to efficiently find the smallest element among k lists.',
+            'Add the first element from each list to the heap.',
+            'Repeatedly pop the minimum, add it to the result, and push the next element from that list.'],
   'java_sig': 'class Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        \n    }\n}',
   'leetcode_url': 'https://leetcode.com/problems/merge-k-sorted-lists/',
-  'python_sig': 'class Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        pass',
+  'python_sig': 'from typing import List, Optional\n\n# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\nclass Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        pass',
   'solution_cpp': '// Solution for Merge k Sorted Lists\nclass Solution {\npublic:\n    returnType solve(inputType input) {\n        // TODO: Implement solution\n        return {};\n    }\n};',
   'solution_explanation': '## Solution for Merge k Sorted Lists\n'
                           '\n'
@@ -4418,7 +4567,6 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'time_complexity': 'O(N log k) where N is total number of nodes',
   'title': 'Merge k Sorted Lists'}]
 
-# 10 ML System Design Questions
 ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's News Feed that serves 3B+ users, deciding which posts to show and in what order to maximize meaningful user engagement.",
   'difficulty': 'hard',
   'evaluation_criteria': {'architecture': 'Two-stage: candidate generation + heavy ranking',

@@ -242,11 +242,33 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 test_input = [build_graph_from_adjacency_list(test_input[0])]
 
             # Handle linked list inputs (convert array to ListNode)
+            # Special case: Linked List Cycle - create cycle at given position
+            if 'Linked List Cycle' in title and test_input and isinstance(test_input[0], list):
+                arr, pos = test_input[0], test_input[1]
+                head = build_list_from_array(arr)
+                # Create cycle if pos != -1
+                if pos != -1 and head:
+                    # Find the node at position pos
+                    cycle_node = head
+                    for _ in range(pos):
+                        if cycle_node:
+                            cycle_node = cycle_node.next
+                    # Find the tail and point it to cycle_node
+                    tail = head
+                    while tail.next:
+                        tail = tail.next
+                    tail.next = cycle_node
+                test_input = [head]
             # Special case: Merge k Sorted Lists - list of lists
-            if 'Merge k' in title and test_input and isinstance(test_input[0], list):
+            elif 'Merge k' in title and test_input and isinstance(test_input[0], list):
                 # Convert each list to ListNode
                 list_of_lists = [build_list_from_array(arr) if arr else None for arr in test_input[0]]
                 test_input = [list_of_lists]
+            # Special case: Merge Two Sorted Lists, Add Two Numbers - two arrays to two ListNodes
+            elif ('Merge Two Sorted Lists' in title or 'Add Two Numbers' in title) and len(test_input) == 2:
+                list1 = build_list_from_array(test_input[0]) if test_input[0] else None
+                list2 = build_list_from_array(test_input[1]) if test_input[1] else None
+                test_input = [list1, list2]
             elif ('List' in title and 'Linked' in title and test_input and isinstance(test_input[0], list)) or \
                  ('Remove Nth Node' in title and test_input and isinstance(test_input[0], list)) or \
                  ('Swap Nodes in Pairs' in title and test_input and isinstance(test_input[0], list)):
@@ -283,7 +305,7 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 actual = graph_to_adjacency_list(actual)
 
             # Handle linked list output (convert ListNode to array)
-            if ('List' in title and 'Linked' in title) or 'Merge k' in title or 'Remove Nth Node' in title or 'Swap Nodes in Pairs' in title:
+            if ('List' in title and 'Linked' in title) or 'Merge k' in title or 'Merge Two Sorted Lists' in title or 'Remove Nth Node' in title or 'Swap Nodes in Pairs' in title or 'Add Two Numbers' in title:
                 if actual is None:
                     actual = []
                 elif isinstance(actual, ListNode):
@@ -294,7 +316,19 @@ def validate_solution(question: dict) -> tuple[bool, list[str]]:
                 actual = actual.val
 
             # Compare results
-            if actual != expected:
+            # Special comparison for Group Anagrams (order doesn't matter)
+            if 'Group Anagrams' in title:
+                # Convert to set of frozensets for order-independent comparison
+                actual_set = {frozenset(group) for group in actual}
+                expected_set = {frozenset(group) for group in expected}
+                if actual_set != expected_set:
+                    errors.append(
+                        f"  Test {i} FAILED:\n"
+                        f"    Input: {test_case['input']}\n"
+                        f"    Expected: {expected}\n"
+                        f"    Got: {actual}"
+                    )
+            elif actual != expected:
                 errors.append(
                     f"  Test {i} FAILED:\n"
                     f"    Input: {test_case['input']}\n"
@@ -317,6 +351,22 @@ def main():
 
     # Questions to validate
     target_questions = [
+        # Easy solutions (not in batches)
+        'Two Sum',
+        'Valid Parentheses',
+        'Merge Two Sorted Lists',
+        'Best Time to Buy and Sell Stock',
+        'Climbing Stairs',
+        'Binary Tree Inorder Traversal',
+        'Valid Palindrome',
+        'Linked List Cycle',
+        # Medium solutions (not in batches)
+        'Add Two Numbers',
+        'Longest Substring Without Repeating Characters',
+        '3Sum',
+        'Container With Most Water',
+        'Longest Palindromic Substring',
+        'Group Anagrams',
         # Batch 1
         'Product of Array Except Self',
         'Maximum Subarray',
