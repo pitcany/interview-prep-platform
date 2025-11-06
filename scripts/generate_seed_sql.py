@@ -136,9 +136,11 @@ def generate_hidden_test_cases(q):
 def generate_leetcode_insert(q, question_id):
     """Generate SQL INSERT statements for a LeetCode question"""
     sql = []
-    
-    # Generate helpful hints for the question (ensure at least one)
-    hints = generate_hints(q)
+
+    # Use hints from question data if available, otherwise generate them
+    hints = q.get('hints', [])
+    if not hints:
+        hints = generate_hints(q)
     hints_json = json.dumps(hints) if hints else '[]'
     
     # Generate hidden test cases (typically 3)
