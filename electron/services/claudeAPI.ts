@@ -15,6 +15,34 @@ interface FeedbackResponse {
   improvements: string[];
 }
 
+function ensureArray<T = any>(value: any): T[] {
+  if (Array.isArray(value)) return value as T[];
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? (parsed as T[]) : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
+function ensureObject<T = Record<string, any>>(value: any): T {
+  if (value && typeof value === 'object' && !Array.isArray(value)) return value as T;
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+        ? (parsed as T)
+        : ({} as T);
+    } catch {
+      return {} as T;
+    }
+  }
+  return {} as T;
+}
+
 export class ClaudeAPIService {
   private client: Anthropic | null = null;
 
@@ -44,7 +72,7 @@ export class ClaudeAPIService {
       : this.buildDesignFeedbackPrompt(submission, question);
 
     try {
-      const message = await this.client.messages.create({
+      const message = await this.client!.messages.create({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 2000,
         messages: [
@@ -124,7 +152,19 @@ Be constructive, specific, and educational in your feedback.`;
   }
 
   private buildDesignFeedbackPrompt(submission: any, question: any): string {
-    const keyComponents = JSON.parse(question.key_components);
+    const keyComponents = ensureArray<string>(question.key_components);
+    const requirements = ensureArray<string>(question.requirements);
+    const evaluationCriteria = ensureObject<Record<string, string>>(question.evaluation_criteria);
+
+    let diagramSummary = '';
+    try {
+      const parsedDiagram = typeof submission.diagram_data === 'string'
+        ? JSON.parse(submission.diagram_data)
+        : submission.diagram_data;
+      diagramSummary = this.extractDiagramSummary(parsedDiagram);
+    } catch {
+      diagramSummary = 'Diagram data unavailable or invalid';
+    }
 
     return `You are an expert ML system design interviewer at Meta providing feedback on a senior-level ML system design question.
 
@@ -132,7 +172,7 @@ Be constructive, specific, and educational in your feedback.`;
 ${question.scenario}
 
 **Requirements:**
-${JSON.parse(question.requirements).map((r: string, i: number) => `${i + 1}. ${r}`).join('\n')}
+${requirements.map((r: string, i: number) => `${i + 1}. ${r}`).join('\n')}
 
 **Key Components to Evaluate:**
 ${keyComponents.map((c: string, i: number) => `${i + 1}. ${c}`).join('\n')}
@@ -141,7 +181,7 @@ ${keyComponents.map((c: string, i: number) => `${i + 1}. ${c}`).join('\n')}
 ${submission.written_explanation}
 
 **Candidate's System Diagram:**
-[Diagram includes: ${this.extractDiagramSummary(JSON.parse(submission.diagram_data))}]
+[Diagram includes: ${diagramSummary}]
 
 **Time Spent:** ${Math.round(submission.time_spent_seconds / 60)} minutes
 
@@ -183,17 +223,14 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
   }
 
   private extractDiagramSummary(diagramData: any): string {
-    // Extract key info from React Flow diagram
-    const nodes = diagramData.nodes || [];
-    const edges = diagramData.edges || [];
-    
-    const nodeTypes = nodes.map((n: any) => n.type || 'default');
+    const nodes = diagramData?.nodes || [];
+    const edges = diagramData?.edges || [];
+    const nodeTypes = nodes.map((n: any) => n.type || n.typeKey || n?.data?.typeKey || 'component');
     const uniqueNodeTypes = [...new Set(nodeTypes)];
-    
     return `${nodes.length} components (${uniqueNodeTypes.join(', ')}), ${edges.length} connections`;
   }
 
-  private parseFeedbackResponse(responseText: string, submissionType: 'code' | 'design'): FeedbackResponse {
+  private parseFeedbackResponse(responseText: string, _submissionType: 'code' | 'design'): FeedbackResponse {
     try {
       // Try to extract JSON from markdown code blocks if present
       let jsonText = responseText;
@@ -205,7 +242,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
       const parsed = JSON.parse(jsonText);
 
       // Build comprehensive feedback text
-      const feedbackText = this.buildFeedbackText(parsed, submissionType);
+      const feedbackText = this.buildFeedbackText(parsed, _submissionType);
 
       return {
         text: feedbackText,
@@ -231,7 +268,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
 
     // Scores
     text += `## Scores\n`;
-    for (const [key, value] of Object.entries(parsed.scores)) {
+    for (const [key, value] of Object.entries(parsed.scores || {})) {
       const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
       text += `- **${label}:** ${value}/10\n`;
     }

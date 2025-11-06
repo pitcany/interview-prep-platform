@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import { Code2, Download, RotateCcw } from 'lucide-react';
 
@@ -25,37 +25,33 @@ export default function CodeEditor({
     python: 'python',
     java: 'java',
     cpp: 'cpp',
-  };
+  } as const;
 
   const languageLabels = {
     python: 'Python',
     java: 'Java',
     cpp: 'C++',
-  };
+  } as const;
 
-  const handleEditorDidMount = (editor: any) => {
+  const handleEditorDidMount = (editor: any, monaco: any) => {
     editorRef.current = editor;
-    
-    // Add keyboard shortcuts
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
-      // Save action (could trigger auto-save)
-      console.log('Save shortcut triggered');
-    });
 
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-      // Run code shortcut
-      console.log('Run shortcut triggered');
-    });
-  };
+    // Add keyboard shortcuts using provided monaco instance
+    if (monaco) {
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+        // Save action (could trigger auto-save)
+        console.log('Save shortcut triggered');
+      });
 
-  const handleFormatCode = () => {
-    if (editorRef.current) {
-      editorRef.current.getAction('editor.action.formatDocument')?.run();
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+        // Run code shortcut
+        console.log('Run shortcut triggered');
+      });
     }
   };
 
   const handleDownloadCode = () => {
-    const extensions = { python: 'py', java: 'java', cpp: 'cpp' };
+    const extensions = { python: 'py', java: 'java', cpp: 'cpp' } as const;
     const blob = new Blob([code], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -161,9 +157,4 @@ export default function CodeEditor({
       </div>
     </div>
   );
-}
-
-// Add Monaco global type declaration
-declare global {
-  const monaco: any;
 }

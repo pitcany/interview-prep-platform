@@ -15,6 +15,34 @@ interface FeedbackResponse {
   improvements: string[];
 }
 
+function ensureArray<T = any>(value: any): T[] {
+  if (Array.isArray(value)) return value as T[];
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? (parsed as T[]) : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
+function ensureObject<T = Record<string, any>>(value: any): T {
+  if (value && typeof value === 'object' && !Array.isArray(value)) return value as T;
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+        ? (parsed as T)
+        : ({} as T);
+    } catch {
+      return {} as T;
+    }
+  }
+  return {} as T;
+}
+
 export class LocalLLMService {
   private baseUrl: string;
   private model: string;
@@ -67,8 +95,8 @@ export class LocalLLMService {
         throw new Error(`LLM API error: ${response.status} ${response.statusText} - ${errorText}`);
       }
 
-      const data = await response.json() as any;
-      const responseText = data.choices[0].message.content;
+      const data = (await response.json()) as any;
+      const responseText = data.choices?.[0]?.message?.content ?? '';
 
       return this.parseFeedbackResponse(responseText);
     } catch (error: any) {
@@ -135,7 +163,19 @@ Be constructive, specific, and educational in your feedback. Respond ONLY with v
   }
 
   private buildDesignFeedbackPrompt(submission: any, question: any): string {
-    const keyComponents = JSON.parse(question.key_components);
+    const keyComponents = ensureArray<string>(question.key_components);
+    const requirements = ensureArray<string>(question.requirements);
+    const evaluationCriteria = ensureObject<Record<string, string>>(question.evaluation_criteria);
+
+    let diagramSummary = '';
+    try {
+      const parsedDiagram = typeof submission.diagram_data === 'string'
+        ? JSON.parse(submission.diagram_data)
+        : submission.diagram_data;
+      diagramSummary = this.extractDiagramSummary(parsedDiagram);
+    } catch {
+      diagramSummary = 'Diagram data unavailable or invalid';
+    }
 
     return `You are an expert ML system design interviewer at Meta providing feedback on a senior-level ML system design question.
 
@@ -143,7 +183,7 @@ Be constructive, specific, and educational in your feedback. Respond ONLY with v
 ${question.scenario}
 
 **Requirements:**
-${JSON.parse(question.requirements).map((r: string, i: number) => `${i + 1}. ${r}`).join('\n')}
+${requirements.map((r: string, i: number) => `${i + 1}. ${r}`).join('\n')}
 
 **Key Components to Evaluate:**
 ${keyComponents.map((c: string, i: number) => `${i + 1}. ${c}`).join('\n')}
@@ -152,7 +192,7 @@ ${keyComponents.map((c: string, i: number) => `${i + 1}. ${c}`).join('\n')}
 ${submission.written_explanation}
 
 **Candidate's System Diagram:**
-[Diagram includes: ${this.extractDiagramSummary(JSON.parse(submission.diagram_data))}]
+[Diagram includes: ${diagramSummary}]
 
 **Time Spent:** ${Math.round(submission.time_spent_seconds / 60)} minutes
 
@@ -194,9 +234,11 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
   }
 
   private extractDiagramSummary(diagramData: any): string {
-    const nodes = diagramData.nodes || [];
-    const edges = diagramData.edges || [];
-    const nodeTypes = nodes.map((n: any) => n.type || 'default');
+    const nodes = diagramData?.nodes || [];
+    const edges = diagramData?.edges || [];
+
+    // Try to derive node types from serialized diagram
+    const nodeTypes = nodes.map((n: any) => n.type || n.typeKey || n?.data?.typeKey || 'component');
     const uniqueNodeTypes = [...new Set(nodeTypes)];
     return `${nodes.length} components (${uniqueNodeTypes.join(', ')}), ${edges.length} connections`;
   }
@@ -248,7 +290,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
 
     // Scores
     text += `## Scores\n`;
-    for (const [key, value] of Object.entries(parsed.scores)) {
+    for (const [key, value] of Object.entries(parsed.scores || {})) {
       const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
       text += `- **${label}:** ${value}/10\n`;
     }
