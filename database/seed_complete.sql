@@ -28,7 +28,7 @@ You may assume that each input would have exactly one solution, and you may not 
 
 You can return the answer in any order.',
 '["2 <= nums.length <= 10^4", "-10^9 <= nums[i] <= 10^9", "-10^9 <= target <= 10^9", "Only one valid answer exists"]',
-'[{"input": {"nums": [2, 7, 11, 15], "target": 9}, "output": [0, 1], "explanation": "Because nums[0] + nums[1] == 9, we return [0, 1]."}, {"input": {"nums": [3, 2, 4], "target": 6}, "output": [1, 2], "explanation": "Because nums[1] + nums[2] == 6, we return [1, 2]."}]',
+'[{"explanation": "Because nums[0] + nums[1] == 9, we return [0, 1].", "input": {"nums": [2, 7, 11, 15], "target": 9}, "output": [0, 1]}, {"explanation": "Because nums[1] + nums[2] == 6, we return [1, 2].", "input": {"nums": [3, 2, 4], "target": 6}, "output": [1, 2]}]',
 '["array", "hash-table"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Start with a brute force approach, then optimize if needed.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/two-sum/"]');
 
@@ -48,7 +48,7 @@ public:
         
     }
 };',
-'[{"input": [[2, 7, 11, 15], 9], "expectedOutput": [0, 1]}, {"input": [[3, 2, 4], 6], "expectedOutput": [1, 2]}, {"input": [[3, 3], 6], "expectedOutput": [0, 1]}]',
+'[{"expectedOutput": [0, 1], "input": [[2, 7, 11, 15], 9]}, {"expectedOutput": [1, 2], "input": [[3, 2, 4], 6]}, {"expectedOutput": [0, 1], "input": [[3, 3], 6]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -119,7 +119,7 @@ An input string is valid if:
 2. Open brackets must be closed in the correct order.
 3. Every close bracket has a corresponding open bracket of the same type.',
 '["1 <= s.length <= 10^4", "s consists of parentheses only ''()[]{}''"]',
-'[{"input": {"s": "()"}, "output": true, "explanation": "The string is valid."}, {"input": {"s": "()[]{}"}, "output": true, "explanation": "All brackets are properly closed."}, {"input": {"s": "(]"}, "output": false, "explanation": "Mismatched brackets."}]',
+'[{"explanation": "The string is valid.", "input": {"s": "()"}, "output": true}, {"explanation": "All brackets are properly closed.", "input": {"s": "()[]{}"}, "output": true}, {"explanation": "Mismatched brackets.", "input": {"s": "(]"}, "output": false}]',
 '["string", "stack"]',
 '["A stack data structure (LIFO) might be useful here.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Start with a brute force approach, then optimize if needed.", "Track opening and closing brackets, ensuring they match correctly.", "LeetCode URL: https://leetcode.com/problems/valid-parentheses/"]');
 
@@ -139,7 +139,7 @@ public:
         
     }
 };',
-'[{"input": ["()"], "expectedOutput": true}, {"input": ["()[]{}"], "expectedOutput": true}, {"input": ["(]"], "expectedOutput": false}, {"input": ["([)]"], "expectedOutput": false}]',
+'[{"expectedOutput": true, "input": ["()"]}, {"expectedOutput": true, "input": ["()[]{}"]}, {"expectedOutput": false, "input": ["(]"]}, {"expectedOutput": false, "input": ["([)]"]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -225,7 +225,7 @@ Merge the two lists into one sorted list. The list should be made by splicing to
 
 Return the head of the merged linked list.',
 '["The number of nodes in both lists is in the range [0, 50]", "-100 <= Node.val <= 100", "Both list1 and list2 are sorted in non-decreasing order"]',
-'[{"input": {"list1": [1, 2, 4], "list2": [1, 3, 4]}, "output": [1, 1, 2, 3, 4, 4], "explanation": "Merge both sorted lists."}, {"input": {"list1": [], "list2": []}, "output": [], "explanation": "Both lists are empty."}]',
+'[{"explanation": "Merge both sorted lists.", "input": {"list1": [1, 2, 4], "list2": [1, 3, 4]}, "output": [1, 1, 2, 3, 4, 4]}, {"explanation": "Both lists are empty.", "input": {"list1": [], "list2": []}, "output": []}]',
 '["linked-list", "recursion"]',
 '["Start with a brute force approach, then optimize if needed.", "Think about how to combine two sorted sequences efficiently.", "LeetCode URL: https://leetcode.com/problems/merge-two-sorted-lists/"]');
 
@@ -245,7 +245,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 4], [1, 3, 4]], "expectedOutput": [1, 1, 2, 3, 4, 4]}, {"input": [[], []], "expectedOutput": []}, {"input": [[], [0]], "expectedOutput": [0]}]',
+'[{"expectedOutput": [1, 1, 2, 3, 4, 4], "input": [[1, 2, 4], [1, 3, 4]]}, {"expectedOutput": [], "input": [[], []]}, {"expectedOutput": [0], "input": [[], [0]]}]',
 '[]',
 'O(n+m)',
 'O(1)',
@@ -328,7 +328,7 @@ You want to maximize your profit by choosing a single day to buy one stock and c
 
 Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.',
 '["1 <= prices.length <= 10^5", "0 <= prices[i] <= 10^4"]',
-'[{"input": {"prices": [7, 1, 5, 3, 6, 4]}, "output": 5, "explanation": "Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5."}, {"input": {"prices": [7, 6, 4, 3, 1]}, "output": 0, "explanation": "In this case, no transactions are done and the max profit = 0."}]',
+'[{"explanation": "Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.", "input": {"prices": [7, 1, 5, 3, 6, 4]}, "output": 5}, {"explanation": "In this case, no transactions are done and the max profit = 0.", "input": {"prices": [7, 6, 4, 3, 1]}, "output": 0}]',
 '["array", "dynamic-programming"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"]');
 
@@ -348,7 +348,7 @@ public:
         
     }
 };',
-'[{"input": [[7, 1, 5, 3, 6, 4]], "expectedOutput": 5}, {"input": [[7, 6, 4, 3, 1]], "expectedOutput": 0}]',
+'[{"expectedOutput": 5, "input": [[7, 1, 5, 3, 6, 4]]}, {"expectedOutput": 0, "input": [[7, 6, 4, 3, 1]]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -409,7 +409,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Given a string s, return True if it is a palindrome, or False otherwise.',
 '["1 <= s.length <= 2 * 10^5", "s consists only of printable ASCII characters"]',
-'[{"input": {"s": "A man, a plan, a canal: Panama"}, "output": true, "explanation": "After cleaning: amanaplanacanalpanama which is a palindrome."}, {"input": {"s": "race a car"}, "output": false, "explanation": "After cleaning: raceacar which is not a palindrome."}]',
+'[{"explanation": "After cleaning: amanaplanacanalpanama which is a palindrome.", "input": {"s": "A man, a plan, a canal: Panama"}, "output": true}, {"explanation": "After cleaning: raceacar which is not a palindrome.", "input": {"s": "race a car"}, "output": false}]',
 '["two-pointers", "string"]',
 '["Try using two pointers - one starting from the beginning and one from the end.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/valid-palindrome/"]');
 
@@ -429,7 +429,7 @@ public:
         
     }
 };',
-'[{"input": ["A man, a plan, a canal: Panama"], "expectedOutput": true}, {"input": ["race a car"], "expectedOutput": false}, {"input": [" "], "expectedOutput": true}]',
+'[{"expectedOutput": true, "input": ["A man, a plan, a canal: Panama"]}, {"expectedOutput": false, "input": ["race a car"]}, {"expectedOutput": true, "input": [" "]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -518,7 +518,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?',
 '["1 <= n <= 45"]',
-'[{"input": {"n": 2}, "output": 2, "explanation": "There are two ways: 1. 1 step + 1 step, 2. 2 steps"}, {"input": {"n": 3}, "output": 3, "explanation": "There are three ways: 1. 1+1+1, 2. 1+2, 3. 2+1"}]',
+'[{"explanation": "There are two ways: 1. 1 step + 1 step, 2. 2 steps", "input": {"n": 2}, "output": 2}, {"explanation": "There are three ways: 1. 1+1+1, 2. 1+2, 3. 2+1", "input": {"n": 3}, "output": 3}]',
 '["dynamic-programming", "math"]',
 '["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/climbing-stairs/"]');
 
@@ -538,7 +538,7 @@ public:
         
     }
 };',
-'[{"input": [2], "expectedOutput": 2}, {"input": [3], "expectedOutput": 3}, {"input": [4], "expectedOutput": 5}]',
+'[{"expectedOutput": 2, "input": [2]}, {"expectedOutput": 3, "input": [3]}, {"expectedOutput": 5, "input": [4]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -607,7 +607,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Inorder traversal: Left -> Root -> Right',
 '["The number of nodes in the tree is in the range [0, 100]", "-100 <= Node.val <= 100"]',
-'[{"input": {"root": [1, null, 2, 3]}, "output": [1, 3, 2], "explanation": "Inorder traversal of the tree."}, {"input": {"root": []}, "output": [], "explanation": "Empty tree."}]',
+'[{"explanation": "Inorder traversal of the tree.", "input": {"root": [1, null, 2, 3]}, "output": [1, 3, 2]}, {"explanation": "Empty tree.", "input": {"root": []}, "output": []}]',
 '["tree", "depth-first-search", "stack"]',
 '["A stack data structure (LIFO) might be useful here.", "Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/binary-tree-inorder-traversal/"]');
 
@@ -627,7 +627,7 @@ public:
         
     }
 };',
-'[{"input": [[1, null, 2, 3]], "expectedOutput": [1, 3, 2]}, {"input": [[]], "expectedOutput": []}, {"input": [[1]], "expectedOutput": [1]}]',
+'[{"expectedOutput": [1, 3, 2], "input": [[1, null, 2, 3]]}, {"expectedOutput": [], "input": [[]]}, {"expectedOutput": [1], "input": [[1]]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -713,7 +713,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer.',
 '["The number of the nodes in the list is in the range [0, 10^4]", "-10^5 <= Node.val <= 10^5", "pos is -1 or a valid index in the linked-list"]',
-'[{"input": {"head": [3, 2, 0, -4], "pos": 1}, "output": true, "explanation": "There is a cycle where the tail connects to the 1st node."}, {"input": {"head": [1], "pos": -1}, "output": false, "explanation": "There is no cycle in the linked list."}]',
+'[{"explanation": "There is a cycle where the tail connects to the 1st node.", "input": {"head": [3, 2, 0, -4], "pos": 1}, "output": true}, {"explanation": "There is no cycle in the linked list.", "input": {"head": [1], "pos": -1}, "output": false}]',
 '["linked-list", "two-pointers", "hash-table"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Try using two pointers - one starting from the beginning and one from the end.", "Start with a brute force approach, then optimize if needed.", "LeetCode URL: https://leetcode.com/problems/linked-list-cycle/"]');
 
@@ -733,7 +733,7 @@ public:
         
     }
 };',
-'[{"input": [[3, 2, 0, -4], 1], "expectedOutput": true}, {"input": [[1, 2], 0], "expectedOutput": true}, {"input": [[1], -1], "expectedOutput": false}]',
+'[{"expectedOutput": true, "input": [[3, 2, 0, -4], 1]}, {"expectedOutput": true, "input": [[1, 2], 0]}, {"expectedOutput": false, "input": [[1], -1]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -807,7 +807,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (9, 1, 'Longest Substring Without Repeating Characters', 'medium',
 'Given a string s, find the length of the longest substring without repeating characters.',
 '["0 <= s.length <= 5 * 10^4", "s consists of English letters, digits, symbols and spaces"]',
-'[{"input": {"s": "abcabcbb"}, "output": 3, "explanation": "The answer is ''abc'', with the length of 3."}, {"input": {"s": "bbbbb"}, "output": 1, "explanation": "The answer is ''b'', with the length of 1."}]',
+'[{"explanation": "The answer is ''abc'', with the length of 3.", "input": {"s": "abcabcbb"}, "output": 3}, {"explanation": "The answer is ''b'', with the length of 1.", "input": {"s": "bbbbb"}, "output": 1}]',
 '["string", "sliding-window", "hash-table"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Consider maintaining a window of elements that slides through the array.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/longest-substring-without-repeating-characters/"]');
 
@@ -827,7 +827,7 @@ public:
         
     }
 };',
-'[{"input": ["abcabcbb"], "expectedOutput": 3}, {"input": ["bbbbb"], "expectedOutput": 1}, {"input": ["pwwkew"], "expectedOutput": 3}]',
+'[{"expectedOutput": 3, "input": ["abcabcbb"]}, {"expectedOutput": 1, "input": ["bbbbb"]}, {"expectedOutput": 3, "input": ["pwwkew"]}]',
 '[]',
 'O(n)',
 'O(min(m,n))',
@@ -904,7 +904,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.',
 '["The number of nodes in each linked list is in the range [1, 100]", "0 <= Node.val <= 9", "It is guaranteed that the list represents a number that does not have leading zeros"]',
-'[{"input": {"l1": [2, 4, 3], "l2": [5, 6, 4]}, "output": [7, 0, 8], "explanation": "342 + 465 = 807."}, {"input": {"l1": [0], "l2": [0]}, "output": [0], "explanation": "0 + 0 = 0."}]',
+'[{"explanation": "342 + 465 = 807.", "input": {"l1": [2, 4, 3], "l2": [5, 6, 4]}, "output": [7, 0, 8]}, {"explanation": "0 + 0 = 0.", "input": {"l1": [0], "l2": [0]}, "output": [0]}]',
 '["linked-list", "math", "recursion"]',
 '["Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/add-two-numbers/"]');
 
@@ -924,7 +924,7 @@ public:
         
     }
 };',
-'[{"input": [[2, 4, 3], [5, 6, 4]], "expectedOutput": [7, 0, 8]}, {"input": [[0], [0]], "expectedOutput": [0]}, {"input": [[9, 9, 9], [9, 9, 9, 9]], "expectedOutput": [8, 9, 9, 0, 1]}]',
+'[{"expectedOutput": [7, 0, 8], "input": [[2, 4, 3], [5, 6, 4]]}, {"expectedOutput": [0], "input": [[0], [0]]}, {"expectedOutput": [8, 9, 9, 0, 1], "input": [[9, 9, 9], [9, 9, 9, 9]]}]',
 '[]',
 'O(max(m,n))',
 'O(max(m,n))',
@@ -1017,7 +1017,7 @@ Find two lines that together with the x-axis form a container, such that the con
 
 Return the maximum amount of water a container can store.',
 '["n == height.length", "2 <= n <= 10^5", "0 <= height[i] <= 10^4"]',
-'[{"input": {"height": [1, 8, 6, 2, 5, 4, 8, 3, 7]}, "output": 49, "explanation": "The max area is between index 1 (height 8) and index 8 (height 7)."}]',
+'[{"explanation": "The max area is between index 1 (height 8) and index 8 (height 7).", "input": {"height": [1, 8, 6, 2, 5, 4, 8, 3, 7]}, "output": 49}]',
 '["array", "two-pointers", "greedy"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Try using two pointers - one starting from the beginning and one from the end.", "Try making the locally optimal choice at each step.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/container-with-most-water/"]');
 
@@ -1037,7 +1037,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 8, 6, 2, 5, 4, 8, 3, 7]], "expectedOutput": 49}, {"input": [[1, 1]], "expectedOutput": 1}, {"input": [[4, 3, 2, 1, 4]], "expectedOutput": 16}]',
+'[{"expectedOutput": 49, "input": [[1, 8, 6, 2, 5, 4, 8, 3, 7]]}, {"expectedOutput": 1, "input": [[1, 1]]}, {"expectedOutput": 16, "input": [[4, 3, 2, 1, 4]]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -1119,7 +1119,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Notice that the solution set must not contain duplicate triplets.',
 '["3 <= nums.length <= 3000", "-10^5 <= nums[i] <= 10^5"]',
-'[{"input": {"nums": [-1, 0, 1, 2, -1, -4]}, "output": [[-1, -1, 2], [-1, 0, 1]], "explanation": "The distinct triplets are [-1,0,1] and [-1,-1,2]."}, {"input": {"nums": [0, 1, 1]}, "output": [], "explanation": "The only possible triplet does not sum up to 0."}]',
+'[{"explanation": "The distinct triplets are [-1,0,1] and [-1,-1,2].", "input": {"nums": [-1, 0, 1, 2, -1, -4]}, "output": [[-1, -1, 2], [-1, 0, 1]]}, {"explanation": "The only possible triplet does not sum up to 0.", "input": {"nums": [0, 1, 1]}, "output": []}]',
 '["array", "two-pointers", "sorting"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Try using two pointers - one starting from the beginning and one from the end.", "Would sorting the input help simplify the problem?", "Think about the time and space complexity trade-offs.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/3sum/"]');
 
@@ -1139,7 +1139,7 @@ public:
         
     }
 };',
-'[{"input": [[-1, 0, 1, 2, -1, -4]], "expectedOutput": [[-1, -1, 2], [-1, 0, 1]]}, {"input": [[0, 1, 1]], "expectedOutput": []}, {"input": [[0, 0, 0]], "expectedOutput": [[0, 0, 0]]}]',
+'[{"expectedOutput": [[-1, -1, 2], [-1, 0, 1]], "input": [[-1, 0, 1, 2, -1, -4]]}, {"expectedOutput": [], "input": [[0, 1, 1]]}, {"expectedOutput": [[0, 0, 0]], "input": [[0, 0, 0]]}]',
 '[]',
 'O(n^2)',
 'O(1)',
@@ -1260,7 +1260,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.',
 '["1 <= strs.length <= 10^4", "0 <= strs[i].length <= 100", "strs[i] consists of lowercase English letters"]',
-'[{"input": {"strs": ["eat", "tea", "tan", "ate", "nat", "bat"]}, "output": [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]], "explanation": "Group words that are anagrams."}]',
+'[{"explanation": "Group words that are anagrams.", "input": {"strs": ["eat", "tea", "tan", "ate", "nat", "bat"]}, "output": [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]}]',
 '["array", "hash-table", "string", "sorting"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Would sorting the input help simplify the problem?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/group-anagrams/"]');
 
@@ -1280,7 +1280,7 @@ public:
         
     }
 };',
-'[{"input": [["eat", "tea", "tan", "ate", "nat", "bat"]], "expectedOutput": [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]}, {"input": [[""]], "expectedOutput": [[""]]}, {"input": [["a"]], "expectedOutput": [["a"]]}]',
+'[{"expectedOutput": [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]], "input": [["eat", "tea", "tan", "ate", "nat", "bat"]]}, {"expectedOutput": [[""]], "input": [[""]]}, {"expectedOutput": [["a"]], "input": [["a"]]}]',
 '[]',
 'O(n*k)',
 'O(n*k)',
@@ -1351,7 +1351,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (14, 1, 'Longest Palindromic Substring', 'medium',
 'Given a string s, return the longest palindromic substring in s.',
 '["1 <= s.length <= 1000", "s consist of only digits and English letters"]',
-'[{"input": {"s": "babad"}, "output": "bab", "explanation": "Note: ''aba'' is also a valid answer."}, {"input": {"s": "cbbd"}, "output": "bb", "explanation": "The longest palindrome is ''bb''."}]',
+'[{"explanation": "Note: ''aba'' is also a valid answer.", "input": {"s": "babad"}, "output": "bab"}, {"explanation": "The longest palindrome is ''bb''.", "input": {"s": "cbbd"}, "output": "bb"}]',
 '["string", "dynamic-programming"]',
 '["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/longest-palindromic-substring/"]');
 
@@ -1371,7 +1371,7 @@ public:
         
     }
 };',
-'[{"input": ["babad"], "expectedOutput": "bab"}, {"input": ["cbbd"], "expectedOutput": "bb"}, {"input": ["a"], "expectedOutput": "a"}]',
+'[{"expectedOutput": "bab", "input": ["babad"]}, {"expectedOutput": "bb", "input": ["cbbd"]}, {"expectedOutput": "a", "input": ["a"]}]',
 '[]',
 'O(n^2)',
 'O(1)',
@@ -1480,7 +1480,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 You must write an algorithm that runs in O(n) time and without using the division operation.',
 '["2 <= nums.length <= 10^5", "-30 <= nums[i] <= 30", "The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer"]',
-'[{"input": {"nums": [1, 2, 3, 4]}, "output": [24, 12, 8, 6], "explanation": "answer[0] = 2*3*4 = 24, answer[1] = 1*3*4 = 12, etc."}]',
+'[{"explanation": "answer[0] = 2*3*4 = 24, answer[1] = 1*3*4 = 12, etc.", "input": {"nums": [1, 2, 3, 4]}, "output": [24, 12, 8, 6]}]',
 '["array", "prefix-sum"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/product-of-array-except-self/"]');
 
@@ -1500,7 +1500,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 3, 4]], "expectedOutput": [24, 12, 8, 6]}, {"input": [[-1, 1, 0, -3, 3]], "expectedOutput": [0, 0, 9, 0, 0]}]',
+'[{"expectedOutput": [24, 12, 8, 6], "input": [[1, 2, 3, 4]]}, {"expectedOutput": [0, 0, 9, 0, 0], "input": [[-1, 1, 0, -3, 3]]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -1568,7 +1568,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (16, 1, 'Spiral Matrix', 'medium',
 'Given an m x n matrix, return all elements of the matrix in spiral order.',
 '["m == matrix.length", "n == matrix[i].length", "1 <= m, n <= 10", "-100 <= matrix[i][j] <= 100"]',
-'[{"input": {"matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, "output": [1, 2, 3, 6, 9, 8, 7, 4, 5], "explanation": "Traverse the matrix in spiral order."}]',
+'[{"explanation": "Traverse the matrix in spiral order.", "input": {"matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, "output": [1, 2, 3, 6, 9, 8, 7, 4, 5]}]',
 '["array", "matrix", "simulation"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/spiral-matrix/"]');
 
@@ -1588,7 +1588,7 @@ public:
         
     }
 };',
-'[{"input": [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]], "expectedOutput": [1, 2, 3, 6, 9, 8, 7, 4, 5]}, {"input": [[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]], "expectedOutput": [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]}]',
+'[{"expectedOutput": [1, 2, 3, 6, 9, 8, 7, 4, 5], "input": [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]]}, {"expectedOutput": [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7], "input": [[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]]}]',
 '[]',
 'O(m*n)',
 'O(1)',
@@ -1674,7 +1674,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.',
 '["n == matrix.length == matrix[i].length", "1 <= n <= 20", "-1000 <= matrix[i][j] <= 1000"]',
-'[{"input": {"matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, "output": [[7, 4, 1], [8, 5, 2], [9, 6, 3]], "explanation": "Rotate 90 degrees clockwise."}]',
+'[{"explanation": "Rotate 90 degrees clockwise.", "input": {"matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}, "output": [[7, 4, 1], [8, 5, 2], [9, 6, 3]]}]',
 '["array", "matrix"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/rotate-image/"]');
 
@@ -1694,7 +1694,7 @@ public:
         
     }
 };',
-'[{"input": [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]], "expectedOutput": [[7, 4, 1], [8, 5, 2], [9, 6, 3]]}, {"input": [[[5, 1, 9, 11], [2, 4, 8, 10], [13, 3, 6, 7], [15, 14, 12, 16]]], "expectedOutput": [[15, 13, 2, 5], [14, 3, 4, 1], [12, 6, 8, 9], [16, 7, 10, 11]]}]',
+'[{"expectedOutput": [[7, 4, 1], [8, 5, 2], [9, 6, 3]], "input": [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]]}, {"expectedOutput": [[15, 13, 2, 5], [14, 3, 4, 1], [12, 6, 8, 9], [16, 7, 10, 11]], "input": [[[5, 1, 9, 11], [2, 4, 8, 10], [13, 3, 6, 7], [15, 14, 12, 16]]]}]',
 '[]',
 'O(n^2)',
 'O(1)',
@@ -1758,7 +1758,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 You must do it in place.',
 '["m == matrix.length", "n == matrix[0].length", "1 <= m, n <= 200", "-2^31 <= matrix[i][j] <= 2^31 - 1"]',
-'[{"input": {"matrix": [[1, 1, 1], [1, 0, 1], [1, 1, 1]]}, "output": [[1, 0, 1], [0, 0, 0], [1, 0, 1]], "explanation": "Mark row and column of 0s."}]',
+'[{"explanation": "Mark row and column of 0s.", "input": {"matrix": [[1, 1, 1], [1, 0, 1], [1, 1, 1]]}, "output": [[1, 0, 1], [0, 0, 0], [1, 0, 1]]}]',
 '["array", "matrix", "hash-table"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/set-matrix-zeroes/"]');
 
@@ -1778,7 +1778,7 @@ public:
         
     }
 };',
-'[{"input": [[[1, 1, 1], [1, 0, 1], [1, 1, 1]]], "expectedOutput": [[1, 0, 1], [0, 0, 0], [1, 0, 1]]}, {"input": [[[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]]], "expectedOutput": [[0, 0, 0, 0], [0, 4, 5, 0], [0, 3, 1, 0]]}]',
+'[{"expectedOutput": [[1, 0, 1], [0, 0, 0], [1, 0, 1]], "input": [[[1, 1, 1], [1, 0, 1], [1, 1, 1]]]}, {"expectedOutput": [[0, 0, 0, 0], [0, 4, 5, 0], [0, 3, 1, 0]], "input": [[[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]]]}]',
 '[]',
 'O(m*n)',
 'O(1)',
@@ -1860,7 +1860,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 A subarray is a contiguous non-empty sequence of elements within an array.',
 '["1 <= nums.length <= 2 * 10^4", "-1000 <= nums[i] <= 1000", "-10^7 <= k <= 10^7"]',
-'[{"input": {"nums": [1, 1, 1], "k": 2}, "output": 2, "explanation": "Subarrays [1,1] and [1,1] sum to 2."}, {"input": {"nums": [1, 2, 3], "k": 3}, "output": 2, "explanation": "Subarrays [1,2] and [3] sum to 3."}]',
+'[{"explanation": "Subarrays [1,1] and [1,1] sum to 2.", "input": {"k": 2, "nums": [1, 1, 1]}, "output": 2}, {"explanation": "Subarrays [1,2] and [3] sum to 3.", "input": {"k": 3, "nums": [1, 2, 3]}, "output": 2}]',
 '["array", "hash-table", "prefix-sum"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/subarray-sum-equals-k/"]');
 
@@ -1880,7 +1880,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 1, 1], 2], "expectedOutput": 2}, {"input": [[1, 2, 3], 3], "expectedOutput": 2}]',
+'[{"expectedOutput": 2, "input": [[1, 1, 1], 2]}, {"expectedOutput": 2, "input": [[1, 2, 3], 3]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -1950,7 +1950,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (20, 1, 'Maximum Subarray', 'medium',
 'Given an integer array nums, find the subarray with the largest sum, and return its sum.',
 '["1 <= nums.length <= 10^5", "-10^4 <= nums[i] <= 10^4"]',
-'[{"input": {"nums": [-2, 1, -3, 4, -1, 2, 1, -5, 4]}, "output": 6, "explanation": "The subarray [4,-1,2,1] has the largest sum 6."}, {"input": {"nums": [1]}, "output": 1, "explanation": "The subarray [1] has the largest sum 1."}]',
+'[{"explanation": "The subarray [4,-1,2,1] has the largest sum 6.", "input": {"nums": [-2, 1, -3, 4, -1, 2, 1, -5, 4]}, "output": 6}, {"explanation": "The subarray [1] has the largest sum 1.", "input": {"nums": [1]}, "output": 1}]',
 '["array", "divide-and-conquer", "dynamic-programming"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/maximum-subarray/"]');
 
@@ -1970,7 +1970,7 @@ public:
         
     }
 };',
-'[{"input": [[-2, 1, -3, 4, -1, 2, 1, -5, 4]], "expectedOutput": 6}, {"input": [[1]], "expectedOutput": 1}, {"input": [[5, 4, -1, 7, 8]], "expectedOutput": 23}]',
+'[{"expectedOutput": 6, "input": [[-2, 1, -3, 4, -1, 2, 1, -5, 4]]}, {"expectedOutput": 1, "input": [[1]]}, {"expectedOutput": 23, "input": [[5, 4, -1, 7, 8]]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -2034,7 +2034,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (21, 1, 'Remove Nth Node From End of List', 'medium',
 'Given the head of a linked list, remove the nth node from the end of the list and return its head.',
 '["The number of nodes in the list is sz", "1 <= sz <= 30", "0 <= Node.val <= 100", "1 <= n <= sz"]',
-'[{"input": {"head": [1, 2, 3, 4, 5], "n": 2}, "output": [1, 2, 3, 5], "explanation": "Remove 2nd node from end."}]',
+'[{"explanation": "Remove 2nd node from end.", "input": {"head": [1, 2, 3, 4, 5], "n": 2}, "output": [1, 2, 3, 5]}]',
 '["linked-list", "two-pointers"]',
 '["Try using two pointers - one starting from the beginning and one from the end.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/remove-nth-node-from-end-of-list/"]');
 
@@ -2054,7 +2054,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 3, 4, 5], 2], "expectedOutput": [1, 2, 3, 5]}, {"input": [[1], 1], "expectedOutput": []}, {"input": [[1, 2], 1], "expectedOutput": [1]}]',
+'[{"expectedOutput": [1, 2, 3, 5], "input": [[1, 2, 3, 4, 5], 2]}, {"expectedOutput": [], "input": [[1], 1]}, {"expectedOutput": [1], "input": [[1, 2], 1]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -2124,7 +2124,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (22, 1, 'Reverse Linked List II', 'medium',
 'Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.',
 '["The number of nodes in the list is n", "1 <= n <= 500", "-500 <= Node.val <= 500", "1 <= left <= right <= n"]',
-'[{"input": {"head": [1, 2, 3, 4, 5], "left": 2, "right": 4}, "output": [1, 4, 3, 2, 5], "explanation": "Reverse nodes from position 2 to 4."}]',
+'[{"explanation": "Reverse nodes from position 2 to 4.", "input": {"head": [1, 2, 3, 4, 5], "left": 2, "right": 4}, "output": [1, 4, 3, 2, 5]}]',
 '["linked-list"]',
 '["Think about the time and space complexity trade-offs.", "Consider reversing the entire sequence or parts of it.", "LeetCode URL: https://leetcode.com/problems/reverse-linked-list-ii/"]');
 
@@ -2144,7 +2144,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 3, 4, 5], 2, 4], "expectedOutput": [1, 4, 3, 2, 5]}, {"input": [[5], 1, 1], "expectedOutput": [5]}]',
+'[{"expectedOutput": [1, 4, 3, 2, 5], "input": [[1, 2, 3, 4, 5], 2, 4]}, {"expectedOutput": [5], "input": [[5], 1, 1]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -2217,7 +2217,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (23, 1, 'Swap Nodes in Pairs', 'medium',
 'Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list''s nodes.',
 '["The number of nodes in the list is in the range [0, 100]", "0 <= Node.val <= 100"]',
-'[{"input": {"head": [1, 2, 3, 4]}, "output": [2, 1, 4, 3], "explanation": "Swap adjacent pairs."}]',
+'[{"explanation": "Swap adjacent pairs.", "input": {"head": [1, 2, 3, 4]}, "output": [2, 1, 4, 3]}]',
 '["linked-list", "recursion"]',
 '["Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/swap-nodes-in-pairs/"]');
 
@@ -2237,7 +2237,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 3, 4]], "expectedOutput": [2, 1, 4, 3]}, {"input": [[]], "expectedOutput": []}, {"input": [[1]], "expectedOutput": [1]}]',
+'[{"expectedOutput": [2, 1, 4, 3], "input": [[1, 2, 3, 4]]}, {"expectedOutput": [], "input": [[]]}, {"expectedOutput": [1], "input": [[1]]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -2307,7 +2307,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (24, 1, 'Binary Tree Level Order Traversal', 'medium',
 'Given the root of a binary tree, return the level order traversal of its nodes'' values. (i.e., from left to right, level by level).',
 '["The number of nodes in the tree is in the range [0, 2000]", "-1000 <= Node.val <= 1000"]',
-'[{"input": {"root": [3, 9, 20, null, null, 15, 7]}, "output": [[3], [9, 20], [15, 7]], "explanation": "Level by level traversal."}]',
+'[{"explanation": "Level by level traversal.", "input": {"root": [3, 9, 20, null, null, 15, 7]}, "output": [[3], [9, 20], [15, 7]]}]',
 '["tree", "breadth-first-search"]',
 '["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/binary-tree-level-order-traversal/"]');
 
@@ -2327,7 +2327,7 @@ public:
         
     }
 };',
-'[{"input": [[3, 9, 20, null, null, 15, 7]], "expectedOutput": [[3], [9, 20], [15, 7]]}, {"input": [[1]], "expectedOutput": [[1]]}, {"input": [[]], "expectedOutput": []}]',
+'[{"expectedOutput": [[3], [9, 20], [15, 7]], "input": [[3, 9, 20, null, null, 15, 7]]}, {"expectedOutput": [[1]], "input": [[1]]}, {"expectedOutput": [], "input": [[]]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -2415,7 +2415,7 @@ A valid BST is defined as follows:
 - The right subtree of a node contains only nodes with keys greater than the node''s key.
 - Both the left and right subtrees must also be binary search trees.',
 '["The number of nodes in the tree is in the range [1, 10^4]", "-2^31 <= Node.val <= 2^31 - 1"]',
-'[{"input": {"root": [2, 1, 3]}, "output": true, "explanation": "Valid BST."}, {"input": {"root": [5, 1, 4, null, null, 3, 6]}, "output": false, "explanation": "Node 4 in right subtree of 5 violates BST property."}]',
+'[{"explanation": "Valid BST.", "input": {"root": [2, 1, 3]}, "output": true}, {"explanation": "Node 4 in right subtree of 5 violates BST property.", "input": {"root": [5, 1, 4, null, null, 3, 6]}, "output": false}]',
 '["tree", "depth-first-search", "binary-search-tree"]',
 '["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "If the data is sorted, binary search can be very efficient.", "LeetCode URL: https://leetcode.com/problems/validate-binary-search-tree/"]');
 
@@ -2435,7 +2435,7 @@ public:
         
     }
 };',
-'[{"input": [[2, 1, 3]], "expectedOutput": true}, {"input": [[5, 1, 4, null, null, 3, 6]], "expectedOutput": false}]',
+'[{"expectedOutput": true, "input": [[2, 1, 3]]}, {"expectedOutput": false, "input": [[5, 1, 4, null, null, 3, 6]]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -2510,7 +2510,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (26, 1, 'Kth Smallest Element in a BST', 'medium',
 'Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.',
 '["The number of nodes in the tree is n", "1 <= k <= n <= 10^4", "0 <= Node.val <= 10^4"]',
-'[{"input": {"root": [3, 1, 4, null, 2], "k": 1}, "output": 1, "explanation": "The smallest element is 1."}, {"input": {"root": [5, 3, 6, 2, 4, null, null, 1], "k": 3}, "output": 3, "explanation": "The 3rd smallest is 3."}]',
+'[{"explanation": "The smallest element is 1.", "input": {"k": 1, "root": [3, 1, 4, null, 2]}, "output": 1}, {"explanation": "The 3rd smallest is 3.", "input": {"k": 3, "root": [5, 3, 6, 2, 4, null, null, 1]}, "output": 3}]',
 '["tree", "depth-first-search", "binary-search-tree"]',
 '["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/kth-smallest-element-in-a-bst/"]');
 
@@ -2530,7 +2530,7 @@ public:
         
     }
 };',
-'[{"input": [[3, 1, 4, null, 2], 1], "expectedOutput": 1}, {"input": [[5, 3, 6, 2, 4, null, null, 1], 3], "expectedOutput": 3}]',
+'[{"expectedOutput": 1, "input": [[3, 1, 4, null, 2], 1]}, {"expectedOutput": 3, "input": [[5, 3, 6, 2, 4, null, null, 1], 3]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -2603,7 +2603,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (27, 1, 'Binary Tree Right Side View', 'medium',
 'Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.',
 '["The number of nodes in the tree is in the range [0, 100]", "-100 <= Node.val <= 100"]',
-'[{"input": {"root": [1, 2, 3, null, 5, null, 4]}, "output": [1, 3, 4], "explanation": "Right side view shows nodes 1, 3, 4."}]',
+'[{"explanation": "Right side view shows nodes 1, 3, 4.", "input": {"root": [1, 2, 3, null, 5, null, 4]}, "output": [1, 3, 4]}]',
 '["tree", "depth-first-search", "breadth-first-search"]',
 '["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/binary-tree-right-side-view/"]');
 
@@ -2623,7 +2623,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 3, null, 5, null, 4]], "expectedOutput": [1, 3, 4]}, {"input": [[1, null, 3]], "expectedOutput": [1, 3]}, {"input": [[]], "expectedOutput": []}]',
+'[{"expectedOutput": [1, 3, 4], "input": [[1, 2, 3, null, 5, null, 4]]}, {"expectedOutput": [1, 3], "input": [[1, null, 3]]}, {"expectedOutput": [], "input": [[]]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -2701,7 +2701,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 A root-to-leaf path is a path starting from the root and ending at any leaf node.',
 '["The number of nodes in the tree is in the range [0, 5000]", "-1000 <= Node.val <= 1000", "-1000 <= targetSum <= 1000"]',
-'[{"input": {"root": [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], "targetSum": 22}, "output": [[5, 4, 11, 2], [5, 8, 4, 5]], "explanation": "Two paths sum to 22."}]',
+'[{"explanation": "Two paths sum to 22.", "input": {"root": [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], "targetSum": 22}, "output": [[5, 4, 11, 2], [5, 8, 4, 5]]}]',
 '["tree", "backtracking", "depth-first-search"]',
 '["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Try exploring all possibilities using recursion and backtracking.", "Think about the time and space complexity trade-offs.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/path-sum-ii/"]');
 
@@ -2721,7 +2721,7 @@ public:
         
     }
 };',
-'[{"input": [[5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], 22], "expectedOutput": [[5, 4, 11, 2], [5, 8, 4, 5]]}, {"input": [[1, 2, 3], 5], "expectedOutput": []}, {"input": [[1, 2], 0], "expectedOutput": []}]',
+'[{"expectedOutput": [[5, 4, 11, 2], [5, 8, 4, 5]], "input": [[5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], 22]}, {"expectedOutput": [], "input": [[1, 2, 3], 5]}, {"expectedOutput": [], "input": [[1, 2], 0]}]',
 '[]',
 'O(n^2)',
 'O(n)',
@@ -2797,7 +2797,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (29, 1, 'Construct Binary Tree from Preorder and Inorder Traversal', 'medium',
 'Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.',
 '["1 <= preorder.length <= 3000", "inorder.length == preorder.length", "-3000 <= preorder[i], inorder[i] <= 3000", "preorder and inorder consist of unique values"]',
-'[{"input": {"preorder": [3, 9, 20, 15, 7], "inorder": [9, 3, 15, 20, 7]}, "output": [3, 9, 20, null, null, 15, 7], "explanation": "Construct tree from traversals."}]',
+'[{"explanation": "Construct tree from traversals.", "input": {"inorder": [9, 3, 15, 20, 7], "preorder": [3, 9, 20, 15, 7]}, "output": [3, 9, 20, null, null, 15, 7]}]',
 '["tree", "array", "hash-table", "divide-and-conquer"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Think about the array indices and how you can traverse or manipulate them.", "Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"]');
 
@@ -2817,7 +2817,7 @@ public:
         
     }
 };',
-'[{"input": [[3, 9, 20, 15, 7], [9, 3, 15, 20, 7]], "expectedOutput": [3, 9, 20, null, null, 15, 7]}, {"input": [[-1], [-1]], "expectedOutput": [-1]}]',
+'[{"expectedOutput": [3, 9, 20, null, null, 15, 7], "input": [[3, 9, 20, 15, 7], [9, 3, 15, 20, 7]]}, {"expectedOutput": [-1], "input": [[-1], [-1]]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -2918,7 +2918,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 The lowest common ancestor is defined as the lowest node in the tree that has both p and q as descendants (where we allow a node to be a descendant of itself).',
 '["The number of nodes in the tree is in the range [2, 10^5]", "-10^9 <= Node.val <= 10^9", "All Node.val are unique", "p != q", "p and q exist in the tree"]',
-'[{"input": {"root": [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], "p": 5, "q": 1}, "output": 3, "explanation": "The LCA of nodes 5 and 1 is 3."}]',
+'[{"explanation": "The LCA of nodes 5 and 1 is 3.", "input": {"p": 5, "q": 1, "root": [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]}, "output": 3}]',
 '["tree", "depth-first-search", "binary-tree"]',
 '["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"]');
 
@@ -2938,7 +2938,7 @@ public:
         
     }
 };',
-'[{"input": [[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], 5, 1], "expectedOutput": 3}, {"input": [[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], 5, 4], "expectedOutput": 5}]',
+'[{"expectedOutput": 3, "input": [[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], 5, 1]}, {"expectedOutput": 5, "input": [[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], 5, 4]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -3013,7 +3013,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.',
 '["m == grid.length", "n == grid[i].length", "1 <= m, n <= 300", "grid[i][j] is ''0'' or ''1''"]',
-'[{"input": {"grid": [["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]}, "output": 1, "explanation": "One connected island."}]',
+'[{"explanation": "One connected island.", "input": {"grid": [["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]}, "output": 1}]',
 '["array", "depth-first-search", "breadth-first-search", "union-find", "matrix"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/number-of-islands/"]');
 
@@ -3033,7 +3033,7 @@ public:
         
     }
 };',
-'[{"input": [[["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]], "expectedOutput": 1}, {"input": [[["1", "1", "0", "0", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "1", "0", "0"], ["0", "0", "0", "1", "1"]]], "expectedOutput": 3}]',
+'[{"expectedOutput": 1, "input": [[["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]]}, {"expectedOutput": 3, "input": [[["1", "1", "0", "0", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "1", "0", "0"], ["0", "0", "0", "1", "1"]]]}]',
 '[]',
 'O(m*n)',
 'O(m*n)',
@@ -3118,7 +3118,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Return True if you can finish all courses. Otherwise, return False.',
 '["1 <= numCourses <= 2000", "0 <= prerequisites.length <= 5000", "prerequisites[i].length == 2", "0 <= ai, bi < numCourses", "All the pairs prerequisites[i] are unique"]',
-'[{"input": {"numCourses": 2, "prerequisites": [[1, 0]]}, "output": true, "explanation": "Take course 0 first, then course 1."}, {"input": {"numCourses": 2, "prerequisites": [[1, 0], [0, 1]]}, "output": false, "explanation": "Circular dependency."}]',
+'[{"explanation": "Take course 0 first, then course 1.", "input": {"numCourses": 2, "prerequisites": [[1, 0]]}, "output": true}, {"explanation": "Circular dependency.", "input": {"numCourses": 2, "prerequisites": [[1, 0], [0, 1]]}, "output": false}]',
 '["graph", "topological-sort", "depth-first-search", "breadth-first-search"]',
 '["Consider graph traversal algorithms like DFS or BFS.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/course-schedule/"]');
 
@@ -3138,7 +3138,7 @@ public:
         
     }
 };',
-'[{"input": [2, [[1, 0]]], "expectedOutput": true}, {"input": [2, [[1, 0], [0, 1]]], "expectedOutput": false}]',
+'[{"expectedOutput": true, "input": [2, [[1, 0]]]}, {"expectedOutput": false, "input": [2, [[1, 0], [0, 1]]]}]',
 '[]',
 'O(V+E)',
 'O(V+E)',
@@ -3231,7 +3231,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.',
 '["The number of nodes in the graph is in the range [0, 100]", "1 <= Node.val <= 100", "Node.val is unique for each node", "There are no repeated edges and no self-loops"]',
-'[{"input": {"adjList": [[2, 4], [1, 3], [2, 4], [1, 3]]}, "output": [[2, 4], [1, 3], [2, 4], [1, 3]], "explanation": "Clone the graph."}]',
+'[{"explanation": "Clone the graph.", "input": {"adjList": [[2, 4], [1, 3], [2, 4], [1, 3]]}, "output": [[2, 4], [1, 3], [2, 4], [1, 3]]}]',
 '["hash-table", "depth-first-search", "breadth-first-search", "graph"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Consider graph traversal algorithms like DFS or BFS.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/clone-graph/"]');
 
@@ -3251,7 +3251,7 @@ public:
         
     }
 };',
-'[{"input": [[[2, 4], [1, 3], [2, 4], [1, 3]]], "expectedOutput": [[2, 4], [1, 3], [2, 4], [1, 3]]}, {"input": [[[]]], "expectedOutput": [[]]}, {"input": [[]], "expectedOutput": []}]',
+'[{"expectedOutput": [[2, 4], [1, 3], [2, 4], [1, 3]], "input": [[[2, 4], [1, 3], [2, 4], [1, 3]]]}, {"expectedOutput": [[]], "input": [[[]]]}, {"expectedOutput": [], "input": [[]]}]',
 '[]',
 'O(N+M)',
 'O(N)',
@@ -3336,7 +3336,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring.',
 '["m == board.length", "n = board[i].length", "1 <= m, n <= 6", "1 <= word.length <= 15", "board and word consists of only lowercase and uppercase English letters"]',
-'[{"input": {"board": [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "word": "ABCCED"}, "output": true, "explanation": "Word found in board."}]',
+'[{"explanation": "Word found in board.", "input": {"board": [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "word": "ABCCED"}, "output": true}]',
 '["array", "backtracking", "matrix"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Try exploring all possibilities using recursion and backtracking.", "Think about the time and space complexity trade-offs.", "If the data is sorted, binary search can be very efficient.", "LeetCode URL: https://leetcode.com/problems/word-search/"]');
 
@@ -3356,7 +3356,7 @@ public:
         
     }
 };',
-'[{"input": [[["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCCED"], "expectedOutput": true}, {"input": [[["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "SEE"], "expectedOutput": true}, {"input": [[["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCB"], "expectedOutput": false}]',
+'[{"expectedOutput": true, "input": [[["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCCED"]}, {"expectedOutput": true, "input": [[["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "SEE"]}, {"expectedOutput": false, "input": [[["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCB"]}]',
 '[]',
 'O(m*n*4^L)',
 'O(L)',
@@ -3444,7 +3444,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.',
 '["1 <= coins.length <= 12", "1 <= coins[i] <= 2^31 - 1", "0 <= amount <= 10^4"]',
-'[{"input": {"coins": [1, 2, 5], "amount": 11}, "output": 3, "explanation": "11 = 5 + 5 + 1"}, {"input": {"coins": [2], "amount": 3}, "output": -1, "explanation": "Cannot make amount 3."}]',
+'[{"explanation": "11 = 5 + 5 + 1", "input": {"amount": 11, "coins": [1, 2, 5]}, "output": 3}, {"explanation": "Cannot make amount 3.", "input": {"amount": 3, "coins": [2]}, "output": -1}]',
 '["array", "dynamic-programming", "breadth-first-search"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/coin-change/"]');
 
@@ -3464,7 +3464,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 5], 11], "expectedOutput": 3}, {"input": [[2], 3], "expectedOutput": -1}, {"input": [[1], 0], "expectedOutput": 0}]',
+'[{"expectedOutput": 3, "input": [[1, 2, 5], 11]}, {"expectedOutput": -1, "input": [[2], 3]}, {"expectedOutput": 0, "input": [[1], 0]}]',
 '[]',
 'O(amount * n)',
 'O(amount)',
@@ -3536,7 +3536,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (36, 1, 'Longest Increasing Subsequence', 'medium',
 'Given an integer array nums, return the length of the longest strictly increasing subsequence.',
 '["1 <= nums.length <= 2500", "-10^4 <= nums[i] <= 10^4"]',
-'[{"input": {"nums": [10, 9, 2, 5, 3, 7, 101, 18]}, "output": 4, "explanation": "The longest increasing subsequence is [2,3,7,101]."}, {"input": {"nums": [0, 1, 0, 3, 2, 3]}, "output": 4, "explanation": "The longest increasing subsequence is [0,1,2,3]."}]',
+'[{"explanation": "The longest increasing subsequence is [2,3,7,101].", "input": {"nums": [10, 9, 2, 5, 3, 7, 101, 18]}, "output": 4}, {"explanation": "The longest increasing subsequence is [0,1,2,3].", "input": {"nums": [0, 1, 0, 3, 2, 3]}, "output": 4}]',
 '["array", "binary-search", "dynamic-programming"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "If the input is sorted, binary search can achieve O(log n) time complexity.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/longest-increasing-subsequence/"]');
 
@@ -3556,7 +3556,7 @@ public:
         
     }
 };',
-'[{"input": [[10, 9, 2, 5, 3, 7, 101, 18]], "expectedOutput": 4}, {"input": [[0, 1, 0, 3, 2, 3]], "expectedOutput": 4}, {"input": [[7, 7, 7, 7, 7, 7, 7]], "expectedOutput": 1}]',
+'[{"expectedOutput": 4, "input": [[10, 9, 2, 5, 3, 7, 101, 18]]}, {"expectedOutput": 4, "input": [[0, 1, 0, 3, 2, 3]]}, {"expectedOutput": 1, "input": [[7, 7, 7, 7, 7, 7, 7]]}]',
 '[]',
 'O(n^2)',
 'O(n)',
@@ -3636,7 +3636,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.',
 '["1 <= m, n <= 100"]',
-'[{"input": {"m": 3, "n": 7}, "output": 28, "explanation": "There are 28 unique paths."}, {"input": {"m": 3, "n": 2}, "output": 3, "explanation": "From top-left: right->down->down, down->down->right, down->right->down"}]',
+'[{"explanation": "There are 28 unique paths.", "input": {"m": 3, "n": 7}, "output": 28}, {"explanation": "From top-left: right->down->down, down->down->right, down->right->down", "input": {"m": 3, "n": 2}, "output": 3}]',
 '["math", "dynamic-programming", "combinatorics"]',
 '["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/unique-paths/"]');
 
@@ -3656,7 +3656,7 @@ public:
         
     }
 };',
-'[{"input": [3, 7], "expectedOutput": 28}, {"input": [3, 2], "expectedOutput": 3}]',
+'[{"expectedOutput": 28, "input": [3, 7]}, {"expectedOutput": 3, "input": [3, 2]}]',
 '[]',
 'O(m*n)',
 'O(n)',
@@ -3734,7 +3734,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Note that the same word in the dictionary may be reused multiple times in the segmentation.',
 '["1 <= s.length <= 300", "1 <= wordDict.length <= 1000", "1 <= wordDict[i].length <= 20", "s and wordDict[i] consist of only lowercase English letters", "All strings in wordDict are unique"]',
-'[{"input": {"s": "leetcode", "wordDict": ["leet", "code"]}, "output": true, "explanation": "''leetcode'' can be segmented as ''leet code''."}, {"input": {"s": "applepenapple", "wordDict": ["apple", "pen"]}, "output": true, "explanation": "''applepenapple'' can be segmented as ''apple pen apple''."}]',
+'[{"explanation": "''leetcode'' can be segmented as ''leet code''.", "input": {"s": "leetcode", "wordDict": ["leet", "code"]}, "output": true}, {"explanation": "''applepenapple'' can be segmented as ''apple pen apple''.", "input": {"s": "applepenapple", "wordDict": ["apple", "pen"]}, "output": true}]',
 '["hash-table", "string", "dynamic-programming", "trie", "memoization"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/word-break/"]');
 
@@ -3754,7 +3754,7 @@ public:
         
     }
 };',
-'[{"input": ["leetcode", ["leet", "code"]], "expectedOutput": true}, {"input": ["applepenapple", ["apple", "pen"]], "expectedOutput": true}, {"input": ["catsandog", ["cats", "dog", "sand", "and", "cat"]], "expectedOutput": false}]',
+'[{"expectedOutput": true, "input": ["leetcode", ["leet", "code"]]}, {"expectedOutput": true, "input": ["applepenapple", ["apple", "pen"]]}, {"expectedOutput": false, "input": ["catsandog", ["cats", "dog", "sand", "and", "cat"]]}]',
 '[]',
 'O(n^2)',
 'O(n)',
@@ -3825,7 +3825,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.',
 '["1 <= nums.length <= 100", "0 <= nums[i] <= 1000"]',
-'[{"input": {"nums": [2, 3, 2]}, "output": 3, "explanation": "You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent."}, {"input": {"nums": [1, 2, 3, 1]}, "output": 4, "explanation": "Rob house 1 (money = 1) and then rob house 3 (money = 3). Total = 1 + 3 = 4."}]',
+'[{"explanation": "You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent.", "input": {"nums": [2, 3, 2]}, "output": 3}, {"explanation": "Rob house 1 (money = 1) and then rob house 3 (money = 3). Total = 1 + 3 = 4.", "input": {"nums": [1, 2, 3, 1]}, "output": 4}]',
 '["array", "dynamic-programming"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/house-robber-ii/"]');
 
@@ -3845,7 +3845,7 @@ public:
         
     }
 };',
-'[{"input": [[2, 3, 2]], "expectedOutput": 3}, {"input": [[1, 2, 3, 1]], "expectedOutput": 4}, {"input": [[1, 2, 3]], "expectedOutput": 3}]',
+'[{"expectedOutput": 3, "input": [[2, 3, 2]]}, {"expectedOutput": 4, "input": [[1, 2, 3, 1]]}, {"expectedOutput": 3, "input": [[1, 2, 3]]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -3946,7 +3946,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above. Given a string s containing only digits, return the number of ways to decode it.',
 '["1 <= s.length <= 100", "s contains only digits and may contain leading zero(s)"]',
-'[{"input": {"s": "12"}, "output": 2, "explanation": "It could be decoded as ''AB'' (1 2) or ''L'' (12)."}, {"input": {"s": "226"}, "output": 3, "explanation": "It could be decoded as ''BZ'' (2 26), ''VF'' (22 6), or ''BBF'' (2 2 6)."}]',
+'[{"explanation": "It could be decoded as ''AB'' (1 2) or ''L'' (12).", "input": {"s": "12"}, "output": 2}, {"explanation": "It could be decoded as ''BZ'' (2 26), ''VF'' (22 6), or ''BBF'' (2 2 6).", "input": {"s": "226"}, "output": 3}]',
 '["string", "dynamic-programming"]',
 '["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/decode-ways/"]');
 
@@ -3966,7 +3966,7 @@ public:
         
     }
 };',
-'[{"input": ["12"], "expectedOutput": 2}, {"input": ["226"], "expectedOutput": 3}, {"input": ["06"], "expectedOutput": 0}]',
+'[{"expectedOutput": 2, "input": ["12"]}, {"expectedOutput": 3, "input": ["226"]}, {"expectedOutput": 0, "input": ["06"]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -4067,7 +4067,7 @@ A mapping of digits to letters (just like on the telephone buttons) is given bel
 
 2: abc, 3: def, 4: ghi, 5: jkl, 6: mno, 7: pqrs, 8: tuv, 9: wxyz',
 '["0 <= digits.length <= 4", "digits[i] is a digit in the range [''2'', ''9'']"]',
-'[{"input": {"digits": "23"}, "output": ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"], "explanation": "All possible combinations."}, {"input": {"digits": ""}, "output": [], "explanation": "Empty input."}]',
+'[{"explanation": "All possible combinations.", "input": {"digits": "23"}, "output": ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]}, {"explanation": "Empty input.", "input": {"digits": ""}, "output": []}]',
 '["hash-table", "string", "backtracking"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Try exploring all possibilities using recursion and backtracking.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/letter-combinations-of-a-phone-number/"]');
 
@@ -4087,7 +4087,7 @@ public:
         
     }
 };',
-'[{"input": ["23"], "expectedOutput": ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]}, {"input": [""], "expectedOutput": []}, {"input": ["2"], "expectedOutput": ["a", "b", "c"]}]',
+'[{"expectedOutput": ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"], "input": ["23"]}, {"expectedOutput": [], "input": [""]}, {"expectedOutput": ["a", "b", "c"], "input": ["2"]}]',
 '[]',
 'O(4^n)',
 'O(n)',
@@ -4164,7 +4164,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (42, 1, 'Generate Parentheses', 'medium',
 'Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.',
 '["1 <= n <= 8"]',
-'[{"input": {"n": 3}, "output": ["((()))", "(()())", "(())()", "()(())", "()()()"], "explanation": "All valid combinations of 3 pairs."}, {"input": {"n": 1}, "output": ["()"], "explanation": "Only one combination."}]',
+'[{"explanation": "All valid combinations of 3 pairs.", "input": {"n": 3}, "output": ["((()))", "(()())", "(())()", "()(())", "()()()"]}, {"explanation": "Only one combination.", "input": {"n": 1}, "output": ["()"]}]',
 '["string", "dynamic-programming", "backtracking"]',
 '["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Try exploring all possibilities using recursion and backtracking.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "Think about the time and space complexity trade-offs.", "Track opening and closing brackets, ensuring they match correctly.", "LeetCode URL: https://leetcode.com/problems/generate-parentheses/"]');
 
@@ -4184,7 +4184,7 @@ public:
         
     }
 };',
-'[{"input": [3], "expectedOutput": ["((()))", "(()())", "(())()", "()(())", "()()()"]}, {"input": [1], "expectedOutput": ["()"]}]',
+'[{"expectedOutput": ["((()))", "(()())", "(())()", "()(())", "()()()"], "input": [3]}, {"expectedOutput": ["()"], "input": [1]}]',
 '[]',
 'O(4^n/sqrt(n))',
 'O(n)',
@@ -4253,7 +4253,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (43, 1, 'Permutations', 'medium',
 'Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.',
 '["1 <= nums.length <= 6", "-10 <= nums[i] <= 10", "All the integers of nums are unique"]',
-'[{"input": {"nums": [1, 2, 3]}, "output": [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]], "explanation": "All permutations."}, {"input": {"nums": [0, 1]}, "output": [[0, 1], [1, 0]], "explanation": "Two permutations."}]',
+'[{"explanation": "All permutations.", "input": {"nums": [1, 2, 3]}, "output": [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]}, {"explanation": "Two permutations.", "input": {"nums": [0, 1]}, "output": [[0, 1], [1, 0]]}]',
 '["array", "backtracking"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Try exploring all possibilities using recursion and backtracking.", "Think about the time and space complexity trade-offs.", "LeetCode URL: https://leetcode.com/problems/permutations/"]');
 
@@ -4273,7 +4273,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 3]], "expectedOutput": [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]}, {"input": [[0, 1]], "expectedOutput": [[0, 1], [1, 0]]}, {"input": [[1]], "expectedOutput": [[1]]}]',
+'[{"expectedOutput": [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]], "input": [[1, 2, 3]]}, {"expectedOutput": [[0, 1], [1, 0]], "input": [[0, 1]]}, {"expectedOutput": [[1]], "input": [[1]]}]',
 '[]',
 'O(n!)',
 'O(n)',
@@ -4346,7 +4346,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 (44, 1, 'Trapping Rain Water', 'hard',
 'Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.',
 '["n == height.length", "1 <= n <= 2 * 10^4", "0 <= height[i] <= 10^5"]',
-'[{"input": {"height": [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]}, "output": 6, "explanation": "The elevation map can trap 6 units of rain water."}]',
+'[{"explanation": "The elevation map can trap 6 units of rain water.", "input": {"height": [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]}, "output": 6}]',
 '["array", "two-pointers", "dynamic-programming", "stack", "monotonic-stack"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "Try using two pointers - one starting from the beginning and one from the end.", "A stack data structure (LIFO) might be useful here.", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/trapping-rain-water/"]');
 
@@ -4366,7 +4366,7 @@ public:
         
     }
 };',
-'[{"input": [[0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]], "expectedOutput": 6}, {"input": [[4, 2, 0, 3, 2, 5]], "expectedOutput": 9}]',
+'[{"expectedOutput": 6, "input": [[0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]]}, {"expectedOutput": 9, "input": [[4, 2, 0, 3, 2, 5]]}]',
 '[]',
 'O(n)',
 'O(1)',
@@ -4448,7 +4448,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 The overall run time complexity should be O(log (m+n)).',
 '["nums1.length == m", "nums2.length == n", "0 <= m <= 1000", "0 <= n <= 1000", "1 <= m + n <= 2000", "-10^6 <= nums1[i], nums2[i] <= 10^6"]',
-'[{"input": {"nums1": [1, 3], "nums2": [2]}, "output": 2.0, "explanation": "Merged array = [1,2,3], median = 2."}, {"input": {"nums1": [1, 2], "nums2": [3, 4]}, "output": 2.5, "explanation": "Merged array = [1,2,3,4], median = (2+3)/2 = 2.5."}]',
+'[{"explanation": "Merged array = [1,2,3], median = 2.", "input": {"nums1": [1, 3], "nums2": [2]}, "output": 2.0}, {"explanation": "Merged array = [1,2,3,4], median = (2+3)/2 = 2.5.", "input": {"nums1": [1, 2], "nums2": [3, 4]}, "output": 2.5}]',
 '["array", "binary-search", "divide-and-conquer"]',
 '["Think about the array indices and how you can traverse or manipulate them.", "If the input is sorted, binary search can achieve O(log n) time complexity.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/median-of-two-sorted-arrays/"]');
 
@@ -4468,16 +4468,125 @@ public:
         
     }
 };',
-'[{"input": [[1, 3], [2]], "expectedOutput": 2.0}, {"input": [[1, 2], [3, 4]], "expectedOutput": 2.5}]',
+'[{"expectedOutput": 2.0, "input": [[1, 3], [2]]}, {"expectedOutput": 2.5, "input": [[1, 2], [3, 4]]}]',
 '[]',
 'O(log(min(m,n)))',
 'O(1)',
-'# Solution for Median of Two Sorted Arrays
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        """
+        Binary Search Solution for Median of Two Sorted Arrays
+        
+        PROBLEM STATEMENT:
+        Find the median of two sorted arrays in O(log(min(m,n))) time.
+        
+        KEY INSIGHT:
+        Instead of merging arrays, we can use binary search to find the correct "partition point"
+        that divides both arrays such that all elements on the left are <= all elements on the right.
+        
+        WHY BINARY SEARCH ON PARTITION POINTS WORKS:
+        1. A median divides a sorted array into two equal halves
+        2. For combined arrays, we need to partition both so that:
+           - Total elements on left = Total elements on right (or differ by 1)
+           - All left elements <= All right elements
+        3. If we choose partition i in nums1, partition j in nums2 is determined:
+           j = (m + n + 1) // 2 - i
+        4. We binary search for the correct i value
+        
+        PARTITION VISUALIZATION:
+        nums1: [1, 3, 8, 9, 15]  partition at i=2: [1, 3 | 8, 9, 15]
+        nums2: [7, 11, 18, 19, 21, 25]  partition at j=4: [7, 11, 18, 19 | 21, 25]
+        
+        Combined left half: [1, 3, 7, 11, 18, 19]  (6 elements)
+        Combined right half: [8, 9, 15, 21, 25]    (5 elements)
+        
+        Valid partition conditions:
+        - nums1[i-1] <= nums2[j]  (nums1''s left <= nums2''s right)
+        - nums2[j-1] <= nums1[i]  (nums2''s left <= nums1''s right)
+        
+        ALGORITHM STEPS:
+        1. Ensure nums1 is the smaller array (minimize search space)
+        2. Binary search on nums1''s partition point (i)
+        3. Calculate corresponding partition in nums2 (j)
+        4. Check if partition is valid
+        5. If valid, calculate median from boundary elements
+        6. If invalid, adjust binary search range
+        
+        TIME COMPLEXITY: O(log(min(m,n))) - binary search on smaller array
+        SPACE COMPLEXITY: O(1) - only using variables
+        """
+        
+        # Step 1: Ensure nums1 is the smaller array for optimal binary search
+        # This minimizes our search space to log(min(m,n))
+        if len(nums1) > len(nums2):
+            nums1, nums2 = nums2, nums1
+        
+        m, n = len(nums1), len(nums2)
+        
+        # Step 2: Binary search on nums1''s partition point
+        # We search for position i where:
+        # - i represents number of elements from nums1 in left partition
+        # - Range: [0, m] (we can take 0 to all elements from nums1)
+        left, right = 0, m
+        
+        while left <= right:
+            # Step 3: Choose partition point i in nums1
+            # This determines how many elements from nums1 go to left half
+            i = (left + right) // 2
+            
+            # Step 4: Calculate partition point j in nums2
+            # Total elements in left half should be (m+n+1)//2
+            # If we take i from nums1, we need j = (m+n+1)//2 - i from nums2
+            # The +1 handles both odd and even length cases correctly
+            j = (m + n + 1) // 2 - i
+            
+            # Step 5: Get boundary elements around partitions
+            # Use -infinity and +infinity for edge cases (partition at start/end)
+            
+            # Left side of nums1''s partition (largest element in nums1''s left half)
+            nums1_left = float(''-inf'') if i == 0 else nums1[i - 1]
+            
+            # Right side of nums1''s partition (smallest element in nums1''s right half)
+            nums1_right = float(''inf'') if i == m else nums1[i]
+            
+            # Left side of nums2''s partition (largest element in nums2''s left half)
+            nums2_left = float(''-inf'') if j == 0 else nums2[j - 1]
+            
+            # Right side of nums2''s partition (smallest element in nums2''s right half)
+            nums2_right = float(''inf'') if j == n else nums2[j]
+            
+            # Step 6: Check if this partition is valid
+            # Valid partition means: all left elements <= all right elements
+            if nums1_left <= nums2_right and nums2_left <= nums1_right:
+                # VALID PARTITION FOUND!
+                
+                # Step 7: Calculate median based on total length (odd vs even)
+                if (m + n) % 2 == 0:
+                    # Even total length: median = average of two middle elements
+                    # Left middle = max of left boundaries
+                    # Right middle = min of right boundaries
+                    return (max(nums1_left, nums2_left) + min(nums1_right, nums2_right)) / 2.0
+                else:
+                    # Odd total length: median = largest element in left half
+                    # This works because left half has one more element than right
+                    return float(max(nums1_left, nums2_left))
+            
+            # Step 8: Adjust binary search based on partition validity
+            elif nums1_left > nums2_right:
+                # nums1''s left side is too large
+                # We have too many elements from nums1 in left partition
+                # Move partition i to the left (take fewer from nums1)
+                right = i - 1
+            else:
+                # nums2_left > nums1_right
+                # nums1''s left side is too small
+                # We have too few elements from nums1 in left partition
+                # Move partition i to the right (take more from nums1)
+                left = i + 1
+        
+        # Should never reach here if inputs are valid sorted arrays
+        raise ValueError("Input arrays are not sorted or invalid")
+',
 '// Solution for Median of Two Sorted Arrays
 class Solution {
     public returnType solve(inputType input) {
@@ -4513,7 +4622,7 @@ The path sum of a path is the sum of the node''s values in the path.
 
 Given the root of a binary tree, return the maximum path sum of any non-empty path.',
 '["The number of nodes in the tree is in the range [1, 3 * 10^4]", "-1000 <= Node.val <= 1000"]',
-'[{"input": {"root": [1, 2, 3]}, "output": 6, "explanation": "The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6."}, {"input": {"root": [-10, 9, 20, null, null, 15, 7]}, "output": 42, "explanation": "The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42."}]',
+'[{"explanation": "The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.", "input": {"root": [1, 2, 3]}, "output": 6}, {"explanation": "The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.", "input": {"root": [-10, 9, 20, null, null, 15, 7]}, "output": 42}]',
 '["tree", "depth-first-search", "dynamic-programming", "binary-tree"]',
 '["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Break down the problem into smaller subproblems. What''s the optimal substructure?", "This is a challenging problem. Break it down into smaller parts.", "Consider what pairs or combinations of numbers could sum to the target.", "LeetCode URL: https://leetcode.com/problems/binary-tree-maximum-path-sum/"]');
 
@@ -4533,16 +4642,209 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 3]], "expectedOutput": 6}, {"input": [[-10, 9, 20, null, null, 15, 7]], "expectedOutput": 42}]',
+'[{"expectedOutput": 6, "input": [[1, 2, 3]]}, {"expectedOutput": 42, "input": [[-10, 9, 20, null, null, 15, 7]]}]',
 '[]',
 'O(n)',
 'O(h)',
-'# Solution for Binary Tree Maximum Path Sum
-# Implement the optimal algorithm here
+'# Binary Tree Maximum Path Sum - Post-Order DFS Solution
+# Time Complexity: O(n) - visit each node exactly once
+# Space Complexity: O(h) - recursion stack depth equals tree height
+
+"""
+PROBLEM INTUITION:
+We need to find the maximum path sum in a binary tree where:
+1. A path is any sequence of connected nodes (doesn''t need to go through root)
+2. Each node can appear at most once in the path
+3. The path can start and end at any node
+
+KEY INSIGHT: Post-Order Traversal is Essential
+We use post-order DFS because we need information from children BEFORE
+making decisions at the parent. This is a bottom-up dynamic programming approach.
+
+CRITICAL DISTINCTION (This is where most people get confused):
+For each node, we track TWO different values:
+1. "Path through this node" = node.val + left_sum + right_sum
+   - This uses BOTH children (forms an inverted V-shape: left->node->right)
+   - Can be a candidate for the global maximum
+   - CANNOT be returned to parent (already used both branches)
+
+2. "Path to parent" = node.val + max(left_sum, right_sum)
+   - Uses only ONE child (forms a single line that can extend upward)
+   - Can be extended by the parent node
+   - This is what we RETURN
+
+Example visualization:
+       10
+      /       2    10
+    / \        20  1    -25
+              /               3    4
+
+At node 10 (root):
+- left_sum from left child = 20 (best path going up from left subtree)
+- right_sum from right child = 10 (best path going up from right subtree)
+- path_through_node = 10 + 20 + 10 = 40 (uses both children)
+- return to parent = 10 + max(20, 10) = 30 (uses only best child)
+
+HANDLING NEGATIVE VALUES:
+Use max(0, child_sum) to exclude negative paths. If a subtree has negative
+sum, it''s better to NOT include it in our path. This is equivalent to
+"cutting off" the negative branch.
+
+Example with negative values:
+       -10
+       /        9   20
+         /          15   7
+
+At node 20:
+- left_sum = 15, right_sum = 7
+- path_through_node = 20 + 15 + 7 = 42 (this becomes our answer)
+- At root -10, we would exclude it since adding -10 makes things worse
+"""
+
 class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        # Initialize global maximum to smallest possible value
+        # This handles the case where all values are negative (we must include at least one node)
+        self.max_sum = float(''-inf'')
+        
+        def dfs(node: Optional[TreeNode]) -> int:
+            """
+            Post-order DFS that returns the maximum path sum going UP from this node.
+            
+            Returns:
+                The maximum sum of a path that:
+                - Starts at this node
+                - Goes through AT MOST ONE of its children (can extend upward)
+                - Could be just the node itself if both children are negative
+            
+            Side Effect:
+                Updates self.max_sum with the maximum path sum that goes THROUGH this node
+                (which may use both children)
+            """
+            # Base case: null nodes contribute 0 to any path
+            if not node:
+                return 0
+            
+            # Recursively get maximum path sums from left and right subtrees
+            # Post-order: process children before parent
+            left_sum = dfs(node.left)
+            right_sum = dfs(node.right)
+            
+            # CRITICAL: Use max(0, sum) to exclude negative paths
+            # If a subtree has negative sum, better to not include it (equivalent to pruning)
+            # This handles cases like: node=10, left_sum=-5 -> we take 10+0 instead of 10+(-5)
+            left_sum = max(0, left_sum)
+            right_sum = max(0, right_sum)
+            
+            # Calculate the maximum path sum that goes THROUGH this node
+            # This path uses the node and potentially BOTH children (forms inverted V)
+            # Four possible paths through this node:
+            #   1. Just the node (both children excluded/negative)
+            #   2. Node + left_sum (right excluded/negative)
+            #   3. Node + right_sum (left excluded/negative)
+            #   4. Node + left_sum + right_sum (both children included)
+            # Because we already excluded negatives, we can safely add both
+            path_through_node = node.val + left_sum + right_sum
+            
+            # Update global maximum if this path is better than anything we''ve seen
+            # This is a CANDIDATE for the final answer
+            self.max_sum = max(self.max_sum, path_through_node)
+            
+            # Return the maximum path sum going UP from this node
+            # We can only use ONE child (left OR right) because the parent might
+            # want to extend this path upward (can''t branch in multiple directions)
+            # Three possible return values:
+            #   1. Just the node (if both children are negative/excluded)
+            #   2. Node + left_sum (if left is better)
+            #   3. Node + right_sum (if right is better)
+            return node.val + max(left_sum, right_sum)
+        
+        # Start DFS from root
+        dfs(root)
+        
+        # Return the global maximum found
+        # This could be a path anywhere in the tree (not necessarily through root)
+        return self.max_sum
+    
     def solve(self, input):
-        # TODO: Implement solution
-        pass',
+        """
+        Wrapper method for validation framework.
+        Input format: List of tree nodes [root_array]
+        """
+        # Input is a list containing one element: the tree array
+        tree_array = input[0]
+        
+        # Build tree from array representation
+        root = self._build_tree(tree_array)
+        
+        # Solve and return result
+        return self.maxPathSum(root)
+    
+    def _build_tree(self, values):
+        """Build binary tree from level-order list representation."""
+        if not values:
+            return None
+        
+        from collections import deque
+        
+        root = TreeNode(values[0])
+        queue = deque([root])
+        i = 1
+        
+        while queue and i < len(values):
+            node = queue.popleft()
+            
+            # Left child
+            if i < len(values) and values[i] is not None:
+                node.left = TreeNode(values[i])
+                queue.append(node.left)
+            i += 1
+            
+            # Right child
+            if i < len(values) and values[i] is not None:
+                node.right = TreeNode(values[i])
+                queue.append(node.right)
+            i += 1
+        
+        return root
+
+
+"""
+COMPLEXITY ANALYSIS:
+
+Time Complexity: O(n)
+- We visit each node exactly once in the DFS traversal
+- At each node, we perform O(1) operations (comparisons and additions)
+- Therefore, total time is O(n) where n is the number of nodes
+
+Space Complexity: O(h)
+- The space is used by the recursion call stack
+- In the worst case (skewed tree), the height h = n, giving O(n) space
+- In the best case (balanced tree), the height h = log(n), giving O(log n) space
+- Average case for a balanced binary tree: O(log n)
+
+EDGE CASES HANDLED:
+1. Single node tree: Returns the node value
+2. All negative values: Returns the least negative value (must include at least one node)
+3. Skewed tree (like a linked list): Works correctly with O(n) space
+4. Path doesn''t include root: Algorithm finds it correctly
+5. Optimal path uses both children of a node: Tracked in path_through_node
+6. Mixed positive and negative values: max(0, sum) excludes negative branches
+
+COMMON MISTAKES TO AVOID:
+1. Forgetting to use max(0, child_sum) to exclude negative paths
+2. Confusing "path through node" with "path to parent"
+3. Returning the wrong value (should return path extending upward, not max path)
+4. Not initializing max_sum to -infinity (fails when all values are negative)
+5. Trying to use both children in the return value (breaks the path constraint)
+
+INTERVIEW TIPS:
+1. Draw out the tree and trace through the algorithm
+2. Explain the difference between local max (through node) and return value (to parent)
+3. Explain why post-order traversal is necessary
+4. Discuss the negative value handling
+5. Mention the time/space complexity clearly
+"""',
 '// Solution for Binary Tree Maximum Path Sum
 class Solution {
     public returnType solve(inputType input) {
@@ -4576,7 +4878,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work.',
 '["The number of nodes in the tree is in the range [0, 10^4]", "-1000 <= Node.val <= 1000"]',
-'[{"input": {"root": [1, 2, 3, null, null, 4, 5]}, "output": [1, 2, 3, null, null, 4, 5], "explanation": "Serialize then deserialize the tree."}]',
+'[{"explanation": "Serialize then deserialize the tree.", "input": {"root": [1, 2, 3, null, null, 4, 5]}, "output": [1, 2, 3, null, null, 4, 5]}]',
 '["string", "tree", "depth-first-search", "breadth-first-search", "design", "binary-tree"]',
 '["Think about tree traversal: DFS (depth-first) or BFS (breadth-first).", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"]');
 
@@ -4607,7 +4909,7 @@ public:
         
     }
 };',
-'[{"input": [[1, 2, 3, null, null, 4, 5]], "expectedOutput": [1, 2, 3, null, null, 4, 5]}, {"input": [[]], "expectedOutput": []}]',
+'[{"expectedOutput": [1, 2, 3, null, null, 4, 5], "input": [[1, 2, 3, null, null, 4, 5]]}, {"expectedOutput": [], "input": [[]]}]',
 '[]',
 'O(n)',
 'O(n)',
@@ -4707,7 +5009,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 The matching should cover the entire input string (not partial).',
 '["1 <= s.length <= 20", "1 <= p.length <= 20", "s contains only lowercase English letters", "p contains only lowercase English letters, ''.'', and ''*''"]',
-'[{"input": {"s": "aa", "p": "a"}, "output": false, "explanation": "a does not match the entire string aa."}, {"input": {"s": "aa", "p": "a*"}, "output": true, "explanation": "* means zero or more of the preceding element, a. Therefore, by repeating a once, it becomes aa."}]',
+'[{"explanation": "a does not match the entire string aa.", "input": {"p": "a", "s": "aa"}, "output": false}, {"explanation": "* means zero or more of the preceding element, a. Therefore, by repeating a once, it becomes aa.", "input": {"p": "a*", "s": "aa"}, "output": true}]',
 '["string", "dynamic-programming", "recursion"]',
 '["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/regular-expression-matching/"]');
 
@@ -4727,16 +5029,99 @@ public:
         
     }
 };',
-'[{"input": ["aa", "a"], "expectedOutput": false}, {"input": ["aa", "a*"], "expectedOutput": true}, {"input": ["ab", ".*"], "expectedOutput": true}]',
+'[{"expectedOutput": false, "input": ["aa", "a"]}, {"expectedOutput": true, "input": ["aa", "a*"]}, {"expectedOutput": true, "input": ["ab", ".*"]}]',
 '[]',
 'O(m*n)',
 'O(m*n)',
-'# Solution for Regular Expression Matching
-# Implement the optimal algorithm here
-class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
+'class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        """
+        2D Dynamic Programming for Regular Expression Matching.
+        Matches string ''s'' against pattern ''p'' with ''.'' and ''*'' operators.
+        
+        WHY 2D DP?
+        - Subproblem structure: Match status of s[0:i] vs p[0:j] depends on
+          previous subproblems (smaller prefixes)
+        - Optimal substructure: dp[i][j] built from dp[i-1][j-1], dp[i-1][j], etc.
+        - Overlapping subproblems: Same prefixes checked multiple times
+        
+        KEY INSIGHTS:
+        1. ''.'' operator: Matches ANY single character (simple substitution)
+        2. ''*'' operator: Matches ZERO or MORE of the PRECEDING character
+           - Think of ''a*'' as a UNIT (not separate ''a'' and ''*'')
+           - p[j-2] is the char that ''*'' modifies (p[j-1] is the ''*'')
+        3. For ''*'', we have TWO choices:
+           a) Use ZERO occurrences: dp[i][j-2] (skip char + ''*'')
+           b) Use ONE+ occurrences: dp[i-1][j] IF chars match
+        
+        DP RECURRENCE RELATION:
+        - dp[i][j] = True if s[0:i] matches p[0:j]
+        - Base case: dp[0][0] = True (empty matches empty)
+        - Base case: dp[0][j] = handle patterns like "a*b*" (can match empty)
+        
+        Algorithm:
+        1. Create (m+1) x (n+1) DP table
+        2. Initialize base cases
+        3. For each cell dp[i][j]:
+           - If p[j-1] is ''*'': combine zero-occurrence OR one+-occurrence
+           - Else: match current chars and use dp[i-1][j-1]
+        
+        Time Complexity: O(m * n) where m = len(s), n = len(p)
+        Space Complexity: O(m * n) for DP table (can optimize to O(n))
+        """
+        m, n = len(s), len(p)
+        
+        # dp[i][j] = does s[0:i] match p[0:j]?
+        dp = [[False] * (n + 1) for _ in range(m + 1)]
+        
+        # Base case: empty string matches empty pattern
+        dp[0][0] = True
+        
+        # Base case: Handle patterns that can match empty string
+        # Pattern like "a*", "a*b*", "a*b*c*" can match empty string
+        # The ''*'' makes preceding character optional (zero occurrences)
+        for j in range(2, n + 1):
+            if p[j - 1] == ''*'':
+                # ''*'' can make preceding char disappear
+                dp[0][j] = dp[0][j - 2]
+        
+        # Helper function: check if two characters match
+        def matches(s_char: str, p_char: str) -> bool:
+            """Check if pattern character matches string character."""
+            return p_char == ''.'' or s_char == p_char
+        
+        # Fill DP table
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if p[j - 1] == ''*'':
+                    # ''*'' operator: MODIFIES the PRECEDING character p[j-2]
+                    # Two choices:
+                    
+                    # Choice 1: Use ZERO occurrences of preceding char
+                    # Skip both the character and ''*'' in pattern
+                    # Example: "ab" matches "abc*" by ignoring "c*"
+                    dp[i][j] = dp[i][j - 2]
+                    
+                    # Choice 2: Use ONE or MORE occurrences
+                    # Check if current string char matches the char before ''*''
+                    # If match, we can "consume" one char from string and
+                    # keep the "char*" pattern (for more matches)
+                    # Example: "aaa" matches "a*" by consuming each ''a''
+                    if matches(s[i - 1], p[j - 2]):
+                        # dp[i-1][j] means: we matched one char from string,
+                        # but keep the "char*" pattern for potential more matches
+                        dp[i][j] = dp[i][j] or dp[i - 1][j]
+                
+                else:
+                    # Regular character or ''.'' operator
+                    # Must match current characters exactly (or ''.'' wildcard)
+                    if matches(s[i - 1], p[j - 1]):
+                        # Both chars match: inherit result from previous state
+                        dp[i][j] = dp[i - 1][j - 1]
+        
+        # Final answer: does full string match full pattern?
+        return dp[m][n]
+',
 '// Solution for Regular Expression Matching
 class Solution {
     public returnType solve(inputType input) {
@@ -4773,7 +5158,7 @@ You have the following three operations permitted on a word:
 - Delete a character
 - Replace a character',
 '["0 <= word1.length, word2.length <= 500", "word1 and word2 consist of lowercase English letters"]',
-'[{"input": {"word1": "horse", "word2": "ros"}, "output": 3, "explanation": "horse -> rorse (replace ''h'' with ''r'') -> rose (remove ''r'') -> ros (remove ''e'')"}, {"input": {"word1": "intention", "word2": "execution"}, "output": 5, "explanation": "intention -> inention (remove ''t'') -> enention (replace ''i'' with ''e'') -> exention (replace ''n'' with ''x'') -> exection (replace ''n'' with ''c'') -> execution (insert ''u'')"}]',
+'[{"explanation": "horse -> rorse (replace ''h'' with ''r'') -> rose (remove ''r'') -> ros (remove ''e'')", "input": {"word1": "horse", "word2": "ros"}, "output": 3}, {"explanation": "intention -> inention (remove ''t'') -> enention (replace ''i'' with ''e'') -> exention (replace ''n'' with ''x'') -> exection (replace ''n'' with ''c'') -> execution (insert ''u'')", "input": {"word1": "intention", "word2": "execution"}, "output": 5}]',
 '["string", "dynamic-programming"]',
 '["Break down the problem into smaller subproblems. What''s the optimal substructure?", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/edit-distance/"]');
 
@@ -4793,7 +5178,7 @@ public:
         
     }
 };',
-'[{"input": ["horse", "ros"], "expectedOutput": 3}, {"input": ["intention", "execution"], "expectedOutput": 5}]',
+'[{"expectedOutput": 3, "input": ["horse", "ros"]}, {"expectedOutput": 5, "input": ["intention", "execution"]}]',
 '[]',
 'O(m*n)',
 'O(m*n)',
@@ -4880,7 +5265,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.',
 '["1 <= beginWord.length <= 10", "endWord.length == beginWord.length", "1 <= wordList.length <= 5000", "wordList[i].length == beginWord.length", "All strings consist of lowercase English letters", "beginWord != endWord", "All the words in wordList are unique"]',
-'[{"input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot", "dot", "dog", "lot", "log", "cog"]}, "output": 5, "explanation": "One shortest transformation sequence is ''hit'' -> ''hot'' -> ''dot'' -> ''dog'' -> ''cog'', which is 5 words long."}, {"input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot", "dot", "dog", "lot", "log"]}, "output": 0, "explanation": "The endWord ''cog'' is not in wordList, therefore there is no valid transformation sequence."}]',
+'[{"explanation": "One shortest transformation sequence is ''hit'' -> ''hot'' -> ''dot'' -> ''dog'' -> ''cog'', which is 5 words long.", "input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot", "dot", "dog", "lot", "log", "cog"]}, "output": 5}, {"explanation": "The endWord ''cog'' is not in wordList, therefore there is no valid transformation sequence.", "input": {"beginWord": "hit", "endWord": "cog", "wordList": ["hot", "dot", "dog", "lot", "log"]}, "output": 0}]',
 '["hash-table", "string", "breadth-first-search"]',
 '["Consider using a hash map or dictionary to store and look up values efficiently.", "Consider string manipulation techniques like concatenation, slicing, or pattern matching.", "This is a challenging problem. Break it down into smaller parts.", "LeetCode URL: https://leetcode.com/problems/word-ladder/"]');
 
@@ -4900,39 +5285,398 @@ public:
         
     }
 };',
-'[{"input": ["hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]], "expectedOutput": 5}, {"input": ["hit", "cog", ["hot", "dot", "dog", "lot", "log"]], "expectedOutput": 0}]',
+'[{"expectedOutput": 5, "input": ["hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]]}, {"expectedOutput": 0, "input": ["hit", "cog", ["hot", "dot", "dog", "lot", "log"]]}]',
 '[]',
 'O(M^2 * N)',
 'O(M^2 * N)',
-'# Solution for Word Ladder
-# Implement the optimal algorithm here
+'from typing import List
+
 class Solution:
-    def solve(self, input):
-        # TODO: Implement solution
-        pass',
-'// Solution for Word Ladder
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        """
+        BIDIRECTIONAL BFS APPROACH FOR WORD LADDER
+        ===========================================
+        
+        WHY BIDIRECTIONAL BFS?
+        ----------------------
+        Standard BFS explores level by level from source to target: O(b^d) where b=branching factor, d=depth
+        Bidirectional BFS searches from BOTH ends simultaneously: O(b^(d/2)) + O(b^(d/2)) = O(2*b^(d/2))
+        
+        Example: If branching factor = 10 and depth = 6:
+        - Unidirectional BFS: 10^6 = 1,000,000 nodes
+        - Bidirectional BFS: 2 * 10^3 = 2,000 nodes (500x faster!)
+        
+        The two search frontiers meet in the middle, dramatically reducing search space.
+        
+        ALGORITHM OVERVIEW:
+        -------------------
+        1. Start BFS from beginWord (forward direction)
+        2. Start BFS from endWord (backward direction)  
+        3. At each step, expand the SMALLER frontier (optimization)
+        4. When a word appears in the opposite visited set, paths have met
+        5. Return total transformation length
+        
+        EDGE CASES:
+        -----------
+        - endWord not in wordList -> return 0
+        - beginWord == endWord -> return 1 (though constraints say they differ)
+        - No valid transformation path -> return 0
+        
+        Time Complexity: O(n * m^2) where n = wordList size, m = word length
+        - For each word (n), we try m positions with 26 letters, creating m transformations
+        - Each transformation requires O(m) to build the string
+        
+        Space Complexity: O(n) for visited sets and frontier sets
+        """
+        
+        # EDGE CASE: endWord must exist in wordList
+        # Without this check, we can''t reach endWord even if transformations exist
+        word_set = set(wordList)
+        if endWord not in word_set:
+            return 0
+        
+        # INITIALIZATION: Two visited sets track words reached from each direction
+        # visited_begin: words reached from beginWord (forward search)
+        # visited_end: words reached from endWord (backward search)
+        visited_begin = {beginWord}
+        visited_end = {endWord}
+        
+        # FRONTIERS: Current layer of words being explored in each direction
+        # We use sets (not queues) because we only need current level words
+        # The level itself is tracked separately
+        frontier_begin = {beginWord}
+        frontier_end = {endWord}
+        
+        # STEP COUNTERS: Track depth from each direction
+        # When paths meet, total length = steps_begin + steps_end
+        steps_begin = 1  # beginWord counts as step 1
+        steps_end = 1    # endWord counts as step 1
+        
+        # MAIN BIDIRECTIONAL BFS LOOP
+        # Continue until one frontier becomes empty (no path exists)
+        while frontier_begin and frontier_end:
+            
+            # OPTIMIZATION: Always expand the smaller frontier
+            # This keeps both searches balanced and minimizes total work
+            # If one frontier has 10 words and other has 100, expand the 10
+            if len(frontier_begin) > len(frontier_end):
+                # Swap to always work with the smaller frontier
+                frontier_begin, frontier_end = frontier_end, frontier_begin
+                visited_begin, visited_end = visited_end, visited_begin
+                steps_begin, steps_end = steps_end, steps_begin
+            
+            # EXPLORE NEXT LEVEL: Generate all neighbors of current frontier
+            next_frontier = set()
+            
+            for word in frontier_begin:
+                # GENERATE ONE-LETTER TRANSFORMATIONS
+                # For each position in the word, try all 26 possible letters
+                # This is more efficient than comparing against all wordList words
+                word_list = list(word)  # Convert to list for mutation
+                
+                for i in range(len(word_list)):
+                    original_char = word_list[i]
+                    
+                    # Try all 26 lowercase letters
+                    for c in ''abcdefghijklmnopqrstuvwxyz'':
+                        if c == original_char:
+                            continue  # Skip if same as original (no change)
+                        
+                        # CREATE TRANSFORMATION
+                        word_list[i] = c
+                        new_word = ''''.join(word_list)
+                        
+                        # CHECK IF PATHS MEET: Is this word reached from opposite direction?
+                        # This is the key to bidirectional BFS - detecting intersection
+                        if new_word in visited_end:
+                            # SUCCESS! The two searches have met
+                            # Total length = steps from begin + steps from end
+                            # Example: "hit" -> (2 steps) -> "hot" <- (3 steps) <- "cog"
+                            # Total = 2 + 3 = 5 words in sequence
+                            return steps_begin + steps_end
+                        
+                        # CHECK IF VALID AND UNVISITED
+                        # Word must be in dictionary and not yet visited from this direction
+                        if new_word in word_set and new_word not in visited_begin:
+                            next_frontier.add(new_word)
+                            visited_begin.add(new_word)
+                    
+                    # RESTORE ORIGINAL CHARACTER before trying next position
+                    word_list[i] = original_char
+            
+            # ADVANCE TO NEXT LEVEL
+            # Move to the next layer of exploration
+            frontier_begin = next_frontier
+            steps_begin += 1
+        
+        # NO PATH EXISTS: One frontier became empty without finding intersection
+        # This means there''s no valid transformation sequence
+        return 0',
+'import java.util.*;
+
 class Solution {
-    public returnType solve(inputType input) {
-        // TODO: Implement solution
-        return None;
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        /*
+         * BIDIRECTIONAL BFS APPROACH
+         * ==========================
+         * Search from both beginWord and endWord simultaneously.
+         * Meets in the middle for optimal performance: O(b^(d/2)) vs O(b^d)
+         */
+        
+        // Convert wordList to HashSet for O(1) lookup
+        Set<String> wordSet = new HashSet<>(wordList);
+        if (!wordSet.contains(endWord)) {
+            return 0;  // endWord must be in dictionary
+        }
+        
+        // Visited sets track words reached from each direction
+        Set<String> visitedBegin = new HashSet<>();
+        Set<String> visitedEnd = new HashSet<>();
+        visitedBegin.add(beginWord);
+        visitedEnd.add(endWord);
+        
+        // Current frontiers being explored
+        Set<String> frontierBegin = new HashSet<>();
+        Set<String> frontierEnd = new HashSet<>();
+        frontierBegin.add(beginWord);
+        frontierEnd.add(endWord);
+        
+        int stepsBegin = 1;
+        int stepsEnd = 1;
+        
+        while (!frontierBegin.isEmpty() && !frontierEnd.isEmpty()) {
+            // Always expand smaller frontier (optimization)
+            if (frontierBegin.size() > frontierEnd.size()) {
+                Set<String> temp = frontierBegin;
+                frontierBegin = frontierEnd;
+                frontierEnd = temp;
+                
+                temp = visitedBegin;
+                visitedBegin = visitedEnd;
+                visitedEnd = temp;
+                
+                int tempSteps = stepsBegin;
+                stepsBegin = stepsEnd;
+                stepsEnd = tempSteps;
+            }
+            
+            Set<String> nextFrontier = new HashSet<>();
+            
+            for (String word : frontierBegin) {
+                char[] chars = word.toCharArray();
+                
+                // Try all one-letter transformations
+                for (int i = 0; i < chars.length; i++) {
+                    char originalChar = chars[i];
+                    
+                    for (char c = ''a''; c <= ''z''; c++) {
+                        if (c == originalChar) continue;
+                        
+                        chars[i] = c;
+                        String newWord = new String(chars);
+                        
+                        // Check if paths meet
+                        if (visitedEnd.contains(newWord)) {
+                            return stepsBegin + stepsEnd;
+                        }
+                        
+                        // Add to next frontier if valid
+                        if (wordSet.contains(newWord) && !visitedBegin.contains(newWord)) {
+                            nextFrontier.add(newWord);
+                            visitedBegin.add(newWord);
+                        }
+                    }
+                    
+                    chars[i] = originalChar;  // Restore
+                }
+            }
+            
+            frontierBegin = nextFrontier;
+            stepsBegin++;
+        }
+        
+        return 0;  // No path found
     }
 }',
-'// Solution for Word Ladder
+'#include <string>
+#include <vector>
+#include <unordered_set>
+
 class Solution {
 public:
-    returnType solve(inputType input) {
-        // TODO: Implement solution
-        return {};
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        /*
+         * BIDIRECTIONAL BFS APPROACH
+         * ==========================
+         * Searches from both ends simultaneously for optimal performance.
+         * Time: O(n * m^2), Space: O(n)
+         */
+        
+        // Convert wordList to unordered_set for O(1) lookup
+        unordered_set<string> wordSet(wordList.begin(), wordList.end());
+        if (wordSet.find(endWord) == wordSet.end()) {
+            return 0;  // endWord must be in dictionary
+        }
+        
+        // Visited sets and frontiers for both directions
+        unordered_set<string> visitedBegin = {beginWord};
+        unordered_set<string> visitedEnd = {endWord};
+        unordered_set<string> frontierBegin = {beginWord};
+        unordered_set<string> frontierEnd = {endWord};
+        
+        int stepsBegin = 1;
+        int stepsEnd = 1;
+        
+        while (!frontierBegin.empty() && !frontierEnd.empty()) {
+            // Always expand smaller frontier
+            if (frontierBegin.size() > frontierEnd.size()) {
+                swap(frontierBegin, frontierEnd);
+                swap(visitedBegin, visitedEnd);
+                swap(stepsBegin, stepsEnd);
+            }
+            
+            unordered_set<string> nextFrontier;
+            
+            for (const string& word : frontierBegin) {
+                string newWord = word;
+                
+                // Try all one-letter transformations
+                for (int i = 0; i < newWord.length(); i++) {
+                    char originalChar = newWord[i];
+                    
+                    for (char c = ''a''; c <= ''z''; c++) {
+                        if (c == originalChar) continue;
+                        
+                        newWord[i] = c;
+                        
+                        // Check if paths meet
+                        if (visitedEnd.count(newWord)) {
+                            return stepsBegin + stepsEnd;
+                        }
+                        
+                        // Add to next frontier if valid
+                        if (wordSet.count(newWord) && !visitedBegin.count(newWord)) {
+                            nextFrontier.insert(newWord);
+                            visitedBegin.insert(newWord);
+                        }
+                    }
+                    
+                    newWord[i] = originalChar;  // Restore
+                }
+            }
+            
+            frontierBegin = nextFrontier;
+            stepsBegin++;
+        }
+        
+        return 0;  // No path found
     }
 };',
-'## Solution for Word Ladder
+'## Approach: Bidirectional BFS
 
-### Approach
-Optimal approach based on problem type
+### Why Bidirectional BFS?
+
+Standard BFS explores from source to target with complexity O(b^d) where:
+- b = branching factor (average neighbors per node)
+- d = depth (shortest path length)
+
+Bidirectional BFS searches from **both ends simultaneously**, meeting in the middle:
+- Complexity: O(b^(d/2)) + O(b^(d/2)) ≈ O(2 × b^(d/2))
+
+**Dramatic improvement**: For b=10, d=6:
+- Unidirectional: 10^6 = 1,000,000 nodes explored
+- Bidirectional: 2 × 10^3 = 2,000 nodes explored (500× faster!)
+
+### Algorithm Steps
+
+1. **Initialize two searches**:
+   - Forward: Start from `beginWord` with visited set and frontier
+   - Backward: Start from `endWord` with visited set and frontier
+
+2. **Optimization**: Always expand the **smaller frontier**
+   - Keeps searches balanced
+   - Minimizes total work
+
+3. **Generate transformations**:
+   - For each word in current frontier
+   - Try changing each position to all 26 letters
+   - Check if transformation is valid (in wordList)
+
+4. **Detect intersection**:
+   - If new word exists in opposite visited set → **paths meet!**
+   - Return: `steps_forward + steps_backward`
+
+5. **Advance level**:
+   - Move to next frontier
+   - Increment step counter
+
+6. **No path**: If any frontier becomes empty, no transformation exists
+
+### Key Implementation Details
+
+**Why use sets instead of queues?**
+- We only need current level''s words, not order within level
+- Sets provide O(1) membership testing
+- Efficient for checking intersection
+
+**Word transformation generation**:
+```python
+for i in range(len(word)):
+    for c in ''abcdefghijklmnopqrstuvwxyz'':
+        new_word = word[:i] + c + word[i+1:]
+        # Check if valid and not visited
+```
+
+**Length calculation when paths meet**:
+- Each search tracks steps from its starting word
+- When word appears in opposite visited set: `total = steps_begin + steps_end`
+- Example: "hit" →(2 steps)→ "hot" ←(3 steps)← "cog" = 5 words total
+
+### Edge Cases
+
+1. **endWord not in wordList**: Return 0 (impossible to reach)
+2. **No transformation path exists**: One frontier becomes empty → return 0
+3. **beginWord == endWord**: Return 1 (though constraints guarantee they differ)
 
 ### Complexity Analysis
-- **Time Complexity**: O(?)
-- **Space Complexity**: O(?)');
+
+**Time Complexity: O(n × m²)**
+- n = number of words in wordList
+- m = length of each word
+- For each word, we try m positions × 26 letters = 26m transformations
+- Each transformation takes O(m) to create the string
+- Total: O(n × m × 26 × m) = O(26nm²) = O(nm²)
+
+**Space Complexity: O(n)**
+- Two visited sets: O(n) each
+- Two frontier sets: O(n) worst case
+- Word set: O(n)
+- Total: O(n)
+
+### Visualization
+
+```
+Example: beginWord="hit", endWord="cog", wordList=["hot","dot","dog","lot","log","cog"]
+
+Level 0:  [hit] ← forward          [cog] → backward
+          
+Level 1:  [hot] ← forward          [dog, log] → backward
+          
+Level 2:  [dot, lot] ← forward    [dot, lot] → backward
+          
+INTERSECTION at Level 2: "dot" found in both!
+Total steps = 2 (forward) + 2 (backward) = 5 words in sequence
+Sequence: hit → hot → dot → dog → cog (5 words)
+```
+
+### Why This Beats Unidirectional BFS
+
+1. **Exponential reduction**: O(b^(d/2)) vs O(b^d)
+2. **Balanced exploration**: Both searches grow at similar rates
+3. **Early termination**: Meet in middle, no need to fully explore to target
+4. **Smaller memory**: Each frontier stays smaller throughout
+
+This is the optimal solution for word ladder problems!');
 
 
 -- Question 51: Merge k Sorted Lists
@@ -4943,7 +5687,7 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 Merge all the linked-lists into one sorted linked-list and return it.',
 '["k == lists.length", "0 <= k <= 10^4", "0 <= lists[i].length <= 500", "-10^4 <= lists[i][j] <= 10^4", "lists[i] is sorted in ascending order", "The sum of lists[i].length will not exceed 10^4"]',
-'[{"input": {"lists": [[1, 4, 5], [1, 3, 4], [2, 6]]}, "output": [1, 1, 2, 3, 4, 4, 5, 6], "explanation": "Merging all lists: [1,4,5], [1,3,4], and [2,6] into one sorted list."}, {"input": {"lists": []}, "output": [], "explanation": "Empty input."}, {"input": {"lists": [[]]}, "output": [], "explanation": "Single empty list."}]',
+'[{"explanation": "Merging all lists: [1,4,5], [1,3,4], and [2,6] into one sorted list.", "input": {"lists": [[1, 4, 5], [1, 3, 4], [2, 6]]}, "output": [1, 1, 2, 3, 4, 4, 5, 6]}, {"explanation": "Empty input.", "input": {"lists": []}, "output": []}, {"explanation": "Single empty list.", "input": {"lists": [[]]}, "output": []}]',
 '["linked-list", "divide-and-conquer", "heap", "merge-sort"]',
 '["This is a challenging problem. Break it down into smaller parts.", "Think about how to combine two sorted sequences efficiently.", "LeetCode URL: https://leetcode.com/problems/merge-k-sorted-lists/"]');
 
@@ -4963,7 +5707,7 @@ public:
         
     }
 };',
-'[{"input": [[[1, 4, 5], [1, 3, 4], [2, 6]]], "expectedOutput": [1, 1, 2, 3, 4, 4, 5, 6]}, {"input": [[]], "expectedOutput": []}, {"input": [[[]]], "expectedOutput": []}]',
+'[{"expectedOutput": [1, 1, 2, 3, 4, 4, 5, 6], "input": [[[1, 4, 5], [1, 3, 4], [2, 6]]]}, {"expectedOutput": [], "input": [[]]}, {"expectedOutput": [], "input": [[[]]]}]',
 '[]',
 'O(N log k) where N is total number of nodes',
 'O(k) for heap or O(log k) for divide-and-conquer',
@@ -5068,7 +5812,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 
 The system processes billions of posts daily, makes trillions of predictions, and directly impacts Meta''s $100B+ revenue.',
 '["Rank feeds for 3B+ users in real-time (<500ms latency)", "Multi-task prediction: likes, comments, shares, time spent, hide", "Multi-objective optimization (engagement + quality + revenue)", "Handle multiple content types with different engagement patterns", "Lightweight models for edge devices (mobile)", "Feature freshness (recent interactions matter)", "Virality modeling (predict shares/spread)", "Counter-abuse: clickbait, engagement bait, misinformation", "Personalization at scale with privacy constraints", "Seamless A/B testing infrastructure"]',
-'{"architecture": "Two-stage: candidate generation + heavy ranking", "model_design": "Multi-task learning for different engagement types", "feature_engineering": "User features, post features, social graph, temporal", "training_pipeline": "Distributed training, online learning", "serving_infra": "Low-latency prediction serving at scale", "multi_objective": "Balancing engagement, quality, revenue, user satisfaction", "counter_abuse": "Strategies to detect and demote low-quality content", "evaluation": "Online metrics (time spent, DAU), offline metrics (AUC, calibration)"}',
+'{"architecture": "Two-stage: candidate generation + heavy ranking", "counter_abuse": "Strategies to detect and demote low-quality content", "evaluation": "Online metrics (time spent, DAU), offline metrics (AUC, calibration)", "feature_engineering": "User features, post features, social graph, temporal", "model_design": "Multi-task learning for different engagement types", "multi_objective": "Balancing engagement, quality, revenue, user satisfaction", "serving_infra": "Low-latency prediction serving at scale", "training_pipeline": "Distributed training, online learning"}',
 '["Candidate Generation (filter from millions to thousands)", "Heavy Ranker (GBDT or Deep Neural Network)", "Multi-task Head (predict likes, comments, shares, time, hide)", "Post-ranking Filters (diversity, freshness, ads insertion)", "Real-time Feature Store", "Online Learning Pipeline", "Counter-abuse Models (clickbait, misinformation)", "A/B Testing Platform", "Metrics Dashboard (time spent, meaningful interactions)"]',
 '# Facebook News Feed Ranking System
 
@@ -5174,7 +5918,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 
 Key challenge: Unlike Feed (friends/following), Reels is discovery-based like TikTok.',
 '["Multi-modal understanding (video, audio, text, music)", "Real-time recommendations (<100ms)", "Cold start for new users and new content", "Optimize for watch time and completion rate", "Surface trending content quickly (viral detection)", "Creator growth (help small creators get discovered)", "Audio-based features (trending sounds)", "Prevent filter bubbles (content diversity)", "Handle billions of videos", "Mobile-first (lightweight models)"]',
-'{"multi_modal": "How video, audio, text signals are combined", "cold_start": "Strategy for new users and new content", "viral_detection": "Identifying trending content early", "model_architecture": "Two-tower, transformers, or hybrid approach", "feature_engineering": "Video embeddings, audio features, engagement signals", "training": "Handling data skew (power law distribution)", "serving": "Low-latency multi-modal inference", "metrics": "Watch time, completion rate, user retention"}',
+'{"cold_start": "Strategy for new users and new content", "feature_engineering": "Video embeddings, audio features, engagement signals", "metrics": "Watch time, completion rate, user retention", "model_architecture": "Two-tower, transformers, or hybrid approach", "multi_modal": "How video, audio, text signals are combined", "serving": "Low-latency multi-modal inference", "training": "Handling data skew (power law distribution)", "viral_detection": "Identifying trending content early"}',
 '["Video Understanding (frame-level embeddings)", "Audio Understanding (music/sound embeddings)", "Text Understanding (captions, hashtags)", "Two-Tower Model (user tower + video tower)", "Candidate Retrieval (ANN search)", "Ranking Model (watch time prediction)", "Trending Detection System", "Creator Recommendation Engine", "Real-time Feature Pipeline", "A/B Testing for Reels"]',
 '# Instagram Reels Recommendation System
 
@@ -5262,7 +6006,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 Revenue equation: eCPM = bid × pCTR × pConversion
 Goal: Maximize revenue while maintaining user satisfaction.',
 '["Real-time ad auction (<50ms per impression)", "Predict CTR (click-through rate)", "Predict conversion probability", "Budget pacing (spend advertiser budgets evenly)", "Audience targeting (find right users for ads)", "Frequency capping (don''t show same ad too much)", "Ad quality scoring (prevent low-quality ads)", "Privacy-preserving (limited tracking)", "Handle billions of users, millions of advertisers", "Revenue optimization vs user experience"]',
-'{"auction_mechanism": "Second-price auction, VCG, or generalized second price", "pCTR_model": "Model for click prediction", "pConversion_model": "Model for conversion prediction", "targeting": "How to match ads to users", "budget_pacing": "Algorithm to spend budgets over time", "calibration": "Are predicted probabilities accurate?", "privacy": "How to work with limited data", "revenue_metrics": "eCPM, revenue lift, advertiser ROI"}',
+'{"auction_mechanism": "Second-price auction, VCG, or generalized second price", "budget_pacing": "Algorithm to spend budgets over time", "calibration": "Are predicted probabilities accurate?", "pCTR_model": "Model for click prediction", "pConversion_model": "Model for conversion prediction", "privacy": "How to work with limited data", "revenue_metrics": "eCPM, revenue lift, advertiser ROI", "targeting": "How to match ads to users"}',
 '["Ad Retrieval (find candidate ads)", "CTR Prediction Model", "Conversion Prediction Model", "Ad Auction System", "Budget Pacing Algorithm", "Frequency Capping", "Ad Quality Classifier", "Targeting Engine (lookalike audiences)", "Attribution System (track conversions)", "Real-time Bidding Infrastructure"]',
 '# Real-time Ad Targeting & Ranking System
 
@@ -5336,7 +6080,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 
 This is a high-stakes system with regulatory, legal, and ethical implications.',
 '["Multi-modal detection (text, image, video, audio)", "Real-time inference (<1s for text, <10s for video)", "Multi-class: hate speech, violence, nudity, spam, etc.", "Multi-language support (100+ languages)", "High precision (>95%) to avoid removing legitimate content", "High recall (>98%) for severe violations", "Human-in-the-loop for borderline cases", "Explainability for appeals", "Adversarial robustness", "Regional policy differences"]',
-'{"model_architecture": "Multi-modal models (CLIP, ViT, transformers)", "data_pipeline": "How to get labeled data (human labeling, active learning)", "precision_recall": "Strategy to balance False positives vs False negatives", "adversarial": "Handling adversarial attacks (typos, obfuscation)", "human_loop": "Queue design, reviewer workflow", "explainability": "SHAP, attention, or rule-based explanations", "scaling": "Distributed inference for billions of items", "metrics": "Precision, recall, proactive rate, human review queue size"}',
+'{"adversarial": "Handling adversarial attacks (typos, obfuscation)", "data_pipeline": "How to get labeled data (human labeling, active learning)", "explainability": "SHAP, attention, or rule-based explanations", "human_loop": "Queue design, reviewer workflow", "metrics": "Precision, recall, proactive rate, human review queue size", "model_architecture": "Multi-modal models (CLIP, ViT, transformers)", "precision_recall": "Strategy to balance False positives vs False negatives", "scaling": "Distributed inference for billions of items"}',
 '["Text Classification (hate speech, spam)", "Image Classification (nudity, violence)", "Video Understanding (frame + audio analysis)", "Multi-modal Fusion", "Human Review Queue", "Active Learning Pipeline", "Adversarial Detection", "Explanation Generator", "Appeal System", "Policy Engine (region-specific rules)"]',
 '# AI Content Moderation System
 
@@ -5411,7 +6155,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 
 Challenge: Balance spam detection with privacy (can''t read WhatsApp messages).',
 '["Real-time detection (<100ms per message)", "Privacy-preserving (work with encrypted messages)", "Multi-type: spam, scams, phishing, malware", "Low False positive rate (<0.1%)", "High recall for dangerous scams (>95%)", "On-device models (for WhatsApp)", "Handle text, images, links, files", "Adversarial robustness", "Multi-language support", "Scale to billions of messages/day"]',
-'{"privacy": "How to detect spam without reading content", "on_device": "Lightweight models for mobile devices", "features": "Metadata vs content features", "adversarial": "Handling typos, obfuscation, zero-day attacks", "False_positives": "Strategy to minimize blocking legitimate messages", "link_scanning": "Detecting malicious URLs", "user_reports": "Incorporating user feedback", "metrics": "Precision, recall, proactive detection rate"}',
+'{"False_positives": "Strategy to minimize blocking legitimate messages", "adversarial": "Handling typos, obfuscation, zero-day attacks", "features": "Metadata vs content features", "link_scanning": "Detecting malicious URLs", "metrics": "Precision, recall, proactive detection rate", "on_device": "Lightweight models for mobile devices", "privacy": "How to detect spam without reading content", "user_reports": "Incorporating user feedback"}',
 '["Message Classifier (spam vs ham)", "URL Scanner (malware/phishing detection)", "Image OCR + Classification", "Behavioral Signals (message patterns)", "On-device Model (for WhatsApp)", "Server-side Model (for Messenger)", "User Report System", "Challenge Flows (CAPTCHA for suspected spam)", "Adversarial Detection", "Feedback Loop"]',
 '# Spam Detection System for Messaging
 
@@ -5479,7 +6223,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 
 Meta runs 1000s of experiments concurrently. Atlassian tests product changes.',
 '["Support 1000s of concurrent experiments", "Random assignment with stratification", "Real-time metric computation", "Statistical testing (t-test, bootstrap)", "Heterogeneous treatment effects", "Network effect handling", "Multi-armed bandits", "Automated rollout (gradual)", "Metric guardrails (auto-disable bad experiments)", "Experiment analysis dashboard"]',
-'{"randomization": "Proper random assignment, avoiding bias", "metrics": "How to compute online and offline metrics", "statistics": "Statistical rigor, multiple testing correction", "interference": "Handling network effects, spillover", "bandits": "Explore/exploit strategies", "infrastructure": "Scalable, low-latency", "usability": "Easy for data scientists to use", "safety": "Guardrails to prevent bad launches"}',
+'{"bandits": "Explore/exploit strategies", "infrastructure": "Scalable, low-latency", "interference": "Handling network effects, spillover", "metrics": "How to compute online and offline metrics", "randomization": "Proper random assignment, avoiding bias", "safety": "Guardrails to prevent bad launches", "statistics": "Statistical rigor, multiple testing correction", "usability": "Easy for data scientists to use"}',
 '["Randomization Service", "Experiment Configuration System", "Metric Computation Pipeline", "Statistical Testing Engine", "Bandit Algorithm", "Staged Rollout Controller", "Metric Guardrails", "Experiment Dashboard", "Heterogeneous Treatment Effect Analysis", "Interference Detection"]',
 '# A/B Testing Platform for ML Models
 
@@ -5569,7 +6313,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 
 Key: Work with limited data (Atlassian is B2B, not consumer scale like Google).',
 '["Natural language query understanding", "Multi-source search (Jira, Confluence, comments, attachments)", "Semantic search (beyond keyword matching)", "Personalized ranking", "Permission-aware results", "Sub-second latency", "Handle structured + unstructured data", "Cross-product search", "Auto-complete and suggestions", "Work with limited data (B2B, not web-scale)"]',
-'{"query_understanding": "NLP for intent extraction, entity recognition", "semantic_search": "Embeddings for semantic similarity", "ranking": "Learning-to-rank with personalization", "indexing": "Efficient indexing for mixed data types", "permissions": "Secure, fast permission filtering", "personalization": "User context, project access, search history", "limited_data": "How to work with limited training data", "metrics": "Search success rate, CTR, time to find"}',
+'{"indexing": "Efficient indexing for mixed data types", "limited_data": "How to work with limited training data", "metrics": "Search success rate, CTR, time to find", "permissions": "Secure, fast permission filtering", "personalization": "User context, project access, search history", "query_understanding": "NLP for intent extraction, entity recognition", "ranking": "Learning-to-rank with personalization", "semantic_search": "Embeddings for semantic similarity"}',
 '["Query Parser (NLP, intent classification)", "Document Indexing (Elasticsearch)", "Semantic Embedding Models (sentence transformers)", "Hybrid Search (keyword + semantic)", "Ranking Model (LambdaMART or neural ranker)", "Permission Filter", "Personalization Layer", "Auto-complete Service", "Cross-product Aggregator", "Click-through Rate Tracker"]',
 '# Search Ranking System for Atlassian Products
 
@@ -5669,7 +6413,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 
 The system processes millions of transactions daily, losing millions to fraud if ineffective.',
 '["Real-time scoring (<100ms per transaction)", "Multi-type fraud detection", "High recall for fraud (>90%)", "Low False positive rate (<2%)", "Handle severe class imbalance (<1% fraud)", "Adversarial robustness", "Explainability for compliance", "Online learning (adapt to new fraud patterns)", "Scale to millions of transactions/day", "Multi-stage: real-time \u2192 post-transaction analysis"]',
-'{"model": "Gradient boosting, neural networks, or ensemble", "features": "Transaction, user, device, behavioral features", "imbalance": "Handling class imbalance (SMOTE, class weights)", "adversarial": "Detecting novel fraud patterns", "latency": "Sub-100ms inference", "explainability": "SHAP, rule-based explanations", "online_learning": "Continuous model updates", "metrics": "Precision, recall, F1, fraud loss, False positive rate"}',
+'{"adversarial": "Detecting novel fraud patterns", "explainability": "SHAP, rule-based explanations", "features": "Transaction, user, device, behavioral features", "imbalance": "Handling class imbalance (SMOTE, class weights)", "latency": "Sub-100ms inference", "metrics": "Precision, recall, F1, fraud loss, False positive rate", "model": "Gradient boosting, neural networks, or ensemble", "online_learning": "Continuous model updates"}',
 '["Real-time Transaction Scorer", "Feature Engineering Pipeline", "Fraud Detection Model (GBDT or NN)", "Rule Engine (known fraud patterns)", "Anomaly Detector (novel fraud)", "Device Fingerprinting", "Behavioral Analytics (velocity checks)", "Post-transaction Analysis", "Explainability Module", "Feedback Loop (confirmed fraud cases)"]',
 '# Real-time Fraud Detection System
 
@@ -5697,7 +6441,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 
 Challenge: Video processing is expensive (compute, storage). Need efficient models.',
 '["Multi-modal understanding (visual, audio, text)", "Scale to billions of videos", "Real-time for short videos (<10s)", "Batch processing for long videos", "Frame-level analysis (scene detection)", "Audio understanding (speech, music, sounds)", "Text extraction (OCR on video)", "Efficient inference (cost-effective)", "Enable search, recommendations, moderation", "Copyright detection"]',
-'{"model_architecture": "Video transformers, 3D CNNs, or frame sampling", "multi_modal": "How to fuse visual, audio, text signals", "efficiency": "Cost-effective processing at scale", "embeddings": "Quality of video embeddings for search/recommendations", "scene_detection": "Identifying scene boundaries", "audio_processing": "Speech recognition, music detection", "ocr": "Text extraction from video frames", "metrics": "Video search quality, recommendation CTR, moderation accuracy"}',
+'{"audio_processing": "Speech recognition, music detection", "efficiency": "Cost-effective processing at scale", "embeddings": "Quality of video embeddings for search/recommendations", "metrics": "Video search quality, recommendation CTR, moderation accuracy", "model_architecture": "Video transformers, 3D CNNs, or frame sampling", "multi_modal": "How to fuse visual, audio, text signals", "ocr": "Text extraction from video frames", "scene_detection": "Identifying scene boundaries"}',
 '["Video Encoder (frame embeddings)", "Audio Encoder (audio embeddings)", "Text Encoder (captions, OCR)", "Multi-modal Fusion", "Scene Detection", "Object/Action Recognition", "Speech-to-Text", "Thumbnail Selector", "Copyright Matcher", "Video Search Index"]',
 '# Video Understanding System for Meta
 
@@ -5777,7 +6521,7 @@ INSERT INTO ml_design_questions (question_id, scenario, requirements, evaluation
 
 Goal: Show the right content to the right user at the right time.',
 '["Real-time preference updates (<50ms)", "Handle billions of users", "Cold start for new users", "Context-aware (time, device, location)", "Privacy-preserving", "Multi-product personalization", "Efficient user representation (embeddings)", "Online learning (user preferences change)", "A/B testing integration", "Explainability (why this recommendation?)"]',
-'{"user_modeling": "How to represent users (embeddings, features)", "real_time": "Low-latency updates and inference", "cold_start": "Strategy for new users", "context": "Incorporating temporal, device, location signals", "online_learning": "Continuous preference updates", "privacy": "Working with limited data", "scalability": "Handling billions of users efficiently", "metrics": "Engagement lift, user satisfaction, CTR"}',
+'{"cold_start": "Strategy for new users", "context": "Incorporating temporal, device, location signals", "metrics": "Engagement lift, user satisfaction, CTR", "online_learning": "Continuous preference updates", "privacy": "Working with limited data", "real_time": "Low-latency updates and inference", "scalability": "Handling billions of users efficiently", "user_modeling": "How to represent users (embeddings, features)"}',
 '["User Profile Store (preferences, embeddings)", "Real-time Event Stream (user actions)", "User Embedding Model", "Context Feature Service", "Personalization API", "Cold Start Solver", "Online Learning Pipeline", "A/B Testing Integration", "Privacy Controls", "Explainability Module"]',
 '# Real-time Personalization Engine
 

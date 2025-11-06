@@ -4417,3 +4417,976 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
   'test_cases': [{'expectedOutput': [1, 1, 2, 3, 4, 4, 5, 6], 'input': [[[1, 4, 5], [1, 3, 4], [2, 6]]]}, {'expectedOutput': [], 'input': [[]]}, {'expectedOutput': [], 'input': [[[]]]}],
   'time_complexity': 'O(N log k) where N is total number of nodes',
   'title': 'Merge k Sorted Lists'}]
+
+# 10 ML System Design Questions
+ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's News Feed that serves 3B+ users, deciding which posts to show and in what order to maximize meaningful user engagement.",
+  'difficulty': 'hard',
+  'evaluation_criteria': {'architecture': 'Two-stage: candidate generation + heavy ranking',
+                          'counter_abuse': 'Strategies to detect and demote low-quality content',
+                          'evaluation': 'Online metrics (time spent, DAU), offline metrics (AUC, calibration)',
+                          'feature_engineering': 'User features, post features, social graph, temporal',
+                          'model_design': 'Multi-task learning for different engagement types',
+                          'multi_objective': 'Balancing engagement, quality, revenue, user satisfaction',
+                          'serving_infra': 'Low-latency prediction serving at scale',
+                          'training_pipeline': 'Distributed training, online learning'},
+  'key_components': ['Candidate Generation (filter from millions to thousands)',
+                     'Heavy Ranker (GBDT or Deep Neural Network)',
+                     'Multi-task Head (predict likes, comments, shares, time, hide)',
+                     'Post-ranking Filters (diversity, freshness, ads insertion)',
+                     'Real-time Feature Store',
+                     'Online Learning Pipeline',
+                     'Counter-abuse Models (clickbait, misinformation)',
+                     'A/B Testing Platform',
+                     'Metrics Dashboard (time spent, meaningful interactions)'],
+  'requirements': ['Rank feeds for 3B+ users in real-time (<500ms latency)',
+                   'Multi-task prediction: likes, comments, shares, time spent, hide',
+                   'Multi-objective optimization (engagement + quality + revenue)',
+                   'Handle multiple content types with different engagement patterns',
+                   'Lightweight models for edge devices (mobile)',
+                   'Feature freshness (recent interactions matter)',
+                   'Virality modeling (predict shares/spread)',
+                   'Counter-abuse: clickbait, engagement bait, misinformation',
+                   'Personalization at scale with privacy constraints',
+                   'Seamless A/B testing infrastructure'],
+  'sample_solution': '# Facebook News Feed Ranking System\n'
+                     '\n'
+                     '## System Architecture\n'
+                     '\n'
+                     '### 1. Data Collection Pipeline\n'
+                     '```python\n'
+                     'class DataCollector:\n'
+                     '    def __init__(self):\n'
+                     "        self.kafka_consumer = KafkaConsumer('user-events')\n"
+                     '        self.feature_store = FeatureStore()\n'
+                     '\n'
+                     '    def collect_user_signals(self, user_id):\n'
+                     '        signals = {\n'
+                     "            'explicit': {\n"
+                     "                'likes': self.get_likes(user_id),\n"
+                     "                'comments': self.get_comments(user_id),\n"
+                     "                'shares': self.get_shares(user_id)\n"
+                     '            },\n'
+                     "            'implicit': {\n"
+                     "                'dwell_time': self.get_dwell_times(user_id),\n"
+                     "                'scroll_depth': self.get_scroll_patterns(user_id),\n"
+                     "                'click_through': self.get_clicks(user_id)\n"
+                     '            },\n'
+                     "            'social': {\n"
+                     "                'friend_interactions': self.get_friend_activity(user_id),\n"
+                     "                'group_memberships': self.get_groups(user_id)\n"
+                     '            }\n'
+                     '        }\n'
+                     '        return signals\n'
+                     '```\n'
+                     '\n'
+                     '### 2. Feature Engineering\n'
+                     '- **User Features**: Demographics, interests, past behavior\n'
+                     '- **Content Features**: Type, creator, recency, engagement metrics\n'
+                     '- **Contextual Features**: Time of day, device, location\n'
+                     '- **Social Features**: Friend interactions, network effects\n'
+                     '\n'
+                     '### 3. Ranking Model\n'
+                     '```python\n'
+                     'class NewsFeedRanker:\n'
+                     '    def __init__(self):\n'
+                     '        self.relevance_model = self.load_relevance_model()\n'
+                     '        self.quality_model = self.load_quality_model()\n'
+                     '        self.diversity_optimizer = DiversityOptimizer()\n'
+                     '\n'
+                     '    def rank_posts(self, user_id, candidate_posts):\n'
+                     '        features = []\n'
+                     '        for post in candidate_posts:\n'
+                     '            feature_vector = self.extract_features(user_id, post)\n'
+                     '            features.append(feature_vector)\n'
+                     '\n'
+                     '        # Multi-objective optimization\n'
+                     '        relevance_scores = self.relevance_model.predict(features)\n'
+                     '        quality_scores = self.quality_model.predict(features)\n'
+                     '\n'
+                     '        # Combine scores\n'
+                     '        final_scores = 0.7 * relevance_scores + 0.3 * quality_scores\n'
+                     '\n'
+                     '        # Apply diversity\n'
+                     '        ranked_posts = self.diversity_optimizer.rerank(\n'
+                     '            candidate_posts, final_scores\n'
+                     '        )\n'
+                     '\n'
+                     '        return ranked_posts[:100]  # Return top 100\n'
+                     '```\n'
+                     '\n'
+                     '### 4. Real-time Serving\n'
+                     '- **Architecture**: Microservices with API Gateway\n'
+                     '- **Caching**: Redis for hot user feeds\n'
+                     '- **Fallback**: Pre-computed feeds for cold start\n'
+                     '\n'
+                     '### 5. Evaluation & Monitoring\n'
+                     '- **Online Metrics**: CTR, Time Spent, User Retention\n'
+                     '- **Offline Metrics**: NDCG@k, MAP, Coverage\n'
+                     '- **A/B Testing**: Statistical significance at p < 0.05\n'
+                     '\n'
+                     '## Scalability Considerations\n'
+                     '- Handle 2B+ daily active users\n'
+                     '- Sub-second latency requirements\n'
+                     '- Horizontal scaling with sharding\n'
+                     '- Multi-region deployment',
+  'scenario': "Facebook's News Feed is the core product serving 3B+ users daily. The ML system must:\n"
+              '- Rank posts from friends, pages, groups, and ads\n'
+              '- Process millions of candidate posts per user\n'
+              '- Predict multiple engagement types (likes, comments, shares, time spent, hide/report)\n'
+              '- Optimize for "meaningful social interactions" not just clicks\n'
+              '- Handle diverse content types (text, photo, video, link, live)\n'
+              '- Serve feeds in <500ms while making complex ML predictions\n'
+              '- Combat engagement bait, clickbait, and misinformation\n'
+              '- Balance organic content with ads (revenue optimization)\n'
+              '\n'
+              "The system processes billions of posts daily, makes trillions of predictions, and directly impacts Meta's $100B+ revenue.",
+  'tags': ['ranking', 'multi-task-learning', 'news-feed', 'meta', 'scale', 'personalization'],
+  'title': 'Design Facebook News Feed Ranking System'},
+ {'description': 'Design the ML system powering Instagram Reels recommendations - a TikTok competitor serving short-form video to 2B+ users with multi-modal understanding.',
+  'difficulty': 'hard',
+  'evaluation_criteria': {'cold_start': 'Strategy for new users and new content',
+                          'feature_engineering': 'Video embeddings, audio features, engagement signals',
+                          'metrics': 'Watch time, completion rate, user retention',
+                          'model_architecture': 'Two-tower, transformers, or hybrid approach',
+                          'multi_modal': 'How video, audio, text signals are combined',
+                          'serving': 'Low-latency multi-modal inference',
+                          'training': 'Handling data skew (power law distribution)',
+                          'viral_detection': 'Identifying trending content early'},
+  'key_components': ['Video Understanding (frame-level embeddings)',
+                     'Audio Understanding (music/sound embeddings)',
+                     'Text Understanding (captions, hashtags)',
+                     'Two-Tower Model (user tower + video tower)',
+                     'Candidate Retrieval (ANN search)',
+                     'Ranking Model (watch time prediction)',
+                     'Trending Detection System',
+                     'Creator Recommendation Engine',
+                     'Real-time Feature Pipeline',
+                     'A/B Testing for Reels'],
+  'requirements': ['Multi-modal understanding (video, audio, text, music)',
+                   'Real-time recommendations (<100ms)',
+                   'Cold start for new users and new content',
+                   'Optimize for watch time and completion rate',
+                   'Surface trending content quickly (viral detection)',
+                   'Creator growth (help small creators get discovered)',
+                   'Audio-based features (trending sounds)',
+                   'Prevent filter bubbles (content diversity)',
+                   'Handle billions of videos',
+                   'Mobile-first (lightweight models)'],
+  'sample_solution': '# Instagram Reels Recommendation System\n'
+                     '\n'
+                     '## System Overview\n'
+                     '\n'
+                     '### 1. Content Understanding Pipeline\n'
+                     '```python\n'
+                     'class ReelsContentProcessor:\n'
+                     '    def __init__(self):\n'
+                     '        self.video_model = VideoUnderstandingModel()\n'
+                     '        self.audio_model = AudioAnalyzer()\n'
+                     '        self.text_extractor = TextExtractor()\n'
+                     '\n'
+                     '    def process_reel(self, reel_id, video_path):\n'
+                     '        # Extract visual features\n'
+                     '        visual_features = self.video_model.extract_features(video_path)\n'
+                     '\n'
+                     '        # Extract audio features\n'
+                     '        audio_features = self.audio_model.analyze(video_path)\n'
+                     '\n'
+                     '        # Extract text (captions, hashtags)\n'
+                     '        text_features = self.text_extractor.extract(reel_id)\n'
+                     '\n'
+                     '        # Combine into embedding\n'
+                     '        reel_embedding = self.combine_features(\n'
+                     '            visual_features, audio_features, text_features\n'
+                     '        )\n'
+                     '\n'
+                     '        return reel_embedding\n'
+                     '```\n'
+                     '\n'
+                     '### 2. User Interest Modeling\n'
+                     '```python\n'
+                     'class UserInterestModel:\n'
+                     '    def build_profile(self, user_id):\n'
+                     '        # Short-term interests (last 24 hours)\n'
+                     '        recent_views = self.get_recent_views(user_id)\n'
+                     '        short_term = self.aggregate_embeddings(recent_views, decay=0.9)\n'
+                     '\n'
+                     '        # Long-term interests (30 days)\n'
+                     '        historical = self.get_historical_interactions(user_id)\n'
+                     '        long_term = self.aggregate_embeddings(historical, decay=0.5)\n'
+                     '\n'
+                     '        # Combine with adaptive weighting\n'
+                     '        user_embedding = self.adaptive_combine(short_term, long_term)\n'
+                     '\n'
+                     '        return user_embedding\n'
+                     '```\n'
+                     '\n'
+                     '### 3. Recommendation Strategy\n'
+                     '- **Exploration vs Exploitation**: 80/20 split\n'
+                     '- **Cold Start**: Use trending content + demographic similarity\n'
+                     '- **Diversity**: Ensure variety in content types\n'
+                     '\n'
+                     '### 4. Infrastructure\n'
+                     '- **Video CDN**: Global edge servers for streaming\n'
+                     '- **ML Pipeline**: TensorFlow/PyTorch for model training\n'
+                     '- **Feature Store**: Real-time feature serving\n'
+                     '\n'
+                     '## Success Metrics\n'
+                     '- User engagement time\n'
+                     '- Completion rate\n'
+                     '- Share rate\n'
+                     '- Creator diversity',
+  'scenario': 'Instagram Reels competes with TikTok by recommending engaging short-form videos. The system must:\n'
+              '- Understand video content (visual, audio, text, music)\n'
+              '- Cold start: recommend videos to new users and new videos to users\n'
+              '- Optimize for watch time and completion rate\n'
+              '- Handle the "creator economy" (help creators grow)\n'
+              '- Prevent filter bubbles while maximizing engagement\n'
+              '- Support audio trends (viral sounds)\n'
+              '- Real-time: new videos should surface quickly\n'
+              '- Multi-modal: video, audio, captions, hashtags, music\n'
+              '\n'
+              'Key challenge: Unlike Feed (friends/following), Reels is discovery-based like TikTok.',
+  'tags': ['recommendation', 'multi-modal', 'video', 'meta', 'instagram', 'reels', 'cold-start'],
+  'title': 'Design Instagram Reels Recommendation System'},
+ {'description': "Design Meta's ad targeting and ranking system that serves personalized ads to 3B+ users, generating $100B+ annual revenue while balancing user experience.",
+  'difficulty': 'hard',
+  'evaluation_criteria': {'auction_mechanism': 'Second-price auction, VCG, or generalized second price',
+                          'budget_pacing': 'Algorithm to spend budgets over time',
+                          'calibration': 'Are predicted probabilities accurate?',
+                          'pCTR_model': 'Model for click prediction',
+                          'pConversion_model': 'Model for conversion prediction',
+                          'privacy': 'How to work with limited data',
+                          'revenue_metrics': 'eCPM, revenue lift, advertiser ROI',
+                          'targeting': 'How to match ads to users'},
+  'key_components': ['Ad Retrieval (find candidate ads)',
+                     'CTR Prediction Model',
+                     'Conversion Prediction Model',
+                     'Ad Auction System',
+                     'Budget Pacing Algorithm',
+                     'Frequency Capping',
+                     'Ad Quality Classifier',
+                     'Targeting Engine (lookalike audiences)',
+                     'Attribution System (track conversions)',
+                     'Real-time Bidding Infrastructure'],
+  'requirements': ['Real-time ad auction (<50ms per impression)',
+                   'Predict CTR (click-through rate)',
+                   'Predict conversion probability',
+                   'Budget pacing (spend advertiser budgets evenly)',
+                   'Audience targeting (find right users for ads)',
+                   "Frequency capping (don't show same ad too much)",
+                   'Ad quality scoring (prevent low-quality ads)',
+                   'Privacy-preserving (limited tracking)',
+                   'Handle billions of users, millions of advertisers',
+                   'Revenue optimization vs user experience'],
+  'sample_solution': '# Real-time Ad Targeting & Ranking System\n'
+                     '\n'
+                     '## Architecture Components\n'
+                     '\n'
+                     '### 1. User Profiling Service\n'
+                     '```python\n'
+                     'class UserProfiler:\n'
+                     '    def get_targeting_features(self, user_id):\n'
+                     '        return {\n'
+                     "            'demographics': self.get_demographics(user_id),\n"
+                     "            'interests': self.get_interests(user_id),\n"
+                     "            'behavior': self.get_behavioral_signals(user_id),\n"
+                     "            'intent': self.predict_purchase_intent(user_id)\n"
+                     '        }\n'
+                     '```\n'
+                     '\n'
+                     '### 2. Ad Auction Engine\n'
+                     '```python\n'
+                     'class AdAuctionEngine:\n'
+                     '    def run_auction(self, user_features, ad_candidates):\n'
+                     '        bids = []\n'
+                     '        for ad in ad_candidates:\n'
+                     '            # Calculate relevance score\n'
+                     '            relevance = self.relevance_model.score(user_features, ad)\n'
+                     '\n'
+                     '            # Calculate expected revenue\n'
+                     '            ctr = self.ctr_model.predict(user_features, ad)\n'
+                     '            expected_revenue = ad.bid * ctr * relevance\n'
+                     '\n'
+                     '            bids.append((ad, expected_revenue))\n'
+                     '\n'
+                     '        # Second-price auction\n'
+                     '        bids.sort(key=lambda x: x[1], reverse=True)\n'
+                     '        winner = bids[0][0]\n'
+                     '        price = bids[1][1] / winner.quality_score\n'
+                     '\n'
+                     '        return winner, price\n'
+                     '```\n'
+                     '\n'
+                     '### 3. Real-time Serving\n'
+                     '- **Latency Budget**: < 100ms end-to-end\n'
+                     '- **Caching Strategy**: Multi-tier (L1: Redis, L2: Memcached)\n'
+                     '- **Load Balancing**: Geographic + behavioral sharding\n'
+                     '\n'
+                     '## Performance Requirements\n'
+                     '- 10M+ requests/second\n'
+                     '- 99.9% availability\n'
+                     '- P99 latency < 100ms',
+  'scenario': "Meta's ad system is critical infrastructure generating $100B+ revenue. The ML system must:\n"
+              '- Target: Find right users for each ad campaign (audience selection)\n'
+              '- Rank: Order ads by expected value (bid × pCTR × pConversion)\n'
+              '- Auction: Run real-time ad auction for each impression\n'
+              '- Budget: Manage advertiser budgets and pacing\n'
+              '- Quality: Maintain user experience (not too many ads)\n'
+              '- Privacy: Work with limited data (iOS privacy, GDPR)\n'
+              '- Scale: Billions of users, millions of advertisers, trillions of impressions\n'
+              '\n'
+              'Revenue equation: eCPM = bid × pCTR × pConversion\n'
+              'Goal: Maximize revenue while maintaining user satisfaction.',
+  'tags': ['ads', 'ranking', 'auction', 'revenue', 'meta', 'ctr-prediction', 'conversion'],
+  'title': 'Design Real-time Ad Targeting & Ranking System'},
+ {'description': "Design Meta's content moderation system that detects and removes harmful content (hate speech, violence, spam, misinformation) across Facebook, Instagram, WhatsApp at scale.",
+  'difficulty': 'hard',
+  'evaluation_criteria': {'adversarial': 'Handling adversarial attacks (typos, obfuscation)',
+                          'data_pipeline': 'How to get labeled data (human labeling, active learning)',
+                          'explainability': 'SHAP, attention, or rule-based explanations',
+                          'human_loop': 'Queue design, reviewer workflow',
+                          'metrics': 'Precision, recall, proactive rate, human review queue size',
+                          'model_architecture': 'Multi-modal models (CLIP, ViT, transformers)',
+                          'precision_recall': 'Strategy to balance False positives vs False negatives',
+                          'scaling': 'Distributed inference for billions of items'},
+  'key_components': ['Text Classification (hate speech, spam)',
+                     'Image Classification (nudity, violence)',
+                     'Video Understanding (frame + audio analysis)',
+                     'Multi-modal Fusion',
+                     'Human Review Queue',
+                     'Active Learning Pipeline',
+                     'Adversarial Detection',
+                     'Explanation Generator',
+                     'Appeal System',
+                     'Policy Engine (region-specific rules)'],
+  'requirements': ['Multi-modal detection (text, image, video, audio)',
+                   'Real-time inference (<1s for text, <10s for video)',
+                   'Multi-class: hate speech, violence, nudity, spam, etc.',
+                   'Multi-language support (100+ languages)',
+                   'High precision (>95%) to avoid removing legitimate content',
+                   'High recall (>98%) for severe violations',
+                   'Human-in-the-loop for borderline cases',
+                   'Explainability for appeals',
+                   'Adversarial robustness',
+                   'Regional policy differences'],
+  'sample_solution': '# AI Content Moderation System\n'
+                     '\n'
+                     '## Multi-Modal Detection Pipeline\n'
+                     '\n'
+                     '### 1. Content Analysis\n'
+                     '```python\n'
+                     'class ContentModerator:\n'
+                     '    def __init__(self):\n'
+                     '        self.image_model = ImageModerationModel()\n'
+                     '        self.text_model = TextModerationModel()\n'
+                     '        self.video_model = VideoModerationModel()\n'
+                     '\n'
+                     '    def moderate(self, content):\n'
+                     '        scores = {}\n'
+                     '\n'
+                     "        if content.type == 'image':\n"
+                     '            scores = self.image_model.detect({\n'
+                     "                'violence': 0.0,\n"
+                     "                'adult': 0.0,\n"
+                     "                'hate_speech': 0.0,\n"
+                     "                'self_harm': 0.0\n"
+                     '            })\n'
+                     "        elif content.type == 'text':\n"
+                     '            scores = self.text_model.analyze(content.text)\n'
+                     '\n'
+                     '        return self.make_decision(scores)\n'
+                     '\n'
+                     '    def make_decision(self, scores):\n'
+                     '        if any(score > 0.9 for score in scores.values()):\n'
+                     "            return 'block'\n"
+                     '        elif any(score > 0.7 for score in scores.values()):\n'
+                     "            return 'human_review'\n"
+                     '        else:\n'
+                     "            return 'approve'\n"
+                     '```\n'
+                     '\n'
+                     '### 2. Human-in-the-Loop\n'
+                     '- Queue management for human reviewers\n'
+                     '- Active learning from human decisions\n'
+                     '- Quality assurance sampling\n'
+                     '\n'
+                     '### 3. Scalability\n'
+                     '- Process 100B+ pieces of content daily\n'
+                     '- Multi-region deployment\n'
+                     '- Edge inference for faster response\n'
+                     '\n'
+                     '## Evaluation Metrics\n'
+                     '- Precision/Recall per violation type\n'
+                     '- False positive rate < 1%\n'
+                     '- Human reviewer agreement rate',
+  'scenario': "Meta's content moderation is critical for platform safety. The system must:\n"
+              '- Detect multiple violation types: hate speech, violence, nudity, spam, misinformation, bullying\n'
+              '- Multi-modal: text, images, videos, audio\n'
+              '- Real-time: flag content within seconds\n'
+              '- Multi-language: 100+ languages\n'
+              '- Precision is critical: False positives remove legitimate content\n'
+              '- Recall is critical: False negatives allow harmful content\n'
+              '- Human review: queue borderline content for human moderators\n'
+              '- Adversarial: bad actors constantly try to evade detection\n'
+              '- Scale: billions of posts/day\n'
+              '\n'
+              'This is a high-stakes system with regulatory, legal, and ethical implications.',
+  'tags': ['content-moderation', 'classification', 'multi-modal', 'safety', 'meta', 'nlp', 'computer-vision'],
+  'title': 'Design AI Content Moderation System for Meta'},
+ {'description': 'Design a real-time spam detection system for Meta Messenger/WhatsApp that identifies and blocks spam, scams, and phishing at scale while preserving user privacy.',
+  'difficulty': 'medium',
+  'evaluation_criteria': {'False_positives': 'Strategy to minimize blocking legitimate messages',
+                          'adversarial': 'Handling typos, obfuscation, zero-day attacks',
+                          'features': 'Metadata vs content features',
+                          'link_scanning': 'Detecting malicious URLs',
+                          'metrics': 'Precision, recall, proactive detection rate',
+                          'on_device': 'Lightweight models for mobile devices',
+                          'privacy': 'How to detect spam without reading content',
+                          'user_reports': 'Incorporating user feedback'},
+  'key_components': ['Message Classifier (spam vs ham)',
+                     'URL Scanner (malware/phishing detection)',
+                     'Image OCR + Classification',
+                     'Behavioral Signals (message patterns)',
+                     'On-device Model (for WhatsApp)',
+                     'Server-side Model (for Messenger)',
+                     'User Report System',
+                     'Challenge Flows (CAPTCHA for suspected spam)',
+                     'Adversarial Detection',
+                     'Feedback Loop'],
+  'requirements': ['Real-time detection (<100ms per message)',
+                   'Privacy-preserving (work with encrypted messages)',
+                   'Multi-type: spam, scams, phishing, malware',
+                   'Low False positive rate (<0.1%)',
+                   'High recall for dangerous scams (>95%)',
+                   'On-device models (for WhatsApp)',
+                   'Handle text, images, links, files',
+                   'Adversarial robustness',
+                   'Multi-language support',
+                   'Scale to billions of messages/day'],
+  'sample_solution': '# Spam Detection System for Messaging\n'
+                     '\n'
+                     '## Detection Pipeline\n'
+                     '\n'
+                     '### 1. Feature Extraction\n'
+                     '```python\n'
+                     'class SpamDetector:\n'
+                     '    def extract_features(self, message):\n'
+                     '        return {\n'
+                     "            'content': {\n"
+                     "                'text_similarity': self.check_template_match(message.text),\n"
+                     "                'url_reputation': self.check_urls(message.urls),\n"
+                     "                'keyword_density': self.calculate_spam_keywords(message.text)\n"
+                     '            },\n'
+                     "            'behavioral': {\n"
+                     "                'send_rate': self.get_send_rate(message.sender),\n"
+                     "                'recipient_diversity': self.calculate_recipient_entropy(message.sender),\n"
+                     "                'time_pattern': self.analyze_time_pattern(message.sender)\n"
+                     '            },\n'
+                     "            'network': {\n"
+                     "                'account_age': self.get_account_age(message.sender),\n"
+                     "                'connection_quality': self.analyze_connections(message.sender),\n"
+                     "                'report_history': self.get_report_count(message.sender)\n"
+                     '            }\n'
+                     '        }\n'
+                     '```\n'
+                     '\n'
+                     '### 2. Real-time Classification\n'
+                     '- Ensemble of models (RF, XGBoost, DNN)\n'
+                     '- Online learning for emerging patterns\n'
+                     '- Threshold tuning per market/language\n'
+                     '\n'
+                     '### 3. Actions\n'
+                     '- Silent drop\n'
+                     '- Captcha challenge\n'
+                     '- Rate limiting\n'
+                     '- Account suspension\n'
+                     '\n'
+                     '## Performance Requirements\n'
+                     '- Process 100M+ messages/minute\n'
+                     '- < 10ms classification latency\n'
+                     '- False positive rate < 0.01%',
+  'scenario': "Meta's messaging platforms (Messenger, WhatsApp, Instagram DMs) need spam detection:\n"
+              '- Billions of messages daily\n'
+              '- Real-time detection (<100ms)\n'
+              '- Privacy: End-to-end encrypted (WhatsApp)\n'
+              '- Multi-type: spam, scams, phishing, malware links\n'
+              '- Low False positive rate (legitimate messages blocked)\n'
+              '- Handle adversarial attackers (constantly evolving tactics)\n'
+              '- Multi-language support\n'
+              '- On-device ML (for encrypted messages)\n'
+              '\n'
+              "Challenge: Balance spam detection with privacy (can't read WhatsApp messages).",
+  'tags': ['spam-detection', 'classification', 'privacy', 'meta', 'messaging', 'adversarial'],
+  'title': 'Design Spam Detection System for Messaging'},
+ {'description': "Design Meta/Atlassian's ML experimentation platform that enables safe, fast, statistically rigorous A/B testing of ML models in production.",
+  'difficulty': 'medium',
+  'evaluation_criteria': {'bandits': 'Explore/exploit strategies',
+                          'infrastructure': 'Scalable, low-latency',
+                          'interference': 'Handling network effects, spillover',
+                          'metrics': 'How to compute online and offline metrics',
+                          'randomization': 'Proper random assignment, avoiding bias',
+                          'safety': 'Guardrails to prevent bad launches',
+                          'statistics': 'Statistical rigor, multiple testing correction',
+                          'usability': 'Easy for data scientists to use'},
+  'key_components': ['Randomization Service',
+                     'Experiment Configuration System',
+                     'Metric Computation Pipeline',
+                     'Statistical Testing Engine',
+                     'Bandit Algorithm',
+                     'Staged Rollout Controller',
+                     'Metric Guardrails',
+                     'Experiment Dashboard',
+                     'Heterogeneous Treatment Effect Analysis',
+                     'Interference Detection'],
+  'requirements': ['Support 1000s of concurrent experiments',
+                   'Random assignment with stratification',
+                   'Real-time metric computation',
+                   'Statistical testing (t-test, bootstrap)',
+                   'Heterogeneous treatment effects',
+                   'Network effect handling',
+                   'Multi-armed bandits',
+                   'Automated rollout (gradual)',
+                   'Metric guardrails (auto-disable bad experiments)',
+                   'Experiment analysis dashboard'],
+  'sample_solution': '# A/B Testing Platform for ML Models\n'
+                     '\n'
+                     '## Platform Architecture\n'
+                     '\n'
+                     '### 1. Experiment Configuration\n'
+                     '```python\n'
+                     'class ExperimentConfig:\n'
+                     '    def __init__(self, name, hypothesis, metrics):\n'
+                     '        self.name = name\n'
+                     '        self.hypothesis = hypothesis\n'
+                     "        self.primary_metrics = metrics['primary']\n"
+                     "        self.guardrail_metrics = metrics['guardrail']\n"
+                     '        self.allocation = {\n'
+                     "            'control': 0.5,\n"
+                     "            'treatment': 0.5\n"
+                     '        }\n'
+                     '        self.minimum_sample_size = self.calculate_sample_size()\n'
+                     '```\n'
+                     '\n'
+                     '### 2. Traffic Splitting\n'
+                     '```python\n'
+                     'class TrafficSplitter:\n'
+                     '    def assign_variant(self, user_id, experiment_id):\n'
+                     '        # Deterministic assignment using hash\n'
+                     '        hash_value = hashlib.md5(\n'
+                     '            f"{user_id}_{experiment_id}".encode()\n'
+                     '        ).hexdigest()\n'
+                     '\n'
+                     '        bucket = int(hash_value, 16) % 100\n'
+                     '\n'
+                     '        if bucket < 50:\n'
+                     "            return 'control'\n"
+                     '        else:\n'
+                     "            return 'treatment'\n"
+                     '```\n'
+                     '\n'
+                     '### 3. Statistical Analysis\n'
+                     '```python\n'
+                     'class StatisticalAnalyzer:\n'
+                     '    def analyze_results(self, experiment_data):\n'
+                     "        control = experiment_data['control']\n"
+                     "        treatment = experiment_data['treatment']\n"
+                     '\n'
+                     '        # Calculate lift\n'
+                     '        lift = (treatment.mean() - control.mean()) / control.mean()\n'
+                     '\n'
+                     '        # Statistical significance\n'
+                     '        t_stat, p_value = stats.ttest_ind(control, treatment)\n'
+                     '\n'
+                     '        # Confidence interval\n'
+                     '        ci = self.calculate_confidence_interval(control, treatment)\n'
+                     '\n'
+                     '        return {\n'
+                     "            'lift': lift,\n"
+                     "            'p_value': p_value,\n"
+                     "            'confidence_interval': ci,\n"
+                     "            'recommendation': self.make_recommendation(lift, p_value)\n"
+                     '        }\n'
+                     '```\n'
+                     '\n'
+                     '## Key Features\n'
+                     '- Sequential testing for early stopping\n'
+                     '- Multi-armed bandits for exploration\n'
+                     '- Automatic metric computation\n'
+                     '- Real-time dashboards',
+  'scenario': 'Large tech companies run thousands of A/B tests. The platform must:\n'
+              '- Enable data scientists to run ML experiments easily\n'
+              '- Random assignment (users to treatment/control)\n'
+              '- Metric computation (online + offline metrics)\n'
+              '- Statistical testing (p-values, confidence intervals)\n'
+              '- Heterogeneous treatment effects (does it work for all users?)\n'
+              '- Interference handling (network effects, spillover)\n'
+              '- Multi-armed bandits (explore/exploit)\n'
+              '- Staged rollouts (1% → 10% → 100%)\n'
+              '- Automated monitoring (metric guardrails)\n'
+              '\n'
+              'Meta runs 1000s of experiments concurrently. Atlassian tests product changes.',
+  'tags': ['ab-testing', 'experimentation', 'infrastructure', 'statistics', 'meta', 'atlassian'],
+  'title': 'Design A/B Testing Platform for ML Experiments'},
+ {'description': 'Design an ML-powered search system for Atlassian products (Jira, Confluence) that helps users find relevant issues, pages, and projects using natural language queries.',
+  'difficulty': 'medium',
+  'evaluation_criteria': {'indexing': 'Efficient indexing for mixed data types',
+                          'limited_data': 'How to work with limited training data',
+                          'metrics': 'Search success rate, CTR, time to find',
+                          'permissions': 'Secure, fast permission filtering',
+                          'personalization': 'User context, project access, search history',
+                          'query_understanding': 'NLP for intent extraction, entity recognition',
+                          'ranking': 'Learning-to-rank with personalization',
+                          'semantic_search': 'Embeddings for semantic similarity'},
+  'key_components': ['Query Parser (NLP, intent classification)',
+                     'Document Indexing (Elasticsearch)',
+                     'Semantic Embedding Models (sentence transformers)',
+                     'Hybrid Search (keyword + semantic)',
+                     'Ranking Model (LambdaMART or neural ranker)',
+                     'Permission Filter',
+                     'Personalization Layer',
+                     'Auto-complete Service',
+                     'Cross-product Aggregator',
+                     'Click-through Rate Tracker'],
+  'requirements': ['Natural language query understanding',
+                   'Multi-source search (Jira, Confluence, comments, attachments)',
+                   'Semantic search (beyond keyword matching)',
+                   'Personalized ranking',
+                   'Permission-aware results',
+                   'Sub-second latency',
+                   'Handle structured + unstructured data',
+                   'Cross-product search',
+                   'Auto-complete and suggestions',
+                   'Work with limited data (B2B, not web-scale)'],
+  'sample_solution': '# Search Ranking System for Atlassian Products\n'
+                     '\n'
+                     '## Search Architecture\n'
+                     '\n'
+                     '### 1. Query Understanding\n'
+                     '```python\n'
+                     'class QueryProcessor:\n'
+                     '    def process_query(self, query, context):\n'
+                     '        # Intent classification\n'
+                     '        intent = self.classify_intent(query)\n'
+                     '\n'
+                     '        # Entity extraction\n'
+                     '        entities = self.extract_entities(query)\n'
+                     '\n'
+                     '        # Query expansion\n'
+                     '        expanded_terms = self.expand_query(query, context)\n'
+                     '\n'
+                     '        return {\n'
+                     "            'original': query,\n"
+                     "            'intent': intent,\n"
+                     "            'entities': entities,\n"
+                     "            'expanded': expanded_terms,\n"
+                     "            'filters': self.extract_filters(query)\n"
+                     '        }\n'
+                     '```\n'
+                     '\n'
+                     '### 2. Multi-Index Search\n'
+                     '```python\n'
+                     'class MultiProductSearcher:\n'
+                     '    def search(self, processed_query, user_context):\n'
+                     '        results = []\n'
+                     '\n'
+                     '        # Search across products\n'
+                     '        jira_results = self.search_jira(processed_query)\n'
+                     '        confluence_results = self.search_confluence(processed_query)\n'
+                     '        bitbucket_results = self.search_bitbucket(processed_query)\n'
+                     '\n'
+                     '        # Merge and rank\n'
+                     '        all_results = self.merge_results([\n'
+                     '            jira_results,\n'
+                     '            confluence_results,\n'
+                     '            bitbucket_results\n'
+                     '        ])\n'
+                     '\n'
+                     '        # Personalize ranking\n'
+                     '        personalized = self.personalize(all_results, user_context)\n'
+                     '\n'
+                     '        return personalized[:50]\n'
+                     '```\n'
+                     '\n'
+                     '### 3. Ranking Features\n'
+                     '- **Textual**: BM25, TF-IDF, Semantic similarity\n'
+                     '- **Behavioral**: Click-through rate, dwell time\n'
+                     '- **Contextual**: Recency, author authority, team relevance\n'
+                     '- **Structural**: Document type, project importance\n'
+                     '\n'
+                     '### 4. Learning to Rank\n'
+                     '```python\n'
+                     'class LTRRanker:\n'
+                     '    def __init__(self):\n'
+                     '        self.model = XGBRanker()\n'
+                     '\n'
+                     '    def rank(self, query_features, doc_features, user_features):\n'
+                     '        features = self.combine_features(\n'
+                     '            query_features, doc_features, user_features\n'
+                     '        )\n'
+                     '        scores = self.model.predict(features)\n'
+                     '        return scores\n'
+                     '```\n'
+                     '\n'
+                     '## Performance Requirements\n'
+                     '- < 200ms search latency\n'
+                     '- Support 100K+ concurrent users\n'
+                     '- Index updates < 1 minute\n'
+                     '- 99.99% availability',
+  'scenario': "Atlassian's products (Jira, Confluence) have extensive search needs:\n"
+              '- Jira: Search issues, projects, filters, boards\n'
+              '- Confluence: Search pages, spaces, attachments, comments\n'
+              '- Cross-product search: Find related items across products\n'
+              '- Natural language: Understand user intent ("bugs from last sprint about login")\n'
+              "- Personalization: Rank based on user's role, projects, history\n"
+              '- Structured data (Jira fields) + unstructured data (Confluence pages)\n'
+              '- Enterprise scale: 100K+ issues, 50K+ pages per workspace\n'
+              '- Permission-aware (only show what user can access)\n'
+              '\n'
+              'Key: Work with limited data (Atlassian is B2B, not consumer scale like Google).',
+  'tags': ['search', 'ranking', 'nlp', 'semantic-search', 'atlassian', 'enterprise', 'jira', 'confluence'],
+  'title': 'Design Search Ranking for Atlassian Products'},
+ {'description': "Design a real-time fraud detection system for Meta's payment products (Meta Pay, WhatsApp Pay) that identifies fraudulent transactions with <100ms latency.",
+  'difficulty': 'hard',
+  'evaluation_criteria': {'adversarial': 'Detecting novel fraud patterns',
+                          'explainability': 'SHAP, rule-based explanations',
+                          'features': 'Transaction, user, device, behavioral features',
+                          'imbalance': 'Handling class imbalance (SMOTE, class weights)',
+                          'latency': 'Sub-100ms inference',
+                          'metrics': 'Precision, recall, F1, fraud loss, False positive rate',
+                          'model': 'Gradient boosting, neural networks, or ensemble',
+                          'online_learning': 'Continuous model updates'},
+  'key_components': ['Real-time Transaction Scorer',
+                     'Feature Engineering Pipeline',
+                     'Fraud Detection Model (GBDT or NN)',
+                     'Rule Engine (known fraud patterns)',
+                     'Anomaly Detector (novel fraud)',
+                     'Device Fingerprinting',
+                     'Behavioral Analytics (velocity checks)',
+                     'Post-transaction Analysis',
+                     'Explainability Module',
+                     'Feedback Loop (confirmed fraud cases)'],
+  'requirements': ['Real-time scoring (<100ms per transaction)',
+                   'Multi-type fraud detection',
+                   'High recall for fraud (>90%)',
+                   'Low False positive rate (<2%)',
+                   'Handle severe class imbalance (<1% fraud)',
+                   'Adversarial robustness',
+                   'Explainability for compliance',
+                   'Online learning (adapt to new fraud patterns)',
+                   'Scale to millions of transactions/day',
+                   'Multi-stage: real-time → post-transaction analysis'],
+  'sample_solution': '# Real-time Fraud Detection System\n\n## Complete Implementation covered in main solutions above',
+  'scenario': "Meta's payment products need fraud detection:\n"
+              '- Real-time: Score transactions in <100ms\n'
+              '- Multi-type fraud: stolen cards, account takeover, fake accounts, money laundering\n'
+              '- Class imbalance: fraud rate <1%\n'
+              '- False positives are costly: block legitimate transactions\n'
+              '- False negatives are costly: allow fraud, chargebacks\n'
+              '- Adversarial: fraudsters constantly adapt\n'
+              '- Explainability: Why was this transaction blocked?\n'
+              '- Regulatory compliance: PCI-DSS, AML, KYC\n'
+              '\n'
+              'The system processes millions of transactions daily, losing millions to fraud if ineffective.',
+  'tags': ['fraud-detection', 'classification', 'real-time', 'payments', 'meta', 'imbalanced-data'],
+  'title': 'Design Real-time Fraud Detection System'},
+ {'description': "Design Meta's video understanding system that analyzes billions of videos to enable search, recommendations, content moderation, and monetization.",
+  'difficulty': 'hard',
+  'evaluation_criteria': {'audio_processing': 'Speech recognition, music detection',
+                          'efficiency': 'Cost-effective processing at scale',
+                          'embeddings': 'Quality of video embeddings for search/recommendations',
+                          'metrics': 'Video search quality, recommendation CTR, moderation accuracy',
+                          'model_architecture': 'Video transformers, 3D CNNs, or frame sampling',
+                          'multi_modal': 'How to fuse visual, audio, text signals',
+                          'ocr': 'Text extraction from video frames',
+                          'scene_detection': 'Identifying scene boundaries'},
+  'key_components': ['Video Encoder (frame embeddings)',
+                     'Audio Encoder (audio embeddings)',
+                     'Text Encoder (captions, OCR)',
+                     'Multi-modal Fusion',
+                     'Scene Detection',
+                     'Object/Action Recognition',
+                     'Speech-to-Text',
+                     'Thumbnail Selector',
+                     'Copyright Matcher',
+                     'Video Search Index'],
+  'requirements': ['Multi-modal understanding (visual, audio, text)',
+                   'Scale to billions of videos',
+                   'Real-time for short videos (<10s)',
+                   'Batch processing for long videos',
+                   'Frame-level analysis (scene detection)',
+                   'Audio understanding (speech, music, sounds)',
+                   'Text extraction (OCR on video)',
+                   'Efficient inference (cost-effective)',
+                   'Enable search, recommendations, moderation',
+                   'Copyright detection'],
+  'sample_solution': '# Video Understanding System for Meta\n'
+                     '\n'
+                     '## Architecture Overview\n'
+                     '\n'
+                     '### 1. Video Processing Pipeline\n'
+                     '```python\n'
+                     'class VideoProcessor:\n'
+                     '    def __init__(self):\n'
+                     '        self.frame_sampler = FrameSampler(fps=1)\n'
+                     '        self.object_detector = YOLOv5()\n'
+                     '        self.action_recognizer = I3D()\n'
+                     '        self.scene_classifier = ResNet152()\n'
+                     '\n'
+                     '    def process_video(self, video_path):\n'
+                     '        # Sample frames\n'
+                     '        frames = self.frame_sampler.sample(video_path)\n'
+                     '\n'
+                     '        # Object detection\n'
+                     '        objects = []\n'
+                     '        for frame in frames:\n'
+                     '            detections = self.object_detector.detect(frame)\n'
+                     '            objects.extend(detections)\n'
+                     '\n'
+                     '        # Action recognition\n'
+                     '        actions = self.action_recognizer.recognize(frames)\n'
+                     '\n'
+                     '        # Scene understanding\n'
+                     '        scenes = self.scene_classifier.classify(frames)\n'
+                     '\n'
+                     '        # Generate video embedding\n'
+                     '        embedding = self.generate_embedding(objects, actions, scenes)\n'
+                     '\n'
+                     '        return {\n'
+                     "            'objects': objects,\n"
+                     "            'actions': actions,\n"
+                     "            'scenes': scenes,\n"
+                     "            'embedding': embedding\n"
+                     '        }\n'
+                     '```\n'
+                     '\n'
+                     '### 2. Applications\n'
+                     '- Content recommendation\n'
+                     '- Auto-tagging\n'
+                     '- Highlight generation\n'
+                     '- Safety detection\n'
+                     '\n'
+                     '### 3. Scalability\n'
+                     '- Process 1B+ videos daily\n'
+                     '- GPU cluster for inference\n'
+                     '- Distributed processing with Apache Spark\n'
+                     '\n'
+                     '## Model Architecture\n'
+                     '- Transformer-based temporal modeling\n'
+                     '- Multi-modal fusion (video + audio + text)\n'
+                     '- Self-supervised pre-training',
+  'scenario': 'Meta processes billions of videos (Facebook, Instagram, Reels, Stories). The system must:\n'
+              '- Understand video content: objects, actions, scenes, audio, text\n'
+              '- Enable video search ("find videos of surfing in Hawaii")\n'
+              '- Power recommendations (similar videos)\n'
+              '- Content moderation (detect violations)\n'
+              '- Ad placement (find ad-safe content)\n'
+              '- Thumbnail selection (pick engaging frame)\n'
+              '- Auto-captions (accessibility)\n'
+              '- Copyright detection (match against known content)\n'
+              '\n'
+              'Challenge: Video processing is expensive (compute, storage). Need efficient models.',
+  'tags': ['video-understanding', 'multi-modal', 'computer-vision', 'meta', 'reels', 'deep-learning'],
+  'title': 'Design Video Understanding System for Meta'},
+ {'description': 'Design a real-time personalization system that adapts Meta/Atlassian products to individual users based on their behavior, preferences, and context.',
+  'difficulty': 'medium',
+  'evaluation_criteria': {'cold_start': 'Strategy for new users',
+                          'context': 'Incorporating temporal, device, location signals',
+                          'metrics': 'Engagement lift, user satisfaction, CTR',
+                          'online_learning': 'Continuous preference updates',
+                          'privacy': 'Working with limited data',
+                          'real_time': 'Low-latency updates and inference',
+                          'scalability': 'Handling billions of users efficiently',
+                          'user_modeling': 'How to represent users (embeddings, features)'},
+  'key_components': ['User Profile Store (preferences, embeddings)',
+                     'Real-time Event Stream (user actions)',
+                     'User Embedding Model',
+                     'Context Feature Service',
+                     'Personalization API',
+                     'Cold Start Solver',
+                     'Online Learning Pipeline',
+                     'A/B Testing Integration',
+                     'Privacy Controls',
+                     'Explainability Module'],
+  'requirements': ['Real-time preference updates (<50ms)',
+                   'Handle billions of users',
+                   'Cold start for new users',
+                   'Context-aware (time, device, location)',
+                   'Privacy-preserving',
+                   'Multi-product personalization',
+                   'Efficient user representation (embeddings)',
+                   'Online learning (user preferences change)',
+                   'A/B testing integration',
+                   'Explainability (why this recommendation?)'],
+  'sample_solution': '# Real-time Personalization Engine\n'
+                     '\n'
+                     '## System Components\n'
+                     '\n'
+                     '### 1. User Context Engine\n'
+                     '```python\n'
+                     'class ContextEngine:\n'
+                     '    def get_real_time_context(self, user_id):\n'
+                     '        return {\n'
+                     "            'session': {\n"
+                     "                'duration': self.get_session_duration(user_id),\n"
+                     "                'page_views': self.get_page_views(user_id),\n"
+                     "                'interactions': self.get_interactions(user_id)\n"
+                     '            },\n'
+                     "            'device': self.get_device_info(user_id),\n"
+                     "            'location': self.get_location(user_id),\n"
+                     "            'time': {\n"
+                     "                'local_time': self.get_local_time(user_id),\n"
+                     "                'day_of_week': self.get_day_of_week(user_id)\n"
+                     '            }\n'
+                     '        }\n'
+                     '```\n'
+                     '\n'
+                     '### 2. Recommendation Engine\n'
+                     '```python\n'
+                     'class PersonalizationEngine:\n'
+                     '    def personalize(self, user_id, content_pool):\n'
+                     '        # Get user profile\n'
+                     '        user_profile = self.profile_service.get(user_id)\n'
+                     '\n'
+                     '        # Get real-time context\n'
+                     '        context = self.context_engine.get_real_time_context(user_id)\n'
+                     '\n'
+                     '        # Score content\n'
+                     '        scores = []\n'
+                     '        for content in content_pool:\n'
+                     '            score = self.scoring_model.predict(\n'
+                     '                user_profile, content, context\n'
+                     '            )\n'
+                     '            scores.append(score)\n'
+                     '\n'
+                     '        # Apply business rules\n'
+                     '        filtered_scores = self.apply_rules(scores, context)\n'
+                     '\n'
+                     '        # Return top K\n'
+                     '        top_k = self.select_top_k(filtered_scores, k=10)\n'
+                     '\n'
+                     '        return top_k\n'
+                     '```\n'
+                     '\n'
+                     '### 3. Infrastructure\n'
+                     '- **Feature Store**: Feast for feature serving\n'
+                     '- **Model Serving**: TensorFlow Serving\n'
+                     '- **Caching**: Redis with TTL\n'
+                     '- **Message Queue**: Kafka for events\n'
+                     '\n'
+                     '## Performance Requirements\n'
+                     '- < 50ms personalization latency\n'
+                     '- 1M+ requests/second\n'
+                     '- 99.99% availability',
+  'scenario': 'Modern products need personalization at scale:\n'
+              '- Meta: Personalize Feed, Reels, notifications, ads\n'
+              '- Atlassian: Personalize Jira dashboards, Confluence recommendations\n'
+              '- Real-time: Update preferences as user interacts\n'
+              '- Cold start: New users have no history\n'
+              '- Context: Time of day, device, location matter\n'
+              '- Privacy: Limited data collection\n'
+              '- Scale: Billions of users\n'
+              '- Latency: <50ms per request\n'
+              '\n'
+              'Goal: Show the right content to the right user at the right time.',
+  'tags': ['personalization', 'user-modeling', 'real-time', 'meta', 'atlassian', 'recommendations'],
+  'title': 'Design Real-time Personalization Engine'}]
