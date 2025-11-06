@@ -280,6 +280,7 @@ export default function DiagramEditor({
           nodesDraggable={!readOnly}
           nodesConnectable={!readOnly}
           elementsSelectable={!readOnly}
+          data-testid="ml-diagram-canvas"
         >
           <Background variant={BackgroundVariant.Dots} gap={16} size={1} color="#374151" />
           <Controls />
