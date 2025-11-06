@@ -225,7 +225,7 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                    '        ListNode dummy = new ListNode(0);\n'
                    '        ListNode current = dummy;\n'
                    '\n'
-                   '        while (list1 != None && list2 != None) {\n'
+                   '        while (list1 != null && list2 != null) {\n'
                    '            if (list1.val <= list2.val) {\n'
                    '                current.next = list1;\n'
                    '                list1 = list1.next;\n'
@@ -236,7 +236,7 @@ LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= num
                    '            current = current.next;\n'
                    '        }\n'
                    '\n'
-                   '        current.next = (list1 != None) ? list1 : list2;\n'
+                   '        current.next = (list1 != null) ? list1 : list2;\n'
                    '        return dummy.next;\n'
                    '    }\n'
                    '}',

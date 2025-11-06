@@ -278,7 +278,7 @@ public:
         ListNode dummy = new ListNode(0);
         ListNode current = dummy;
 
-        while (list1 != None && list2 != None) {
+        while (list1 != null && list2 != null) {
             if (list1.val <= list2.val) {
                 current.next = list1;
                 list1 = list1.next;
@@ -289,7 +289,7 @@ public:
             current = current.next;
         }
 
-        current.next = (list1 != None) ? list1 : list2;
+        current.next = (list1 != null) ? list1 : list2;
         return dummy.next;
     }
 }',
