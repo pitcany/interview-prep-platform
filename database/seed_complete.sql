@@ -34,7 +34,8 @@ You can return the answer in any order.',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (1,
-'class Solution:
+'from typing import List
+class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         pass',
 'class Solution {
@@ -231,7 +232,14 @@ Return the head of the merged linked list.',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (3,
-'class Solution:
+'from typing import Optional
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         pass',
 'class Solution {
@@ -334,7 +342,8 @@ Return the maximum profit you can achieve from this transaction. If you cannot a
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (4,
-'class Solution:
+'from typing import List
+class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         pass',
 'class Solution {
@@ -613,7 +622,15 @@ Inorder traversal: Left -> Root -> Right',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (7,
-'class Solution:
+'from typing import List, Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         pass',
 'class Solution {
@@ -719,7 +736,14 @@ There is a cycle in a linked list if there is some node in the list that can be 
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (8,
-'class Solution:
+'from typing import Optional
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         pass',
 'class Solution {
@@ -910,7 +934,14 @@ You may assume the two numbers do not contain any leading zero, except the numbe
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (10,
-'class Solution:
+'from typing import Optional
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         pass',
 'class Solution {
@@ -1023,7 +1054,8 @@ Return the maximum amount of water a container can store.',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (11,
-'class Solution:
+'from typing import List
+class Solution:
     def maxArea(self, height: List[int]) -> int:
         pass',
 'class Solution {
@@ -1125,7 +1157,8 @@ Notice that the solution set must not contain duplicate triplets.',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (12,
-'class Solution:
+'from typing import List
+class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         pass',
 'class Solution {
@@ -1266,7 +1299,8 @@ An Anagram is a word or phrase formed by rearranging the letters of a different 
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (13,
-'class Solution:
+'from typing import List
+class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         pass',
 'class Solution {
@@ -1486,7 +1520,8 @@ You must write an algorithm that runs in O(n) time and without using the divisio
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (15,
-'class Solution:
+'from typing import List
+class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         pass',
 'class Solution {
@@ -1574,7 +1609,8 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (16,
-'class Solution:
+'from typing import List
+class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         pass',
 'class Solution {
@@ -1680,7 +1716,8 @@ You have to rotate the image in-place, which means you have to modify the input 
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (17,
-'class Solution:
+'from typing import List
+class Solution:
     def rotate(self, matrix: List[List[int]]) -> None:
         pass',
 'class Solution {
@@ -1764,7 +1801,8 @@ You must do it in place.',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (18,
-'class Solution:
+'from typing import List
+class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
         pass',
 'class Solution {
@@ -1866,7 +1904,8 @@ A subarray is a contiguous non-empty sequence of elements within an array.',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (19,
-'class Solution:
+'from typing import List
+class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         pass',
 'class Solution {
@@ -1956,7 +1995,8 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (20,
-'class Solution:
+'from typing import List
+class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
         pass',
 'class Solution {
@@ -2040,7 +2080,14 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (21,
-'class Solution:
+'from typing import Optional
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
         pass',
 'class Solution {
@@ -2130,7 +2177,14 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (22,
-'class Solution:
+'from typing import Optional
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
         pass',
 'class Solution {
@@ -2223,7 +2277,14 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (23,
-'class Solution:
+'from typing import Optional
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
         pass',
 'class Solution {
@@ -2313,7 +2374,15 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (24,
-'class Solution:
+'from typing import List, Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         pass',
 'class Solution {
@@ -2421,7 +2490,15 @@ A valid BST is defined as follows:
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (25,
-'class Solution:
+'from typing import Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         pass',
 'class Solution {
@@ -2516,7 +2593,15 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (26,
-'class Solution:
+'from typing import Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
         pass',
 'class Solution {
@@ -2609,7 +2694,15 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (27,
-'class Solution:
+'from typing import List, Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         pass',
 'class Solution {
@@ -2707,7 +2800,15 @@ A root-to-leaf path is a path starting from the root and ending at any leaf node
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (28,
-'class Solution:
+'from typing import List, Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
         pass',
 'class Solution {
@@ -2803,7 +2904,15 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (29,
-'class Solution:
+'from typing import List, Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         pass',
 'class Solution {
@@ -2924,7 +3033,13 @@ The lowest common ancestor is defined as the lowest node in the tree that has bo
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (30,
-'class Solution:
+'# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
         pass',
 'class Solution {
@@ -3019,7 +3134,8 @@ An island is surrounded by water and is formed by connecting adjacent lands hori
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (31,
-'class Solution:
+'from typing import List
+class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         pass',
 'class Solution {
@@ -3124,7 +3240,8 @@ Return True if you can finish all courses. Otherwise, return False.',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (32,
-'class Solution:
+'from typing import List
+class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         pass',
 'class Solution {
@@ -3342,7 +3459,8 @@ The word can be constructed from letters of sequentially adjacent cells, where a
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (34,
-'class Solution:
+'from typing import List
+class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         pass',
 'class Solution {
@@ -3450,7 +3568,8 @@ Return the fewest number of coins that you need to make up that amount. If that 
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (35,
-'class Solution:
+'from typing import List
+class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         pass',
 'class Solution {
@@ -3542,7 +3661,8 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (36,
-'class Solution:
+'from typing import List
+class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         pass',
 'class Solution {
@@ -3740,7 +3860,8 @@ Note that the same word in the dictionary may be reused multiple times in the se
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (38,
-'class Solution:
+'from typing import List
+class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         pass',
 'class Solution {
@@ -3831,7 +3952,8 @@ Given an integer array nums representing the amount of money of each house, retu
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (39,
-'class Solution:
+'from typing import List
+class Solution:
     def rob(self, nums: List[int]) -> int:
         pass',
 'class Solution {
@@ -4073,7 +4195,8 @@ A mapping of digits to letters (just like on the telephone buttons) is given bel
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (41,
-'class Solution:
+'from typing import List
+class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
         pass',
 'class Solution {
@@ -4170,7 +4293,8 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (42,
-'class Solution:
+'from typing import List
+class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         pass',
 'class Solution {
@@ -4259,7 +4383,8 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (43,
-'class Solution:
+'from typing import List
+class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         pass',
 'class Solution {
@@ -4352,7 +4477,8 @@ INSERT INTO questions (id, category_id, title, difficulty, description, constrai
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (44,
-'class Solution:
+'from typing import List
+class Solution:
     def trap(self, height: List[int]) -> int:
         pass',
 'class Solution {
@@ -4454,7 +4580,8 @@ The overall run time complexity should be O(log (m+n)).',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (45,
-'class Solution:
+'from typing import List
+class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         pass',
 'class Solution {
@@ -4628,7 +4755,15 @@ Given the root of a binary tree, return the maximum path sum of any non-empty pa
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (46,
-'class Solution:
+'from typing import Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
         pass',
 'class Solution {
@@ -4884,7 +5019,15 @@ Design an algorithm to serialize and deserialize a binary tree. There is no rest
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (47,
-'class Codec:
+'from typing import Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Codec:
     def serialize(self, root: Optional[TreeNode]) -> str:
         pass
     
@@ -5271,7 +5414,8 @@ Given two words, beginWord and endWord, and a dictionary wordList, return the nu
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (50,
-'class Solution:
+'from typing import List
+class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         pass',
 'class Solution {
@@ -5693,7 +5837,14 @@ Merge all the linked-lists into one sorted linked-list and return it.',
 
 INSERT INTO leetcode_questions (question_id, function_signature_python, function_signature_java, function_signature_cpp, test_cases, hidden_test_cases, expected_time_complexity, expected_space_complexity, solution_python, solution_java, solution_cpp, solution_explanation) VALUES
 (51,
-'class Solution:
+'from typing import List, Optional
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         pass',
 'class Solution {

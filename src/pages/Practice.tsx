@@ -173,17 +173,21 @@ export default function Practice() {
 
       setResults(result.executionResult);
 
-      // Generate feedback if all tests passed (optional, don't fail if not configured)
+      // Generate feedback if all tests passed
       if (result.executionResult.status === 'passed') {
         try {
+          console.log('[PRACTICE] Requesting AI feedback for submission:', result.submission.id);
           await api.generateFeedback({
             userId: currentUser.id,
             submissionId: result.submission.id,
             submissionType: 'code',
           });
+          console.log('[PRACTICE] AI feedback generated successfully');
+          showToast('AI feedback generated! Check the Progress page to view it.', 'success');
         } catch (feedbackError: any) {
-          console.warn('Feedback generation not available:', feedbackError.message);
-          // Don't overwrite the successful test results
+          console.error('[PRACTICE] Feedback generation failed:', feedbackError);
+          showToast(`AI feedback unavailable: ${feedbackError.message || 'Unknown error'}`, 'warning');
+          // Don't fail the submission even if feedback fails
         }
       }
     } catch (error: any) {
