@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Complete dataset of 40 LeetCode + 10 ML System Design questions
-Distribution: 8 Easy, 35 Medium, 8 Hard LeetCode questions (51 total, filter to 40)
+Complete dataset of 51 LeetCode + 10 ML System Design questions
+Distribution: 8 Easy, 35 Medium, 8 Hard LeetCode questions (61 total)
 """
 
-# 40 LeetCode Questions - Real problems with complete details
+# 51 LeetCode Questions - Real problems with complete details
 LEETCODE_QUESTIONS = [{'constraints': ['2 <= nums.length <= 10^4', '-10^9 <= nums[i] <= 10^9', '-10^9 <= target <= 10^9', 'Only one valid answer exists'],
   'cpp_sig': 'class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};',
   'description': 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n'

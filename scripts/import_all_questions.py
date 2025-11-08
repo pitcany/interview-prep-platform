@@ -173,6 +173,14 @@ def main():
         conn = sqlite3.connect(str(db_path))
         cursor = conn.cursor()
 
+        # Enable foreign keys for CASCADE DELETE to work
+        cursor.execute("PRAGMA foreign_keys = ON")
+
+        # Clear existing questions to prevent duplicates
+        print("\n🗑️  Clearing existing questions...")
+        cursor.execute("DELETE FROM questions")
+        print("   ✅ Existing questions cleared")
+
         # Import all questions
         import_leetcode_questions(cursor, leetcode_questions)
         import_ml_questions(cursor, ml_questions)
