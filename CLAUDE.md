@@ -23,6 +23,9 @@ npm run db:init
 
 # Import interview questions (50 questions for Meta/Atlassian)
 sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+
+# Populate hidden test cases (REQUIRED for submissions to work)
+python3 scripts/setup_database.py
 ```
 
 ### Development
@@ -74,11 +77,14 @@ npm run test
 # Initialize/reset database schema
 npm run db:init
 
-# Seed questions (deprecated - use SQL import instead)
-npm run db:seed
-
-# Import questions (recommended)
+# Import questions
 sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+
+# Complete database setup (includes hidden test cases)
+python3 scripts/setup_database.py
+
+# Verify setup
+python3 scripts/verify_all_modes.py
 
 # Database locations by platform:
 # - Linux: ~/.config/interview-prep-platform/interview-prep.db
