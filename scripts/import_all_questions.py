@@ -40,36 +40,41 @@ def import_leetcode_questions(cursor, questions):
     for idx, q in enumerate(questions, 1):
         # Insert into questions table
         cursor.execute("""
-            INSERT OR REPLACE INTO questions (title, description, difficulty, category_id, tags)
-            VALUES (?, ?, ?, 1, ?)
+            INSERT OR REPLACE INTO questions (title, description, difficulty, category_id, tags, hints, examples, constraints)
+            VALUES (?, ?, ?, 1, ?, ?, ?, ?)
         """, (
             q['title'],
             q['description'],
             q['difficulty'],
-            json.dumps(q.get('tags', []))
+            json.dumps(q.get('tags', [])),
+            json.dumps(q.get('hints', [])),
+            json.dumps(q.get('examples', [])),
+            json.dumps(q.get('constraints', []))
         ))
 
         question_id = cursor.lastrowid
-
-        # Prepare Python function signature (use python_imports if exists, otherwise function_signature)
-        python_sig = q.get('python_imports', q.get('function_signature', {}).get('python', ''))
 
         # Insert into leetcode_questions table
         cursor.execute("""
             INSERT OR REPLACE INTO leetcode_questions (
                 question_id, test_cases, hidden_test_cases,
                 expected_time_complexity, expected_space_complexity,
-                function_signature_python, function_signature_java, function_signature_cpp
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                function_signature_python, function_signature_java, function_signature_cpp,
+                solution_python, solution_java, solution_cpp, solution_explanation
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             question_id,
             json.dumps(q.get('test_cases', [])),
             json.dumps(q.get('hidden_test_cases', [])),
             q.get('time_complexity', ''),
             q.get('space_complexity', ''),
-            python_sig,
-            q.get('function_signature', {}).get('java', ''),
-            q.get('function_signature', {}).get('cpp', '')
+            q.get('python_sig', ''),
+            q.get('java_sig', ''),
+            q.get('cpp_sig', ''),
+            q.get('solution_python', ''),
+            q.get('solution_java', ''),
+            q.get('solution_cpp', ''),
+            q.get('solution_explanation', '')
         ))
 
         if idx % 10 == 0:
