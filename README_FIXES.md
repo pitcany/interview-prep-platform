@@ -29,10 +29,9 @@ cd python-service && pip install -r requirements.txt && cd ..
 
 # 2. Initialize database
 npm run db:init
-sqlite3 ~/Library/Application\ Support/interview-prep-platform/interview-prep.db < database/seed_complete.sql
 
-# 3. Populate hidden test cases (REQUIRED!)
-python3 scripts/setup_database.py
+# 3. Import all questions (REQUIRED!)
+python3 scripts/import_all_questions.py
 
 # 4. Verify everything works
 python3 scripts/verify_all_modes.py
