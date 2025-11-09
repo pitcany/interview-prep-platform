@@ -99,6 +99,9 @@ sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_comp
 
 # OR use the import script (if sqlite3 CLI not available):
 node scripts/importSeedData.js
+
+# Populate hidden test cases (REQUIRED for submissions to work)
+python3 scripts/setup_database.py
 ```
 
 ### Development
@@ -161,6 +164,12 @@ sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_comp
 
 # Import questions (alternative, no sqlite3 CLI required)
 node scripts/importSeedData.js
+
+# Complete database setup (includes hidden test cases)
+python3 scripts/setup_database.py
+
+# Verify setup
+python3 scripts/verify_all_modes.py
 
 # Database locations by platform:
 # - Linux: ~/.config/interview-prep-platform/interview-prep.db
