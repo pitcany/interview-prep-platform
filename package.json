@@ -22,6 +22,7 @@
     "setup": "npm install && npm run build:electron && node scripts/setup.js",
     "db:init": "node scripts/initDatabase.js",
     "db:seed": "node scripts/seedQuestions.js",
+    "db:setup": "node scripts/setupDatabase.js",
     "test": "vitest",
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit"
