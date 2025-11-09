@@ -1,5 +1,5 @@
 # Dockerfile for Java code execution sandbox
-FROM openjdk:17-slim
+FROM eclipse-temurin:17-jre-jammy
 
 # Install minimal dependencies (none needed - base image has everything)
 RUN apt-get update && rm -rf /var/lib/apt/lists/*

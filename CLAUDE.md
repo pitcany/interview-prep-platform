@@ -8,6 +8,76 @@ An Electron-based desktop application for LeetCode and ML System Design intervie
 
 **Tech Stack:** Electron 28+, React 18, TypeScript, Monaco Editor, React Flow, TailwindCSS, SQLite (better-sqlite3), Local LLM (OpenAI-compatible API)
 
+## Quick Start
+
+### First Time Setup
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Setup database
+npm run db:setup
+
+# 3. Setup Python service (optional, for code execution)
+cd python-service && pip install -r requirements.txt && cd ..
+
+# 4. Start development server
+npm run dev
+```
+
+### Common First-Time Issues
+
+**❌ "Module version mismatch" error when starting**
+```bash
+# Quick fix:
+npx electron-rebuild
+```
+*Why this happens:* Electron uses Node.js 18.18.2 internally, but native modules (better-sqlite3) may have been compiled for your system's Node.js version. This rebuilds them for Electron. See [detailed troubleshooting](#npm-start-fails-with-module-version-mismatch-error).
+
+**❌ "Database not found" error**
+```bash
+# Quick fix:
+npm run db:setup
+```
+*Why this happens:* Database must be initialized and seeded before first run. See [database operations](#database-operations).
+
+**❌ "Port 5173 already in use"**
+```bash
+# Quick fix:
+lsof -ti:5173 | xargs kill -9
+```
+*Why this happens:* Previous dev server still running or crashed. See [troubleshooting](#port-5173-already-in-use).
+
+**❌ "C++20 or later required" during npm install**
+```bash
+# Quick fix:
+npm install --ignore-scripts
+npx @electron/rebuild
+```
+*Why this happens:* Node.js v25+ requires C++20 for native module compilation. See [detailed troubleshooting](#npm-install-fails-with-c20-or-later-required-error).
+
+### Verify Everything Works
+
+```bash
+# Should open Electron app with React dev tools
+npm run dev
+
+# Should show no errors
+npm run typecheck
+
+# Should build successfully
+npm run build
+```
+
+### When to Rebuild Native Modules
+
+Run `npx electron-rebuild` after:
+- Cloning the repo fresh
+- Switching git worktrees
+- Updating Electron or Node.js versions
+- Getting "module version mismatch" errors
+
 ## Development Commands
 
 ### Setup & Installation
@@ -142,6 +212,41 @@ npm install
 
 **Prevention:**
 The `postinstall` script in package.json automatically runs `electron-rebuild` after `npm install`, but manual rebuild may be needed in worktrees or when dependencies are cached.
+
+### `npm install` fails with "C++20 or later required" error
+
+**Symptom:**
+```
+error: "C++20 or later required."
+npm error command failed
+npm error command sh -c electron-rebuild
+```
+
+**Root Cause:**
+Node.js v25+ requires C++20 for compiling native modules, which can cause better-sqlite3 compilation to fail before the postinstall script runs. Additionally, there was a conflict between the old `electron-rebuild` (v3.2.9) and newer `@electron/rebuild` (v4.0.1) packages.
+
+**Solution:**
+The issue has been fixed by:
+1. Removing the old `electron-rebuild` package (only `@electron/rebuild` is needed)
+2. The `@electron/rebuild` package provides the `electron-rebuild` command
+3. The postinstall script now works correctly with Node.js v25+
+
+If you encounter this issue:
+```bash
+# Install dependencies, skipping the postinstall hook
+npm install --ignore-scripts
+
+# Manually rebuild for Electron
+npx @electron/rebuild
+
+# Future installs should work normally
+npm install
+```
+
+**Note:**
+- Electron 28 embeds Node.js 18.18.2, regardless of your system Node.js version
+- The `@electron/rebuild` package requires Node.js >=22.12.0
+- Native modules are automatically rebuilt for Electron's embedded Node during postinstall
 
 ### Port 5173 already in use
 
