@@ -21,6 +21,7 @@
     "package:linux": "npm run build && electron-builder --linux",
     "db:init": "node scripts/initDatabase.js",
     "db:seed": "node scripts/seedQuestions.js",
+    "db:setup": "node scripts/setupDatabase.js",
     "test": "vitest",
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit"

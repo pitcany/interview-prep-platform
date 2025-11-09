@@ -18,11 +18,17 @@ npm install
 # Set up Python environment
 cd python-service && pip install -r requirements.txt && cd ..
 
-# Initialize database (creates schema)
-npm run db:init
+# Set up database (recommended - does both init and seed)
+npm run db:setup
 
-# Import interview questions (50 questions for Meta/Atlassian)
+# OR manually with two separate steps:
+# 1. Initialize database (creates schema)
+npm run db:init
+# 2. Import interview questions (requires sqlite3 CLI)
 sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+
+# OR use the import script (if sqlite3 CLI not available):
+node scripts/importSeedData.js
 ```
 
 ### Development
@@ -71,14 +77,20 @@ npm run test
 
 ### Database Operations
 ```bash
-# Initialize/reset database schema
+# Complete database setup (recommended - does init + seed in one step)
+npm run db:setup
+
+# Initialize/reset database schema only
 npm run db:init
 
-# Seed questions (deprecated - use SQL import instead)
+# Seed questions (deprecated - use db:setup or SQL import instead)
 npm run db:seed
 
-# Import questions (recommended)
+# Import questions manually (requires sqlite3 CLI)
 sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+
+# Import questions (alternative, no sqlite3 CLI required)
+node scripts/importSeedData.js
 
 # Database locations by platform:
 # - Linux: ~/.config/interview-prep-platform/interview-prep.db
