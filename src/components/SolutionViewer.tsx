@@ -118,7 +118,7 @@ export default function SolutionViewer({
 
       {/* Solution Content */}
       {isExpanded && (
-        <div className="bg-gray-850">
+        <div className="bg-gray-850 max-h-[600px] overflow-y-auto">
           {category === 'leetcode' ? (
             <>
               {/* Language Tabs and Explanation Toggle */}
@@ -184,7 +184,7 @@ export default function SolutionViewer({
                     )}
                   </button>
                 </div>
-                <div className="max-h-96 overflow-y-auto">
+                <div>
                   <SyntaxHighlighter
                     language={getLanguageSyntax(selectedLanguage)}
                     style={oneDark}
