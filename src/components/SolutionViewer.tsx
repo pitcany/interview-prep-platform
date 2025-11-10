@@ -212,7 +212,7 @@ export default function SolutionViewer({
             </>
           ) : (
             /* ML System Design Solution */
-            <div className="px-6 py-4">
+            <div className="max-h-96 overflow-y-auto px-6 py-4">
               <div className="prose prose-invert max-w-none">
                 {sampleSolution && (
                   <div>
