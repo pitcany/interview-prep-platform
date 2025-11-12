@@ -6,7 +6,7 @@
 
 ```bash
 # Import all questions into your database
-sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+python3 scripts/import_all_questions.py
 
 # Verify
 sqlite3 ~/.config/interview-prep-platform/interview-prep.db "SELECT COUNT(*) FROM questions;"
@@ -41,31 +41,26 @@ sqlite3 ~/.config/interview-prep-platform/interview-prep.db "SELECT COUNT(*) FRO
 
 ### Database
 - `schema.sql` - Database schema definition
-- `seed_complete.sql` - All 50 questions ready to import
 - `README.md` - This file
 
-### Scripts
-- `questions_data.py` - **Source of truth** for all questions
-- `generate_seed_sql.py` - Generates seed_complete.sql from questions_data.py
-- `add_all_questions.py` - Python script to import questions directly
+### Data Source
+- `scripts/questions_complete.json` - **Source of truth** for all 50 questions
 
-## Import Methods
+### Import Script
+- `scripts/import_all_questions.py` - Python script to import all questions from JSON
 
-### Method 1: SQL Import (Recommended)
+## Import Method
+
+### Using the Import Script (Recommended)
 ```bash
-sqlite3 /path/to/interview-prep.db < database/seed_complete.sql
+python3 scripts/import_all_questions.py
 ```
 
-### Method 2: Python Script
-```bash
-python3 scripts/add_all_questions.py
-```
-
-### Method 3: Custom Import
-```python
-from scripts.questions_data import LEETCODE_QUESTIONS, ML_QUESTIONS
-# Use questions in your own code
-```
+This script:
+- Reads from `scripts/questions_complete.json`
+- Imports all 50 questions with complete data
+- Includes hidden test cases
+- Sets up all question relationships
 
 ## Database Locations
 
@@ -79,11 +74,14 @@ Each LeetCode question includes:
 - Complete problem description
 - Constraints and edge cases
 - Examples with explanations
-- 3-5 test cases
+- Visible test cases (2-4 cases shown to user)
+- Hidden test cases (run on submission for validation)
 - Function signatures (Python, Java, C++)
-- Time/space complexity
+- Time/space complexity requirements
 - Topic tags
 - **LeetCode URL** - Direct link to official solutions and discussions
+- **Complete solutions** in Python, Java, and C++
+- **Solution explanations** with algorithm approach
 
 Each ML question includes:
 - Detailed scenario
@@ -91,14 +89,16 @@ Each ML question includes:
 - Evaluation criteria
 - Key components to design
 - Success metrics
+- **Hints** - Progressive hints to guide thinking
+- **Sample solutions** with architecture diagrams
 
 ## Customization
 
 To modify questions:
 
-1. Edit `scripts/questions_data.py`
-2. Regenerate: `python3 scripts/generate_seed_sql.py`
-3. Import updated SQL file
+1. Edit `scripts/questions_complete.json`
+2. Run the import script: `python3 scripts/import_all_questions.py`
+3. Verify changes in the application
 
 ## Why These Questions?
 
@@ -125,6 +125,7 @@ For issues:
 2. Verify schema exists: `sqlite3 db.db < database/schema.sql`
 3. Review import logs for errors
 4. Check file permissions
+5. Ensure Python 3 and better-sqlite3 are available
 
 ---
 
