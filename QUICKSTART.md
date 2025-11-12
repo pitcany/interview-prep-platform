@@ -55,7 +55,7 @@ npm start
 
 ### Add More Questions
 
-1. Edit `scripts/questions_complete.json`
+1. Edit `python-service/data/questions_complete.json`
 2. Run: `python3 scripts/import_all_questions.py`
 
 ### Configure AI Feedback

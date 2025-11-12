@@ -44,7 +44,7 @@ sqlite3 ~/.config/interview-prep-platform/interview-prep.db "SELECT COUNT(*) FRO
 - `README.md` - This file
 
 ### Data Source
-- `scripts/questions_complete.json` - **Source of truth** for all 50 questions
+- `python-service/data/questions_complete.json` - **Source of truth** for all 50 questions
 
 ### Import Script
 - `scripts/import_all_questions.py` - Python script to import all questions from JSON
@@ -57,7 +57,7 @@ python3 scripts/import_all_questions.py
 ```
 
 This script:
-- Reads from `scripts/questions_complete.json`
+- Reads from `python-service/data/questions_complete.json`
 - Imports all 50 questions with complete data
 - Includes hidden test cases
 - Sets up all question relationships
@@ -96,7 +96,7 @@ Each ML question includes:
 
 To modify questions:
 
-1. Edit `scripts/questions_complete.json`
+1. Edit `python-service/data/questions_complete.json`
 2. Run the import script: `python3 scripts/import_all_questions.py`
 3. Verify changes in the application
 

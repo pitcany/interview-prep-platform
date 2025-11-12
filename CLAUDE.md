@@ -162,7 +162,7 @@ python3 scripts/import_all_questions.py
 ### Question Management
 ```bash
 # Modify questions source of truth
-vim scripts/questions_complete.json
+vim python-service/data/questions_complete.json
 
 # Import updated questions
 python3 scripts/import_all_questions.py
@@ -425,7 +425,7 @@ All IPC follows this pattern:
 - IPC calls are fully typed through preload definitions
 
 ### Question Data Management
-- **Source of truth**: `scripts/questions_complete.json`
+- **Source of truth**: `python-service/data/questions_complete.json`
 - Import: `python3 scripts/import_all_questions.py`
 - All questions include LeetCode URLs, solutions, and hidden test cases
 - Edit the JSON file directly to modify questions
@@ -461,7 +461,7 @@ All IPC follows this pattern:
 1. Update database schema in `database/schema.sql`
 2. Add category to `question_categories` table
 3. Create detail table (similar to `leetcode_questions` or `ml_design_questions`)
-4. Add question data in `scripts/questions_complete.json`
+4. Add question data in `python-service/data/questions_complete.json`
 5. Run `python3 scripts/import_all_questions.py` to import questions
 6. Add TypeScript types in `src/types/index.ts`
 7. Update UI components to render new question type
@@ -504,11 +504,17 @@ interview-prep-platform/
 │   ├── schema.sql       # Database structure
 │   └── README.md
 ├── scripts/
-│   ├── questions_complete.json  # SOURCE OF TRUTH for questions
 │   ├── import_all_questions.py  # Import questions into database
 │   └── initDatabase.js          # npm run db:init
-└── python-service/       # Code execution (NOT YET IMPLEMENTED)
-    └── requirements.txt
+├── python-service/       # Code execution service
+│   ├── data/
+│   │   └── questions_complete.json  # SOURCE OF TRUTH for questions
+│   ├── executor.py       # Code execution logic
+│   ├── sandbox.py        # Security wrapper
+│   ├── test_runner.py    # Test case runner
+│   └── requirements.txt
+└── tests/                # Test scripts
+    └── *.py              # Various test and verification scripts
 ```
 
 ## Environment Variables
