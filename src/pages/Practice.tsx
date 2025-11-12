@@ -11,6 +11,8 @@ import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
 import { Play, Send, Sparkles, Loader2, ChevronLeft, FileText, Lightbulb } from 'lucide-react';
 import type { Question, LeetCodeQuestion, MLDesignQuestion, TestCase, ExecutionResult, DiagramData } from '../types';
+import { validateCode, validateExplanation } from '../utils/validation';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '../constants';
 
 export default function Practice() {
   const { category = 'leetcode' } = useParams<{ category?: 'leetcode' | 'ml_system_design' }>();
@@ -133,26 +135,26 @@ export default function Practice() {
   };
 
   const handleSubmit = async () => {
-    // Diagnostic logging
-    console.log('handleSubmit called', {
-      currentUser: !!currentUser,
-      selectedQuestion: !!selectedQuestion,
-      questionDetails: !!questionDetails,
-    });
-
     if (!currentUser) {
       console.error('Submit failed: No current user');
-      showToast('Please log in first', 'error');
+      showToast(ERROR_MESSAGES.NO_USER_SELECTED, 'error');
       return;
     }
     if (!selectedQuestion) {
       console.error('Submit failed: No question selected');
-      showToast('Please select a question first', 'error');
+      showToast(ERROR_MESSAGES.SELECT_QUESTION, 'error');
       return;
     }
     if (!questionDetails) {
       console.error('Submit failed: Question details not loaded');
       showToast('Question details are still loading. Please wait and try again.', 'error');
+      return;
+    }
+
+    // Validate code content
+    const codeValidation = validateCode(code);
+    if (!codeValidation.isValid) {
+      showToast(codeValidation.error!, 'error');
       return;
     }
 
@@ -207,14 +209,12 @@ export default function Practice() {
       // Generate feedback if all tests passed
       if (result.executionResult.status === 'passed') {
         try {
-          console.log('[PRACTICE] Requesting AI feedback for submission:', result.submission.id);
           await api.generateFeedback({
             userId: currentUser.id,
             submissionId: result.submission.id,
             submissionType: 'code',
           });
-          console.log('[PRACTICE] AI feedback generated successfully');
-          showToast('AI feedback generated! Check the Progress page to view it.', 'success');
+          showToast(`${SUCCESS_MESSAGES.FEEDBACK_GENERATED} Check the Progress page to view it.`, 'success');
         } catch (feedbackError: any) {
           console.error('[PRACTICE] Feedback generation failed:', feedbackError);
           showToast(`AI feedback unavailable: ${feedbackError.message || 'Unknown error'}`, 'warning');
@@ -243,8 +243,10 @@ export default function Practice() {
       return;
     }
 
-    if (!explanation.trim()) {
-      showToast('Please provide a written explanation of your design.', 'warning');
+    // Validate explanation content and length
+    const explanationValidation = validateExplanation(explanation, 50);
+    if (!explanationValidation.isValid) {
+      showToast(explanationValidation.error!, 'warning');
       return;
     }
 
@@ -266,7 +268,7 @@ export default function Practice() {
         submissionType: 'design',
       });
 
-      showToast('Design submitted successfully! Check the Progress page for feedback.', 'success');
+      showToast(`${SUCCESS_MESSAGES.DESIGN_SUBMITTED} Check the Progress page for feedback.`, 'success');
       
       // Delay navigation to allow toast to be visible
       setTimeout(() => {

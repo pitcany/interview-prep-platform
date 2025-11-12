@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { CheckCircle2, XCircle, Clock, AlertCircle, Plus, X } from 'lucide-react';
 import type { TestResult, TestCase } from '../../types';
+import { Toast } from '../Toast';
+import { useToast } from '../../hooks/useToast';
 
 interface TestRunnerProps {
   testCases: TestCase[];
@@ -15,6 +17,7 @@ export default function TestRunner({
   onAddTestCase,
   onRemoveTestCase,
 }: TestRunnerProps) {
+  const { toasts, showToast, hideToast } = useToast();
   const [showAddTest, setShowAddTest] = useState(false);
   const [newTestInput, setNewTestInput] = useState('');
   const [newTestOutput, setNewTestOutput] = useState('');
@@ -40,8 +43,9 @@ export default function TestRunner({
       setNewTestInput('');
       setNewTestOutput('');
       setShowAddTest(false);
+      showToast('Test case added successfully', 'success');
     } catch (error) {
-      alert('Invalid JSON format');
+      showToast('Invalid JSON format. Please check your input.', 'error');
     }
   };
 
@@ -228,6 +232,16 @@ export default function TestRunner({
           );
         })}
       </div>
+
+      {/* Toast Notifications */}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          onClose={() => hideToast(toast.id)}
+        />
+      ))}
     </div>
   );
 }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useAppStore } from '../store';
 import { api } from '../services/api';
-import { 
-  TrendingUp, 
-  Award, 
-  Target, 
-  Clock, 
-  Calendar, 
+import {
+  TrendingUp,
+  Award,
+  Target,
+  Clock,
+  Calendar,
   CheckCircle2,
   XCircle,
   Code,
@@ -16,9 +16,13 @@ import {
 import { PieChart, Pie, Cell, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import type { UserStats, UserProgress, Feedback } from '../types';
 import { ConfirmModal } from '../components/ConfirmModal';
+import { Toast } from '../components/Toast';
+import { useToast } from '../hooks/useToast';
+import { SUCCESS_MESSAGES, LIMITS, UI } from '../constants';
 
 export default function Progress() {
   const currentUser = useAppStore((state) => state.currentUser);
+  const { toasts, showToast, hideToast } = useToast();
   const [stats, setStats] = useState<UserStats | null>(null);
   const [progress, setProgress] = useState<UserProgress[]>([]);
   const [recentFeedback, setRecentFeedback] = useState<Feedback[]>([]);
@@ -39,7 +43,7 @@ export default function Progress() {
       const [userStats, userProgress, feedback] = await Promise.all([
         api.getUserStats(currentUser.id),
         api.getUserProgress(currentUser.id),
-        api.getUserFeedback(currentUser.id, 10),
+        api.getUserFeedback(currentUser.id, LIMITS.RECENT_FEEDBACK_LIMIT),
       ]);
       setStats(userStats);
       setProgress(userProgress);
@@ -91,22 +95,23 @@ export default function Progress() {
     try {
       await api.resetUserProgress(currentUser.id);
       setShowResetModal(false);
+      showToast(SUCCESS_MESSAGES.PROGRESS_RESET, 'success');
       // Reload data after reset
       await loadData();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to reset progress:', error);
-      alert('Failed to reset progress. Please try again.');
+      showToast(error.message || 'Failed to reset progress. Please try again.', 'error');
     } finally {
       setIsResetting(false);
     }
   };
 
   const COLORS = {
-    easy: '#22c55e',
-    medium: '#eab308',
-    hard: '#ef4444',
-    solved: '#3b82f6',
-    attempted: '#6b7280',
+    easy: UI.COLORS.EASY,
+    medium: UI.COLORS.MEDIUM,
+    hard: UI.COLORS.HARD,
+    solved: UI.COLORS.SOLVED,
+    attempted: UI.COLORS.ATTEMPTED,
   };
 
   if (!currentUser) {
@@ -495,6 +500,16 @@ This action cannot be undone."
         cancelText="Cancel"
         variant="danger"
       />
+
+      {/* Toast Notifications */}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          onClose={() => hideToast(toast.id)}
+        />
+      ))}
     </div>
   );
 }
