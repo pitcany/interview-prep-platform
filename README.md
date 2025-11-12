@@ -155,7 +155,7 @@ MAX_MEMORY=512  # MB
 
 **AI Feedback Options:**
 - **Ollama (Recommended)**: Free, private, offline-capable - See [OLLAMA_SETUP.md](OLLAMA_SETUP.md)
-- **Cloud APIs**: OpenAI, Anthropic, etc. - See [LLM_COMPARISON.md](LLM_COMPARISON.md)
+- **Cloud APIs**: OpenAI, Anthropic, or any OpenAI-compatible API endpoint
 
 ## Troubleshooting
 
@@ -191,7 +191,7 @@ lsof -ti:5173 | xargs kill -9
 ```bash
 # Initialize database and import questions
 npm run db:init
-sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+python3 scripts/import_all_questions.py
 ```
 
 ## Usage

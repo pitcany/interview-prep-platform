@@ -94,14 +94,8 @@ npm run db:setup
 # OR manually with two separate steps:
 # 1. Initialize database (creates schema)
 npm run db:init
-# 2. Import interview questions (requires sqlite3 CLI)
-sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
-
-# OR use the import script (if sqlite3 CLI not available):
-node scripts/importSeedData.js
-
-# Populate hidden test cases (REQUIRED for submissions to work)
-python3 scripts/setup_database.py
+# 2. Import all questions (includes hidden test cases)
+python3 scripts/import_all_questions.py
 ```
 
 ### Development
@@ -156,20 +150,8 @@ npm run db:setup
 # Initialize/reset database schema only
 npm run db:init
 
-# Seed questions (deprecated - use db:setup or SQL import instead)
-npm run db:seed
-
-# Import questions manually (requires sqlite3 CLI)
-sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
-
-# Import questions (alternative, no sqlite3 CLI required)
-node scripts/importSeedData.js
-
-# Complete database setup (includes hidden test cases)
-python3 scripts/setup_database.py
-
-# Verify setup
-python3 scripts/verify_all_modes.py
+# Import all questions (includes hidden test cases and solutions)
+python3 scripts/import_all_questions.py
 
 # Database locations by platform:
 # - Linux: ~/.config/interview-prep-platform/interview-prep.db
@@ -180,13 +162,10 @@ python3 scripts/verify_all_modes.py
 ### Question Management
 ```bash
 # Modify questions source of truth
-vim scripts/questions_data_full.py
-
-# Regenerate SQL seed file
-python3 scripts/generate_seed_sql.py
+vim scripts/questions_complete.json
 
 # Import updated questions
-sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+python3 scripts/import_all_questions.py
 ```
 
 ## Troubleshooting
@@ -281,11 +260,9 @@ Error: SQLITE_CANTOPEN: unable to open database file
 
 **Solution:**
 ```bash
-# Initialize the database
+# Initialize database and import questions
 npm run db:init
-
-# Import questions
-sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
+python3 scripts/import_all_questions.py
 ```
 
 ## Architecture
@@ -448,11 +425,10 @@ All IPC follows this pattern:
 - IPC calls are fully typed through preload definitions
 
 ### Question Data Management
-- **Source of truth**: `scripts/questions_data_full.py`
-- Generate SQL: `python3 scripts/generate_seed_sql.py` → `database/seed_complete.sql`
-- Import: `sqlite3 <db-path> < database/seed_complete.sql`
-- DO NOT manually edit SQL files (auto-generated)
-- All questions include LeetCode URLs for official solutions
+- **Source of truth**: `scripts/questions_complete.json`
+- Import: `python3 scripts/import_all_questions.py`
+- All questions include LeetCode URLs, solutions, and hidden test cases
+- Edit the JSON file directly to modify questions
 
 ### Security Considerations
 - Code execution sandboxed (temp directory, resource limits)
@@ -485,8 +461,8 @@ All IPC follows this pattern:
 1. Update database schema in `database/schema.sql`
 2. Add category to `question_categories` table
 3. Create detail table (similar to `leetcode_questions` or `ml_design_questions`)
-4. Add Python data in `scripts/questions_data_full.py`
-5. Update `generate_seed_sql.py` to handle new type
+4. Add question data in `scripts/questions_complete.json`
+5. Run `python3 scripts/import_all_questions.py` to import questions
 6. Add TypeScript types in `src/types/index.ts`
 7. Update UI components to render new question type
 
@@ -526,13 +502,11 @@ interview-prep-platform/
 │       └── index.ts     # Shared TypeScript types
 ├── database/
 │   ├── schema.sql       # Database structure
-│   ├── seed_complete.sql # All 50 questions (auto-generated)
 │   └── README.md
 ├── scripts/
-│   ├── questions_data_full.py  # SOURCE OF TRUTH for questions
-│   ├── generate_seed_sql.py    # Generate seed_complete.sql
-│   ├── initDatabase.js         # npm run db:init
-│   └── seedQuestions.js        # npm run db:seed (deprecated)
+│   ├── questions_complete.json  # SOURCE OF TRUTH for questions
+│   ├── import_all_questions.py  # Import questions into database
+│   └── initDatabase.js          # npm run db:init
 └── python-service/       # Code execution (NOT YET IMPLEMENTED)
     └── requirements.txt
 ```

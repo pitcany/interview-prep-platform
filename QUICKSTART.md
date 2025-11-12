@@ -16,19 +16,17 @@ Get your Interview Prep Platform running in 5 minutes.
 npm install
 cd python-service && pip install -r requirements.txt && cd ..
 
-# 2. Initialize database
+# 2. Initialize database and import questions
 npm run db:init
+python3 scripts/import_all_questions.py
 
-# 3. Import questions (50 questions for Meta/Atlassian interviews)
-sqlite3 ~/.config/interview-prep-platform/interview-prep.db < database/seed_complete.sql
-
-# 4. Configure AI Feedback (Optional but Recommended)
+# 3. Configure AI Feedback (Optional but Recommended)
 # See OLLAMA_SETUP.md for full instructions
 ollama pull llama3.1:8b  # Takes 2-5 minutes
 echo "LLM_BASE_URL=http://localhost:11434" > .env
 echo "LLM_MODEL=llama3.1:8b" >> .env
 
-# 5. Start the app
+# 4. Start the app
 npm start
 ```
 
@@ -57,9 +55,8 @@ npm start
 
 ### Add More Questions
 
-1. Edit `scripts/questions_data_full.py`
-2. Run `python3 scripts/generate_seed_sql.py`
-3. Import: `sqlite3 path/to/db < database/seed_complete.sql`
+1. Edit `scripts/questions_complete.json`
+2. Run: `python3 scripts/import_all_questions.py`
 
 ### Configure AI Feedback
 
@@ -78,12 +75,9 @@ echo "LLM_MODEL=gpt-4" >> .env
 echo "OPENAI_API_KEY=your-key-here" >> .env
 ```
 
-See [LLM_COMPARISON.md](LLM_COMPARISON.md) for detailed comparison.
-
 ## Documentation
 
 - **Ollama Setup**: See `OLLAMA_SETUP.md` (AI feedback configuration)
-- **LLM Comparison**: See `LLM_COMPARISON.md` (Ollama vs Cloud APIs)
 - **Questions Database**: See `database/README.md`
 - **Project Details**: See main `README.md`
 
