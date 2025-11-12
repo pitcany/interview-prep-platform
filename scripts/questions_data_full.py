@@ -4693,7 +4693,13 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               '\n'
               "The system processes billions of posts daily, makes trillions of predictions, and directly impacts Meta's $100B+ revenue.",
   'tags': ['ranking', 'multi-task-learning', 'news-feed', 'meta', 'scale', 'personalization'],
-  'title': 'Design Facebook News Feed Ranking System'},
+  'title': 'Design Facebook News Feed Ranking System',
+  'hints': [
+    'Think about a two-stage architecture: candidate generation (filter millions to thousands) followed by heavy ranking (detailed scoring).',
+    'Multi-task learning is key - predict multiple engagement types (likes, comments, shares, time spent) with a shared model backbone.',
+    'How will you balance multiple objectives? Consider engagement vs. content quality vs. revenue (ads) vs. user satisfaction.',
+    'Feature freshness matters - recent interactions are strong signals. How will you efficiently serve real-time features at scale?'
+  ]},
  {'description': 'Design the ML system powering Instagram Reels recommendations - a TikTok competitor serving short-form video to 2B+ users with multi-modal understanding.',
   'difficulty': 'hard',
   'evaluation_criteria': {'cold_start': 'Strategy for new users and new content',
@@ -4799,7 +4805,13 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               '\n'
               'Key challenge: Unlike Feed (friends/following), Reels is discovery-based like TikTok.',
   'tags': ['recommendation', 'multi-modal', 'video', 'meta', 'instagram', 'reels', 'cold-start'],
-  'title': 'Design Instagram Reels Recommendation System'},
+  'title': 'Design Instagram Reels Recommendation System',
+  'hints': [
+    'Multi-modal is critical - combine video frames, audio features (trending sounds), and text (captions/hashtags) into unified embeddings.',
+    'Consider a two-tower architecture: user tower (user interests) and video tower (video features) with cosine similarity for retrieval.',
+    'Cold start is harder than Feed - new users have no following. Use trending content, demographic similarity, and rapid exploration strategies.',
+    'Think about the creator economy - how will you help small creators get discovered while maintaining user engagement?'
+  ]},
  {'description': "Design Meta's ad targeting and ranking system that serves personalized ads to 3B+ users, generating $100B+ annual revenue while balancing user experience.",
   'difficulty': 'hard',
   'evaluation_criteria': {'auction_mechanism': 'Second-price auction, VCG, or generalized second price',
@@ -4890,7 +4902,13 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               'Revenue equation: eCPM = bid × pCTR × pConversion\n'
               'Goal: Maximize revenue while maintaining user satisfaction.',
   'tags': ['ads', 'ranking', 'auction', 'revenue', 'meta', 'ctr-prediction', 'conversion'],
-  'title': 'Design Real-time Ad Targeting & Ranking System'},
+  'title': 'Design Real-time Ad Targeting & Ranking System',
+  'hints': [
+    'The core equation is eCPM = bid × pCTR × pConversion × quality_score. You need separate models for CTR and conversion prediction.',
+    'Ad auction must run in <50ms. Consider pre-filtering candidates and caching user features to meet latency requirements.',
+    'Budget pacing is critical - advertisers want their budgets spent evenly. Use a pacing algorithm to control delivery rate throughout the day.',
+    'Balance revenue optimization with user experience - too many ads hurt engagement. Consider frequency capping and ad quality scoring.'
+  ]},
  {'description': "Design Meta's content moderation system that detects and removes harmful content (hate speech, violence, spam, misinformation) across Facebook, Instagram, WhatsApp at scale.",
   'difficulty': 'hard',
   'evaluation_criteria': {'adversarial': 'Handling adversarial attacks (typos, obfuscation)',
@@ -4984,7 +5002,13 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               '\n'
               'This is a high-stakes system with regulatory, legal, and ethical implications.',
   'tags': ['content-moderation', 'classification', 'multi-modal', 'safety', 'meta', 'nlp', 'computer-vision'],
-  'title': 'Design AI Content Moderation System for Meta'},
+  'title': 'Design AI Content Moderation System for Meta',
+  'hints': [
+    'Multi-modal detection is essential - text alone isn\'t enough. Combine text, image, and video models (memes can have benign images with harmful text).',
+    'Precision-recall tradeoff is critical: false positives remove legitimate content (user frustration), false negatives allow harmful content (platform risk).',
+    'Human-in-the-loop for borderline cases - queue uncertain predictions (0.5-0.8 confidence) for human review and use feedback for active learning.',
+    'Adversarial robustness: bad actors use typos, character substitution, and obfuscation. Consider techniques like data augmentation and character-level models.'
+  ]},
  {'description': 'Design a real-time spam detection system for Meta Messenger/WhatsApp that identifies and blocks spam, scams, and phishing at scale while preserving user privacy.',
   'difficulty': 'medium',
   'evaluation_criteria': {'False_positives': 'Strategy to minimize blocking legitimate messages',
@@ -5069,7 +5093,13 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               '\n'
               "Challenge: Balance spam detection with privacy (can't read WhatsApp messages).",
   'tags': ['spam-detection', 'classification', 'privacy', 'meta', 'messaging', 'adversarial'],
-  'title': 'Design Spam Detection System for Messaging'},
+  'title': 'Design Spam Detection System for Messaging',
+  'hints': [
+    'Privacy constraint for WhatsApp (end-to-end encrypted) - you can only use metadata features: message rate, recipient patterns, sender behavior. No content analysis.',
+    'Use behavioral signals heavily: send rate spikes, message to many unknown contacts, template matching across users (server-side hash comparison).',
+    'For Messenger, combine content features (text, links, images) with behavioral patterns for higher accuracy.',
+    'URL/link analysis is critical - maintain a real-time reputation database for malicious URLs and use domain age, HTTPS presence, and historical click patterns.'
+  ]},
  {'description': "Design Meta/Atlassian's ML experimentation platform that enables safe, fast, statistically rigorous A/B testing of ML models in production.",
   'difficulty': 'medium',
   'evaluation_criteria': {'bandits': 'Explore/exploit strategies',
@@ -5178,7 +5208,13 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               '\n'
               'Meta runs 1000s of experiments concurrently. Atlassian tests product changes.',
   'tags': ['ab-testing', 'experimentation', 'infrastructure', 'statistics', 'meta', 'atlassian'],
-  'title': 'Design A/B Testing Platform for ML Experiments'},
+  'title': 'Design A/B Testing Platform for ML Experiments',
+  'hints': [
+    'Randomization must be deterministic (same user gets same variant every time). Use hash(user_id + experiment_id) mod 100 for consistent bucketing.',
+    'Statistical rigor is critical - power analysis for sample size, multiple testing correction (Bonferroni), and confidence intervals. Don\'t ship on p-hacking!',
+    'Metric guardrails prevent bad launches - automatically disable experiments if key metrics (DAU, revenue, error rate) degrade beyond thresholds.',
+    'Network effects and interference are tricky - users in treatment group may affect control group (e.g., messaging features). Consider cluster randomization or ego network analysis.'
+  ]},
  {'description': 'Design an ML-powered search system for Atlassian products (Jira, Confluence) that helps users find relevant issues, pages, and projects using natural language queries.',
   'difficulty': 'medium',
   'evaluation_criteria': {'indexing': 'Efficient indexing for mixed data types',
@@ -5296,7 +5332,13 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               '\n'
               'Key: Work with limited data (Atlassian is B2B, not consumer scale like Google).',
   'tags': ['search', 'ranking', 'nlp', 'semantic-search', 'atlassian', 'enterprise', 'jira', 'confluence'],
-  'title': 'Design Search Ranking for Atlassian Products'},
+  'title': 'Design Search Ranking for Atlassian Products',
+  'hints': [
+    'Hybrid search is key - combine traditional keyword matching (BM25/Elasticsearch) with semantic search (sentence transformers) for best results.',
+    'Structured data (Jira fields like status, priority, assignee) can be used as filters to narrow results before ranking. Use faceted search.',
+    'Limited training data is a challenge (B2B, not web-scale). Consider transfer learning from pre-trained models and synthetic data generation.',
+    'Permission filtering must be fast - pre-compute permission sets or use efficient caching strategies to avoid checking every document at query time.'
+  ]},
  {'description': "Design a real-time fraud detection system for Meta's payment products (Meta Pay, WhatsApp Pay) that identifies fraudulent transactions with <100ms latency.",
   'difficulty': 'hard',
   'evaluation_criteria': {'adversarial': 'Detecting novel fraud patterns',
@@ -5340,7 +5382,13 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               '\n'
               'The system processes millions of transactions daily, losing millions to fraud if ineffective.',
   'tags': ['fraud-detection', 'classification', 'real-time', 'payments', 'meta', 'imbalanced-data'],
-  'title': 'Design Real-time Fraud Detection System'},
+  'title': 'Design Real-time Fraud Detection System',
+  'hints': [
+    'Severe class imbalance (<1% fraud rate) - use SMOTE for synthetic minority oversampling, or class weights in your loss function to penalize false negatives more.',
+    'Feature engineering is critical: transaction amount vs. historical patterns, velocity checks (transactions per hour), device fingerprinting, geolocation anomalies.',
+    'Multi-stage approach: fast rule-based filter (known fraud patterns) → ML model → post-transaction analysis. This balances latency with accuracy.',
+    'Online learning is essential - fraud patterns evolve constantly. Implement feedback loops to retrain models with newly confirmed fraud cases daily.'
+  ]},
  {'description': "Design Meta's video understanding system that analyzes billions of videos to enable search, recommendations, content moderation, and monetization.",
   'difficulty': 'hard',
   'evaluation_criteria': {'audio_processing': 'Speech recognition, music detection',
@@ -5438,7 +5486,13 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               '\n'
               'Challenge: Video processing is expensive (compute, storage). Need efficient models.',
   'tags': ['video-understanding', 'multi-modal', 'computer-vision', 'meta', 'reels', 'deep-learning'],
-  'title': 'Design Video Understanding System for Meta'},
+  'title': 'Design Video Understanding System for Meta',
+  'hints': [
+    'Video processing is expensive - use frame sampling (1 FPS) instead of processing every frame. For long videos, use key frame extraction (scene changes).',
+    'Multi-modal fusion: extract visual features (ResNet/ViT), audio features (speech, music, ambient sounds), and OCR text, then combine with late fusion or cross-attention.',
+    'Pre-trained models save compute - use CLIP for visual-language understanding, Whisper for speech-to-text, and fine-tune on your specific domain.',
+    'Batch processing for uploaded videos, real-time for live videos. Consider edge/mobile inference for features like Stories to reduce server load.'
+  ]},
  {'description': 'Design a real-time personalization system that adapts Meta/Atlassian products to individual users based on their behavior, preferences, and context.',
   'difficulty': 'medium',
   'evaluation_criteria': {'cold_start': 'Strategy for new users',
@@ -5541,4 +5595,10 @@ ML_QUESTIONS = [{'description': "Design the ML ranking system for Facebook's New
               '\n'
               'Goal: Show the right content to the right user at the right time.',
   'tags': ['personalization', 'user-modeling', 'real-time', 'meta', 'atlassian', 'recommendations'],
-  'title': 'Design Real-time Personalization Engine'}]
+  'title': 'Design Real-time Personalization Engine',
+  'hints': [
+    'User embeddings should combine long-term preferences (30-day aggregated interactions) with short-term interests (last session). Use weighted combination.',
+    'Context matters - time of day, device type, and location significantly affect user behavior. Include contextual features in your scoring model.',
+    'Cold start: for new users, use demographic similarity (age, location), trending content, and rapid explore-exploit (multi-armed bandits) to learn preferences fast.',
+    'Real-time feature serving is challenging at scale - use a feature store (Redis/Cassandra) with precomputed user embeddings + lightweight real-time features.'
+  ]}]

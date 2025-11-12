@@ -46,12 +46,13 @@ export interface LeetCodeQuestion extends Omit<Question, 'hints'> {
   hints?: string[]; // Parsed hints array (from DB hints JSON string)
 }
 
-export interface MLDesignQuestion extends Question {
+export interface MLDesignQuestion extends Omit<Question, 'hints'> {
   scenario: string;
   requirements: string[];
   evaluation_criteria: Record<string, string>;
   sample_solution?: string;
   key_components: string[];
+  hints?: string[]; // Parsed hints array (from DB hints JSON string)
 }
 
 export interface TestCase {

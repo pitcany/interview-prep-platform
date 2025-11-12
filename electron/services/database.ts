@@ -193,6 +193,16 @@ export class DatabaseService {
 
     if (!result) return null;
 
+    // Parse hints if available
+    let hints: string[] = [];
+    if (result.hints) {
+      try {
+        hints = JSON.parse(result.hints);
+      } catch {
+        hints = [];
+      }
+    }
+
     // Parse JSON fields
     return {
       ...result,
@@ -200,7 +210,9 @@ export class DatabaseService {
       evaluation_criteria: result.evaluation_criteria ? JSON.parse(result.evaluation_criteria) : {},
       key_components: result.key_components ? JSON.parse(result.key_components) : [],
       // Include sample solution
-      sample_solution: result.sample_solution || ''
+      sample_solution: result.sample_solution || '',
+      // Include parsed hints
+      hints: hints
     };
   }
 
