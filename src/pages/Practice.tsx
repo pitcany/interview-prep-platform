@@ -90,6 +90,16 @@ export default function Practice() {
         setDiagramData({ nodes: [], edges: [] });
         setExplanation('');
         setDesignStartTime(Date.now());
+
+        // Load hints from ML Design details
+        if (details.hints && Array.isArray(details.hints) && details.hints.length > 0) {
+          setHints(details.hints);
+          setHintsLoaded(true);
+        } else {
+          setHints([]);
+          setHintsLoaded(true);
+        }
+        setRevealedHints(0);
       }
     } catch (error) {
       console.error('Failed to load question details:', error);
