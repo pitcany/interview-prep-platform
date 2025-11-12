@@ -7,6 +7,7 @@ import Practice from './pages/Practice';
 import MockInterview from './pages/MockInterview';
 import Progress from './pages/Progress';
 import Layout from './components/Layout';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import './App.css';
 
 function App() {
@@ -14,27 +15,31 @@ function App() {
 
   if (!currentUser) {
     return (
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </Router>
+      <ErrorBoundary>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </Router>
+      </ErrorBoundary>
     );
   }
 
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/practice/:category?" element={<Practice />} />
-          <Route path="/mock-interview/:type?" element={<MockInterview />} />
-          <Route path="/progress" element={<Progress />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/practice/:category?" element={<Practice />} />
+            <Route path="/mock-interview/:type?" element={<MockInterview />} />
+            <Route path="/progress" element={<Progress />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

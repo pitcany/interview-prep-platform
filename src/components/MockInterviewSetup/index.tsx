@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Clock, Brain, Code, ArrowRight, Shuffle, ChevronDown } from 'lucide-react';
 import { api } from '../../services/api';
 import type { Question } from '../../types';
+import { Toast } from '../Toast';
+import { useToast } from '../../hooks/useToast';
 
 interface MockInterviewSetupProps {
   onStart: (config: InterviewConfig) => void;
@@ -17,6 +19,7 @@ export interface InterviewConfig {
 }
 
 export default function MockInterviewSetup({ onStart, onCancel }: MockInterviewSetupProps) {
+  const { toasts, showToast, hideToast } = useToast();
   const [category, setCategory] = useState<'leetcode' | 'ml_system_design'>('leetcode');
   const [duration, setDuration] = useState(30);
   const [questionSelection, setQuestionSelection] = useState<'random' | 'manual'>('random');
@@ -61,7 +64,7 @@ export default function MockInterviewSetup({ onStart, onCancel }: MockInterviewS
 
   const handleStart = () => {
     if (questionSelection === 'manual' && selectedQuestions.length !== questionCount) {
-      alert(`Please select exactly ${questionCount} question(s)`);
+      showToast(`Please select exactly ${questionCount} question(s)`, 'warning');
       return;
     }
 
@@ -273,6 +276,16 @@ export default function MockInterviewSetup({ onStart, onCancel }: MockInterviewS
           </div>
         </div>
       </div>
+
+      {/* Toast Notifications */}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          onClose={() => hideToast(toast.id)}
+        />
+      ))}
     </div>
   );
 }
