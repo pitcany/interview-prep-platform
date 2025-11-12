@@ -13,6 +13,7 @@ import type {
   UserPreferences,
   ExecutionResult,
 } from '../types';
+import { retryWithBackoff } from '../utils/retry';
 
 class APIService {
   private get api() {
@@ -20,6 +21,13 @@ class APIService {
       throw new Error('Electron API not available');
     }
     return window.electronAPI;
+  }
+
+  /**
+   * Wrap IPC call with retry logic for network resilience
+   */
+  private async withRetry<T>(fn: () => Promise<T>): Promise<T> {
+    return retryWithBackoff(fn);
   }
 
   // User Management
@@ -55,23 +63,23 @@ class APIService {
     category?: 'leetcode' | 'ml_system_design',
     difficulty?: 'easy' | 'medium' | 'hard'
   ): Promise<Question[]> {
-    return await this.api.getQuestions(category, difficulty);
+    return this.withRetry(() => this.api.getQuestions(category, difficulty));
   }
 
   async getQuestionById(questionId: number): Promise<Question> {
-    return await this.api.getQuestionById(questionId);
+    return this.withRetry(() => this.api.getQuestionById(questionId));
   }
 
   async getLeetCodeDetails(questionId: number): Promise<LeetCodeQuestion> {
-    return await this.api.getLeetCodeDetails(questionId);
+    return this.withRetry(() => this.api.getLeetCodeDetails(questionId));
   }
 
   async getMLDesignDetails(questionId: number): Promise<MLDesignQuestion> {
-    return await this.api.getMLDesignDetails(questionId);
+    return this.withRetry(() => this.api.getMLDesignDetails(questionId));
   }
 
   async getQuestionHints(questionId: number): Promise<string[]> {
-    return await this.api.getQuestionHints(questionId);
+    return this.withRetry(() => this.api.getQuestionHints(questionId));
   }
 
   // Code Execution
@@ -91,7 +99,7 @@ class APIService {
     language: string;
     customTestCases: any[];
   }): Promise<{ submission: CodeSubmission; executionResult: ExecutionResult }> {
-    return await this.api.submitCode(submissionData);
+    return this.withRetry(() => this.api.submitCode(submissionData));
   }
 
   // Design Submissions
@@ -102,7 +110,7 @@ class APIService {
     writtenExplanation: string;
     timeSpent: number;
   }): Promise<DesignSubmission> {
-    return await this.api.submitDesign(submissionData);
+    return this.withRetry(() => this.api.submitDesign(submissionData));
   }
 
   // Mock Interviews
@@ -136,27 +144,27 @@ class APIService {
     submissionType: 'code' | 'design';
     mockInterviewId?: number;
   }): Promise<Feedback> {
-    return await this.api.generateFeedback(feedbackData);
+    return this.withRetry(() => this.api.generateFeedback(feedbackData));
   }
 
   // Progress & Analytics
   async getUserProgress(userId: number): Promise<UserProgress[]> {
-    return await this.api.getUserProgress(userId);
+    return this.withRetry(() => this.api.getUserProgress(userId));
   }
 
   async getUserStats(userId: number): Promise<UserStats> {
-    return await this.api.getUserStats(userId);
+    return this.withRetry(() => this.api.getUserStats(userId));
   }
 
   async getSubmissionHistory(
     userId: number,
     limit?: number
   ): Promise<(CodeSubmission | DesignSubmission)[]> {
-    return await this.api.getSubmissionHistory(userId, limit);
+    return this.withRetry(() => this.api.getSubmissionHistory(userId, limit));
   }
 
   async getUserFeedback(userId: number, limit?: number): Promise<Feedback[]> {
-    return await this.api.getUserFeedback(userId, limit);
+    return this.withRetry(() => this.api.getUserFeedback(userId, limit));
   }
 
   async resetUserProgress(userId: number): Promise<{ success: boolean }> {

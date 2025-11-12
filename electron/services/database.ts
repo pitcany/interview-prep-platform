@@ -2,6 +2,83 @@ import Database from 'better-sqlite3';
 import * as fs from 'fs';
 import * as path from 'path';
 
+// Database input types
+interface UserPreferencesInput {
+  theme: string;
+  editorFontSize: number;
+  editorTheme: string;
+  autoSave: boolean;
+  showHints: boolean;
+}
+
+interface CodeSubmissionInput {
+  userId: number;
+  questionId: number;
+  language: string;
+  code: string;
+  customTestCases: string;
+  executionTimeMs: number;
+  memoryUsedKb: number;
+  testResults: string;
+  status: string;
+}
+
+interface DesignSubmissionInput {
+  userId: number;
+  questionId: number;
+  diagramData: string;
+  writtenExplanation: string;
+  timeSpentSeconds: number;
+}
+
+interface FeedbackInput {
+  userId: number;
+  submissionId: number;
+  submissionType: 'code' | 'design';
+  mockInterviewId?: number;
+  feedbackText: string;
+  scores: string;
+  strengths: string;
+  improvements: string;
+}
+
+interface SubmissionRecord {
+  type?: string;
+  submitted_at: string;
+  [key: string]: unknown;
+}
+
+interface LeetCodeDatabaseRow {
+  question_id: number;
+  title: string;
+  description: string;
+  difficulty: string;
+  hints?: string;
+  examples?: string;
+  tags?: string;
+  test_cases?: string;
+  hidden_test_cases?: string;
+  solution_python?: string;
+  solution_java?: string;
+  solution_cpp?: string;
+  solution_explanation?: string;
+  [key: string]: unknown;
+}
+
+interface MLDesignDatabaseRow {
+  id: number;
+  title: string;
+  description: string;
+  difficulty: string;
+  hints?: string;
+  scenario?: string;
+  requirements?: string;
+  evaluation_criteria?: string;
+  sample_solution?: string;
+  key_components?: string;
+  [key: string]: unknown;
+}
+
 export class DatabaseService {
   private db!: Database.Database;
   private dbPath: string;
@@ -82,7 +159,7 @@ export class DatabaseService {
     return { success: result.changes > 0, deletedId: userId };
   }
 
-  updateUserPreferences(userId: number, preferences: any) {
+  updateUserPreferences(userId: number, preferences: UserPreferencesInput) {
     const stmt = this.db.prepare(`
       INSERT INTO user_preferences (user_id, theme, editor_font_size, editor_theme, auto_save, show_hints)
       VALUES (?, ?, ?, ?, ?, ?)
@@ -111,7 +188,7 @@ export class DatabaseService {
       JOIN question_categories qc ON q.category_id = qc.id
       WHERE 1=1
     `;
-    const params: any[] = [];
+    const params: (string | number)[] = [];
 
     if (category) {
       query += ' AND qc.name = ?';
@@ -138,7 +215,7 @@ export class DatabaseService {
   }
 
   getLeetCodeQuestionDetails(questionId: number) {
-    const result: any = this.db.prepare(`
+    const result = this.db.prepare(`
       SELECT
         lq.*,
         q.title,
@@ -150,7 +227,7 @@ export class DatabaseService {
       FROM leetcode_questions lq
       JOIN questions q ON lq.question_id = q.id
       WHERE lq.question_id = ?
-    `).get(questionId);
+    `).get(questionId) as LeetCodeDatabaseRow | undefined;
 
     if (!result) return null;
 
@@ -180,7 +257,7 @@ export class DatabaseService {
   }
 
   getMLDesignQuestionDetails(questionId: number) {
-    const result: any = this.db.prepare(`
+    const result = this.db.prepare(`
       SELECT
         q.*,
         c.name as category_name,
@@ -189,7 +266,7 @@ export class DatabaseService {
       JOIN question_categories c ON q.category_id = c.id
       JOIN ml_design_questions ml ON q.id = ml.question_id
       WHERE q.id = ?
-    `).get(questionId);
+    `).get(questionId) as MLDesignDatabaseRow | undefined;
 
     if (!result) return null;
 
@@ -217,7 +294,7 @@ export class DatabaseService {
   }
 
   // Code Submissions
-  createCodeSubmission(data: any) {
+  createCodeSubmission(data: CodeSubmissionInput) {
     const stmt = this.db.prepare(`
       INSERT INTO code_submissions 
       (user_id, question_id, language, code, custom_test_cases, 
@@ -244,7 +321,7 @@ export class DatabaseService {
   }
 
   // Design Submissions
-  createDesignSubmission(data: any) {
+  createDesignSubmission(data: DesignSubmissionInput) {
     const stmt = this.db.prepare(`
       INSERT INTO design_submissions 
       (user_id, question_id, diagram_data, written_explanation, time_spent_seconds)
@@ -305,7 +382,7 @@ export class DatabaseService {
   }
 
   // Feedback
-  createFeedback(data: any) {
+  createFeedback(data: FeedbackInput) {
     const stmt = this.db.prepare(`
       INSERT INTO feedback 
       (user_id, submission_id, submission_type, mock_interview_id, 
@@ -406,7 +483,7 @@ export class DatabaseService {
     `).all(userId, limit);
 
     return [...codeSubmissions, ...designSubmissions]
-      .sort((a: any, b: any) => 
+      .sort((a: SubmissionRecord, b: SubmissionRecord) =>
         new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime()
       )
       .slice(0, limit);
