@@ -37,17 +37,9 @@ function loadEnvironmentVariables() {
 
   if (envPath) {
     config({ path: envPath });
-    console.log('Environment loaded from:', envPath);
   } else {
     config();
-    console.warn('No .env file found; relying on existing environment variables.');
   }
-
-  console.log('SANDBOX_MODE:', process.env.SANDBOX_MODE);
-  console.log('CLAUDE_API_KEY:', process.env.CLAUDE_API_KEY ? 'Set' : 'Not set');
-  console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? 'Set' : 'Not set');
-  console.log('LLM_BASE_URL:', process.env.LLM_BASE_URL ? 'Set' : 'Not set');
-  console.log('LLM_PROVIDER:', process.env.LLM_PROVIDER || 'Auto-select');
 }
 
 let mainWindow: BrowserWindow | null = null;
@@ -71,8 +63,11 @@ function createWindow() {
   });
 
   // Load the app
-  if (process.env.NODE_ENV === 'development') {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  if (isDevelopment) {
     mainWindow.loadURL('http://localhost:5173');
+    // Only open DevTools in development mode
     mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadURL(

@@ -184,3 +184,50 @@ export function validateFileName(fileName: string): ValidationResult {
 
   return { isValid: true };
 }
+
+/**
+ * Validate test case data structure and size
+ */
+export function validateTestCases(testCasesStr: string): ValidationResult {
+  if (!testCasesStr || testCasesStr.trim().length === 0) {
+    return { isValid: false, error: 'Test cases cannot be empty' };
+  }
+
+  // Check size before parsing
+  const sizeInBytes = new Blob([testCasesStr]).size;
+  if (sizeInBytes > 1024 * 1024) { // 1MB limit
+    return { isValid: false, error: 'Test cases data is too large (max 1MB)' };
+  }
+
+  let testCases: any;
+  try {
+    testCases = JSON.parse(testCasesStr);
+  } catch (error) {
+    return { isValid: false, error: 'Invalid JSON format for test cases' };
+  }
+
+  if (!Array.isArray(testCases)) {
+    return { isValid: false, error: 'Test cases must be an array' };
+  }
+
+  if (testCases.length === 0) {
+    return { isValid: false, error: 'At least one test case is required' };
+  }
+
+  if (testCases.length > 100) {
+    return { isValid: false, error: 'Too many test cases (max 100)' };
+  }
+
+  // Validate structure of each test case
+  for (let i = 0; i < testCases.length; i++) {
+    const testCase = testCases[i];
+    if (!testCase || typeof testCase !== 'object') {
+      return { isValid: false, error: `Test case ${i + 1} is invalid` };
+    }
+    if (!('input' in testCase) || !('expected' in testCase)) {
+      return { isValid: false, error: `Test case ${i + 1} must have 'input' and 'expected' fields` };
+    }
+  }
+
+  return { isValid: true };
+}

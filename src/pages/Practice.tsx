@@ -10,7 +10,7 @@ import MLDesignPracticeView from '../components/Practice/MLDesignPracticeView';
 import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
 import type { Question, LeetCodeQuestion, MLDesignQuestion, TestCase, ExecutionResult, DiagramData } from '../types';
-import { validateCode, validateExplanation } from '../utils/validation';
+import { validateCode, validateExplanation, validateTestCases } from '../utils/validation';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '../constants';
 
 export default function Practice() {
@@ -52,6 +52,11 @@ export default function Practice() {
       setRevealedHints(0);
       setHintsLoaded(false);
     }
+
+    // Cleanup function - ensure state is reset if component unmounts
+    return () => {
+      setIsLoadingQuestion(false);
+    };
   }, [selectedQuestion, language]);
 
   const loadQuestionDetails = async () => {
@@ -70,9 +75,15 @@ export default function Practice() {
         setCode(initialCode);
         setOriginalCode(initialCode);
 
-        // Parse test cases
-        const cases = JSON.parse(details.test_cases);
-        setTestCases(cases);
+        // Validate and parse test cases
+        const testCasesValidation = validateTestCases(details.test_cases);
+        if (!testCasesValidation.isValid) {
+          showToast(testCasesValidation.error || 'Invalid test cases', 'error');
+          setTestCases([]);
+        } else {
+          const cases = JSON.parse(details.test_cases);
+          setTestCases(cases);
+        }
         setResults(null);
 
         // Load hints from question details
