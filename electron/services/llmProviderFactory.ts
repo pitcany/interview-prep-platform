@@ -1,12 +1,21 @@
 import { ClaudeAPIService } from './claudeAPI';
 import { OpenAIService } from './openaiService';
 import { LocalLLMService } from './localLLM';
+import type {
+  CodeSubmission,
+  DesignSubmission,
+  LeetCodeDetails,
+  MLDesignDetails,
+} from '../types/ipc';
+
+export type SubmissionForFeedback = CodeSubmission | DesignSubmission;
+export type QuestionForFeedback = LeetCodeDetails | MLDesignDetails;
 
 export interface LLMProvider {
   getProviderName(): string;
   generateFeedback(
-    submission: any,
-    question: any,
+    submission: SubmissionForFeedback,
+    question: QuestionForFeedback,
     submissionType: 'code' | 'design'
   ): Promise<{
     text: string;
