@@ -259,9 +259,23 @@ ipcMain.handle('mock:addQuestion', async (_, mockId, questionId, orderIndex) => 
 ipcMain.handle('feedback:generate', async (_, feedbackData) => {
   const { userId, submissionId, submissionType, mockInterviewId } = feedbackData;
 
-  // Check if LLM service is available
+  // Check if LLM service is available - gracefully degrade if not
   if (!llmService) {
-    throw new Error('LLM service is not initialized. Please configure LLM_BASE_URL, CLAUDE_API_KEY, or OPENAI_API_KEY in .env');
+    console.warn('[Feedback] LLM service not available. Returning without feedback.');
+
+    // Return a special feedback object indicating service unavailable
+    const noServiceFeedback = await dbService.createFeedback({
+      userId,
+      submissionId,
+      submissionType,
+      mockInterviewId,
+      feedbackText: '## AI Feedback Unavailable\n\nAI feedback service is not configured. To enable AI feedback:\n\n1. Configure one of the following in your `.env` file:\n   - `LLM_BASE_URL` and `LLM_MODEL` for local LLM\n   - `CLAUDE_API_KEY` for Claude API\n   - `OPENAI_API_KEY` for OpenAI API\n\n2. Restart the application\n\nYou can continue practicing without AI feedback. Your progress and submissions are still being tracked.',
+      scores: JSON.stringify({}),
+      strengths: JSON.stringify([]),
+      improvements: JSON.stringify([]),
+    });
+
+    return noServiceFeedback;
   }
 
   // Get submission details
@@ -277,7 +291,8 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
       question = await dbService.getMLDesignQuestionDetails(submission.question_id);
     }
   } catch (error: any) {
-    throw error;
+    console.error('[Feedback] Failed to fetch submission or question:', error);
+    throw new Error(`Failed to retrieve submission details: ${error.message}`);
   }
 
   // Validate that we have the required data
@@ -285,7 +300,7 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
     throw new Error(`Question not found for question_id: ${submission.question_id}. The question may not exist in the database.`);
   }
 
-  // Generate feedback using LLM
+  // Generate feedback using LLM - gracefully handle failures
   try {
     const feedback = await llmService.generateFeedback(submission, question, submissionType);
 
@@ -303,7 +318,21 @@ ipcMain.handle('feedback:generate', async (_, feedbackData) => {
 
     return savedFeedback;
   } catch (error: any) {
-    throw error;
+    console.error('[Feedback] Failed to generate feedback:', error);
+
+    // Return partial feedback indicating the error
+    const errorFeedback = await dbService.createFeedback({
+      userId,
+      submissionId,
+      submissionType,
+      mockInterviewId,
+      feedbackText: `## AI Feedback Generation Failed\n\n**Error:** ${error.message}\n\n### Possible Solutions:\n\n1. **Check your connection:** Ensure your network connection is stable\n2. **Verify LLM service:** If using a local LLM, verify it's running at the configured URL\n3. **Check API keys:** Ensure your API keys are valid and not expired\n4. **Try again:** Click "Generate Feedback" again to retry\n\n**Note:** Your submission has been saved successfully. You can continue practicing and try generating feedback later.`,
+      scores: JSON.stringify({}),
+      strengths: JSON.stringify([]),
+      improvements: JSON.stringify([]),
+    });
+
+    return errorFeedback;
   }
 });
 

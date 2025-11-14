@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { SubmissionForFeedback, QuestionForFeedback } from './llmProviderFactory';
+import { retryWithBackoff } from '../utils/retry';
 
 interface FeedbackResponse {
   text: string;
@@ -38,30 +39,37 @@ export class ClaudeAPIService {
       throw new Error('Claude API not configured');
     }
 
-    const prompt = submissionType === 'code' 
+    const prompt = submissionType === 'code'
       ? this.buildCodeFeedbackPrompt(submission, question)
       : this.buildDesignFeedbackPrompt(submission, question);
 
-    try {
-      const message = await this.client.messages.create({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-      });
+    // Wrap API call with retry logic
+    return retryWithBackoff(async () => {
+      try {
+        const message = await this.client!.messages.create({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 2000,
+          messages: [
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+        });
 
-      const responseText = message.content[0].type === 'text'
-        ? message.content[0].text
-        : '';
+        const responseText = message.content[0].type === 'text'
+          ? message.content[0].text
+          : '';
 
-      return this.parseFeedbackResponse(responseText, submissionType);
-    } catch (error: any) {
-      throw new Error(`Failed to generate feedback: ${error.message}`);
-    }
+        return this.parseFeedbackResponse(responseText, submissionType);
+      } catch (error: any) {
+        throw new Error(`Failed to generate feedback: ${error.message}`);
+      }
+    }, {
+      maxRetries: 3,
+      baseDelay: 2000,
+      maxDelay: 15000,
+    });
   }
 
   private buildCodeFeedbackPrompt(submission: SubmissionForFeedback, question: QuestionForFeedback): string {

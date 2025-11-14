@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import type { SubmissionForFeedback, QuestionForFeedback } from './llmProviderFactory';
+import { retryWithBackoff } from '../utils/retry';
 
 interface FeedbackResponse {
   text: string;
@@ -44,28 +45,35 @@ export class OpenAIService {
       ? this.buildCodeFeedbackPrompt(submission, question)
       : this.buildDesignFeedbackPrompt(submission, question);
 
-    try {
-      const response = await this.client.chat.completions.create({
-        model: this.model,
-        messages: [
-          {
-            role: 'system',
-            content: 'You are an expert technical interviewer providing detailed feedback on coding problems and system design. Always respond with valid JSON only.',
-          },
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-        max_tokens: 2000,
-        temperature: 0.7,
-      });
+    // Wrap API call with retry logic
+    return retryWithBackoff(async () => {
+      try {
+        const response = await this.client!.chat.completions.create({
+          model: this.model,
+          messages: [
+            {
+              role: 'system',
+              content: 'You are an expert technical interviewer providing detailed feedback on coding problems and system design. Always respond with valid JSON only.',
+            },
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+          max_tokens: 2000,
+          temperature: 0.7,
+        });
 
-      const responseText = response.choices[0].message.content || '';
-      return this.parseFeedbackResponse(responseText);
-    } catch (error: any) {
-      throw new Error(`Failed to generate feedback: ${error.message}`);
-    }
+        const responseText = response.choices[0].message.content || '';
+        return this.parseFeedbackResponse(responseText);
+      } catch (error: any) {
+        throw new Error(`Failed to generate feedback: ${error.message}`);
+      }
+    }, {
+      maxRetries: 3,
+      baseDelay: 2000,
+      maxDelay: 15000,
+    });
   }
 
   private buildCodeFeedbackPrompt(submission: SubmissionForFeedback, question: QuestionForFeedback): string {
