@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import type { SubmissionForFeedback, QuestionForFeedback } from './llmProviderFactory';
 
 interface FeedbackResponse {
   text: string;
@@ -22,7 +23,6 @@ export class LocalLLMService {
   constructor(baseUrl: string = 'http://localhost:8000', model: string = 'gpt-oss-20b') {
     this.baseUrl = baseUrl;
     this.model = model;
-    console.log(`LocalLLM configured: ${this.baseUrl} (model: ${this.model})`);
   }
 
   getProviderName(): string {
@@ -30,8 +30,8 @@ export class LocalLLMService {
   }
 
   async generateFeedback(
-    submission: any,
-    question: any,
+    submission: SubmissionForFeedback,
+    question: QuestionForFeedback,
     submissionType: 'code' | 'design'
   ): Promise<FeedbackResponse> {
     const prompt = submissionType === 'code'
@@ -72,12 +72,11 @@ export class LocalLLMService {
 
       return this.parseFeedbackResponse(responseText);
     } catch (error: any) {
-      console.error('Error generating feedback with local LLM:', error);
       throw new Error(`Failed to generate feedback: ${error.message}`);
     }
   }
 
-  private buildCodeFeedbackPrompt(submission: any, question: any): string {
+  private buildCodeFeedbackPrompt(submission: SubmissionForFeedback, question: QuestionForFeedback): string {
     const testResults = JSON.parse(submission.test_results);
     const passedTests = testResults.filter((t: any) => t.passed).length;
     const totalTests = testResults.length;
@@ -134,7 +133,7 @@ Focus on:
 Be constructive, specific, and educational in your feedback. Respond ONLY with valid JSON, no markdown formatting.`;
   }
 
-  private buildDesignFeedbackPrompt(submission: any, question: any): string {
+  private buildDesignFeedbackPrompt(submission: SubmissionForFeedback, question: QuestionForFeedback): string {
     const keyComponents = JSON.parse(question.key_components);
 
     return `You are an expert ML system design interviewer at Meta providing feedback on a senior-level ML system design question.
@@ -193,7 +192,7 @@ Evaluate based on Meta's senior ML SWE standards:
 Be thorough, constructive, and specific. Consider this is for a senior-level position. Respond ONLY with valid JSON, no markdown formatting.`;
   }
 
-  private extractDiagramSummary(diagramData: any): string {
+  private extractDiagramSummary(diagramData: { nodes?: Array<{ type?: string; [key: string]: unknown }>; edges?: unknown[] }): string {
     const nodes = diagramData.nodes || [];
     const edges = diagramData.edges || [];
     const nodeTypes = nodes.map((n: any) => n.type || 'default');
@@ -230,10 +229,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
         improvements: parsed.improvements || [],
       };
     } catch (error) {
-      console.error('Error parsing feedback response:', error);
-      console.error('Raw response:', responseText);
-
-      // Fallback to using raw response
+      // Fallback to using raw response if parsing fails
       return {
         text: responseText,
         scores: {},
@@ -243,7 +239,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
     }
   }
 
-  private buildFeedbackText(parsed: any): string {
+  private buildFeedbackText(parsed: Record<string, unknown>): string {
     let text = `## Summary\n${parsed.summary}\n\n`;
 
     // Scores

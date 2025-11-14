@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import type { SubmissionForFeedback, QuestionForFeedback } from './llmProviderFactory';
 
 interface FeedbackResponse {
   text: string;
@@ -21,8 +22,6 @@ export class ClaudeAPIService {
   constructor(apiKey: string) {
     if (apiKey) {
       this.client = new Anthropic({ apiKey });
-    } else {
-      console.warn('Claude API key not provided. Feedback generation will be disabled.');
     }
   }
 
@@ -31,8 +30,8 @@ export class ClaudeAPIService {
   }
 
   async generateFeedback(
-    submission: any,
-    question: any,
+    submission: SubmissionForFeedback,
+    question: QuestionForFeedback,
     submissionType: 'code' | 'design'
   ): Promise<FeedbackResponse> {
     if (!this.client) {
@@ -61,12 +60,11 @@ export class ClaudeAPIService {
 
       return this.parseFeedbackResponse(responseText, submissionType);
     } catch (error: any) {
-      console.error('Error generating feedback:', error);
       throw new Error(`Failed to generate feedback: ${error.message}`);
     }
   }
 
-  private buildCodeFeedbackPrompt(submission: any, question: any): string {
+  private buildCodeFeedbackPrompt(submission: SubmissionForFeedback, question: QuestionForFeedback): string {
     const testResults = JSON.parse(submission.test_results);
     const passedTests = testResults.filter((t: any) => t.passed).length;
     const totalTests = testResults.length;
@@ -123,7 +121,7 @@ Focus on:
 Be constructive, specific, and educational in your feedback.`;
   }
 
-  private buildDesignFeedbackPrompt(submission: any, question: any): string {
+  private buildDesignFeedbackPrompt(submission: SubmissionForFeedback, question: QuestionForFeedback): string {
     const keyComponents = JSON.parse(question.key_components);
 
     return `You are an expert ML system design interviewer at Meta providing feedback on a senior-level ML system design question.
@@ -182,7 +180,7 @@ Evaluate based on Meta's senior ML SWE standards:
 Be thorough, constructive, and specific. Consider this is for a senior-level position.`;
   }
 
-  private extractDiagramSummary(diagramData: any): string {
+  private extractDiagramSummary(diagramData: { nodes?: Array<{ type?: string; [key: string]: unknown }>; edges?: unknown[] }): string {
     // Extract key info from React Flow diagram
     const nodes = diagramData.nodes || [];
     const edges = diagramData.edges || [];
@@ -214,8 +212,6 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
         improvements: parsed.improvements || [],
       };
     } catch (error) {
-      console.error('Error parsing feedback response:', error);
-      
       // Fallback to using raw response
       return {
         text: responseText,
@@ -226,7 +222,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
     }
   }
 
-  private buildFeedbackText(parsed: any, _submissionType: string): string {
+  private buildFeedbackText(parsed: Record<string, unknown>, _submissionType: string): string {
     let text = `## Summary\n${parsed.summary}\n\n`;
 
     // Scores

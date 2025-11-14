@@ -160,12 +160,18 @@ CREATE TABLE IF NOT EXISTS user_preferences (
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_submissions_user ON code_submissions(user_id);
 CREATE INDEX IF NOT EXISTS idx_submissions_question ON code_submissions(question_id);
+CREATE INDEX IF NOT EXISTS idx_submissions_user_time ON code_submissions(user_id, submitted_at DESC);
 CREATE INDEX IF NOT EXISTS idx_design_submissions_user ON design_submissions(user_id);
 CREATE INDEX IF NOT EXISTS idx_design_submissions_question ON design_submissions(question_id);
+CREATE INDEX IF NOT EXISTS idx_design_submissions_user_time ON design_submissions(user_id, submitted_at DESC);
 CREATE INDEX IF NOT EXISTS idx_progress_user ON user_progress(user_id);
 CREATE INDEX IF NOT EXISTS idx_progress_question ON user_progress(question_id);
+CREATE INDEX IF NOT EXISTS idx_progress_user_question ON user_progress(user_id, question_id);
 CREATE INDEX IF NOT EXISTS idx_feedback_user ON feedback(user_id);
+CREATE INDEX IF NOT EXISTS idx_feedback_submission ON feedback(submission_id, submission_type);
+CREATE INDEX IF NOT EXISTS idx_feedback_mock_interview ON feedback(mock_interview_id);
 CREATE INDEX IF NOT EXISTS idx_mock_interview_user ON mock_interviews(user_id);
+CREATE INDEX IF NOT EXISTS idx_mock_interview_user_status ON mock_interviews(user_id, status);
 CREATE INDEX IF NOT EXISTS idx_questions_category ON questions(category_id);
 CREATE INDEX IF NOT EXISTS idx_questions_difficulty ON questions(difficulty);
 

@@ -1,14 +1,36 @@
 import { contextBridge, ipcRenderer } from 'electron';
+import type {
+  User,
+  UserPreferences,
+  Question,
+  LeetCodeDetails,
+  MLDesignDetails,
+  ExecutionData,
+  ExecutionResult,
+  CodeSubmissionData,
+  CodeSubmission,
+  DesignSubmissionData,
+  DesignSubmission,
+  MockInterviewData,
+  MockInterview,
+  MockInterviewQuestion,
+  FeedbackData,
+  Feedback,
+  UserProgress,
+  UserStats,
+  SubmissionHistory,
+} from './types/ipc';
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld('electronAPI', {
   // User Management
-  createUser: (userData: any) => ipcRenderer.invoke('user:create', userData),
+  createUser: (userData: Omit<User, 'id' | 'created_at' | 'last_login'>) =>
+    ipcRenderer.invoke('user:create', userData),
   loginUser: (username: string) => ipcRenderer.invoke('user:login', username),
   getAllUsers: () => ipcRenderer.invoke('user:getAll'),
   deleteUser: (userId: number) => ipcRenderer.invoke('user:delete', userId),
-  updateUserPreferences: (userId: number, preferences: any) =>
+  updateUserPreferences: (userId: number, preferences: UserPreferences) =>
     ipcRenderer.invoke('user:updatePreferences', userId, preferences),
 
   // Questions
@@ -24,32 +46,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('questions:getHints', questionId),
 
   // Code Execution
-  executeCode: (executionData: {
-    code: string;
-    language: string;
-    testCases: any[];
-    questionId: number;
-  }) => ipcRenderer.invoke('code:execute', executionData),
+  executeCode: (executionData: ExecutionData) =>
+    ipcRenderer.invoke('code:execute', executionData),
 
-  submitCode: (submissionData: {
-    userId: number;
-    questionId: number;
-    code: string;
-    language: string;
-    customTestCases: any[];
-  }) => ipcRenderer.invoke('code:submit', submissionData),
+  submitCode: (submissionData: CodeSubmissionData) =>
+    ipcRenderer.invoke('code:submit', submissionData),
 
   // Design Submissions
-  submitDesign: (submissionData: {
-    userId: number;
-    questionId: number;
-    diagramData: any;
-    writtenExplanation: string;
-    timeSpent: number;
-  }) => ipcRenderer.invoke('design:submit', submissionData),
+  submitDesign: (submissionData: DesignSubmissionData) =>
+    ipcRenderer.invoke('design:submit', submissionData),
 
   // Mock Interviews
-  startMockInterview: (mockData: { userId: number; interviewType: string }) =>
+  startMockInterview: (mockData: MockInterviewData) =>
     ipcRenderer.invoke('mock:start', mockData),
   completeMockInterview: (mockId: number) =>
     ipcRenderer.invoke('mock:complete', mockId),
@@ -59,12 +67,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('mock:addQuestion', mockId, questionId, orderIndex),
 
   // Feedback
-  generateFeedback: (feedbackData: {
-    userId: number;
-    submissionId: number;
-    submissionType: 'code' | 'design';
-    mockInterviewId?: number;
-  }) => ipcRenderer.invoke('feedback:generate', feedbackData),
+  generateFeedback: (feedbackData: FeedbackData) =>
+    ipcRenderer.invoke('feedback:generate', feedbackData),
 
   // Progress & Analytics
   getUserProgress: (userId: number) =>
@@ -81,28 +85,28 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 // Type definitions for TypeScript
 export interface ElectronAPI {
-  createUser: (userData: any) => Promise<any>;
-  loginUser: (username: string) => Promise<any>;
-  getAllUsers: () => Promise<any[]>;
+  createUser: (userData: Omit<User, 'id' | 'created_at' | 'last_login'>) => Promise<User>;
+  loginUser: (username: string) => Promise<User>;
+  getAllUsers: () => Promise<User[]>;
   deleteUser: (userId: number) => Promise<{ success: boolean; deletedId: number }>;
-  updateUserPreferences: (userId: number, preferences: any) => Promise<void>;
-  getQuestions: (category?: string, difficulty?: string) => Promise<any[]>;
-  getQuestionById: (questionId: number) => Promise<any>;
-  getLeetCodeDetails: (questionId: number) => Promise<any>;
-  getMLDesignDetails: (questionId: number) => Promise<any>;
+  updateUserPreferences: (userId: number, preferences: UserPreferences) => Promise<void>;
+  getQuestions: (category?: string, difficulty?: string) => Promise<Question[]>;
+  getQuestionById: (questionId: number) => Promise<Question>;
+  getLeetCodeDetails: (questionId: number) => Promise<LeetCodeDetails>;
+  getMLDesignDetails: (questionId: number) => Promise<MLDesignDetails>;
   getQuestionHints: (questionId: number) => Promise<string[]>;
-  executeCode: (executionData: any) => Promise<any>;
-  submitCode: (submissionData: any) => Promise<any>;
-  submitDesign: (submissionData: any) => Promise<any>;
-  startMockInterview: (mockData: any) => Promise<any>;
-  completeMockInterview: (mockId: number) => Promise<any>;
-  getMockInterviewQuestions: (mockId: number) => Promise<any[]>;
-  addQuestionToMock: (mockId: number, questionId: number, orderIndex: number) => Promise<any>;
-  generateFeedback: (feedbackData: any) => Promise<any>;
-  getUserProgress: (userId: number) => Promise<any[]>;
-  getUserStats: (userId: number) => Promise<any>;
-  getSubmissionHistory: (userId: number, limit?: number) => Promise<any[]>;
-  getUserFeedback: (userId: number, limit?: number) => Promise<any[]>;
+  executeCode: (executionData: ExecutionData) => Promise<ExecutionResult>;
+  submitCode: (submissionData: CodeSubmissionData) => Promise<CodeSubmission>;
+  submitDesign: (submissionData: DesignSubmissionData) => Promise<DesignSubmission>;
+  startMockInterview: (mockData: MockInterviewData) => Promise<MockInterview>;
+  completeMockInterview: (mockId: number) => Promise<MockInterview>;
+  getMockInterviewQuestions: (mockId: number) => Promise<MockInterviewQuestion[]>;
+  addQuestionToMock: (mockId: number, questionId: number, orderIndex: number) => Promise<void>;
+  generateFeedback: (feedbackData: FeedbackData) => Promise<Feedback>;
+  getUserProgress: (userId: number) => Promise<UserProgress[]>;
+  getUserStats: (userId: number) => Promise<UserStats>;
+  getSubmissionHistory: (userId: number, limit?: number) => Promise<SubmissionHistory[]>;
+  getUserFeedback: (userId: number, limit?: number) => Promise<Feedback[]>;
   resetUserProgress: (userId: number) => Promise<{ success: boolean }>;
 }
 

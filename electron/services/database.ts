@@ -103,8 +103,6 @@ export class DatabaseService {
     const schemaPath = path.join(__dirname, '../../database/schema.sql');
     const schema = fs.readFileSync(schemaPath, 'utf-8');
     this.db.exec(schema);
-
-    console.log('Database initialized at:', this.dbPath);
   }
 
   // User Management
