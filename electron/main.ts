@@ -6,6 +6,7 @@ import { existsSync } from 'fs';
 import { DatabaseService } from './services/database';
 import { CodeExecutorService } from './services/codeExecutor';
 import { LLMProviderFactory, LLMProvider } from './services/llmProviderFactory';
+import { validateOrThrow } from './utils/envValidation';
 
 function loadEnvironmentVariables() {
   const candidatePaths = new Set<string>();
@@ -115,6 +116,21 @@ async function initializeServices() {
 // App lifecycle
 app.on('ready', async () => {
   loadEnvironmentVariables();
+
+  // Validate environment variables at startup
+  try {
+    validateOrThrow();
+  } catch (error: any) {
+    // Show error dialog and quit app if env vars are invalid
+    const { dialog } = require('electron');
+    await dialog.showErrorBox(
+      'Configuration Error',
+      error.message
+    );
+    app.quit();
+    return;
+  }
+
   await initializeServices();
   createWindow();
 });
