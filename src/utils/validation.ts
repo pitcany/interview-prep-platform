@@ -224,8 +224,11 @@ export function validateTestCases(testCasesStr: string): ValidationResult {
     if (!testCase || typeof testCase !== 'object') {
       return { isValid: false, error: `Test case ${i + 1} is invalid` };
     }
-    if (!('input' in testCase) || !('expected' in testCase)) {
-      return { isValid: false, error: `Test case ${i + 1} must have 'input' and 'expected' fields` };
+    // Accept either 'expected' or 'expectedOutput' field names
+    const hasInput = 'input' in testCase;
+    const hasExpected = 'expected' in testCase || 'expectedOutput' in testCase;
+    if (!hasInput || !hasExpected) {
+      return { isValid: false, error: `Test case ${i + 1} must have 'input' and 'expected'/'expectedOutput' fields` };
     }
   }
 
