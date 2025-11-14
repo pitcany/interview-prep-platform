@@ -36,26 +36,26 @@ class APIService {
     email: string;
     preferredLanguage?: string;
   }): Promise<User> {
-    return await this.api.createUser(userData);
+    return this.withRetry(() => this.api.createUser(userData));
   }
 
   async loginUser(username: string): Promise<User> {
-    return await this.api.loginUser(username);
+    return this.withRetry(() => this.api.loginUser(username));
   }
 
   async getAllUsers(): Promise<User[]> {
-    return await this.api.getAllUsers();
+    return this.withRetry(() => this.api.getAllUsers());
   }
 
   async deleteUser(userId: number): Promise<{ success: boolean; deletedId: number }> {
-    return await this.api.deleteUser(userId);
+    return this.withRetry(() => this.api.deleteUser(userId));
   }
 
   async updateUserPreferences(
     userId: number,
     preferences: UserPreferences
   ): Promise<void> {
-    return await this.api.updateUserPreferences(userId, preferences);
+    return this.withRetry(() => this.api.updateUserPreferences(userId, preferences));
   }
 
   // Questions
@@ -89,7 +89,7 @@ class APIService {
     testCases: any[];
     questionId: number;
   }): Promise<ExecutionResult> {
-    return await this.api.executeCode(executionData);
+    return this.withRetry(() => this.api.executeCode(executionData));
   }
 
   async submitCode(submissionData: {
@@ -118,15 +118,15 @@ class APIService {
     userId: number;
     interviewType: 'leetcode' | 'ml_design';
   }): Promise<MockInterview> {
-    return await this.api.startMockInterview(mockData);
+    return this.withRetry(() => this.api.startMockInterview(mockData));
   }
 
   async completeMockInterview(mockId: number): Promise<MockInterview> {
-    return await this.api.completeMockInterview(mockId);
+    return this.withRetry(() => this.api.completeMockInterview(mockId));
   }
 
   async getMockInterviewQuestions(mockId: number): Promise<any[]> {
-    return await this.api.getMockInterviewQuestions(mockId);
+    return this.withRetry(() => this.api.getMockInterviewQuestions(mockId));
   }
 
   async addQuestionToMock(
@@ -134,7 +134,7 @@ class APIService {
     questionId: number,
     orderIndex: number
   ): Promise<void> {
-    return await this.api.addQuestionToMock(mockId, questionId, orderIndex);
+    return this.withRetry(() => this.api.addQuestionToMock(mockId, questionId, orderIndex));
   }
 
   // Feedback
@@ -168,7 +168,7 @@ class APIService {
   }
 
   async resetUserProgress(userId: number): Promise<{ success: boolean }> {
-    return await this.api.resetUserProgress(userId);
+    return this.withRetry(() => this.api.resetUserProgress(userId));
   }
 }
 

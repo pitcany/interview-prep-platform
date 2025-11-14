@@ -116,6 +116,23 @@ describe('LLMProviderFactory', () => {
         'CLAUDE_API_KEY environment variable not set'
       );
     });
+
+    it('throws error for unknown explicit provider', () => {
+      process.env.LLM_PROVIDER = 'unknown-provider';
+
+      expect(() => LLMProviderFactory.createProvider()).toThrow(
+        'Unknown LLM provider: unknown-provider'
+      );
+    });
+
+    it('handles case-insensitive provider names', () => {
+      process.env.CLAUDE_API_KEY = 'sk-ant-test-key';
+      process.env.LLM_PROVIDER = 'CLAUDE';
+
+      const provider = LLMProviderFactory.createProvider();
+
+      expect(provider.getProviderName()).toBe('claude');
+    });
   });
 
   describe('provider information', () => {
@@ -140,6 +157,15 @@ describe('LLMProviderFactory', () => {
       expect(info.model).toBe('gpt-4');
     });
 
+    it('uses default OpenAI model when not specified', () => {
+      process.env.OPENAI_API_KEY = 'sk-test-key';
+      process.env.OPENAI_MODEL = undefined;
+
+      const info = LLMProviderFactory.getProviderInfo();
+
+      expect(info.model).toBe('gpt-4o');
+    });
+
     it('returns provider details for Local LLM', () => {
       process.env.CLAUDE_API_KEY = undefined;
       process.env.OPENAI_API_KEY = undefined;
@@ -154,6 +180,15 @@ describe('LLMProviderFactory', () => {
       expect(info.model).toBe('llama3');
     });
 
+    it('uses default model for Local LLM when not specified', () => {
+      process.env.LLM_BASE_URL = 'http://localhost:8000';
+      process.env.LLM_MODEL = undefined;
+
+      const info = LLMProviderFactory.getProviderInfo();
+
+      expect(info.model).toBe('gpt-oss-20b');
+    });
+
     it('returns not configured when no provider is set', () => {
       process.env.CLAUDE_API_KEY = undefined;
       process.env.OPENAI_API_KEY = undefined;
@@ -163,6 +198,50 @@ describe('LLMProviderFactory', () => {
 
       expect(info.provider).toBe('none');
       expect(info.configured).toBe(false);
+    });
+
+    it('returns not configured for explicit provider without credentials', () => {
+      process.env.LLM_PROVIDER = 'claude';
+      process.env.CLAUDE_API_KEY = undefined;
+
+      const info = LLMProviderFactory.getProviderInfo();
+
+      expect(info.provider).toBe('none');
+      expect(info.configured).toBe(false);
+    });
+
+    it('handles invalid provider gracefully in getProviderInfo', () => {
+      process.env.LLM_PROVIDER = 'invalid-provider';
+
+      const info = LLMProviderFactory.getProviderInfo();
+
+      expect(info.provider).toBe('none');
+      expect(info.configured).toBe(false);
+    });
+  });
+
+  describe('provider priority', () => {
+    it('follows priority order: Claude > OpenAI > Local', () => {
+      // All three providers configured
+      process.env.CLAUDE_API_KEY = 'sk-ant-test-key';
+      process.env.OPENAI_API_KEY = 'sk-test-key';
+      process.env.LLM_BASE_URL = 'http://localhost:8000';
+
+      const provider = LLMProviderFactory.createProvider();
+
+      expect(provider.getProviderName()).toBe('claude');
+    });
+
+    it('respects explicit provider over priority', () => {
+      // All three providers configured, but local is explicitly selected
+      process.env.CLAUDE_API_KEY = 'sk-ant-test-key';
+      process.env.OPENAI_API_KEY = 'sk-test-key';
+      process.env.LLM_BASE_URL = 'http://localhost:8000';
+      process.env.LLM_PROVIDER = 'local';
+
+      const provider = LLMProviderFactory.createProvider();
+
+      expect(provider.getProviderName()).toBe('local');
     });
   });
 });

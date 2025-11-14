@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import type { SubmissionForFeedback, QuestionForFeedback } from './llmProviderFactory';
+import { retryWithBackoff } from '../utils/retry';
 
 interface FeedbackResponse {
   text: string;
@@ -38,42 +39,49 @@ export class LocalLLMService {
       ? this.buildCodeFeedbackPrompt(submission, question)
       : this.buildDesignFeedbackPrompt(submission, question);
 
-    try {
-      // OpenAI-compatible API call
-      const response = await fetch(`${this.baseUrl}/v1/chat/completions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: this.model,
-          messages: [
-            {
-              role: 'system',
-              content: 'You are an expert technical interviewer providing detailed feedback on coding problems and system design. Always respond with valid JSON only.'
-            },
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
-          max_tokens: 2000,
-          temperature: 0.7,
-        }),
-      });
+    // Wrap API call with retry logic
+    return retryWithBackoff(async () => {
+      try {
+        // OpenAI-compatible API call
+        const response = await fetch(`${this.baseUrl}/v1/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: this.model,
+            messages: [
+              {
+                role: 'system',
+                content: 'You are an expert technical interviewer providing detailed feedback on coding problems and system design. Always respond with valid JSON only.'
+              },
+              {
+                role: 'user',
+                content: prompt,
+              },
+            ],
+            max_tokens: 2000,
+            temperature: 0.7,
+          }),
+        });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`LLM API error: ${response.status} ${response.statusText} - ${errorText}`);
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`LLM API error: ${response.status} ${response.statusText} - ${errorText}`);
+        }
+
+        const data = await response.json() as any;
+        const responseText = data.choices[0].message.content;
+
+        return this.parseFeedbackResponse(responseText);
+      } catch (error: any) {
+        throw new Error(`Failed to generate feedback: ${error.message}`);
       }
-
-      const data = await response.json() as any;
-      const responseText = data.choices[0].message.content;
-
-      return this.parseFeedbackResponse(responseText);
-    } catch (error: any) {
-      throw new Error(`Failed to generate feedback: ${error.message}`);
-    }
+    }, {
+      maxRetries: 3,
+      baseDelay: 2000, // Start with 2s delay for LLM APIs
+      maxDelay: 15000, // Max 15s delay
+    });
   }
 
   private buildCodeFeedbackPrompt(submission: SubmissionForFeedback, question: QuestionForFeedback): string {
