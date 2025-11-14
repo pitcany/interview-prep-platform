@@ -72,8 +72,7 @@ export interface MLDesignDetails {
 // Test case types
 export interface TestCase {
   input: unknown;
-  expected: unknown;
-  expectedOutput?: unknown; // Alias for expected
+  expectedOutput: unknown;
 }
 
 export interface TestResult {
