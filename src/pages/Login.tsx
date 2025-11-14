@@ -4,6 +4,7 @@ import { api } from '../services/api';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
+import { validateUsername, validateEmail } from '../utils/validation';
 import type { User } from '../types';
 
 export default function Login() {
@@ -50,8 +51,17 @@ export default function Login() {
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!newUsername || !newEmail) {
-      setError('Please fill in all fields');
+    // Validate username
+    const usernameValidation = validateUsername(newUsername);
+    if (!usernameValidation.isValid) {
+      setError(usernameValidation.error!);
+      return;
+    }
+
+    // Validate email
+    const emailValidation = validateEmail(newEmail);
+    if (!emailValidation.isValid) {
+      setError(emailValidation.error!);
       return;
     }
 
@@ -60,8 +70,8 @@ export default function Login() {
 
     try {
       const user = await api.createUser({
-        username: newUsername,
-        email: newEmail,
+        username: newUsername.trim(),
+        email: newEmail.trim(),
       });
       setCurrentUser(user);
     } catch (err: any) {

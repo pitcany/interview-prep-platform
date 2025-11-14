@@ -2,6 +2,7 @@ import { spawn } from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as os from 'os';
+import * as crypto from 'crypto';
 
 interface TestCase {
   input: any;
@@ -45,9 +46,6 @@ export class CodeExecutorService {
     // Load Python wrapper template
     const templatePath = path.join(__dirname, '../templates/python_wrapper.template.py');
     this.pythonWrapperTemplate = fs.readFileSync(templatePath, 'utf-8');
-
-    console.log('CodeExecutor mode:', this.usePythonService ? 'Local Python' : 'Docker');
-    console.log('CodeExecutor temp dir:', this.tempDir);
   }
 
   async initialize() {
@@ -59,13 +57,8 @@ export class CodeExecutorService {
     // Check if Python service is available
     const testRunnerPath = path.join(this.pythonServicePath, 'test_runner.py');
     if (this.usePythonService && !fs.existsSync(testRunnerPath)) {
-      console.warn('Python service not found at:', this.pythonServicePath);
-      console.warn('Falling back to Docker execution');
       this.usePythonService = false;
     }
-
-    console.log('Code executor initialized');
-    console.log('Execution mode:', this.usePythonService ? 'Python Service (local)' : 'Docker');
   }
 
   async executeCode(
@@ -73,16 +66,23 @@ export class CodeExecutorService {
     language: string,
     testCases: TestCase[]
   ): Promise<ExecutionResult> {
-    console.log('executeCode called with:', {
-      codeLength: code.length,
-      language,
-      testCasesCount: testCases.length,
-      testCases: testCases
-    });
+    // Validate language parameter
+    const validLanguages = ['python', 'java', 'cpp'];
+    if (!validLanguages.includes(language)) {
+      throw new Error(`Invalid language: ${language}`);
+    }
+
+    // Validate code size
+    if (!code || code.length === 0) {
+      throw new Error('Code cannot be empty');
+    }
+
+    if (code.length > 100000) { // 100KB limit
+      throw new Error('Code size exceeds maximum allowed (100KB)');
+    }
 
     // Use Python service for local execution (faster, supports only Python)
     if (this.usePythonService && language === 'python') {
-      console.log('Using Python service for execution');
       return this.executeWithPythonService(code, testCases);
     }
 
@@ -124,7 +124,6 @@ export class CodeExecutorService {
   ): Promise<ExecutionResult> {
     return new Promise((resolve, _reject) => {
       const testRunnerPath = path.join(this.pythonServicePath, 'test_runner.py');
-      console.log('Test runner path:', testRunnerPath);
 
       const inputData = JSON.stringify({
         code,
@@ -133,10 +132,8 @@ export class CodeExecutorService {
         timeout: this.maxExecutionTime / 1000, // Convert to seconds
         maxMemory: this.maxMemory,
       });
-      console.log('Spawning Python process with input data length:', inputData.length);
 
       const pythonProcess = spawn('python3', [testRunnerPath]);
-      console.log('Python process spawned with PID:', pythonProcess.pid);
 
       // Write input data to stdin instead of command line args to avoid size limits
       pythonProcess.stdin.write(inputData);
@@ -158,23 +155,18 @@ export class CodeExecutorService {
 
       pythonProcess.stdout.on('data', (data) => {
         stdout += data.toString();
-        console.log('Python stdout:', data.toString());
       });
 
       pythonProcess.stderr.on('data', (data) => {
         stderr += data.toString();
-        console.log('Python stderr:', data.toString());
       });
 
-      pythonProcess.on('error', (error) => {
-        console.error('Python process error:', error);
+      pythonProcess.on('error', (_error) => {
+        // Error handled in close handler
       });
 
       pythonProcess.on('close', (code) => {
         clearTimeout(timeout);
-        console.log('Python process closed with code:', code);
-        console.log('Final stdout length:', stdout.length);
-        console.log('Final stderr length:', stderr.length);
 
         if (code !== 0 && !stdout) {
           resolve({
@@ -264,8 +256,9 @@ export class CodeExecutorService {
     language: string,
     testCase: TestCase
   ): Promise<{ output: any; memoryUsed: number }> {
-    // Create a temporary file for the code
-    const fileName = `code_${Date.now()}${this.getFileExtension(language)}`;
+    // Create a temporary file for the code using crypto random
+    const randomId = crypto.randomBytes(16).toString('hex');
+    const fileName = `code_${randomId}${this.getFileExtension(language)}`;
     const filePath = path.join(this.tempDir, fileName);
     
     // Prepare code with test case
@@ -434,19 +427,42 @@ int main() {
       const volumeMount = `${path.dirname(filePath)}:/code`;
       const fileName = path.basename(filePath);
 
-      // Get execution command and split into shell args
-      const execCmd = this.getExecutionCommand(language, fileName);
+      // Validate fileName to prevent path traversal
+      if (fileName.includes('..') || fileName.includes('/') || fileName.includes('\\')) {
+        reject(new Error('Invalid file name'));
+        return;
+      }
 
-      const dockerArgs = [
-        'run',
-        '--rm',
-        '-v', volumeMount,
-        '--memory', `${this.maxMemory}m`,
-        '--cpus', '1',
-        '--network', 'none',
-        containerName,
-        'sh', '-c', execCmd  // Use shell to execute complex commands with pipes
-      ];
+      // Build Docker args based on language
+      let dockerArgs: string[];
+
+      if (language === 'python') {
+        // Python: can execute directly without shell
+        dockerArgs = [
+          'run',
+          '--rm',
+          '-v', volumeMount,
+          '--memory', `${this.maxMemory}m`,
+          '--cpus', '1',
+          '--network', 'none',
+          containerName,
+          'python3', `/code/${fileName}`
+        ];
+      } else {
+        // Java/C++: require shell for compound commands (compile + execute)
+        // Note: This is still a potential risk, but filename is validated
+        const execCmd = this.getExecutionCommand(language, fileName);
+        dockerArgs = [
+          'run',
+          '--rm',
+          '-v', volumeMount,
+          '--memory', `${this.maxMemory}m`,
+          '--cpus', '1',
+          '--network', 'none',
+          containerName,
+          'sh', '-c', execCmd
+        ];
+      }
 
       const docker = spawn('docker', dockerArgs);
       let stdout = '';
