@@ -23,9 +23,6 @@ export class OpenAIService {
     this.model = model;
     if (apiKey) {
       this.client = new OpenAI({ apiKey });
-      console.log(`OpenAI configured with model: ${this.model}`);
-    } else {
-      console.warn('OpenAI API key not provided. Feedback generation will be disabled.');
     }
   }
 
@@ -66,7 +63,6 @@ export class OpenAIService {
       const responseText = response.choices[0].message.content || '';
       return this.parseFeedbackResponse(responseText);
     } catch (error: any) {
-      console.error('Error generating feedback with OpenAI:', error);
       throw new Error(`Failed to generate feedback: ${error.message}`);
     }
   }
@@ -224,9 +220,6 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
         improvements: parsed.improvements || [],
       };
     } catch (error) {
-      console.error('Error parsing feedback response:', error);
-      console.error('Raw response:', responseText);
-
       // Fallback to using raw response
       return {
         text: responseText,

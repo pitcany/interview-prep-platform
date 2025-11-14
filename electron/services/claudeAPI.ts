@@ -21,8 +21,6 @@ export class ClaudeAPIService {
   constructor(apiKey: string) {
     if (apiKey) {
       this.client = new Anthropic({ apiKey });
-    } else {
-      console.warn('Claude API key not provided. Feedback generation will be disabled.');
     }
   }
 
@@ -61,7 +59,6 @@ export class ClaudeAPIService {
 
       return this.parseFeedbackResponse(responseText, submissionType);
     } catch (error: any) {
-      console.error('Error generating feedback:', error);
       throw new Error(`Failed to generate feedback: ${error.message}`);
     }
   }
@@ -214,8 +211,6 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
         improvements: parsed.improvements || [],
       };
     } catch (error) {
-      console.error('Error parsing feedback response:', error);
-      
       // Fallback to using raw response
       return {
         text: responseText,

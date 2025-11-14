@@ -191,10 +191,8 @@ export class CodeExecutorService {
             errorMessage: result.error_message || undefined,
           };
 
-          console.log('Formatted result:', formattedResult);
           resolve(formattedResult);
         } catch (error) {
-          console.error('Failed to parse Python output:', error);
           resolve({
             status: 'error',
             testResults: [],

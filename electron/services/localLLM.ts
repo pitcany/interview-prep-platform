@@ -22,7 +22,6 @@ export class LocalLLMService {
   constructor(baseUrl: string = 'http://localhost:8000', model: string = 'gpt-oss-20b') {
     this.baseUrl = baseUrl;
     this.model = model;
-    console.log(`LocalLLM configured: ${this.baseUrl} (model: ${this.model})`);
   }
 
   getProviderName(): string {
@@ -72,7 +71,6 @@ export class LocalLLMService {
 
       return this.parseFeedbackResponse(responseText);
     } catch (error: any) {
-      console.error('Error generating feedback with local LLM:', error);
       throw new Error(`Failed to generate feedback: ${error.message}`);
     }
   }
@@ -230,10 +228,7 @@ Be thorough, constructive, and specific. Consider this is for a senior-level pos
         improvements: parsed.improvements || [],
       };
     } catch (error) {
-      console.error('Error parsing feedback response:', error);
-      console.error('Raw response:', responseText);
-
-      // Fallback to using raw response
+      // Fallback to using raw response if parsing fails
       return {
         text: responseText,
         scores: {},
