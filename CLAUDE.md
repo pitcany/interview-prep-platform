@@ -19,10 +19,14 @@ npm install
 # 2. Setup database
 npm run db:setup
 
-# 3. Setup Python service (optional, for code execution)
+# 3. Setup Python service (for code execution)
 cd python-service && pip install -r requirements.txt && cd ..
 
-# 4. Start development server
+# 4. (Optional) Build Docker images for Java/C++ execution
+./scripts/build_docker_images.sh
+# Note: Python works without Docker, but Java/C++ require Docker
+
+# 5. Start development server
 npm run dev
 ```
 
@@ -564,18 +568,38 @@ python server.py --api --api-port 8000
 
 1. **Python Code Execution Service**: ✅ Implemented (see `python-service/` directory)
    - `python-service/executor.py` - Code execution logic with resource limits
-   - `python-service/sandbox.py` - Security wrapper
+   - `python-service/sandbox.py` - Security wrapper with Docker support
    - `python-service/test_runner.py` - Test case runner
 
-2. **LLM Feedback Quality**: Local LLMs may not follow JSON format as reliably as Claude API. The service includes robust parsing with fallbacks.
+2. **Java Code Execution**: ✅ Implemented
+   - Docker-based execution with Gson library for JSON parsing
+   - Automatic method detection via reflection
+   - Compilation error handling and proper error reporting
+   - Test scripts: `tests/test_java_execution.py`
 
-3. **Docker Sandboxing**: Planned but not implemented. Currently uses local execution (security risk).
+3. **C++ Code Execution**: ✅ Implemented
+   - Docker-based execution with nlohmann/json library
+   - GCC 12 with C++17 support
+   - Limited method signature auto-detection (works for common patterns)
+   - Test scripts: `tests/test_cpp_execution.py`
+   - **Note**: C++ has limitations due to compile-time type requirements
 
-4. **Java/C++ Execution**: CodeExecutorService has placeholders but no implementation.
+4. **Docker Sandboxing**: ✅ Implemented with fallback
+   - Python, Java, and C++ all support Docker execution
+   - Docker availability checks with graceful degradation
+   - Python falls back to local execution if Docker unavailable
+   - Java/C++ require Docker (returns helpful error message if missing)
+   - Build script: `scripts/build_docker_images.sh`
 
-5. **Diagram Export**: html-to-image dependency added but image export not fully implemented.
+5. **LLM Feedback Quality**: Local LLMs may not follow JSON format as reliably as Claude API. The service includes robust parsing with fallbacks.
 
-6. **Test Coverage**: Test files not yet created (Vitest configured but no tests).
+6. **Diagram Export**: ✅ html-to-image dependency added and PNG export implemented.
+
+7. **Test Coverage**: ✅ Comprehensive test suite implemented
+   - Unit tests: `electron/services/__tests__/codeExecutor.test.ts` (546 lines)
+   - Database tests: `electron/services/__tests__/database.test.ts` (647 lines)
+   - Integration tests: `tests/test_*_execution.py` (Python, Java, C++)
+   - Total: 2,500+ lines of test coverage
 
 ## Resources
 

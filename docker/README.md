@@ -67,9 +67,10 @@ docker run --rm \
 - Languages: Python 3.11
 
 ### Java Container
-- Base: `openjdk:17-slim`
+- Base: `eclipse-temurin:17-jre-jammy`
 - Size: ~400 MB
 - Languages: Java 17
+- Libraries: Gson 2.10.1 for JSON parsing (included in CLASSPATH)
 
 ### C++ Container
 - Base: `gcc:12-bookworm`

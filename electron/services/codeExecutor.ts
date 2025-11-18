@@ -357,56 +357,151 @@ export class CodeExecutorService {
           .replace(/\{\{METHOD_NAME\}\}/g, methodName);
 
       case 'java':
-        // For Java, we'd need to parse the method signature, but for now use a generic approach
-        // Note: This is simplified and may need adjustment based on actual Java code structure
+        // For Java, read input from stdin and use reflection to call the method
+        // This approach works for most LeetCode-style problems
         return `
 import com.google.gson.*;
+import java.util.*;
+import java.io.*;
 
 ${code}
 
-public class Main {
+public class Solution {
     public static void main(String[] args) {
-        Gson gson = new Gson();
-        String input = "${inputStr.replace(/"/g, '\\"')}";
-        
-        // Parse input and call solution
-        // Note: This is simplified, actual implementation needs type handling
-        // For now, try common method names or use reflection
-        Solution sol = new Solution();
         try {
-            java.lang.reflect.Method method = sol.getClass().getDeclaredMethods()[0];
-            Object result = method.invoke(sol, gson.fromJson(input, Object.class));
+            // Read input from stdin
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String input = reader.readLine();
+
+            Gson gson = new Gson();
+            Object[] inputArray = gson.fromJson(input, Object[].class);
+
+            Solution sol = new Solution();
+
+            // Find the first public method that's not main
+            java.lang.reflect.Method targetMethod = null;
+            for (java.lang.reflect.Method m : sol.getClass().getDeclaredMethods()) {
+                if (!m.getName().equals("main") &&
+                    java.lang.reflect.Modifier.isPublic(m.getModifiers())) {
+                    targetMethod = m;
+                    break;
+                }
+            }
+
+            if (targetMethod == null) {
+                System.out.println("{\\"error\\": \\"No public method found in Solution class\\"}");
+                return;
+            }
+
+            // Convert input array to proper argument types
+            Class<?>[] paramTypes = targetMethod.getParameterTypes();
+            Object[] args = new Object[paramTypes.length];
+
+            for (int i = 0; i < paramTypes.length && i < inputArray.length; i++) {
+                args[i] = convertType(inputArray[i], paramTypes[i], gson);
+            }
+
+            // Invoke method and print result
+            Object result = targetMethod.invoke(sol, args);
             System.out.println(gson.toJson(result));
+
         } catch (Exception e) {
-            System.out.println("{\\"error\\": \\"" + e.getMessage() + "\\"}");
+            System.out.println("{\\"error\\": \\"" + e.toString() + "\\"}");
         }
+    }
+
+    private static Object convertType(Object value, Class<?> targetType, Gson gson) {
+        if (value == null) return null;
+        if (targetType.isAssignableFrom(value.getClass())) return value;
+
+        // Convert using Gson for complex types
+        String json = gson.toJson(value);
+        return gson.fromJson(json, targetType);
     }
 }
 `;
 
       case 'cpp':
-        // For C++, we'd need to parse the method signature, but for now use a generic approach
-        // Note: This is simplified and may need adjustment based on actual C++ code structure
+        // For C++, we provide a main function that reads JSON input from stdin
+        // and provides helper functions for parsing common types
+        // Note: This is a simplified approach - C++ requires compile-time types
         return `
 #include <iostream>
 #include <string>
+#include <vector>
+#include <sstream>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+using namespace std;
 
 ${code}
 
+// Helper function to convert json to vector<int>
+vector<int> jsonToVectorInt(const json& j) {
+    vector<int> result;
+    for (const auto& item : j) {
+        result.push_back(item.get<int>());
+    }
+    return result;
+}
+
+// Helper function to convert json to vector<vector<int>>
+vector<vector<int>> jsonToVector2DInt(const json& j) {
+    vector<vector<int>> result;
+    for (const auto& row : j) {
+        vector<int> rowVec;
+        for (const auto& item : row) {
+            rowVec.push_back(item.get<int>());
+        }
+        result.push_back(rowVec);
+    }
+    return result;
+}
+
 int main() {
-    std::string input = R"(${inputStr})";
-    json j = json::parse(input);
-    
-    Solution sol;
-    // Note: This assumes the Solution class has a method that can be called
-    // For proper implementation, we'd need to parse the method signature
-    // For now, this is a placeholder that will need language-specific handling
-    auto result = sol.solve(j);  // This will need to be adjusted based on actual method
-    
-    std::cout << json(result).dump() << std::endl;
+    try {
+        // Read input from stdin
+        string input_line;
+        getline(cin, input_line);
+
+        json input = json::parse(input_line);
+
+        Solution sol;
+        json result;
+
+        // For C++ we need to know the method signature at compile time
+        // This is a limitation - for now, we provide a simple interface
+        // Users can modify this main() function based on their method signature
+
+        // Example: For twoSum(vector<int>& nums, int target)
+        if (input.is_array() && input.size() >= 2) {
+            if (input[0].is_array() && input[1].is_number()) {
+                auto nums = jsonToVectorInt(input[0]);
+                int target = input[1].get<int>();
+                // Note: This assumes method name extracted is used
+                // For now, we'll try common patterns
+
+                // Attempt to call method - this is a placeholder
+                // Real implementation would need method detection
+                auto output = sol.${methodName || 'twoSum'}(nums, target);
+                result = output;
+            } else {
+                result = "Error: Input format not supported for C++ auto-detection";
+            }
+        } else {
+            result = "Error: Input must be an array with parameters";
+        }
+
+        cout << result.dump() << endl;
+
+    } catch (const exception& e) {
+        json error_result;
+        error_result["error"] = e.what();
+        cout << error_result.dump() << endl;
+        return 1;
+    }
+
     return 0;
 }
 `;

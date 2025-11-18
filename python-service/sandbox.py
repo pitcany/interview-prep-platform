@@ -117,20 +117,182 @@ class Sandbox:
             }
 
     def _execute_java(self, code: str, test_input: Any) -> Dict[str, Any]:
-        """Execute Java code (placeholder for future implementation)."""
-        return {
-            'success': False,
-            'error': 'Java execution not yet implemented',
-            'error_type': 'NotImplemented'
-        }
+        """Execute Java code in Docker container."""
+        try:
+            # Check if Docker is available
+            if not self._check_docker_available():
+                return {
+                    'success': False,
+                    'error': 'Docker is not available. Please install Docker to run Java code.',
+                    'error_type': 'DockerNotAvailable'
+                }
+
+            # Save code to temp file
+            code_file = os.path.join(self.temp_dir, 'Solution.java')
+            with open(code_file, 'w') as f:
+                f.write(code)
+
+            # Prepare input as JSON
+            input_json = json.dumps(test_input)
+
+            # Run in Docker container
+            docker_cmd = [
+                'docker', 'run', '--rm',
+                '-v', f'{self.temp_dir}:/code',
+                '--memory', f'{self.max_memory_mb}m',
+                '--cpus', '1',
+                '--network', 'none',
+                'interview-prep-java',
+                'sh', '-c',
+                f'cd /code && javac Solution.java && echo \'{input_json}\' | java Solution'
+            ]
+
+            result = subprocess.run(
+                docker_cmd,
+                capture_output=True,
+                text=True,
+                timeout=self.timeout_seconds + 2
+            )
+
+            if result.returncode != 0:
+                # Check if it's a compilation error
+                if 'error:' in result.stderr:
+                    return {
+                        'success': False,
+                        'error': result.stderr,
+                        'error_type': 'CompilationError'
+                    }
+                return {
+                    'success': False,
+                    'error': result.stderr or 'Execution failed',
+                    'error_type': 'ExecutionError',
+                    'returncode': result.returncode
+                }
+
+            # Parse output
+            try:
+                output = json.loads(result.stdout.strip())
+                return {
+                    'success': True,
+                    'output': output,
+                    'stdout': result.stdout,
+                    'stderr': result.stderr
+                }
+            except json.JSONDecodeError:
+                return {
+                    'success': True,
+                    'output': result.stdout.strip(),
+                    'stdout': result.stdout,
+                    'stderr': result.stderr
+                }
+
+        except subprocess.TimeoutExpired:
+            return {
+                'success': False,
+                'error': 'Code execution timed out',
+                'error_type': 'timeout'
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e),
+                'error_type': type(e).__name__
+            }
 
     def _execute_cpp(self, code: str, test_input: Any) -> Dict[str, Any]:
-        """Execute C++ code (placeholder for future implementation)."""
-        return {
-            'success': False,
-            'error': 'C++ execution not yet implemented',
-            'error_type': 'NotImplemented'
-        }
+        """Execute C++ code in Docker container."""
+        try:
+            # Check if Docker is available
+            if not self._check_docker_available():
+                return {
+                    'success': False,
+                    'error': 'Docker is not available. Please install Docker to run C++ code.',
+                    'error_type': 'DockerNotAvailable'
+                }
+
+            # Save code to temp file
+            code_file = os.path.join(self.temp_dir, 'solution.cpp')
+            with open(code_file, 'w') as f:
+                f.write(code)
+
+            # Prepare input as JSON
+            input_json = json.dumps(test_input)
+
+            # Run in Docker container
+            docker_cmd = [
+                'docker', 'run', '--rm',
+                '-v', f'{self.temp_dir}:/code',
+                '--memory', f'{self.max_memory_mb}m',
+                '--cpus', '1',
+                '--network', 'none',
+                'interview-prep-cpp',
+                'sh', '-c',
+                f'cd /code && g++ -std=c++17 solution.cpp -o solution && echo \'{input_json}\' | ./solution'
+            ]
+
+            result = subprocess.run(
+                docker_cmd,
+                capture_output=True,
+                text=True,
+                timeout=self.timeout_seconds + 2
+            )
+
+            if result.returncode != 0:
+                # Check if it's a compilation error
+                if 'error:' in result.stderr:
+                    return {
+                        'success': False,
+                        'error': result.stderr,
+                        'error_type': 'CompilationError'
+                    }
+                return {
+                    'success': False,
+                    'error': result.stderr or 'Execution failed',
+                    'error_type': 'ExecutionError',
+                    'returncode': result.returncode
+                }
+
+            # Parse output
+            try:
+                output = json.loads(result.stdout.strip())
+                return {
+                    'success': True,
+                    'output': output,
+                    'stdout': result.stdout,
+                    'stderr': result.stderr
+                }
+            except json.JSONDecodeError:
+                return {
+                    'success': True,
+                    'output': result.stdout.strip(),
+                    'stdout': result.stdout,
+                    'stderr': result.stderr
+                }
+
+        except subprocess.TimeoutExpired:
+            return {
+                'success': False,
+                'error': 'Code execution timed out',
+                'error_type': 'timeout'
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e),
+                'error_type': type(e).__name__
+            }
+
+    def _check_docker_available(self) -> bool:
+        """Check if Docker is available and running."""
+        try:
+            result = subprocess.run(
+                ['docker', 'ps'],
+                capture_output=True,
+                timeout=5
+            )
+            return result.returncode == 0
+        except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
+            return False
 
 
 def main():
